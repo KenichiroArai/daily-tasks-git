@@ -16,7 +16,7 @@ public interface CarryoverService {
     /**
      * Issue を取得して解析し、Issue ごとの JSON と画面用の集計を出力する<br>
      * <p>
-     * 差分モードでは、保存済みの JSON と更新日時が同じ Issue は解析しない。
+     * 差分モードでは、Issue 番号が大きい順の最新 10 件を除き、保存済みの JSON と更新日時が同じ Issue は解析しない。
      * </p>
      *
      * @param full

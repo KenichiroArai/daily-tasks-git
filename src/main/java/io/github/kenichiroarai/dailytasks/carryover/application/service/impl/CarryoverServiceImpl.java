@@ -1,6 +1,7 @@
 package io.github.kenichiroarai.dailytasks.carryover.application.service.impl;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -33,6 +34,11 @@ public class CarryoverServiceImpl implements CarryoverService {
      * ロガー
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(CarryoverServiceImpl.class);
+
+    /**
+     * 差分モードで更新日時に関係なく解析し直す最新の Issue の件数
+     */
+    static final int RECENT_COUNT = 10;
 
     /**
      * GitHub API クライアント
@@ -80,7 +86,7 @@ public class CarryoverServiceImpl implements CarryoverService {
     /**
      * Issue を取得して解析し、Issue ごとの JSON と画面用の集計を出力する<br>
      * <p>
-     * 差分モードでは、保存済みの JSON と更新日時が同じ Issue は解析しない。
+     * 差分モードでは、Issue 番号が大きい順の最新 {@value #RECENT_COUNT} 件を除き、保存済みの JSON と更新日時が同じ Issue は解析しない。
      * </p>
      *
      * @param full
@@ -102,12 +108,13 @@ public class CarryoverServiceImpl implements CarryoverService {
 
         /* Issue の取得と解析 */
         final List<DailyTaskIssue> remoteIssues = this.gitHubIssueClient.fetchAllIssues();
+        final int recentFrom = CarryoverServiceImpl.recentFrom(remoteIssues, CarryoverServiceImpl.RECENT_COUNT);
 
         for (final DailyTaskIssue remoteIssue : remoteIssues) {
 
             final Integer number = Integer.valueOf(remoteIssue.getNumber());
 
-            if (!CarryoverServiceImpl.needsUpdate(full, stored.get(number), remoteIssue)) {
+            if (!CarryoverServiceImpl.needsUpdate(full, stored.get(number), remoteIssue, recentFrom)) {
 
                 continue;
 
@@ -144,10 +151,13 @@ public class CarryoverServiceImpl implements CarryoverService {
      *                    保存済みの解析結果。未保存の場合は null
      * @param remoteIssue
      *                    取得した Issue
+     * @param recentFrom
+     *                    更新日時に関係なく解析し直す Issue 番号の下限
      *
      * @return true：解析し直す、false：保存済みの解析結果を使う
      */
-    static boolean needsUpdate(final boolean full, final CarryoverIssue stored, final DailyTaskIssue remoteIssue) {
+    static boolean needsUpdate(final boolean full, final CarryoverIssue stored, final DailyTaskIssue remoteIssue,
+        final int recentFrom) {
 
         boolean result = true;
 
@@ -163,7 +173,32 @@ public class CarryoverServiceImpl implements CarryoverService {
 
         }
 
+        if (remoteIssue.getNumber() >= recentFrom) {
+
+            return result;
+
+        }
+
         result = !remoteIssue.getUpdatedAt().equals(stored.getUpdatedAt());
+        return result;
+
+    }
+
+    /**
+     * Issue 番号が大きい順に指定件数を選んだときの、最小の Issue 番号を返す<br>
+     *
+     * @param issues
+     *               取得した Issue
+     * @param count
+     *               件数
+     *
+     * @return 最小の Issue 番号。Issue がない場合は 0
+     */
+    static int recentFrom(final List<DailyTaskIssue> issues, final int count) {
+
+        final int result = issues.stream().map(issue -> Integer.valueOf(issue.getNumber()))
+            .sorted(Comparator.reverseOrder()).limit(count).min(Comparator.naturalOrder()).orElse(Integer.valueOf(0))
+            .intValue();
         return result;
 
     }

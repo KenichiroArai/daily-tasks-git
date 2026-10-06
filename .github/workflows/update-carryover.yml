@@ -12,15 +12,9 @@ on:
         default: false
   issues:
     types: [opened, edited, closed, reopened]
+  # main へのコミット・プッシュのたびに実行する（Actions の GITHUB_TOKEN による push では再実行されない）
   push:
     branches: [main]
-    paths:
-      - "docs/**"
-      - "frontend/**"
-      - "src/**"
-      - "config/**"
-      - "pom.xml"
-      - ".github/workflows/update-carryover.yml"
 
 permissions:
   contents: write

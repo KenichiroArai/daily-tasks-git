@@ -48,7 +48,7 @@ URL パラメータで初期表示を指定できます（例: `?view=monthlyIte
 # テスト（JaCoCo 行・分岐 100% チェック）と実行可能 jar の作成
 mvn clean package
 
-# 収集（差分モード）: 保存済みの JSON と更新日時が同じ Issue は解析しない
+# 収集（差分モード）: 最新 10 件の Issue は毎回解析し直し、それより前は保存済みの JSON と更新日時が同じなら解析しない
 java -jar target/daily-tasks-0.1.0.jar
 
 # 収集（全件モード）: #1 から最新まで解析し直す

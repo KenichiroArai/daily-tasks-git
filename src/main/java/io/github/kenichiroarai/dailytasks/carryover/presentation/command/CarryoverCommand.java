@@ -29,7 +29,7 @@ public class CarryoverCommand {
      */
     static final String USAGE = """
         使い方: java -jar daily-tasks-0.1.0.jar [--full] [--help]
-          （引数なし）  差分モード。保存済みの JSON と更新日時が同じ Issue は解析しない
+          （引数なし）  差分モード。最新 10 件の Issue は毎回解析し直し、それ以外は保存済みの JSON と更新日時が同じなら解析しない
           --full        全件モード。#1 から最新まで解析し直す
           --help, -h    この使い方を表示する
         環境変数 GITHUB_TOKEN が設定されている場合は GitHub API の認証に使う""";
