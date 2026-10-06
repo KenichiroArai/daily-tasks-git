@@ -1,0 +1,996 @@
+{
+  "number": 339,
+  "title": "2026年09月04日のタスク",
+  "date": "2026-09-04",
+  "state": "closed",
+  "updatedAt": "2026-09-05T03:29:59Z",
+  "sections": [
+    "繰り越し"
+  ],
+  "declaredCount": 109,
+  "count": 109,
+  "minutes": 2066.0,
+  "items": [
+    {
+      "name": "国語",
+      "originDate": "2026-06-06",
+      "checked": false,
+      "minutes": 11.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/06（残り時間：11分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-06",
+      "checked": false,
+      "minutes": 8.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/06（残り時間：8分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-06",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/06（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-07",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/07（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-07",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/07（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-07",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/07（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-08",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/08（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-08",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/08（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-09",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/09（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-10",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/10（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-10",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/10（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-10",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/10（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-11",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/11（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-11",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/11（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-11",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/11（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-12",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/12（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-12",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/12（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-13",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/13（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-13",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/13（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-13",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/13（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-14",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/14（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-14",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/14（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-14",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/14（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-15",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/15（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-15",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/15（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-18",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/18（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-18",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/18（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-18",
+      "checked": false,
+      "minutes": 5.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/18（残り時間：05分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-18",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/18（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-19",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/19（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-19",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/19（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-19",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/19（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-19",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/19（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-24",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/24（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-25",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/25（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-26",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/26（残り時間：15分）"
+    },
+    {
+      "name": "本読書",
+      "originDate": "2026-06-28",
+      "checked": true,
+      "minutes": 16.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [x] 本読書2026/06/28（残り時間：16分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-28",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/28（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-28",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/28（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-07-17",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/07/17（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-04",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/04（15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-05",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/05（15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-06",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/06（15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-07",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/07（15分）"
+    },
+    {
+      "name": "本読書",
+      "originDate": "2026-08-08",
+      "checked": false,
+      "minutes": 13.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 本読書2026/08/08（13分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-08-08",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/08/08（15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-08-08",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/08/08（15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-08-08",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/08/08（15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-08-08",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/08/08（15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-08",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/08（15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-09",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/09（15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-08-09",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/08/09（15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-10",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/10（15分）"
+    },
+    {
+      "name": "開発",
+      "originDate": "2026-08-10",
+      "checked": false,
+      "minutes": 5.5,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 開発2026/08/10（5.5分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-08-10",
+      "checked": false,
+      "minutes": 5.5,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] IT・技術学習2026/08/10（5.5分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-11",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/11（15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-12",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/12（15分）"
+    },
+    {
+      "name": "開発",
+      "originDate": "2026-08-12",
+      "checked": false,
+      "minutes": 14.5,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 開発2026/08/12（14.5分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-08-12",
+      "checked": false,
+      "minutes": 14.5,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] IT・技術学習2026/08/12（14.5分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-13",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/13（15分）"
+    },
+    {
+      "name": "開発",
+      "originDate": "2026-08-13",
+      "checked": false,
+      "minutes": 13.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 開発2026/08/13（13分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-08-13",
+      "checked": false,
+      "minutes": 13.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] IT・技術学習2026/08/13（13分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-14",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/14（15分）"
+    },
+    {
+      "name": "開発",
+      "originDate": "2026-08-14",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 開発2026/08/14（30分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-08-14",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] IT・技術学習2026/08/14（30分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-15",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/15（15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-16",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/16（15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-08-16",
+      "checked": false,
+      "minutes": 57.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 汎用タスク2026/08/16（57分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-17",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/17（15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-08-17",
+      "checked": false,
+      "minutes": 34.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 汎用タスク2026/08/17（34分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-18",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/18（15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-08-18",
+      "checked": false,
+      "minutes": 60.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 汎用タスク2026/08/18（60分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-19",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/19（15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-08-19",
+      "checked": false,
+      "minutes": 39.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 汎用タスク2026/08/19（39分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-20",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/20（15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-08-20",
+      "checked": false,
+      "minutes": 39.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 汎用タスク2026/08/20（39分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-21",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/21（15分）"
+    },
+    {
+      "name": "開発",
+      "originDate": "2026-08-21",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 開発2026/08/21（30分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-08-21",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] IT・技術学習2026/08/21（30分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-08-21",
+      "checked": false,
+      "minutes": 42.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 汎用タスク2026/08/21（42分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-22",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/22（15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-08-23",
+      "checked": false,
+      "minutes": 60.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 汎用タスク2026/08/23（60分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-23",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/23（15分）"
+    },
+    {
+      "name": "本読書",
+      "originDate": "2026-08-24",
+      "checked": false,
+      "minutes": 18.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 本読書2026/08/24（18分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-08-24",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/08/24（15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-08-24",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/08/24（15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-24",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/24（15分）"
+    },
+    {
+      "name": "開発",
+      "originDate": "2026-08-24",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 開発2026/08/24（30分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-08-24",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] IT・技術学習2026/08/24（30分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-08-24",
+      "checked": false,
+      "minutes": 60.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 汎用タスク2026/08/24（60分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-25",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/25（15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-08-25",
+      "checked": false,
+      "minutes": 28.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 汎用タスク2026/08/25（28分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-26",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/26（15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-08-26",
+      "checked": false,
+      "minutes": 24.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 汎用タスク2026/08/26（24分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-27",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/27（15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-28",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/28（15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-29",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/29（15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-30",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/30（15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-08-31",
+      "checked": false,
+      "minutes": 19.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 汎用タスク2026/08/31（19分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-31",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/08/31（15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-01",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/09/01（15分）"
+    },
+    {
+      "name": "開発",
+      "originDate": "2026-09-01",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 開発2026/09/01（30分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-09-01",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] IT・技術学習2026/09/01（30分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-09-01",
+      "checked": false,
+      "minutes": 60.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 汎用タスク2026/09/01（60分）"
+    },
+    {
+      "name": "開発",
+      "originDate": "2026-09-02",
+      "checked": false,
+      "minutes": 6.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 開発2026/09/02（6分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-09-02",
+      "checked": false,
+      "minutes": 6.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] IT・技術学習2026/09/02（6分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-03",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/09/03（15分）"
+    },
+    {
+      "name": "開発",
+      "originDate": "2026-09-03",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 開発2026/09/03（30分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-09-03",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] IT・技術学習2026/09/03（30分）"
+    }
+  ]
+}

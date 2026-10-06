@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>持ち越しの推移 | daily-tasks</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="header">
+    <h1>持ち越しの推移</h1>
+    <p class="subtitle">
+      日々のタスク Issue の「持ち越し」（旧「繰り越し」「負債」）を集計しています。
+      <span id="meta"></span>
+    </p>
+  </header>
+
+  <main class="main">
+    <section class="cards" id="cards"></section>
+
+    <section class="panel controls">
+      <div class="control">
+        <label for="view">表示</label>
+        <select id="view">
+          <option value="daily">日別推移（全体）</option>
+          <option value="dailyItem">日別推移（項目ごと）</option>
+          <option value="monthly">月ごと（全体）</option>
+          <option value="monthlyItem">月ごと（項目ごと）</option>
+          <option value="item">項目ごと</option>
+          <option value="originMonth">持ち越し元の月ごと</option>
+        </select>
+      </div>
+      <div class="control">
+        <label for="metric">指標</label>
+        <select id="metric">
+          <option value="count">件数（残）</option>
+          <option value="minutes">残り時間（分）</option>
+          <option value="hours">残り時間（時間）</option>
+        </select>
+      </div>
+      <div class="control">
+        <label for="agg">集計</label>
+        <select id="agg">
+          <option value="avg">平均</option>
+          <option value="sum">合計</option>
+          <option value="max">最大</option>
+          <option value="min">最小</option>
+          <option value="last">期間末の値</option>
+        </select>
+      </div>
+      <div class="control">
+        <label for="target">対象</label>
+        <select id="target">
+          <option value="all">すべて</option>
+          <option value="unchecked">未チェックのみ</option>
+          <option value="checked">チェック済みのみ</option>
+        </select>
+      </div>
+      <div class="control period">
+        <label>期間</label>
+        <div class="period-inputs">
+          <input type="date" id="from" aria-label="開始日">
+          <span>〜</span>
+          <input type="date" id="to" aria-label="終了日">
+        </div>
+        <div class="presets">
+          <button type="button" data-days="0">全期間</button>
+          <button type="button" data-days="30">直近30日</button>
+          <button type="button" data-days="90">直近90日</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel items">
+      <div class="items-header">
+        <span>項目</span>
+        <button type="button" id="selectAll">すべて選択</button>
+        <button type="button" id="selectNone">すべて解除</button>
+      </div>
+      <div class="item-list" id="itemList"></div>
+    </section>
+
+    <section class="panel chart-panel">
+      <h2 id="chartTitle"></h2>
+      <p class="note" id="chartNote"></p>
+      <div class="chart-wrap">
+        <canvas id="chart"></canvas>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>項目ごとの集計（選択した期間）</h2>
+      <div class="table-wrap">
+        <table class="ranking">
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th>最新</th>
+              <th>平均</th>
+              <th>最大</th>
+              <th>最小</th>
+              <th>合計</th>
+            </tr>
+          </thead>
+          <tbody id="rankingBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    データ: <a href="https://github.com/KenichiroArai/daily-tasks-git/issues">KenichiroArai/daily-tasks-git の Issue</a>
+    ／ <a href="data/summary.json">summary.json</a>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

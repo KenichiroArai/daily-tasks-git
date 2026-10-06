@@ -1,0 +1,852 @@
+{
+  "number": 365,
+  "title": "2026年09月30日のタスク",
+  "date": "2026-09-30",
+  "state": "closed",
+  "updatedAt": "2026-10-01T00:41:43Z",
+  "sections": [
+    "持ち越し"
+  ],
+  "declaredCount": 93,
+  "count": 93,
+  "minutes": 1898.5,
+  "items": [
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-15",
+      "checked": true,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [x] 3教科以外2026/06/15（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-18",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 国語2026/06/18（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-18",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 3教科以外2026/06/18（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-19",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 国語2026/06/19（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-19",
+      "checked": true,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [x] 英語2026/06/19（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-19",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 3教科以外2026/06/19（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-24",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 国語2026/06/24（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-28",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 3教科以外2026/06/28（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-07-17",
+      "checked": false,
+      "minutes": 13.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 英語2026/07/17（残り時間：13分）"
+    },
+    {
+      "name": "本読書",
+      "originDate": "2026-08-08",
+      "checked": false,
+      "minutes": 3.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 本読書2026/08/08（残り時間：3分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-08-08",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 国語2026/08/08（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-08-08",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 英語2026/08/08（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-08-08",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 3教科以外2026/08/08（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-08-09",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 国語2026/08/09（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-12",
+      "checked": true,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [x] 音楽2026/08/12（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-13",
+      "checked": true,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [x] 音楽2026/08/13（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-14",
+      "checked": false,
+      "minutes": 12.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/08/14（残り時間：12分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-15",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/08/15（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-16",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/08/16（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-17",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/08/17（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-18",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/08/18（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-19",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/08/19（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-20",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/08/20（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-21",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/08/21（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-22",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/08/22（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-23",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/08/23（残り時間：15分）"
+    },
+    {
+      "name": "本読書",
+      "originDate": "2026-08-24",
+      "checked": false,
+      "minutes": 18.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 本読書2026/08/24（残り時間：18分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-08-24",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 国語2026/08/24（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-08-24",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 英語2026/08/24（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-24",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/08/24（残り時間：15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-08-24",
+      "checked": false,
+      "minutes": 41.5,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 汎用タスク2026/08/24（残り時間：41.5分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-25",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/08/25（残り時間：15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-08-25",
+      "checked": false,
+      "minutes": 28.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 汎用タスク2026/08/25（残り時間：28分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-26",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/08/26（残り時間：15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-08-26",
+      "checked": false,
+      "minutes": 24.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 汎用タスク2026/08/26（残り時間：24分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-27",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/08/27（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-28",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/08/28（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-29",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/08/29（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-30",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/08/30（残り時間：15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-08-31",
+      "checked": false,
+      "minutes": 19.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 汎用タスク2026/08/31（残り時間：19分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-08-31",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/08/31（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-01",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/01（残り時間：15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-09-01",
+      "checked": false,
+      "minutes": 60.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 汎用タスク2026/09/01（残り時間：60分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-03",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/03（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-04",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/04（残り時間：15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-09-04",
+      "checked": false,
+      "minutes": 10.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 汎用タスク2026/09/04（残り時間：10分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-05",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/05（残り時間：15分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-09-05",
+      "checked": true,
+      "minutes": 2.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [x] IT・技術学習2026/09/05（残り時間：2分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-06",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/06（残り時間：15分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-09-06",
+      "checked": false,
+      "minutes": 21.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] IT・技術学習2026/09/06（残り時間：21分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-07",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/07（残り時間：15分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-09-07",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] IT・技術学習2026/09/07（残り時間：30分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-09-07",
+      "checked": false,
+      "minutes": 24.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 汎用タスク2026/09/07（残り時間：24分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-08",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/08（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-09",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/09（残り時間：15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-09-09",
+      "checked": false,
+      "minutes": 9.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 汎用タスク2026/09/09（残り時間：9分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-10",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/10（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-11",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/11（残り時間：15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-09-11",
+      "checked": false,
+      "minutes": 46.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 汎用タスク2026/09/11（残り時間：46分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-09-12",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] IT・技術学習2026/09/12（残り時間：30分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-09-13",
+      "checked": false,
+      "minutes": 20.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 汎用タスク2026/09/13（残り時間：20分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-09-13",
+      "checked": false,
+      "minutes": 21.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] IT・技術学習2026/09/13（残り時間：21分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-15",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/15（残り時間：15分）"
+    },
+    {
+      "name": "漢字検定",
+      "originDate": "2026-09-15",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 漢字検定2026/09/15（残り時間：15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-09-15",
+      "checked": false,
+      "minutes": 31.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 汎用タスク2026/09/15（残り時間：31分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-09-16",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 国語2026/09/16（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-09-16",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 英語2026/09/16（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-16",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/16（残り時間：15分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-09-16",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] IT・技術学習2026/09/16（残り時間：30分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-09-17",
+      "checked": false,
+      "minutes": 35.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 汎用タスク2026/09/17（残り時間：35分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-18",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/18（残り時間：15分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-09-18",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] IT・技術学習2026/09/18（残り時間：30分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-09-18",
+      "checked": false,
+      "minutes": 46.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 汎用タスク2026/09/18（残り時間：46分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-09-19",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 英語2026/09/19（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-19",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/19（残り時間：15分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-09-19",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] IT・技術学習2026/09/19（残り時間：30分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-20",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/20（残り時間：15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-09-20",
+      "checked": false,
+      "minutes": 60.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 汎用タスク2026/09/20（残り時間：60分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-21",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/21（残り時間：15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-09-21",
+      "checked": false,
+      "minutes": 48.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 汎用タスク2026/09/21（残り時間：48分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-22",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/22（残り時間：15分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-09-22",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] IT・技術学習2026/09/22（残り時間：30分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-09-22",
+      "checked": false,
+      "minutes": 57.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 汎用タスク2026/09/22（残り時間：57分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-09-23",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] IT・技術学習2026/09/23（残り時間：30分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-09-23",
+      "checked": false,
+      "minutes": 24.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 汎用タスク2026/09/23（残り時間：24分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-09-24",
+      "checked": false,
+      "minutes": 55.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 汎用タスク2026/09/24（残り時間：55分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-25",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/25（残り時間：15分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-09-25",
+      "checked": false,
+      "minutes": 60.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 汎用タスク2026/09/25（残り時間：60分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-09-27",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 国語2026/09/27（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-09-27",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 3教科以外2026/09/27（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-28",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/28（残り時間：15分）"
+    },
+    {
+      "name": "開発",
+      "originDate": "2026-09-28",
+      "checked": false,
+      "minutes": 1.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 開発2026/09/28（残り時間：1分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-09-28",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] IT・技術学習2026/09/28（残り時間：30分）"
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+name: 持ち越しの集計と公開
+
+on:
+  schedule:
+    # 毎日 06:00（JST）
+    - cron: "0 21 * * *"
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "全件モード（#1 から最新まで解析し直す）"
+        type: boolean
+        default: false
+  issues:
+    types: [opened, edited, closed, reopened]
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "src/**"
+      - "config/**"
+      - "pom.xml"
+      - ".github/workflows/update-carryover.yml"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: update-carryover
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v5
+
+      - name: Java 25 のセットアップ
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "25"
+          cache: maven
+
+      - name: ビルドとテスト
+        run: mvn -B -ntp package
+
+      - name: Issue の収集と集計
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FULL: ${{ inputs.full }}
+        run: |
+          if [ "$FULL" = "true" ]; then
+            java -jar target/daily-tasks-0.1.0.jar --full
+          else
+            java -jar target/daily-tasks-0.1.0.jar
+          fi
+
+      - name: 差分のコミット
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data
+          if git diff --cached --quiet; then
+            echo "docs/data に変更はありません"
+            exit 0
+          fi
+          git commit -m "持ち越しデータを更新（${{ github.event_name }}）"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: Pages の設定
+        uses: actions/configure-pages@v5
+
+      - name: Pages 用の成果物のアップロード
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: docs
+
+  deploy:
+    needs: update
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Pages へのデプロイ
+        id: deployment
+        uses: actions/deploy-pages@v4

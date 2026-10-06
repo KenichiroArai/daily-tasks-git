@@ -1,0 +1,240 @@
+{
+  "number": 217,
+  "title": "2026年05月05日のタスク",
+  "date": "2026-05-05",
+  "state": "closed",
+  "updatedAt": "2026-05-06T02:00:42Z",
+  "sections": [
+    "負債"
+  ],
+  "declaredCount": 25,
+  "count": 25,
+  "minutes": 470.0,
+  "items": [
+    {
+      "name": "高校数学",
+      "originDate": "2026-04-08",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 高校数学2026/04/08"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-04-11",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 英語2026/04/11"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-04-11",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 数学2026/04/11"
+    },
+    {
+      "name": "本読書",
+      "originDate": "2026-04-13",
+      "checked": false,
+      "minutes": 17.0,
+      "minutesSource": "parsed",
+      "section": "負債",
+      "raw": "- [ ] 本読書2026/04/13（残り時間：17分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-04-14",
+      "checked": false,
+      "minutes": 26.0,
+      "minutesSource": "parsed",
+      "section": "負債",
+      "raw": "- [ ] 国語2026/04/14（残り時間：26分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-04-15",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 英語2026/04/15"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-04-15",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 数学2026/04/15"
+    },
+    {
+      "name": "高校数学",
+      "originDate": "2026-04-15",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 高校数学2026/04/15"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-04-17",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 国語2026/04/17"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-04-17",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 英語2026/04/17"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-04-17",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 数学2026/04/17"
+    },
+    {
+      "name": "高校数学",
+      "originDate": "2026-04-17",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 高校数学2026/04/17"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-04-28",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 英語2026/04/28"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-04-28",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 数学2026/04/28"
+    },
+    {
+      "name": "本読書",
+      "originDate": "2026-04-30",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 本読書2026/04/30"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-04-30",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 国語2026/04/30"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-04-30",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 英語2026/04/30"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-04-30",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 数学2026/04/30"
+    },
+    {
+      "name": "高校数学",
+      "originDate": "2026-04-30",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 高校数学2026/04/30"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-05-01",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 国語2026/05/01"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-05-01",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 英語2026/05/01"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-05-01",
+      "checked": false,
+      "minutes": 7.0,
+      "minutesSource": "parsed",
+      "section": "負債",
+      "raw": "- [ ] 数学2026/05/01（残り時間：7分）"
+    },
+    {
+      "name": "高校数学",
+      "originDate": "2026-05-01",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 高校数学2026/05/01"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-05-02",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 国語2026/05/02"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-05-02",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 英語2026/05/02"
+    }
+  ]
+}

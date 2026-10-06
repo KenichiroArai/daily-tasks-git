@@ -1,0 +1,225 @@
+:root {
+  --bg: #f6f8fa;
+  --panel: #ffffff;
+  --border: #d0d7de;
+  --text: #1f2328;
+  --muted: #656d76;
+  --accent: #0969da;
+  --radius: 8px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--accent);
+}
+
+.header {
+  padding: 20px 24px 8px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  color: var(--muted);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 8px 24px 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.panel h2 {
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+}
+
+.card .label {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.card .value {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.card .sub {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.control label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+select,
+input[type="date"],
+button {
+  font: inherit;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text);
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--bg);
+}
+
+select:disabled {
+  color: var(--muted);
+  background: var(--bg);
+}
+
+.period-inputs,
+.presets {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.items-header {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.item-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+
+.item-list label {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.note {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.chart-wrap {
+  position: relative;
+  height: 460px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.ranking {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ranking th,
+.ranking td {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.ranking th:first-child,
+.ranking td:first-child {
+  text-align: left;
+}
+
+.ranking th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.footer {
+  padding: 16px 24px 32px;
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .header,
+  .main {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .chart-wrap {
+    height: 340px;
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "number": 183,
+  "title": "2026年04月01日のタスク",
+  "date": "2026-04-01",
+  "state": "closed",
+  "updatedAt": "2026-04-02T02:39:20Z",
+  "sections": [
+    "負債"
+  ],
+  "declaredCount": null,
+  "count": 9,
+  "minutes": 135.0,
+  "items": [
+    {
+      "name": "英語",
+      "originDate": "2026-03-20",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 英語2026/03/20"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-03-21",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 英語2026/03/21"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-03-24",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 国語2026/03/24"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-03-24",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 英語2026/03/24"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-03-24",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 数学2026/03/24"
+    },
+    {
+      "name": "中学数学",
+      "originDate": "2026-03-24",
+      "checked": true,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [x] 中学数学2026/03/24"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-03-30",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 国語2026/03/30"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-03-30",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 英語2026/03/30"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-03-30",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "default",
+      "section": "負債",
+      "raw": "- [ ] 数学2026/03/30"
+    }
+  ]
+}

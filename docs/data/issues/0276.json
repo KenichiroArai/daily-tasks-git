@@ -1,0 +1,1284 @@
+{
+  "number": 276,
+  "title": "2026年07月03日のタスク",
+  "date": "2026-07-03",
+  "state": "closed",
+  "updatedAt": "2026-07-04T01:15:23Z",
+  "sections": [
+    "繰り越し"
+  ],
+  "declaredCount": 141,
+  "count": 141,
+  "minutes": 2480.0,
+  "items": [
+    {
+      "name": "英語",
+      "originDate": "2026-05-02",
+      "checked": true,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [x] 英語2026/05/02（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-05-08",
+      "checked": false,
+      "minutes": 11.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/05/08（残り時間：11分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-05-09",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/05/09（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-05-10",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/05/10（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-05-10",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/05/10（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-05-10",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/05/10（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-05-12",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/05/12（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-05-12",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/05/12（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-05-12",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/05/12（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-05-14",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/05/14（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-05-14",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/05/14（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-05-14",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/05/14（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-05-14",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/05/14（残り時間：30分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-05-15",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/05/15（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-05-15",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/05/15（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-05-17",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/05/17（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-05-17",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/05/17（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-05-17",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/05/17（残り時間：30分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-05-19",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/05/19（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-05-19",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/05/19（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-05-19",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/05/19（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-05-19",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/05/19（残り時間：30分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-05-20",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/05/20（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-05-20",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/05/20（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-05-20",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/05/20（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-05-20",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/05/20（残り時間：30分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-05-21",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/05/21（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-05-21",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/05/21（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-05-22",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/05/22（残り時間：30分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-05-24",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/05/24（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-05-26",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/05/26（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-05-26",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/05/26（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-05-26",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/05/26（残り時間：30分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-05-27",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/05/27（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-05-27",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/05/27（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-05-27",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/05/27（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-05-27",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/05/27（残り時間：30分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-05-28",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/05/28（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-05-28",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/05/28（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-05-28",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/05/28（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-05-29",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/05/29（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-05-29",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/05/29（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-05-29",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/05/29（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-05-29",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/05/29（残り時間：30分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-05-30",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/05/30（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-05-30",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/05/30（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-05-30",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/05/30（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-05-30",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/05/30（残り時間：30分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-05-31",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/05/31（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-05-31",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/05/31（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-05-31",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/05/31（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-05-31",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/05/31（残り時間：30分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-02",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/02（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-02",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/02（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-02",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/02（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-02",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/02（残り時間：30分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-03",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/03（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-03",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/03（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-03",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/03（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-03",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/03（残り時間：30分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-04",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/04（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-04",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/04（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-04",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/04（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-04",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/04（残り時間：30分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-05",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/05（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-05",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/05（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-05",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/05（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-05",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/05（残り時間：30分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-06",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/06（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-06",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/06（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-06",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/06（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-06",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/06（残り時間：30分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-07",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/07（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-07",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/07（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-07",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/07（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-07",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/07（残り時間：30分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-08",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/08（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-08",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/08（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-08",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/08（残り時間：30分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-09",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/09（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-09",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/09（残り時間：30分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-10",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/10（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-10",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/10（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-10",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/10（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-10",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/10（残り時間：30分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-11",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/11（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-11",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/11（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-11",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/11（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-11",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/11（残り時間：30分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-12",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/12（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-12",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/12（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-12",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/12（残り時間：30分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-13",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/13（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-13",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/13（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-13",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/13（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-13",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/13（残り時間：30分）"
+    },
+    {
+      "name": "本読書",
+      "originDate": "2026-06-14",
+      "checked": false,
+      "minutes": 9.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 本読書2026/06/14（残り時間：9分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-14",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/14（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-14",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/14（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-14",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/14（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-14",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/14（残り時間：30分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-15",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/15（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-15",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/15（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-15",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/15（残り時間：30分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-16",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/16（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-06-16",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/06/16（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-18",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/18（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-18",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/18（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-18",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/18（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-18",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/18（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-06-18",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/06/18（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-19",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/19（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-06-19",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 英語2026/06/19（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-19",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/19（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-19",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/19（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-06-19",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/06/19（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-06-20",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/06/20（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-06-21",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/06/21（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-06-22",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/06/22（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-06-23",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/06/23（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-06-24",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 国語2026/06/24（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-06-24",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/06/24（残り時間：15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-25",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/25（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-06-25",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/06/25（残り時間：15分）"
+    },
+    {
+      "name": "本読書",
+      "originDate": "2026-06-26",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 本読書2026/06/26（残り時間：30分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-26",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/26（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-06-26",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/06/26（残り時間：15分）"
+    },
+    {
+      "name": "開発",
+      "originDate": "2026-06-26",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 開発2026/06/26（30分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-06-26",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] IT・技術学習2026/06/26（30分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-06-27",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/06/27（残り時間：15分）"
+    },
+    {
+      "name": "本読書",
+      "originDate": "2026-06-28",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 本読書2026/06/28（残り時間：30分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-06-28",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 数学2026/06/28（残り時間：15分）"
+    },
+    {
+      "name": "3教科以外",
+      "originDate": "2026-06-28",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 3教科以外2026/06/28（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-06-28",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 音楽2026/06/28（残り時間：15分）"
+    },
+    {
+      "name": "マラソン日記",
+      "originDate": "2026-06-28",
+      "checked": true,
+      "minutes": 0.0,
+      "minutesSource": "default",
+      "section": "繰り越し",
+      "raw": "- [x] マラソン日記2026/06/28"
+    },
+    {
+      "name": "マラソン日記",
+      "originDate": "2026-06-29",
+      "checked": true,
+      "minutes": 0.0,
+      "minutesSource": "default",
+      "section": "繰り越し",
+      "raw": "- [x] マラソン日記2026/06/29"
+    },
+    {
+      "name": "マラソン日記",
+      "originDate": "2026-06-30",
+      "checked": false,
+      "minutes": 0.0,
+      "minutesSource": "default",
+      "section": "繰り越し",
+      "raw": "- [ ] マラソン日記2026/06/30"
+    },
+    {
+      "name": "マラソン日記",
+      "originDate": "2026-07-01",
+      "checked": false,
+      "minutes": 0.0,
+      "minutesSource": "default",
+      "section": "繰り越し",
+      "raw": "- [ ] マラソン日記2026/07/01"
+    },
+    {
+      "name": "開発",
+      "originDate": "2026-07-02",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] 開発2026/07/02（30分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-07-02",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "繰り越し",
+      "raw": "- [ ] IT・技術学習2026/07/02（30分）"
+    },
+    {
+      "name": "マラソン日記",
+      "originDate": "2026-07-02",
+      "checked": false,
+      "minutes": 0.0,
+      "minutesSource": "default",
+      "section": "繰り越し",
+      "raw": "- [ ] マラソン日記2026/07/02"
+    }
+  ]
+}
