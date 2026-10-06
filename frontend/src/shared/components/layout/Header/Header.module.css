@@ -1,0 +1,22 @@
+.header {
+  padding: 20px 24px 8px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.title {
+  margin: 0;
+  font-size: 22px;
+}
+
+.description {
+  margin: 4px 0 0;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}

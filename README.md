@@ -33,14 +33,16 @@ URL パラメータで初期表示を指定できます（例: `?view=monthlyIte
 
 - 収集ツール（Java 25 / Maven）: `src/main/java/io/github/kenichiroarai/dailytasks/`
   - GitHub REST API で全 Issue を取得し、解析して `docs/data/` に JSON を出力します。
-- 画面（静的 HTML + Chart.js）: `docs/index.html`、`docs/app.js`、`docs/style.css`
+- 画面（Next.js + TypeScript + Recharts）: [`frontend/`](frontend/)
+  - 静的エクスポート（`frontend/out`）を GitHub Pages に公開します。
+  - ビルド時に `docs/data/` を `frontend/public/data/` にコピーして使います。`docs/` には収集ツールが出力するデータだけを置きます。
 - 自動更新: [`.github/workflows/update-carryover.yml`](.github/workflows/update-carryover.yml)
   - 毎日 06:00（JST）、手動実行、Issue の作成・編集・クローズ・再オープン、`main` への push で動きます。
-  - JSON の差分を commit してから GitHub Pages にデプロイします。
+  - JSON の差分を commit し、画面をビルドしてから GitHub Pages にデプロイします。
 
 ## ローカルでの実行
 
-Java 25 と Maven が必要です。
+収集ツールには Java 25 と Maven、画面には Node.js（20.9 以降）が必要です。
 
 ```bash
 # テスト（JaCoCo 行・分岐 100% チェック）と実行可能 jar の作成
@@ -52,8 +54,16 @@ java -jar target/daily-tasks-0.1.0.jar
 # 収集（全件モード）: #1 から最新まで解析し直す
 java -jar target/daily-tasks-0.1.0.jar --full
 
-# 画面の確認
-jwebserver -d "$(pwd)/docs" -p 8000
+# 画面の確認（http://localhost:3000/）
+cd frontend
+npm install
+npm run dev
+
+# 画面の lint・型チェック・テスト・ビルド（frontend/ で実行）
+npm run lint
+npm run typecheck
+npm test
+npm run build
 ```
 
 - 環境変数 `GITHUB_TOKEN` を設定すると GitHub API の認証に使います（未設定でも公開リポジトリなら動きます）。

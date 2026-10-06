@@ -1,0 +1,10 @@
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  font-size: 12px;
+  color: var(--muted);
+}

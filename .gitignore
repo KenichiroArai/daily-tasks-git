@@ -1,6 +1,9 @@
 # Maven
 target/
 
+# Node.js / Next.js（詳細は frontend/.gitignore）
+node_modules/
+
 # Eclipse
 .classpath
 .project

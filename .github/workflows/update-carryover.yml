@@ -16,6 +16,7 @@ on:
     branches: [main]
     paths:
       - "docs/**"
+      - "frontend/**"
       - "src/**"
       - "config/**"
       - "pom.xml"
@@ -72,12 +73,31 @@ jobs:
           git push origin "HEAD:${GITHUB_REF_NAME}"
 
       - name: Pages の設定
+        id: pages
         uses: actions/configure-pages@v5
+
+      - name: Node.js のセットアップ
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: 画面のビルド（Next.js の静的エクスポート）
+        working-directory: frontend
+        env:
+          PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: |
+          npm ci
+          npm run lint
+          npm run typecheck
+          npm test
+          npm run build
 
       - name: Pages 用の成果物のアップロード
         uses: actions/upload-pages-artifact@v4
         with:
-          path: docs
+          path: frontend/out
 
   deploy:
     needs: update

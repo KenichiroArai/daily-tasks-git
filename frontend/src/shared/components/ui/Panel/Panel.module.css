@@ -1,0 +1,17 @@
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.title {
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+
+.note {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 12px;
+}

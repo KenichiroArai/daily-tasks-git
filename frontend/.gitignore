@@ -1,0 +1,14 @@
+# 依存関係
+node_modules/
+
+# Next.js のビルド生成物
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# ビルド時に docs/data からコピーするデータ
+public/data/
+
+# テスト
+coverage/

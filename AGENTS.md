@@ -6,7 +6,7 @@ Cursor / Codex / Claude Code など複数ツールで共通利用する。
 ## プロジェクト概要
 
 - **役割**: GitHub Issue（1 日 1 Issue）で管理している日々のタスクのうち、「持ち越し」（旧「繰り越し」「負債」）を集計し、グラフとして GitHub Pages に公開する
-- **構成**: Java の収集ツール（Issue 取得 → 解析 → JSON 出力）と、`docs/` 配下の静的 Web ページ（Chart.js）を 1 つの Maven プロジェクトで管理する
+- **構成**: Java の収集ツール（Issue 取得 → 解析 → `docs/data/` に JSON 出力、Maven プロジェクト）と、`frontend/` 配下の画面（Next.js + TypeScript の静的エクスポート）を 1 つのリポジトリで管理する
 - **GAV**: `io.github.kenichiroarai` : `daily-tasks`
 - **ルートパッケージ**: `io.github.kenichiroarai.dailytasks`
 - **対象リポジトリ**: `https://github.com/KenichiroArai/daily-tasks-git/`（Issue #1 から最新まで）
@@ -17,9 +17,9 @@ Cursor / Codex / Claude Code など複数ツールで共通利用する。
 - ビルド / パッケージ管理: Maven（maven-shade-plugin で実行可能 jar を作成）
 - ライブラリ: Jackson（JSON）、SLF4J + Logback（ログ）
 - HTTP: 標準の `java.net.http.HttpClient`（GitHub REST API）
-- フロントエンド: 静的 HTML / CSS / JavaScript + Chart.js（CDN）。ビルド工程なし
+- フロントエンド: Next.js（App Router、`output: 'export'` の静的エクスポート）+ TypeScript + React + Recharts、zod（JSON の検証）、CSS Modules。Node.js 20.9 以降（CI は 22）
 - 公開: GitHub Pages（GitHub Actions でデプロイ）
-- テスト: JUnit 5 / JaCoCo（行・分岐 100%）
+- テスト: JUnit 5 / JaCoCo（行・分岐 100%）。フロントエンドは Vitest + Testing Library、ESLint、Prettier
 - 外部の社内基盤ライブラリ（kmg-core / kmg-fund など）には依存しない
 
 ## ディレクトリ構成
@@ -47,11 +47,19 @@ src/test/java/io/github/kenichiroarai/dailytasks/  # main と同じ構成
   testutil/                  # テスト用のユーティリティ（ログ取得など）
 config/
   default-minutes.json       # 時間表記なしの行を補完する項目ごとの標準時間
-docs/                        # GitHub Pages の公開ルート
-  index.html / app.js / style.css
+docs/                        # 収集ツールが出力するデータだけを置く（ソースコードは置かない）
   data/
     issues/NNNN.json         # Issue ごとの解析結果（4 桁ゼロ埋め）
     summary.json             # 画面用の日別集計
+frontend/                    # 画面（Next.js + TypeScript）。詳細は「フロントエンドの構成ルール」
+  scripts/copy-data.mjs      # docs/data を public/data にコピー（dev / build の前に自動実行）
+  src/
+    app/                     # ルーティング専用
+    features/carryover/      # 持ち越しの画面
+    shared/                  # 機能に依存しない共通部品
+    config/                  # サイトの設定
+    styles/                  # 全体のスタイル
+  out/                       # 静的エクスポートの出力（Pages に公開。Git で管理しない）
 .github/
   ISSUE_TEMPLATE/            # 日々のタスク Issue のテンプレート
   workflows/                 # 収集と Pages デプロイのワークフロー
@@ -76,6 +84,45 @@ docs/                        # GitHub Pages の公開ルート
 - domain 層は infrastructure 層・repository 層に依存しない
 - テストのパッケージは main と同じ構成にする
 
+## フロントエンドの構成ルール
+
+Java 側の「機能パッケージ + 層」に合わせ、`frontend/src/` も機能（feature）単位で構成する。
+
+```text
+frontend/src/
+  app/                       # ルーティング専用（layout.tsx / page.tsx / not-found.tsx）。ロジックを置かない
+  features/
+    carryover/               # 機能ごとのフォルダ
+      index.ts               # 機能の公開窓口。機能の外からはここだけを import する
+      api/                   # データ取得（fetchSummary など）
+      model/                 # 型と zod スキーマ、表示条件の型
+      constants/             # ラベル、色などの定数
+      lib/                   # 純粋関数（集計、グラフ用データの作成など）
+      hooks/                 # 状態管理やデータ読み込みのフック
+      components/            # 機能の画面部品
+      testing/               # テスト用のデータ（fixtures）
+  shared/
+    components/ui/           # Panel、Select、Button、Card、DateRange、Swatch などの汎用部品
+    components/layout/       # Header、Footer、PageContainer
+    lib/                     # assetPath（basePath 付きの URL）、数値の書式化など
+    hooks/                   # 汎用フック（useAsync など）
+    types/                   # 汎用の型（LoadState など）
+  config/site.ts             # サイト名、リポジトリの URL など
+  styles/globals.css         # CSS 変数と要素の共通スタイル
+```
+
+- 依存の向きは `app` → `features` → `shared` の一方向だけにする。`shared/`・`config/` から `features/` を import しない
+- 機能の内部（`@/features/<機能名>/xxx`）を機能の外から import しない。`@/features/<機能名>` の `index.ts` を経由する。同じ機能の中では相対パスを使う
+- 上の 2 つは `eslint.config.mjs` の `no-restricted-imports` でチェックする
+- 機能の外のファイルは `@/`（`src/` を指す）のパスエイリアスで import する
+- コンポーネントは 1 フォルダにまとめる（`Xxx.tsx`、`Xxx.module.css`、`Xxx.test.tsx`、`index.ts`）。スタイルは CSS Modules にし、全体に効くものだけ `styles/globals.css` に置く
+- 計算ロジックは `lib/` の純粋関数にしてコンポーネントから切り離し、Vitest でテストする。コンポーネントは Testing Library でテストする。テストファイルは対象と同じフォルダに `*.test.ts(x)` で置く
+- `summary.json` は `model/` の zod スキーマで実行時に検証し、形式が想定と違う場合は画面にエラーを表示する
+- データ（`docs/data/`）を変更する処理は Java 側だけで行い、フロントエンドは読み取りだけにする
+- 静的エクスポートのため、サーバー機能（API Routes、`cookies()` などの動的機能、画像最適化）は使わない
+- `public/` のファイルを参照するときは `assetPath()` で basePath（Pages では `/daily-tasks-git`）を付ける
+- 新しい画面は `features/<機能名>/` を同じ構成で作り、`app/<ルート>/page.tsx` から呼び出す
+
 ## Issue 解析の仕様
 
 - 日付は Issue タイトルの `YYYY年MM月DD日` から取得し、「その日の残」の日付とする
@@ -99,7 +146,7 @@ docs/                        # GitHub Pages の公開ルート
 - 全件モード（`--full`）: #1 から最新まで解析し直す。解析ルールや標準時間を変えた場合はこちらを使う
 - 集計（`summary.json`）は、対象セクションが最初に現れた Issue（#175）以降を毎回すべて作り直す
 - 出力した `docs/data/` 配下の JSON は Git で管理する
-- GitHub Actions（`.github/workflows/update-carryover.yml`）は毎日のスケジュール、手動実行（`full` 入力あり）、Issue イベント（opened / edited / closed / reopened）、`main` への push で動き、差分を commit してから Pages にデプロイする
+- GitHub Actions（`.github/workflows/update-carryover.yml`）は毎日のスケジュール、手動実行（`full` 入力あり）、Issue イベント（opened / edited / closed / reopened）、`main` への push で動き、差分を commit したあと `frontend/` をビルド（lint・型チェック・テストを含む）し、`frontend/out` を Pages にデプロイする。basePath は `actions/configure-pages` の出力を環境変数 `PAGES_BASE_PATH` で渡す
 - GitHub Pages の Source は「GitHub Actions」にする
 - GitHub API のトークンは環境変数 `GITHUB_TOKEN` から取得する
 
@@ -116,8 +163,13 @@ mvn test
 java -jar target/daily-tasks-0.1.0.jar
 java -jar target/daily-tasks-0.1.0.jar --full
 
-# 画面の確認（docs/ を簡易サーバーで配信）:
-jwebserver -d docs -p 8000
+# 画面（frontend/ で実行）:
+npm install
+npm run dev        # 開発サーバー（http://localhost:3000/）
+npm run lint       # ESLint（依存の向きのチェックを含む）
+npm run typecheck  # TypeScript の型チェック
+npm test           # Vitest
+npm run build      # 静的エクスポート（frontend/out）
 ```
 
 - カバレッジレポート: `target/site/jacoco/index.html`
@@ -135,6 +187,7 @@ jwebserver -d docs -p 8000
 - 既存の JSON の形式を変える場合は、全件モードで再生成できることを確認する
 - 本ドキュメントのパッケージ構成ルール・コーディングルール・テストルール・Javadoc ルールに従う
 - `target/` はビルド生成物であり、Git で管理しない
+- `frontend/node_modules/`、`frontend/.next/`、`frontend/out/`、`frontend/public/data/`（`docs/data/` のコピー）も Git で管理しない
 
 ## 共通のコーディングルール
 
@@ -458,7 +511,8 @@ public class SampleClass {
 - [ ] コーディングルール（戻り値 `result`、早期リターン、処理コメント、`record` 禁止）の順守
 - [ ] Javadoc の追加 / 更新
 - [ ] 解析ルールを変更した場合、`declaredCount` との食い違いと補完件数のログを確認
-- [ ] 画面を変更した場合、`docs/` をローカル配信して表示と切り替えを確認
+- [ ] 画面を変更した場合、`frontend/` で `npm run lint` / `npm run typecheck` / `npm test` / `npm run build` が通り、`npm run dev` で表示と切り替えを確認
+- [ ] フロントエンドの構成ルール（機能単位の構成、依存の向き、コンポーネントのフォルダ構成）の順守
 - [ ] README の更新
 
 ## やってはいけないこと
@@ -469,6 +523,8 @@ public class SampleClass {
 - シークレット（`GITHUB_TOKEN` など）をコード・ログ・JSON に出すこと
 - テストで GitHub API に実通信すること
 - `docs/data/` の JSON を手で編集すること（必ず収集ツールで生成する）
+- `docs/` にソースコード（HTML / JS / CSS など）を置くこと（画面のソースは `frontend/` に置く）
+- `frontend/` で `shared/` から `features/` に依存したり、機能の内部を機能の外から直接 import したりすること
 - `record` を使うこと（ブレークポイントを設定できずデバッグ・トレースの妨げになるため。通常の `class` とゲッターで実装する）
 - 深いネストのままガード節を使わずに実装すること
 - テストメソッドに複数ケースを詰め込むこと
