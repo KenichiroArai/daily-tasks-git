@@ -52,6 +52,7 @@ docs/                        # 収集ツールが出力するデータだけを�
     issues/NNNN.json         # Issue ごとの解析結果（4 桁ゼロ埋め）
     summary.json             # 画面用の日別集計
 frontend/                    # 画面（Next.js + TypeScript）。詳細は「フロントエンドの構成ルール」
+  docs/                      # フロントエンドの設計書（design.md と design/ 配下の各章）
   scripts/copy-data.mjs      # docs/data を public/data にコピー（dev / build の前に自動実行）
   src/
     app/                     # ルーティング専用
@@ -122,6 +123,14 @@ frontend/src/
 - 静的エクスポートのため、サーバー機能（API Routes、`cookies()` などの動的機能、画像最適化）は使わない
 - `public/` のファイルを参照するときは `assetPath()` で basePath（Pages では `/daily-tasks-git`）を付ける
 - 新しい画面は `features/<機能名>/` を同じ構成で作り、`app/<ルート>/page.tsx` から呼び出す
+
+### フロントエンドの設計書
+
+- フロントエンド部分の設計書は `frontend/docs/` に Markdown で記載する。入口は `frontend/docs/design.md`、各章は `frontend/docs/design/` に置く
+- 設計書は `frontend/src/` の現状の実装を正として記述する
+- `frontend/` のコード（`src/`、`scripts/`、設定ファイル）を変更する場合は、設計書をすべて見直し、実装と食い違う箇所を更新する
+- 新しい機能や画面を追加した場合は、設計書に章または節を追加し、`design.md` の目次も更新する
+- 設計書の整形は Prettier の対象にする（`npm run format:check` で確認する）
 
 ## Issue 解析の仕様
 
@@ -513,6 +522,7 @@ public class SampleClass {
 - [ ] 解析ルールを変更した場合、`declaredCount` との食い違いと補完件数のログを確認
 - [ ] 画面を変更した場合、`frontend/` で `npm run lint` / `npm run typecheck` / `npm test` / `npm run build` が通り、`npm run dev` で表示と切り替えを確認
 - [ ] フロントエンドの構成ルール（機能単位の構成、依存の向き、コンポーネントのフォルダ構成）の順守
+- [ ] フロントエンドのコードを変更した場合、`frontend/docs/` の設計書をすべて見直して更新
 - [ ] README の更新
 
 ## やってはいけないこと
@@ -532,6 +542,7 @@ public class SampleClass {
 ## 参考リンク
 
 - README: `./README.md`
+- フロントエンドの設計書: `./frontend/docs/design.md`
 - GitHub REST API（Issues）: `https://docs.github.com/rest/issues/issues`
 
 ## 順守
