@@ -129,6 +129,7 @@ classDiagram
 | URL        | `assetPath(SUMMARY_PATH)`（`SUMMARY_PATH` = `/data/summary.json`） |
 | キャッシュ | `cache: 'no-cache'`（更新後のデータを確実に取得する）              |
 | 引数       | `fetcher`（既定は `fetch`）。テストでは差し替える                  |
+|            | `signal`（省略可）。`fetch` に渡し、取得を中断できるようにする     |
 | 戻り値     | 検証済みの `Summary`                                               |
 
 次の場合は `Error` を投げます。
@@ -138,7 +139,7 @@ classDiagram
 | HTTP のステータスが 2xx 以外 | `summary.json の取得に失敗しました（<ステータス>）`         |
 | zod の検証に失敗             | `summary.json の形式が想定と異なります: <最初の問題の内容>` |
 
-投げられたエラーは `useAsync` が `LoadState` の `error` に変換し、`CarryoverDashboard` が「データを読み込めませんでした」のパネルにメッセージを表示します（[03. 画面設計](03-screen.md)）。
+中断された場合は `fetch` が `AbortError` を投げますが、`useAsync` は中断後の結果を捨てるため画面には表示しません。それ以外の投げられたエラーは `useAsync` が `LoadState` の `error` に変換し、`CarryoverDashboard` が「データを読み込めませんでした」のパネルにメッセージを表示します（[03. 画面設計](03-screen.md)）。
 
 ## 形式を変更する場合
 

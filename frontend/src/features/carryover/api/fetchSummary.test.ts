@@ -14,7 +14,14 @@ describe('fetchSummary', () => {
     const summary = sampleSummary();
     const fetcher = mockFetch(summary);
     await expect(fetchSummary(fetcher)).resolves.toEqual(summary);
-    expect(fetcher).toHaveBeenCalledWith('/data/summary.json', { cache: 'no-cache' });
+    expect(fetcher).toHaveBeenCalledWith('/data/summary.json', { cache: 'no-cache', signal: undefined });
+  });
+
+  it('シグナルを fetch に渡す', async () => {
+    const fetcher = mockFetch(sampleSummary());
+    const controller = new AbortController();
+    await fetchSummary(fetcher, controller.signal);
+    expect(fetcher).toHaveBeenCalledWith('/data/summary.json', { cache: 'no-cache', signal: controller.signal });
   });
 
   it('HTTP エラーの場合は例外を投げる', async () => {

@@ -76,12 +76,12 @@ reducer は状態を直接変更せず、常に新しいオブジェクト（`se
 
 ## フック
 
-| フック                | 場所                                                                                      | 役割                                                                                                               |
-| --------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `useAsync`            | [shared/hooks/useAsync.ts](../../src/shared/hooks/useAsync.ts)                            | 非同期処理をマウント時に実行し `LoadState` を返す。アンマウント後の結果は捨てる。Error 以外の失敗は `Error` に包む |
-| `useCarryoverSummary` | [hooks/useCarryoverSummary.ts](../../src/features/carryover/hooks/useCarryoverSummary.ts) | `useAsync(fetchSummary)` で summary.json を読み込む。loader はモジュールの定数にして参照を安定させる               |
-| `useQueryOptions`     | [hooks/useQueryOptions.ts](../../src/features/carryover/hooks/useQueryOptions.ts)         | 初回の描画時に 1 回だけ URL クエリを読み取る。`window` がない環境では空の条件を返す                                |
-| `useDashboardOptions` | [hooks/useDashboardOptions.ts](../../src/features/carryover/hooks/useDashboardOptions.ts) | reducer を包み、`options`・`selected` と操作関数を返す                                                             |
+| フック                | 場所                                                                                      | 役割                                                                                                                                                       |
+| --------------------- | ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `useAsync`            | [shared/hooks/useAsync.ts](../../src/shared/hooks/useAsync.ts)                            | 非同期処理をマウント時に実行し `LoadState` を返す。loader に `AbortSignal` を渡し、アンマウント時に中断して結果を捨てる。Error 以外の失敗は `Error` に包む |
+| `useCarryoverSummary` | [hooks/useCarryoverSummary.ts](../../src/features/carryover/hooks/useCarryoverSummary.ts) | `useAsync` で `fetchSummary` に `signal` を渡して summary.json を読み込む。loader はモジュールの定数にして参照を安定させる                                 |
+| `useQueryOptions`     | [hooks/useQueryOptions.ts](../../src/features/carryover/hooks/useQueryOptions.ts)         | 初回の描画時に 1 回だけ URL クエリを読み取る。`window` がない環境では空の条件を返す                                                                        |
+| `useDashboardOptions` | [hooks/useDashboardOptions.ts](../../src/features/carryover/hooks/useDashboardOptions.ts) | reducer を包み、`options`・`selected` と操作関数を返す                                                                                                     |
 
 `useDashboardOptions` が返す操作関数は次のとおりです。すべて `useCallback` で参照を安定させています。
 

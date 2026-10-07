@@ -6,7 +6,7 @@ import type { LoadState } from '@/shared/types';
 import { fetchSummary } from '../api';
 import type { Summary } from '../model';
 
-const loadSummary = () => fetchSummary();
+const loadSummary = (signal: AbortSignal) => fetchSummary(fetch, signal);
 
 /**
  * summary.json を読み込み、読み込みの状態を返す。
