@@ -14792,7 +14792,7 @@
       "declaredCount": 72,
       "total": {
         "count": 72,
-        "minutes": 1483.5,
+        "minutes": 1451.5,
         "checkedCount": 3,
         "checkedMinutes": 39.0
       },
@@ -14823,7 +14823,7 @@
         },
         "汎用タスク": {
           "count": 17,
-          "minutes": 626.5,
+          "minutes": 594.5,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
@@ -14861,7 +14861,7 @@
         },
         "2026-09": {
           "count": 46,
-          "minutes": 1085.5,
+          "minutes": 1053.5,
           "checkedCount": 1,
           "checkedMinutes": 24.0
         },
