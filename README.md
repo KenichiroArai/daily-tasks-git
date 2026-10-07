@@ -36,6 +36,7 @@ URL パラメータで初期表示を指定できます（例: `?view=monthlyIte
 - 画面（Next.js + TypeScript + Recharts）: [`frontend/`](frontend/)
   - 静的エクスポート（`frontend/out`）を GitHub Pages に公開します。
   - ビルド時に `docs/data/` を `frontend/public/data/` にコピーして使います。`docs/` には収集ツールが出力するデータだけを置きます。
+  - 設計書: [`frontend/docs/design.md`](frontend/docs/design.md)（全体構成、データ、画面、モジュール、品質・運用。各章は `frontend/docs/design/` にあります）
 - 自動更新: [`.github/workflows/update-carryover.yml`](.github/workflows/update-carryover.yml)
   - 毎日 06:00（JST）、手動実行、Issue の作成・編集・クローズ・再オープン、`main` への push で動きます。
   - JSON の差分を commit し、画面をビルドしてから GitHub Pages にデプロイします。
