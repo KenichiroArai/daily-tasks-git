@@ -14700,8 +14700,8 @@
       "total": {
         "count": 76,
         "minutes": 1609.5,
-        "checkedCount": 1,
-        "checkedMinutes": 11.0
+        "checkedCount": 3,
+        "checkedMinutes": 48.0
       },
       "byItem": {
         "3教科以外": {
@@ -14713,8 +14713,8 @@
         "IT・技術学習": {
           "count": 9,
           "minutes": 234.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "checkedCount": 1,
+          "checkedMinutes": 16.0
         },
         "国語": {
           "count": 8,
@@ -14749,8 +14749,8 @@
         "開発": {
           "count": 1,
           "minutes": 21.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "checkedCount": 1,
+          "checkedMinutes": 21.0
         },
         "音楽": {
           "count": 33,
@@ -14775,14 +14775,14 @@
         "2026-09": {
           "count": 47,
           "minutes": 1150.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "checkedCount": 1,
+          "checkedMinutes": 16.0
         },
         "2026-10": {
           "count": 6,
           "minutes": 137.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "checkedCount": 1,
+          "checkedMinutes": 21.0
         }
       }
     }
