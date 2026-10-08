@@ -3,7 +3,7 @@
   "title": "2026年10月08日のタスク",
   "date": "2026-10-08",
   "state": "open",
-  "updatedAt": "2026-10-08T04:26:13Z",
+  "updatedAt": "2026-10-08T05:06:31Z",
   "sections": [
     "持ち越し"
   ],
@@ -41,11 +41,11 @@
     {
       "name": "3教科以外",
       "originDate": "2026-08-08",
-      "checked": false,
+      "checked": true,
       "minutes": 15.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 3教科以外2026/08/08（残り時間：15分）"
+      "raw": "- [x] 3教科以外2026/08/08（残り時間：15分）"
     },
     {
       "name": "国語",
