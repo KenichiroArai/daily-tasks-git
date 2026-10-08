@@ -165,6 +165,9 @@ public class CarryoverServiceImplTest {
 
     /**
      * collect メソッドのテスト - 正常系:全件モードの場合はすべての Issue を解析する
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
      */
     @Test
     public void testCollect_normalFull() throws IOException {
@@ -204,6 +207,9 @@ public class CarryoverServiceImplTest {
 
     /**
      * collect メソッドのテスト - 正常系:差分モードの場合は最新 10 件より前で更新日時が同じ保存済みの Issue を解析しない
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
      */
     @Test
     public void testCollect_normalDiff() throws IOException {
@@ -241,6 +247,9 @@ public class CarryoverServiceImplTest {
 
     /**
      * collect メソッドのテスト - 正常系:差分モードの場合は最新 10 件の保存済みの Issue を更新日時が同じでも解析し直す
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
      */
     @Test
     public void testCollect_normalDiffRecent() throws IOException {

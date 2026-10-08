@@ -27,6 +27,7 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
  *
  * @version 0.1.0
  */
+@SuppressWarnings("nls")
 public class CarryoverParser {
 
     /**

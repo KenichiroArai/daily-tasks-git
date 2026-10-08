@@ -28,9 +28,7 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
  *
  * @version 0.1.0
  */
-@SuppressWarnings({
-    "nls", "static-method"
-})
+@SuppressWarnings("nls")
 public class CarryoverDataRepositoryTest {
 
     /**
@@ -59,6 +57,9 @@ public class CarryoverDataRepositoryTest {
 
     /**
      * loadIssues メソッドのテスト - 正常系:保存済みの JSON を読み込む場合
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
      */
     @Test
     public void testLoadIssues_normalSaved() throws IOException {
@@ -94,6 +95,9 @@ public class CarryoverDataRepositoryTest {
 
     /**
      * loadIssues メソッドのテスト - 準正常系:ディレクトリがない場合
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
      */
     @Test
     public void testLoadIssues_semiNoDirectory() throws IOException {
@@ -116,6 +120,9 @@ public class CarryoverDataRepositoryTest {
 
     /**
      * loadIssues メソッドのテスト - 異常系:JSON が不正な場合
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
      */
     @Test
     public void testLoadIssues_errorInvalidJson() throws IOException {
@@ -140,6 +147,9 @@ public class CarryoverDataRepositoryTest {
 
     /**
      * saveIssue メソッドのテスト - 正常系:4 桁ゼロ埋めのファイル名で LF 改行の JSON を保存する場合
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
      */
     @Test
     public void testSaveIssue_normalFileName() throws IOException {
@@ -169,6 +179,9 @@ public class CarryoverDataRepositoryTest {
 
     /**
      * saveSummary メソッドのテスト - 正常系:画面用の集計を保存する場合
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
      */
     @Test
     public void testSaveSummary_normalSave() throws IOException {
@@ -192,6 +205,9 @@ public class CarryoverDataRepositoryTest {
 
     /**
      * write メソッドのテスト - 正常系:親ディレクトリを作成して書き込む場合
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
      */
     @Test
     public void testWrite_normalCreateParent() throws IOException {

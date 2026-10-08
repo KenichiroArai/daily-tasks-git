@@ -22,6 +22,7 @@ import io.github.kenichiroarai.dailytasks.carryover.application.service.Carryove
  *
  * @version 0.1.0
  */
+@SuppressWarnings("nls")
 public class CarryoverCommand {
 
     /**

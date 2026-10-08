@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
     "number", "title", "date", "state", "updatedAt", "sections", "declaredCount", "count", "minutes", "items"
 })
+@SuppressWarnings("nls")
 public class CarryoverIssue {
 
     /**

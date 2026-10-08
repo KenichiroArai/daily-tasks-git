@@ -23,9 +23,7 @@ import io.github.kenichiroarai.dailytasks.testutil.LogCapture;
  *
  * @version 0.1.0
  */
-@SuppressWarnings({
-    "nls", "static-method"
-})
+@SuppressWarnings("nls")
 public class DefaultMinutesRepositoryTest {
 
     /**
@@ -36,6 +34,9 @@ public class DefaultMinutesRepositoryTest {
 
     /**
      * load メソッドのテスト - 正常系:設定ファイルを読み込む場合
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
      */
     @Test
     public void testLoad_normalConfig() throws IOException {
@@ -61,6 +62,9 @@ public class DefaultMinutesRepositoryTest {
 
     /**
      * load メソッドのテスト - 準正常系:設定ファイルがない場合
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
      */
     @Test
     public void testLoad_semiNoFile() throws IOException {
@@ -93,6 +97,9 @@ public class DefaultMinutesRepositoryTest {
 
     /**
      * load メソッドのテスト - 異常系:設定ファイルが不正な場合
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
      */
     @Test
     public void testLoad_errorInvalidJson() throws IOException {

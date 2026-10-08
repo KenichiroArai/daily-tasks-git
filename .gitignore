@@ -1,20 +1,103 @@
-# Maven
+# ============================================================
+# Java（Maven）
+# ============================================================
+
+# ビルド生成物（JaCoCo のレポートを含む）
 target/
 
-# Node.js / Next.js（詳細は frontend/.gitignore）
+# Maven
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Java
+*.class
+hs_err_pid*
+replay_pid*
+
+# ============================================================
+# Next.js + TypeScript（frontend/。詳細は frontend/.gitignore）
+# ============================================================
+
+# 依存関係
 node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# Next.js のビルド生成物
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/next-env.d.ts
+*.tsbuildinfo
+
+# ビルド時に docs/data からコピーするデータ
+frontend/public/data/
+
+# テスト（Vitest のカバレッジ）
+frontend/coverage/
+
+# デバッグログ
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# 環境変数（シークレットを含むため管理しない）
+.env
+.env.*
+!.env.example
+
+# Vercel
+.vercel
+
+# ============================================================
+# IDE
+# ============================================================
 
 # Eclipse
 .classpath
 .project
 .settings/
+.factorypath
+.metadata/
 bin/
 
-# IntelliJ IDEA / VS Code
+# IntelliJ IDEA
 .idea/
 *.iml
+*.iws
+*.ipr
+out/
+
+# VS Code / Cursor
 .vscode/
 
-# OS
+# ============================================================
+# OS / その他
+# ============================================================
+
+# macOS
 .DS_Store
+
+# Windows
 Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ログ・一時ファイル
+*.log
+*.tmp
+*.swp
+*~

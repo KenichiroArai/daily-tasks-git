@@ -27,6 +27,9 @@ public class DailyTasksApplicationTest {
 
     /**
      * main メソッドのテスト - 正常系:--help の場合は使い方を表示する
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
      */
     @Test
     public void testMain_normalHelp() throws IOException {

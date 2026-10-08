@@ -29,6 +29,7 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSummar
  *
  * @version 0.1.0
  */
+@SuppressWarnings("nls")
 public class CarryoverDataRepository {
 
     /**

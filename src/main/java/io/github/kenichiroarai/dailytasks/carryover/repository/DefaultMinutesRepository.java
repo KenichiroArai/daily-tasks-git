@@ -22,6 +22,7 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.model.DefaultMinutes;
  *
  * @version 0.1.0
  */
+@SuppressWarnings("nls")
 public class DefaultMinutesRepository {
 
     /**

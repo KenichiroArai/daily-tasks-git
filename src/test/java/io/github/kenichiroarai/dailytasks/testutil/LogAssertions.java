@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Assertions;
  *
  * @version 0.1.0
  */
+@SuppressWarnings("nls")
 public final class LogAssertions {
 
     /**

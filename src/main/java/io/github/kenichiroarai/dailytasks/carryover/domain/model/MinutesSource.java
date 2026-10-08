@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  *
  * @version 0.1.0
  */
+@SuppressWarnings("nls")
 public enum MinutesSource {
 
     /**

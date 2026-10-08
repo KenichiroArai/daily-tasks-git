@@ -133,6 +133,21 @@ public class StubHttpClient extends HttpClient {
 
     }
 
+    /**
+     * 非同期送信（使用しない）<br>
+     *
+     * @param <T>
+     *                            本文の型
+     * @param request
+     *                            リクエスト
+     * @param responseBodyHandler
+     *                            本文の変換
+     *
+     * @return 返さない
+     *
+     * @throws UnsupportedOperationException
+     *                                       常に投げる
+     */
     @Override
     public <T> CompletableFuture<HttpResponse<T>> sendAsync(final HttpRequest request,
         final HttpResponse.BodyHandler<T> responseBodyHandler) {
@@ -141,6 +156,23 @@ public class StubHttpClient extends HttpClient {
 
     }
 
+    /**
+     * プッシュ対応の非同期送信（使用しない）<br>
+     *
+     * @param <T>
+     *                           本文の型
+     * @param request
+     *                           リクエスト
+     * @param responseBodyHandler
+     *                           本文の変換
+     * @param pushPromiseHandler
+     *                           プッシュの処理
+     *
+     * @return 返さない
+     *
+     * @throws UnsupportedOperationException
+     *                                       常に投げる
+     */
     @Override
     public <T> CompletableFuture<HttpResponse<T>> sendAsync(final HttpRequest request,
         final HttpResponse.BodyHandler<T> responseBodyHandler,
@@ -150,66 +182,133 @@ public class StubHttpClient extends HttpClient {
 
     }
 
+    /**
+     * Cookie ハンドラを返す<br>
+     *
+     * @return 空
+     */
     @Override
     public Optional<CookieHandler> cookieHandler() {
 
-        return Optional.empty();
+        final Optional<CookieHandler> result = Optional.empty();
+        return result;
 
     }
 
+    /**
+     * 接続タイムアウトを返す<br>
+     *
+     * @return 空
+     */
     @Override
     public Optional<Duration> connectTimeout() {
 
-        return Optional.empty();
+        final Optional<Duration> result = Optional.empty();
+        return result;
 
     }
 
+    /**
+     * リダイレクトの方針を返す<br>
+     *
+     * @return リダイレクトしない
+     */
     @Override
     public Redirect followRedirects() {
 
-        return Redirect.NEVER;
+        final Redirect result = Redirect.NEVER;
+        return result;
 
     }
 
+    /**
+     * プロキシを返す<br>
+     *
+     * @return 空
+     */
     @Override
     public Optional<ProxySelector> proxy() {
 
-        return Optional.empty();
+        final Optional<ProxySelector> result = Optional.empty();
+        return result;
 
     }
 
+    /**
+     * SSL コンテキストを返す<br>
+     *
+     * @return null
+     */
     @Override
     public SSLContext sslContext() {
 
-        return null;
+        final SSLContext result = null;
+        return result;
 
     }
 
+    /**
+     * SSL パラメータを返す<br>
+     *
+     * @return null
+     */
     @Override
     public SSLParameters sslParameters() {
 
-        return null;
+        final SSLParameters result = null;
+        return result;
 
     }
 
+    /**
+     * 認証を返す<br>
+     *
+     * @return 空
+     */
     @Override
     public Optional<Authenticator> authenticator() {
 
-        return Optional.empty();
+        final Optional<Authenticator> result = Optional.empty();
+        return result;
 
     }
 
+    /**
+     * HTTP のバージョンを返す<br>
+     *
+     * @return HTTP/1.1
+     */
     @Override
     public Version version() {
 
-        return Version.HTTP_1_1;
+        final Version result = Version.HTTP_1_1;
+        return result;
 
     }
 
+    /**
+     * エグゼキュータを返す<br>
+     *
+     * @return 空
+     */
     @Override
     public Optional<Executor> executor() {
 
-        return Optional.empty();
+        final Optional<Executor> result = Optional.empty();
+        return result;
+
+    }
+
+    /**
+     * クライアントを閉じる<br>
+     * <p>
+     * 通信を行わないため、何もしない。
+     * </p>
+     */
+    @Override
+    public void close() {
+
+        // 処理なし
 
     }
 
@@ -257,59 +356,107 @@ public class StubHttpClient extends HttpClient {
 
         }
 
+        /**
+         * ステータスコードを返す<br>
+         *
+         * @return ステータスコード
+         */
         @Override
         public int statusCode() {
 
-            return this.statusCode;
+            final int result = this.statusCode;
+            return result;
 
         }
 
+        /**
+         * リクエストを返す<br>
+         *
+         * @return リクエスト
+         */
         @Override
         public HttpRequest request() {
 
-            return this.request;
+            final HttpRequest result = this.request;
+            return result;
 
         }
 
+        /**
+         * 前の応答を返す<br>
+         *
+         * @return 空
+         */
         @Override
         public Optional<HttpResponse<String>> previousResponse() {
 
-            return Optional.empty();
+            final Optional<HttpResponse<String>> result = Optional.empty();
+            return result;
 
         }
 
+        /**
+         * ヘッダを返す<br>
+         *
+         * @return 空のヘッダ
+         */
         @Override
         public HttpHeaders headers() {
 
-            return HttpHeaders.of(Map.of(), (name, value) -> true);
+            final HttpHeaders result = HttpHeaders.of(Map.of(), (_, _) -> true);
+            return result;
 
         }
 
+        /**
+         * 本文を返す<br>
+         *
+         * @return 本文
+         */
         @Override
         public String body() {
 
-            return this.body;
+            final String result = this.body;
+            return result;
 
         }
 
+        /**
+         * SSL セッションを返す<br>
+         *
+         * @return 空
+         */
         @Override
         public Optional<SSLSession> sslSession() {
 
-            return Optional.empty();
+            final Optional<SSLSession> result = Optional.empty();
+            return result;
 
         }
 
+        /**
+         * URI を返す<br>
+         *
+         * @return リクエストの URI
+         */
         @Override
         public URI uri() {
 
-            return this.request.uri();
+            final URI result = this.request.uri();
+            return result;
 
         }
 
+        /**
+         * HTTP のバージョンを返す<br>
+         *
+         * @return HTTP/1.1
+         */
         @Override
         public Version version() {
 
-            return Version.HTTP_1_1;
+            final Version result = Version.HTTP_1_1;
+            return result;
 
         }
 

@@ -80,7 +80,7 @@ public class DailySummary {
 
         /* 全体と項目ごとの集計 */
         this.total.add(item);
-        this.byItem.computeIfAbsent(item.getName(), key -> new ItemStat()).add(item);
+        this.byItem.computeIfAbsent(item.getName(), _ -> new ItemStat()).add(item);
 
         // 持ち越し元の日付がない行は月ごとの集計に含めない
         if (item.getOriginDate() == null) {
@@ -91,7 +91,7 @@ public class DailySummary {
 
         /* 持ち越し元の月ごとの集計 */
         final String month = item.getOriginDate().substring(0, 7);
-        this.byOriginMonth.computeIfAbsent(month, key -> new ItemStat()).add(item);
+        this.byOriginMonth.computeIfAbsent(month, _ -> new ItemStat()).add(item);
 
     }
 

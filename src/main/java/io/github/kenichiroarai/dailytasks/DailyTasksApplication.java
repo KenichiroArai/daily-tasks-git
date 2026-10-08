@@ -26,6 +26,7 @@ import io.github.kenichiroarai.dailytasks.carryover.repository.DefaultMinutesRep
  *
  * @version 0.1.0
  */
+@SuppressWarnings("nls")
 public final class DailyTasksApplication {
 
     /**
@@ -74,14 +75,19 @@ public final class DailyTasksApplication {
         /* 部品の組み立て */
         final DefaultMinutes defaultMinutes = new DefaultMinutesRepository(DailyTasksApplication.DEFAULT_MINUTES_FILE)
             .load();
-        final GitHubIssueClient gitHubIssueClient = new GitHubIssueClient(HttpClient.newHttpClient(),
-            DailyTasksApplication.API_BASE_URL, DailyTasksApplication.REPOSITORY, System.getenv("GITHUB_TOKEN"));
-        final CarryoverService carryoverService = new CarryoverServiceImpl(gitHubIssueClient,
-            new CarryoverDataRepository(DailyTasksApplication.DATA_DIR), new CarryoverParser(defaultMinutes),
-            new CarryoverAggregator());
 
-        /* コマンドの実行 */
-        new CarryoverCommand(carryoverService, System.out).execute(args);
+        try (HttpClient httpClient = HttpClient.newHttpClient()) {
+
+            final GitHubIssueClient gitHubIssueClient = new GitHubIssueClient(httpClient,
+                DailyTasksApplication.API_BASE_URL, DailyTasksApplication.REPOSITORY, System.getenv("GITHUB_TOKEN"));
+            final CarryoverService carryoverService = new CarryoverServiceImpl(gitHubIssueClient,
+                new CarryoverDataRepository(DailyTasksApplication.DATA_DIR), new CarryoverParser(defaultMinutes),
+                new CarryoverAggregator());
+
+            /* コマンドの実行 */
+            new CarryoverCommand(carryoverService, System.out).execute(args);
+
+        }
 
     }
 

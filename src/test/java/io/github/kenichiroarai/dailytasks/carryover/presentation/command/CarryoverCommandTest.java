@@ -78,6 +78,9 @@ public class CarryoverCommandTest {
 
     /**
      * execute メソッドのテスト - 正常系:引数なしの場合は差分モードで実行する
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
      */
     @Test
     public void testExecute_normalDiff() throws IOException {
@@ -105,6 +108,9 @@ public class CarryoverCommandTest {
 
     /**
      * execute メソッドのテスト - 正常系:--full の場合は全件モードで実行する
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
      */
     @Test
     public void testExecute_normalFull() throws IOException {
@@ -131,6 +137,9 @@ public class CarryoverCommandTest {
 
     /**
      * execute メソッドのテスト - 正常系:--help の場合は使い方を表示して収集しない
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
      */
     @Test
     public void testExecute_normalHelp() throws IOException {
@@ -164,6 +173,9 @@ public class CarryoverCommandTest {
 
     /**
      * execute メソッドのテスト - 正常系:-h の場合は使い方を表示して収集しない
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
      */
     @Test
     public void testExecute_normalShortHelp() throws IOException {
