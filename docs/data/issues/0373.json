@@ -3,13 +3,13 @@
   "title": "2026年10月08日のタスク",
   "date": "2026-10-08",
   "state": "open",
-  "updatedAt": "2026-10-08T14:17:57Z",
+  "updatedAt": "2026-10-08T15:39:02Z",
   "sections": [
     "持ち越し"
   ],
   "declaredCount": 69,
   "count": 69,
-  "minutes": 1392.0,
+  "minutes": 1389.0,
   "items": [
     {
       "name": "国語",
@@ -23,20 +23,20 @@
     {
       "name": "国語",
       "originDate": "2026-06-24",
-      "checked": false,
+      "checked": true,
       "minutes": 12.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 国語2026/06/24（残り時間：12分）"
+      "raw": "- [x] 国語2026/06/24（残り時間：12分）"
     },
     {
       "name": "国語",
       "originDate": "2026-08-08",
       "checked": false,
-      "minutes": 15.0,
+      "minutes": 12.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 国語2026/08/08（残り時間：15分）"
+      "raw": "- [ ] 国語2026/08/08（残り時間：12分）"
     },
     {
       "name": "3教科以外",
