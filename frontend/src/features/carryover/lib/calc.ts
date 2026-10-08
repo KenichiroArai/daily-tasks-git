@@ -7,8 +7,9 @@ import type { Agg, Day, Metric, Stat, Target } from '../model';
  * 集計値から、指標と対象に応じた値を取り出す。
  */
 export function statValue(stat: Stat | undefined, metric: Metric, target: Target): number {
+  let result = 0;
   if (!stat) {
-    return 0;
+    return result;
   }
   const useMinutes = metric !== 'count';
   const total = useMinutes ? stat.minutes : stat.count;
@@ -19,91 +20,104 @@ export function statValue(stat: Stat | undefined, metric: Metric, target: Target
   } else if (target === 'unchecked') {
     value = total - checked;
   }
-  return metric === 'hours' ? value / 60 : value;
+  result = metric === 'hours' ? value / 60 : value;
+  return result;
 }
 
 /**
  * ある日の、ある項目の値
  */
 export function dayItemValue(day: Day, item: string, metric: Metric, target: Target): number {
-  return statValue(day.byItem[item], metric, target);
+  const result = statValue(day.byItem[item], metric, target);
+  return result;
 }
 
 /**
  * ある日の、選択した項目の合計値
  */
 export function dayTotal(day: Day, items: Iterable<string>, metric: Metric, target: Target): number {
-  let sum = 0;
+  let result = 0;
   for (const item of items) {
-    sum += dayItemValue(day, item, metric, target);
+    result += dayItemValue(day, item, metric, target);
   }
-  return sum;
+  return result;
 }
 
 /**
  * 値の一覧を集計する。空の場合は 0 を返す。
  */
 export function aggregate(values: readonly number[], agg: Agg): number {
+  let result = 0;
   if (values.length === 0) {
-    return 0;
+    return result;
   }
   switch (agg) {
     case 'sum':
-      return values.reduce((a, b) => a + b, 0);
+      result = values.reduce((a, b) => a + b, 0);
+      break;
     case 'max':
-      return Math.max(...values);
+      result = Math.max(...values);
+      break;
     case 'min':
-      return Math.min(...values);
+      result = Math.min(...values);
+      break;
     case 'last':
-      return values[values.length - 1] ?? 0;
+      result = values[values.length - 1] ?? 0;
+      break;
     default:
-      return values.reduce((a, b) => a + b, 0) / values.length;
+      result = values.reduce((a, b) => a + b, 0) / values.length;
+      break;
   }
+  return result;
 }
 
 /**
  * グラフや表に出す値の丸め（時間は小数 2 桁、それ以外は 1 桁）
  */
 export function roundMetric(value: number, metric: Metric): number {
-  return roundTo(value, metric === 'hours' ? 2 : 1);
+  const result = roundTo(value, metric === 'hours' ? 2 : 1);
+  return result;
 }
 
 /**
  * 指標に応じた表示用の書式化（分は整数、それ以外は小数 1 桁）
  */
 export function formatMetric(value: number, metric: Metric): string {
-  return formatNumber(value, metric === 'minutes' ? 0 : 1);
+  const result = formatNumber(value, metric === 'minutes' ? 0 : 1);
+  return result;
 }
 
 /**
  * 丸めと書式化をまとめて行い、単位を付ける。
  */
 export function formatMetricWithUnit(value: number, metric: Metric): string {
-  return `${formatMetric(roundMetric(value, metric), metric)} ${UNIT_LABELS[metric]}`;
+  const result = `${formatMetric(roundMetric(value, metric), metric)} ${UNIT_LABELS[metric]}`;
+  return result;
 }
 
 /**
  * 日別のデータを月（YYYY-MM）ごとにまとめる。
  */
 export function groupByMonth(days: readonly Day[]): Map<string, Day[]> {
-  const months = new Map<string, Day[]>();
+  const result = new Map<string, Day[]>();
   for (const day of days) {
     const key = day.date.slice(0, 7);
-    const list = months.get(key);
+    const list = result.get(key);
     if (list) {
       list.push(day);
     } else {
-      months.set(key, [day]);
+      result.set(key, [day]);
     }
   }
-  return months;
+  return result;
 }
 
 /**
  * 期間（YYYY-MM-DD、両端を含む）で絞り込む。空文字は制限なしとする。
  */
 export function filterDays(days: readonly Day[], from: string, to: string): Day[] {
-  return days.filter((day) => (!from || day.date >= from) && (!to || day.date <= to));
+  const result = days.filter((day) => (!from || day.date >= from) && (!to || day.date <= to));
+  return result;
 }
 
 /**
@@ -121,5 +135,6 @@ export function assignColors(items: readonly string[]): Record<string, string> {
  * 項目の元の並び順を保ったまま、選択した項目だけを返す。
  */
 export function orderSelectedItems(items: readonly string[], selected: ReadonlySet<string>): string[] {
-  return items.filter((item) => selected.has(item));
+  const result = items.filter((item) => selected.has(item));
+  return result;
 }

@@ -20,18 +20,22 @@ export type DashboardAction =
  * 初期状態を作る。期間は全期間、項目はすべて選択する。
  */
 export function createInitialState(summary: Summary, initialOptions: Partial<DashboardOptions> = {}): DashboardState {
-  return {
+  const result: DashboardState = {
     options: { ...DEFAULT_OPTIONS, ...presetPeriod(summary.days, 0), ...initialOptions },
     selected: new Set(summary.items),
   };
+  return result;
 }
 
 export function dashboardReducer(state: DashboardState, action: DashboardAction): DashboardState {
+  let result = state;
   switch (action.type) {
     case 'setOptions':
-      return { ...state, options: { ...state.options, ...action.patch } };
+      result = { ...state, options: { ...state.options, ...action.patch } };
+      break;
     case 'setPeriod':
-      return { ...state, options: { ...state.options, ...action.period } };
+      result = { ...state, options: { ...state.options, ...action.period } };
+      break;
     case 'toggleItem': {
       const selected = new Set(state.selected);
       if (selected.has(action.item)) {
@@ -39,13 +43,17 @@ export function dashboardReducer(state: DashboardState, action: DashboardAction)
       } else {
         selected.add(action.item);
       }
-      return { ...state, selected };
+      result = { ...state, selected };
+      break;
     }
     case 'selectAll':
-      return { ...state, selected: new Set(action.items) };
+      result = { ...state, selected: new Set(action.items) };
+      break;
     case 'selectNone':
-      return { ...state, selected: new Set() };
+      result = { ...state, selected: new Set() };
+      break;
     default:
-      return state;
+      break;
   }
+  return result;
 }

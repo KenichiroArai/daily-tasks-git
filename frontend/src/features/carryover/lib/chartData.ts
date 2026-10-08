@@ -39,45 +39,49 @@ type BuildContext = {
 };
 
 function seriesKey(index: number): string {
-  return `s${index}`;
+  const result = `s${index}`;
+  return result;
 }
 
 function aggregatedLabel(options: DashboardOptions): string {
-  return `${METRIC_LABELS[options.metric]}（${AGG_LABELS[options.agg]}）`;
+  const result = `${METRIC_LABELS[options.metric]}（${AGG_LABELS[options.agg]}）`;
+  return result;
 }
 
 function buildDaily({ days, items, options }: BuildContext): ChartSpec {
   const { metric, target } = options;
-  return {
+  const result: ChartSpec = {
     kind: 'area',
     stacked: false,
     horizontal: false,
     rows: days.map((day) => ({ label: day.date, s0: roundMetric(dayTotal(day, items, metric, target), metric) })),
     series: [{ key: seriesKey(0), label: METRIC_LABELS[metric], color: PRIMARY_COLOR }],
   };
+  return result;
 }
 
 function buildDailyItem({ days, items, colors, options }: BuildContext): ChartSpec {
   const { metric, target } = options;
-  return {
+  const result: ChartSpec = {
     kind: 'area',
     stacked: true,
     horizontal: false,
     rows: days.map((day) => {
-      const row: ChartRow = { label: day.date };
+      const result: ChartRow = { label: day.date };
       items.forEach((item, index) => {
-        row[seriesKey(index)] = roundMetric(dayItemValue(day, item, metric, target), metric);
+        result[seriesKey(index)] = roundMetric(dayItemValue(day, item, metric, target), metric);
       });
-      return row;
+      return result;
     }),
     series: items.map((item, index) => ({ key: seriesKey(index), label: item, color: colors[item] ?? PRIMARY_COLOR })),
   };
+  return result;
 }
 
 function buildMonthly({ days, items, options }: BuildContext): ChartSpec {
   const { metric, target, agg } = options;
   const months = groupByMonth(days);
-  return {
+  const result: ChartSpec = {
     kind: 'bar',
     stacked: false,
     horizontal: false,
@@ -93,19 +97,20 @@ function buildMonthly({ days, items, options }: BuildContext): ChartSpec {
     })),
     series: [{ key: seriesKey(0), label: aggregatedLabel(options), color: PRIMARY_COLOR }],
   };
+  return result;
 }
 
 function buildMonthlyItem({ days, items, colors, options }: BuildContext): ChartSpec {
   const { metric, target, agg } = options;
   const months = groupByMonth(days);
-  return {
+  const result: ChartSpec = {
     kind: 'bar',
     stacked: true,
     horizontal: false,
     rows: [...months].map(([month, monthDays]) => {
-      const row: ChartRow = { label: month };
+      const result: ChartRow = { label: month };
       items.forEach((item, index) => {
-        row[seriesKey(index)] = roundMetric(
+        result[seriesKey(index)] = roundMetric(
           aggregate(
             monthDays.map((day) => dayItemValue(day, item, metric, target)),
             agg,
@@ -113,10 +118,11 @@ function buildMonthlyItem({ days, items, colors, options }: BuildContext): Chart
           metric,
         );
       });
-      return row;
+      return result;
     }),
     series: items.map((item, index) => ({ key: seriesKey(index), label: item, color: colors[item] ?? PRIMARY_COLOR })),
   };
+  return result;
 }
 
 function buildItem({ days, items, colors, options }: BuildContext): ChartSpec {
@@ -130,19 +136,20 @@ function buildItem({ days, items, colors, options }: BuildContext): ChartSpec {
       ),
     }))
     .sort((a, b) => b.value - a.value);
-  return {
+  const result: ChartSpec = {
     kind: 'bar',
     stacked: false,
     horizontal: true,
     rows: rows.map((row) => ({ label: row.item, color: colors[row.item], s0: roundMetric(row.value, metric) })),
     series: [{ key: seriesKey(0), label: aggregatedLabel(options), color: PRIMARY_COLOR }],
   };
+  return result;
 }
 
 function buildOriginMonth({ days, options }: BuildContext): ChartSpec {
   const { metric, target, agg } = options;
   const monthKeys = [...new Set(days.flatMap((day) => Object.keys(day.byOriginMonth)))].sort();
-  return {
+  const result: ChartSpec = {
     kind: 'bar',
     stacked: false,
     horizontal: false,
@@ -158,6 +165,7 @@ function buildOriginMonth({ days, options }: BuildContext): ChartSpec {
     })),
     series: [{ key: seriesKey(0), label: aggregatedLabel(options), color: ORIGIN_MONTH_COLOR }],
   };
+  return result;
 }
 
 const BUILDERS: Record<DashboardOptions['view'], (context: BuildContext) => ChartSpec> = {
@@ -180,5 +188,6 @@ export function buildChartSpec(
   colors: Readonly<Record<string, string>>,
   options: DashboardOptions,
 ): ChartSpec {
-  return BUILDERS[options.view]({ days, items, colors, options });
+  const result = BUILDERS[options.view]({ days, items, colors, options });
+  return result;
 }

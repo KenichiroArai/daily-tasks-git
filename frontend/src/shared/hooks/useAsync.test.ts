@@ -27,8 +27,9 @@ describe('useAsync', () => {
   it('アンマウントすると loader に渡したシグナルを中断する', () => {
     let received: AbortSignal | undefined;
     const loader = (signal: AbortSignal) => {
+      const result = new Promise<number>(() => {});
       received = signal;
-      return new Promise<number>(() => {});
+      return result;
     };
     const { unmount } = renderHook(() => useAsync(loader));
     expect(received?.aborted).toBe(false);

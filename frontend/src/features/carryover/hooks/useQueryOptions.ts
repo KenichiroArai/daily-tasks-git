@@ -10,6 +10,6 @@ import { parseQueryOptions } from '../lib';
  * データの読み込み後にクライアントだけで描画されるコンポーネントから呼び出す。
  */
 export function useQueryOptions() {
-  const [options] = useState(() => (typeof window === 'undefined' ? {} : parseQueryOptions(window.location.search)));
-  return options;
+  const [result] = useState(() => (typeof window === 'undefined' ? {} : parseQueryOptions(window.location.search)));
+  return result;
 }

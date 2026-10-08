@@ -21,5 +21,6 @@ export async function fetchSummary(fetcher: typeof fetch = fetch, signal?: Abort
   if (!parsed.success) {
     throw new Error(`summary.json の形式が想定と異なります: ${parsed.error.issues[0]?.message ?? '不明なエラー'}`);
   }
-  return parsed.data;
+  const result = parsed.data;
+  return result;
 }

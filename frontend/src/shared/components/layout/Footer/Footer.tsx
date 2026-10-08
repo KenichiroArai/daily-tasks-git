@@ -16,9 +16,11 @@ type FooterProps = {
  * ページ下部のリンク一覧
  */
 export function Footer({ prefix, links }: FooterProps) {
+  const prefixText = prefix ? `${prefix} ` : null;
+
   return (
     <footer className={styles.footer}>
-      {prefix ? `${prefix} ` : null}
+      {prefixText}
       {links.map((link, index) => (
         <Fragment key={link.href}>
           {index > 0 ? ' ／ ' : null}

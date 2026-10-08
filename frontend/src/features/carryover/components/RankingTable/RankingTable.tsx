@@ -22,6 +22,14 @@ const COLUMNS = [
  * 項目ごとの集計表（選択した期間）
  */
 export function RankingTable({ rows, colors, metric }: RankingTableProps) {
+  const displayRows = rows.map((row) => ({
+    item: row.item,
+    cells: COLUMNS.map((column) => ({
+      key: column.key,
+      text: formatMetric(roundMetric(row[column.key], metric), metric),
+    })),
+  }));
+
   return (
     <Panel title="項目ごとの集計（選択した期間）">
       <div className={styles.wrap}>
@@ -35,13 +43,13 @@ export function RankingTable({ rows, colors, metric }: RankingTableProps) {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
+            {displayRows.map((row) => (
               <tr key={row.item}>
                 <td>
                   <Swatch color={colors[row.item] ?? 'transparent'} /> {row.item}
                 </td>
-                {COLUMNS.map((column) => (
-                  <td key={column.key}>{formatMetric(roundMetric(row[column.key], metric), metric)}</td>
+                {row.cells.map((cell) => (
+                  <td key={cell.key}>{cell.text}</td>
                 ))}
               </tr>
             ))}

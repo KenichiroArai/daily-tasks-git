@@ -3,7 +3,8 @@
  */
 export function roundTo(value: number, digits: number): number {
   const factor = 10 ** digits;
-  return Math.round(value * factor) / factor;
+  const result = Math.round(value * factor) / factor;
+  return result;
 }
 
 /**
@@ -11,5 +12,6 @@ export function roundTo(value: number, digits: number): number {
  */
 export function formatNumber(value: number, digits: number): string {
   const rounded = Number.isInteger(value) ? value : Number(value.toFixed(digits));
-  return rounded.toLocaleString('ja-JP');
+  const result = rounded.toLocaleString('ja-JP');
+  return result;
 }

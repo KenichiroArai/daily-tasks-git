@@ -8,7 +8,8 @@ import { AGGS, AGG_VIEWS, METRICS, TARGETS, VIEWS, type DashboardOptions } from 
 import styles from './DashboardControls.module.css';
 
 function toOptions<T extends string>(values: readonly T[], labels: Record<T, string>): SelectOption<T>[] {
-  return values.map((value) => ({ value, label: labels[value] }));
+  const result = values.map((value) => ({ value, label: labels[value] }));
+  return result;
 }
 
 const VIEW_OPTIONS = toOptions(VIEWS, VIEW_LABELS);
@@ -36,6 +37,8 @@ export function DashboardControls({
   onPeriodChange,
   onPreset,
 }: DashboardControlsProps) {
+  const aggDisabled = !AGG_VIEWS.has(options.view);
+
   return (
     <Panel className={styles.controls}>
       <Select label="表示" value={options.view} options={VIEW_OPTIONS} onChange={(view) => onOptionsChange({ view })} />
@@ -49,7 +52,7 @@ export function DashboardControls({
         label="集計"
         value={options.agg}
         options={AGG_OPTIONS}
-        disabled={!AGG_VIEWS.has(options.view)}
+        disabled={aggDisabled}
         onChange={(agg) => onOptionsChange({ agg })}
       />
       <Select

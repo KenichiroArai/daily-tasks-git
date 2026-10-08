@@ -3,6 +3,9 @@
 AI コーディングエージェント向けの作業ガイド。
 Cursor / Codex / Claude Code など複数ツールで共通利用する。
 
+本ドキュメントはプロジェクト全体の共通事項と、Java の収集ツールのルールをまとめる。
+`frontend/` 配下（画面）の作業では、[frontend/AGENTS.md](frontend/AGENTS.md) もあわせて守る。
+
 ## プロジェクト概要
 
 - **役割**: GitHub Issue（1 日 1 Issue）で管理している日々のタスクのうち、「持ち越し」（旧「繰り越し」「負債」）を集計し、グラフとして GitHub Pages に公開する
@@ -51,16 +54,10 @@ docs/                        # 収集ツールが出力するデータだけを�
   data/
     issues/NNNN.json         # Issue ごとの解析結果（4 桁ゼロ埋め）
     summary.json             # 画面用の日別集計
-frontend/                    # 画面（Next.js + TypeScript）。詳細は「フロントエンドの構成ルール」
-  docs/                      # フロントエンドの設計書（design.md と design/ 配下の各章）
-  scripts/copy-data.mjs      # docs/data を public/data にコピー（dev / build の前に自動実行）
-  src/
-    app/                     # ルーティング専用
-    features/carryover/      # 持ち越しの画面
-    shared/                  # 機能に依存しない共通部品
-    config/                  # サイトの設定
-    styles/                  # 全体のスタイル
-  out/                       # 静的エクスポートの出力（Pages に公開。Git で管理しない）
+frontend/                    # 画面（Next.js + TypeScript）。詳細は frontend/AGENTS.md
+  AGENTS.md                  # フロントエンドの作業ガイド
+  docs/                      # フロントエンドの設計書
+  src/                       # 画面のソースコード
 .github/
   ISSUE_TEMPLATE/            # 日々のタスク Issue のテンプレート
   workflows/                 # 収集と Pages デプロイのワークフロー
@@ -85,52 +82,9 @@ frontend/                    # 画面（Next.js + TypeScript）。詳細は「�
 - domain 層は infrastructure 層・repository 層に依存しない
 - テストのパッケージは main と同じ構成にする
 
-## フロントエンドの構成ルール
+## フロントエンド
 
-Java 側の「機能パッケージ + 層」に合わせ、`frontend/src/` も機能（feature）単位で構成する。
-
-```text
-frontend/src/
-  app/                       # ルーティング専用（layout.tsx / page.tsx / not-found.tsx）。ロジックを置かない
-  features/
-    carryover/               # 機能ごとのフォルダ
-      index.ts               # 機能の公開窓口。機能の外からはここだけを import する
-      api/                   # データ取得（fetchSummary など）
-      model/                 # 型と zod スキーマ、表示条件の型
-      constants/             # ラベル、色などの定数
-      lib/                   # 純粋関数（集計、グラフ用データの作成など）
-      hooks/                 # 状態管理やデータ読み込みのフック
-      components/            # 機能の画面部品
-      testing/               # テスト用のデータ（fixtures）
-  shared/
-    components/ui/           # Panel、Select、Button、Card、DateRange、Swatch などの汎用部品
-    components/layout/       # Header、Footer、PageContainer
-    lib/                     # assetPath（basePath 付きの URL）、数値の書式化など
-    hooks/                   # 汎用フック（useAsync など）
-    types/                   # 汎用の型（LoadState など）
-  config/site.ts             # サイト名、リポジトリの URL など
-  styles/globals.css         # CSS 変数と要素の共通スタイル
-```
-
-- 依存の向きは `app` → `features` → `shared` の一方向だけにする。`shared/`・`config/` から `features/` を import しない
-- 機能の内部（`@/features/<機能名>/xxx`）を機能の外から import しない。`@/features/<機能名>` の `index.ts` を経由する。同じ機能の中では相対パスを使う
-- 上の 2 つは `eslint.config.mjs` の `no-restricted-imports` でチェックする
-- 機能の外のファイルは `@/`（`src/` を指す）のパスエイリアスで import する
-- コンポーネントは 1 フォルダにまとめる（`Xxx.tsx`、`Xxx.module.css`、`Xxx.test.tsx`、`index.ts`）。スタイルは CSS Modules にし、全体に効くものだけ `styles/globals.css` に置く
-- 計算ロジックは `lib/` の純粋関数にしてコンポーネントから切り離し、Vitest でテストする。コンポーネントは Testing Library でテストする。テストファイルは対象と同じフォルダに `*.test.ts(x)` で置く
-- `summary.json` は `model/` の zod スキーマで実行時に検証し、形式が想定と違う場合は画面にエラーを表示する
-- データ（`docs/data/`）を変更する処理は Java 側だけで行い、フロントエンドは読み取りだけにする
-- 静的エクスポートのため、サーバー機能（API Routes、`cookies()` などの動的機能、画像最適化）は使わない
-- `public/` のファイルを参照するときは `assetPath()` で basePath（Pages では `/daily-tasks-git`）を付ける
-- 新しい画面は `features/<機能名>/` を同じ構成で作り、`app/<ルート>/page.tsx` から呼び出す
-
-### フロントエンドの設計書
-
-- フロントエンド部分の設計書は `frontend/docs/` に Markdown で記載する。入口は `frontend/docs/design.md`、各章は `frontend/docs/design/` に置く
-- 設計書は `frontend/src/` の現状の実装を正として記述する
-- `frontend/` のコード（`src/`、`scripts/`、設定ファイル）を変更する場合は、設計書をすべて見直し、実装と食い違う箇所を更新する
-- 新しい機能や画面を追加した場合は、設計書に章または節を追加し、`design.md` の目次も更新する
-- 設計書の整形は Prettier の対象にする（`npm run format:check` で確認する）
+フロントエンドの構成ルール、設計書の扱い、TypeScript のコーディングルール、ビルド・テストのコマンドは [frontend/AGENTS.md](frontend/AGENTS.md) に記載する。
 
 ## Issue 解析の仕様
 
@@ -171,15 +125,9 @@ mvn test
 # 収集の実行（差分モード / 全件モード）:
 java -jar target/daily-tasks-0.1.0.jar
 java -jar target/daily-tasks-0.1.0.jar --full
-
-# 画面（frontend/ で実行）:
-npm install
-npm run dev        # 開発サーバー（http://localhost:3000/）
-npm run lint       # ESLint（依存の向きのチェックを含む）
-npm run typecheck  # TypeScript の型チェック
-npm test           # Vitest
-npm run build      # 静的エクスポート（frontend/out）
 ```
+
+- 画面のビルド・テストのコマンドは [frontend/AGENTS.md](frontend/AGENTS.md) を参照する
 
 - カバレッジレポート: `target/site/jacoco/index.html`
 - 行 / 分岐カバレッジが 100% 未満だと `mvn test` は失敗する
@@ -198,13 +146,14 @@ npm run build      # 静的エクスポート（frontend/out）
 - `target/` はビルド生成物であり、Git で管理しない
 - `frontend/node_modules/`、`frontend/.next/`、`frontend/out/`、`frontend/public/data/`（`docs/data/` のコピー）も Git で管理しない
 
-## 共通のコーディングルール
+## Java のコーディングルール
 
 ### メソッドの戻り値
 
 - メソッドの戻り値は変数 `result` で定義する
 - メソッドの戻り値の変数は先頭で宣言する
 - return 文は `return result;` に統一する
+- このルールは TypeScript（`frontend/`）にも適用する。React コンポーネントの JSX など対象外とするものは [frontend/AGENTS.md](frontend/AGENTS.md) の「TypeScript のコーディングルール」を参照する
 
 ### 処理コメント
 
@@ -520,9 +469,7 @@ public class SampleClass {
 - [ ] コーディングルール（戻り値 `result`、早期リターン、処理コメント、`record` 禁止）の順守
 - [ ] Javadoc の追加 / 更新
 - [ ] 解析ルールを変更した場合、`declaredCount` との食い違いと補完件数のログを確認
-- [ ] 画面を変更した場合、`frontend/` で `npm run lint` / `npm run typecheck` / `npm test` / `npm run build` が通り、`npm run dev` で表示と切り替えを確認
-- [ ] フロントエンドの構成ルール（機能単位の構成、依存の向き、コンポーネントのフォルダ構成）の順守
-- [ ] フロントエンドのコードを変更した場合、`frontend/docs/` の設計書をすべて見直して更新
+- [ ] 画面を変更した場合、[frontend/AGENTS.md](frontend/AGENTS.md) の「変更時のチェックリスト」を確認
 - [ ] README の更新
 
 ## やってはいけないこと
@@ -534,7 +481,6 @@ public class SampleClass {
 - テストで GitHub API に実通信すること
 - `docs/data/` の JSON を手で編集すること（必ず収集ツールで生成する）
 - `docs/` にソースコード（HTML / JS / CSS など）を置くこと（画面のソースは `frontend/` に置く）
-- `frontend/` で `shared/` から `features/` に依存したり、機能の内部を機能の外から直接 import したりすること
 - `record` を使うこと（ブレークポイントを設定できずデバッグ・トレースの妨げになるため。通常の `class` とゲッターで実装する）
 - 深いネストのままガード節を使わずに実装すること
 - テストメソッドに複数ケースを詰め込むこと
@@ -542,6 +488,7 @@ public class SampleClass {
 ## 参考リンク
 
 - README: `./README.md`
+- フロントエンドの作業ガイド: `./frontend/AGENTS.md`
 - フロントエンドの設計書: `./frontend/docs/design.md`
 - GitHub REST API（Issues）: `https://docs.github.com/rest/issues/issues`
 

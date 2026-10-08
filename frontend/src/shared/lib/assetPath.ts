@@ -7,5 +7,6 @@
 export function assetPath(path: string, basePath: string = process.env.NEXT_PUBLIC_BASE_PATH ?? ''): string {
   const normalizedBase = basePath.replace(/\/+$/, '');
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-  return `${normalizedBase}${normalizedPath}`;
+  const result = `${normalizedBase}${normalizedPath}`;
+  return result;
 }

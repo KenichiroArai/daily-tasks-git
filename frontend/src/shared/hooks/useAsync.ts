@@ -12,7 +12,7 @@ import type { LoadState } from '../types';
  * loader は参照が変わるたびに再実行されるため、呼び出し側で安定した参照を渡す。
  */
 export function useAsync<T>(loader: (signal: AbortSignal) => Promise<T>): LoadState<T> {
-  const [state, setState] = useState<LoadState<T>>({ status: 'loading' });
+  const [result, setResult] = useState<LoadState<T>>({ status: 'loading' });
 
   useEffect(() => {
     const controller = new AbortController();
@@ -20,12 +20,12 @@ export function useAsync<T>(loader: (signal: AbortSignal) => Promise<T>): LoadSt
     loader(signal).then(
       (data) => {
         if (!signal.aborted) {
-          setState({ status: 'success', data });
+          setResult({ status: 'success', data });
         }
       },
       (error: unknown) => {
         if (!signal.aborted) {
-          setState({ status: 'error', error: error instanceof Error ? error : new Error(String(error)) });
+          setResult({ status: 'error', error: error instanceof Error ? error : new Error(String(error)) });
         }
       },
     );
@@ -34,5 +34,5 @@ export function useAsync<T>(loader: (signal: AbortSignal) => Promise<T>): LoadSt
     };
   }, [loader]);
 
-  return state;
+  return result;
 }

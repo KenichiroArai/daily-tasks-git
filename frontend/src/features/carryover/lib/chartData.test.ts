@@ -7,7 +7,8 @@ const summary = sampleSummary();
 const colors = assignColors(summary.items);
 
 function build(options: Partial<DashboardOptions>, items: readonly string[] = summary.items) {
-  return buildChartSpec(summary.days, items, colors, { ...DEFAULT_OPTIONS, ...options });
+  const result = buildChartSpec(summary.days, items, colors, { ...DEFAULT_OPTIONS, ...options });
+  return result;
 }
 
 describe('buildChartSpec', () => {

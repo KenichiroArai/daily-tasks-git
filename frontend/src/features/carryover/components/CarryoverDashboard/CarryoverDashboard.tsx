@@ -53,6 +53,8 @@ export function DashboardView({ summary }: DashboardViewProps) {
 
   const firstDay = summary.days[0];
   const lastDay = summary.days[summary.days.length - 1];
+  const chartTitle = buildChartTitle(options);
+  const chartNote = buildChartNote(options);
 
   return (
     <>
@@ -78,12 +80,7 @@ export function DashboardView({ summary }: DashboardViewProps) {
         onSelectAll={selectAll}
         onSelectNone={selectNone}
       />
-      <CarryoverChart
-        title={buildChartTitle(options)}
-        note={buildChartNote(options)}
-        spec={spec}
-        metric={options.metric}
-      />
+      <CarryoverChart title={chartTitle} note={chartNote} spec={spec} metric={options.metric} />
       <RankingTable rows={ranking} colors={colors} metric={options.metric} />
     </>
   );

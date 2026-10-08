@@ -19,10 +19,10 @@ export function buildRanking(
   metric: Metric,
   target: Target,
 ): RankingRow[] {
-  return items
+  const result = items
     .map((item) => {
       const values = days.map((day) => dayItemValue(day, item, metric, target));
-      return {
+      const result: RankingRow = {
         item,
         latest: values[values.length - 1] ?? 0,
         avg: aggregate(values, 'avg'),
@@ -30,6 +30,8 @@ export function buildRanking(
         min: aggregate(values, 'min'),
         sum: aggregate(values, 'sum'),
       };
+      return result;
     })
     .sort((a, b) => b.latest - a.latest || b.avg - a.avg);
+  return result;
 }

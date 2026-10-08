@@ -8,6 +8,7 @@ Java 側の「機能パッケージ + 層」に合わせ、`frontend/src/` も�
 
 ```text
 frontend/
+  AGENTS.md                  # AI コーディングエージェント向けの作業ガイド（フロントエンド）
   docs/                      # 設計書（本書）
   scripts/copy-data.mjs      # docs/data を public/data にコピー（dev / build の前に自動実行）
   public/data/               # docs/data のコピー（Git で管理しない）
@@ -99,14 +100,14 @@ Xxx/
 
 [next.config.ts](../../next.config.ts) で次のように設定しています。
 
-| 設定                        | 値                                     | 理由                                                            |
-| --------------------------- | -------------------------------------- | --------------------------------------------------------------- |
-| `output`                    | `'export'`                             | GitHub Pages で配信できる静的ファイル（`out/`）を出力する       |
-| `basePath`                  | 環境変数 `PAGES_BASE_PATH`（既定は空） | プロジェクトサイトは `/<リポジトリ名>` 配下で配信される         |
-| `trailingSlash`             | `true`                                 | `xxx/index.html` の形で出力し、Pages でそのまま開けるようにする |
-| `images.unoptimized`        | `true`                                 | 静的エクスポートでは画像最適化を使えない                        |
-| `env.NEXT_PUBLIC_BASE_PATH` | `basePath` と同じ値                    | クライアント側の `assetPath()` で basePath を参照する           |
-| `agentRules`                | `false`                                | エージェント向けのルールはリポジトリ直下の AGENTS.md にまとめる |
+| 設定                        | 値                                     | 理由                                                                           |
+| --------------------------- | -------------------------------------- | ------------------------------------------------------------------------------ |
+| `output`                    | `'export'`                             | GitHub Pages で配信できる静的ファイル（`out/`）を出力する                      |
+| `basePath`                  | 環境変数 `PAGES_BASE_PATH`（既定は空） | プロジェクトサイトは `/<リポジトリ名>` 配下で配信される                        |
+| `trailingSlash`             | `true`                                 | `xxx/index.html` の形で出力し、Pages でそのまま開けるようにする                |
+| `images.unoptimized`        | `true`                                 | 静的エクスポートでは画像最適化を使えない                                       |
+| `env.NEXT_PUBLIC_BASE_PATH` | `basePath` と同じ値                    | クライアント側の `assetPath()` で basePath を参照する                          |
+| `agentRules`                | `false`                                | エージェント向けのルールは AGENTS.md（リポジトリ直下と `frontend/`）にまとめる |
 
 静的エクスポートのため、次の機能は使いません。
 

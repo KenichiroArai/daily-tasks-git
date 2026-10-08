@@ -4,9 +4,9 @@ import userEvent from '@testing-library/user-event';
 import { ItemSelector } from './ItemSelector';
 
 function setup() {
-  const handlers = { onToggle: vi.fn(), onSelectAll: vi.fn(), onSelectNone: vi.fn() };
-  render(<ItemSelector items={['英語', '数学']} colors={{}} selected={new Set(['英語'])} {...handlers} />);
-  return handlers;
+  const result = { onToggle: vi.fn(), onSelectAll: vi.fn(), onSelectNone: vi.fn() };
+  render(<ItemSelector items={['英語', '数学']} colors={{}} selected={new Set(['英語'])} {...result} />);
+  return result;
 }
 
 describe('ItemSelector', () => {

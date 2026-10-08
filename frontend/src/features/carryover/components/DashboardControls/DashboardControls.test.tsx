@@ -5,9 +5,9 @@ import { DEFAULT_OPTIONS } from '../../model';
 import { DashboardControls } from './DashboardControls';
 
 function setup(view: (typeof DEFAULT_OPTIONS)['view'] = 'daily') {
-  const handlers = { onOptionsChange: vi.fn(), onPeriodChange: vi.fn(), onPreset: vi.fn() };
-  render(<DashboardControls options={{ ...DEFAULT_OPTIONS, view }} {...handlers} />);
-  return handlers;
+  const result = { onOptionsChange: vi.fn(), onPeriodChange: vi.fn(), onPreset: vi.fn() };
+  render(<DashboardControls options={{ ...DEFAULT_OPTIONS, view }} {...result} />);
+  return result;
 }
 
 describe('DashboardControls', () => {

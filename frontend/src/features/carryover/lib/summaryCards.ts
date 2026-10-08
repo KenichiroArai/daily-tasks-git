@@ -17,9 +17,10 @@ export function buildSummaryCards(
   metric: Metric,
   target: Target,
 ): SummaryCardData[] {
+  let result: SummaryCardData[] = [{ label: 'データなし', value: '-', sub: '期間や項目の選択を見直してください' }];
   const last = days[days.length - 1];
   if (!last) {
-    return [{ label: 'データなし', value: '-', sub: '期間や項目の選択を見直してください' }];
+    return result;
   }
   const prev = days.length > 1 ? days[days.length - 2] : undefined;
   const lastCount = dayTotal(last, items, 'count', target);
@@ -33,7 +34,7 @@ export function buildSummaryCards(
   const sign = diff > 0 ? '+' : '';
   const metricLabel = METRIC_LABELS[metric];
 
-  return [
+  result = [
     {
       label: '最新の残（件数）',
       value: `${formatMetric(lastCount, 'count')} 件`,
@@ -52,4 +53,5 @@ export function buildSummaryCards(
     { label: `最大（${metricLabel}）`, value: formatMetricWithUnit(maxValue, metric), sub: maxDay.date },
     { label: `最小（${metricLabel}）`, value: formatMetricWithUnit(minValue, metric), sub: minDay.date },
   ];
+  return result;
 }

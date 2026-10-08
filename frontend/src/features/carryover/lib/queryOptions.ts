@@ -4,7 +4,8 @@ type QueryOptions = Partial<Pick<DashboardOptions, 'view' | 'metric' | 'agg' | '
 
 function pick<T extends string>(params: URLSearchParams, key: string, allowed: readonly T[]): T | undefined {
   const value = params.get(key);
-  return allowed.find((candidate) => candidate === value);
+  const result = allowed.find((candidate) => candidate === value);
+  return result;
 }
 
 /**

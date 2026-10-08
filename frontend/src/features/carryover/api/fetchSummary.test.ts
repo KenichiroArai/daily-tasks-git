@@ -2,11 +2,12 @@ import { sampleSummary } from '../testing/fixtures';
 import { fetchSummary } from './fetchSummary';
 
 function mockFetch(body: unknown, init: { ok?: boolean; status?: number } = {}): typeof fetch {
-  return vi.fn(async () => ({
+  const result = vi.fn(async () => ({
     ok: init.ok ?? true,
     status: init.status ?? 200,
     json: async () => body,
   })) as unknown as typeof fetch;
+  return result;
 }
 
 describe('fetchSummary', () => {

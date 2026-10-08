@@ -32,15 +32,17 @@ type CarryoverChartProps = {
 };
 
 function toEntries(spec: ChartSpec, props: TooltipContentProps): ChartTooltipEntry[] {
-  return (props.payload ?? []).map((item) => {
+  const result = (props.payload ?? []).map((item) => {
     const row = item.payload as ChartRow | undefined;
     const series = spec.series.find((s) => s.key === item.dataKey);
-    return {
+    const result: ChartTooltipEntry = {
       name: spec.horizontal ? String(row?.label ?? '') : (series?.label ?? String(item.name ?? '')),
       value: Number(item.value ?? 0),
       color: row?.color ?? series?.color ?? '#000',
     };
+    return result;
   });
+  return result;
 }
 
 /**
@@ -131,8 +133,10 @@ export function CarryoverChart({ title, note, spec, metric }: CarryoverChartProp
     );
   }
 
+  const panelNote = note || undefined;
+
   return (
-    <Panel title={title} note={note || undefined}>
+    <Panel title={title} note={panelNote}>
       <div className={styles.wrap}>
         <ResponsiveContainer width="100%" height="100%">
           {chart}

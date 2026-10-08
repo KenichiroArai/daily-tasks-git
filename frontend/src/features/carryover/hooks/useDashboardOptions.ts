@@ -22,7 +22,7 @@ export function useDashboardOptions(summary: Summary, initialOptions: Partial<Da
   const selectAll = useCallback(() => dispatch({ type: 'selectAll', items: summary.items }), [summary.items]);
   const selectNone = useCallback(() => dispatch({ type: 'selectNone' }), []);
 
-  return useMemo(
+  const result = useMemo(
     () => ({
       options: state.options,
       selected: state.selected,
@@ -35,4 +35,5 @@ export function useDashboardOptions(summary: Summary, initialOptions: Partial<Da
     }),
     [state, setOptions, setPeriod, applyPreset, toggleItem, selectAll, selectNone],
   );
+  return result;
 }

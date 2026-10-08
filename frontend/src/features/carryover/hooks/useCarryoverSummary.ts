@@ -12,5 +12,6 @@ const loadSummary = (signal: AbortSignal) => fetchSummary(fetch, signal);
  * summary.json を読み込み、読み込みの状態を返す。
  */
 export function useCarryoverSummary(): LoadState<Summary> {
-  return useAsync(loadSummary);
+  const result = useAsync(loadSummary);
+  return result;
 }

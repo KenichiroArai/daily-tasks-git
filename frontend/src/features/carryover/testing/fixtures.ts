@@ -4,7 +4,8 @@ import type { Day, Stat, Summary } from '../model';
  * テスト用の集計値を作る。
  */
 export function stat(count: number, minutes: number, checkedCount = 0, checkedMinutes = 0): Stat {
-  return { count, minutes, checkedCount, checkedMinutes };
+  const result: Stat = { count, minutes, checkedCount, checkedMinutes };
+  return result;
 }
 
 /**
@@ -26,14 +27,15 @@ export function day(
       ),
     stat(0, 0),
   );
-  return { date, issue, declaredCount: null, total, byItem, byOriginMonth };
+  const result: Day = { date, issue, declaredCount: null, total, byItem, byOriginMonth };
+  return result;
 }
 
 /**
  * テスト用の summary.json（3 日分、2 項目）
  */
 export function sampleSummary(): Summary {
-  return {
+  const result: Summary = {
     latestIssue: 3,
     items: ['英語', '数学'],
     days: [
@@ -47,4 +49,5 @@ export function sampleSummary(): Summary {
       ),
     ],
   };
+  return result;
 }

@@ -6,7 +6,8 @@ import { AGG_VIEWS, type DashboardOptions } from '../model';
  */
 export function buildChartTitle(options: DashboardOptions): string {
   const aggText = AGG_VIEWS.has(options.view) ? `・${AGG_LABELS[options.agg]}` : '';
-  return `${VIEW_LABELS[options.view]}：${METRIC_LABELS[options.metric]}${aggText}（${TARGET_LABELS[options.target]}）`;
+  const result = `${VIEW_LABELS[options.view]}：${METRIC_LABELS[options.metric]}${aggText}（${TARGET_LABELS[options.target]}）`;
+  return result;
 }
 
 /**
@@ -20,5 +21,6 @@ export function buildChartNote(options: DashboardOptions): string {
   if (AGG_VIEWS.has(options.view) && options.view !== 'originMonth') {
     notes.push('集計は日ごとの残をもとに計算します（例: 平均は期間内の 1 日あたりの残）。');
   }
-  return notes.join(' ');
+  const result = notes.join(' ');
+  return result;
 }

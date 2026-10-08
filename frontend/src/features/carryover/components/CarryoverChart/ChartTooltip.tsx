@@ -28,22 +28,24 @@ export function ChartTooltip({ active, label, entries, metric, stacked }: ChartT
   if (!active || entries.length === 0) {
     return null;
   }
-  const sorted = [...entries].sort((a, b) => b.value - a.value);
+  const sorted = [...entries]
+    .sort((a, b) => b.value - a.value)
+    .map((entry) => ({ ...entry, text: formatMetric(entry.value, metric) }));
   const showTotal = stacked && entries.length >= 2;
   const total = entries.reduce((acc, entry) => acc + entry.value, 0);
+  const totalText = formatMetricWithUnit(roundMetric(total, metric), metric);
+
   return (
     <div className={styles.tooltip}>
       <div className={styles.tooltipLabel}>{label}</div>
       <ul className={styles.tooltipList}>
         {sorted.map((entry) => (
           <li key={entry.name}>
-            <Swatch color={entry.color} /> {entry.name}: {formatMetric(entry.value, metric)}
+            <Swatch color={entry.color} /> {entry.name}: {entry.text}
           </li>
         ))}
       </ul>
-      {showTotal ? (
-        <div className={styles.tooltipTotal}>合計: {formatMetricWithUnit(roundMetric(total, metric), metric)}</div>
-      ) : null}
+      {showTotal ? <div className={styles.tooltipTotal}>合計: {totalText}</div> : null}
     </div>
   );
 }

@@ -43,6 +43,15 @@
 
 ESLint と Prettier は `.next/`・`out/`・`public/data/`・`coverage/` を対象外にしています。
 
+## コーディングルール
+
+詳細は [frontend/AGENTS.md](../../AGENTS.md) の「TypeScript のコーディングルール」に従います。要点は次のとおりです。
+
+- `function` 宣言と、本体が `{ }` のアロー関数は、戻り値を変数 `result` に入れ、関数の先頭で宣言し、`return result;` で返します。ガード節では `result` の初期値を返します
+- `switch` で値を決める関数（`aggregate`、`dashboardReducer` など）は、分岐ごとに `result` に代入して `break` し、最後に返します
+- 式だけを返す短いアロー関数（`.map(...)` のコールバック、イベントハンドラー、`useMemo` / `useCallback` の中身）と、コンポーネントが JSX を返す `return` は対象外です
+- コンポーネントの `return` には描画だけを書き、値の計算や書式化（`buildChartTitle`、`formatMetric` など）は `return` の前で変数にします
+
 ## npm スクリプト
 
 `frontend/` で実行します。
