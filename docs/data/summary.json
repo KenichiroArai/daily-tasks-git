@@ -14879,9 +14879,9 @@
       "declaredCount": 69,
       "total": {
         "count": 69,
-        "minutes": 1408.0,
-        "checkedCount": 2,
-        "checkedMinutes": 16.5
+        "minutes": 1392.0,
+        "checkedCount": 4,
+        "checkedMinutes": 25.5
       },
       "byItem": {
         "3教科以外": {
@@ -14898,9 +14898,9 @@
         },
         "国語": {
           "count": 7,
-          "minutes": 97.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "minutes": 94.0,
+          "checkedCount": 1,
+          "checkedMinutes": 7.0
         },
         "本読書": {
           "count": 2,
@@ -14928,23 +14928,23 @@
         },
         "音楽": {
           "count": 31,
-          "minutes": 452.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "minutes": 439.0,
+          "checkedCount": 1,
+          "checkedMinutes": 2.0
         }
       },
       "byOriginMonth": {
         "2026-06": {
           "count": 2,
-          "minutes": 22.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "minutes": 19.0,
+          "checkedCount": 1,
+          "checkedMinutes": 7.0
         },
         "2026-08": {
           "count": 17,
-          "minutes": 245.0,
-          "checkedCount": 1,
-          "checkedMinutes": 15.0
+          "minutes": 232.0,
+          "checkedCount": 2,
+          "checkedMinutes": 17.0
         },
         "2026-09": {
           "count": 45,

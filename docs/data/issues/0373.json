@@ -3,31 +3,31 @@
   "title": "2026年10月08日のタスク",
   "date": "2026-10-08",
   "state": "open",
-  "updatedAt": "2026-10-08T12:24:29Z",
+  "updatedAt": "2026-10-08T12:26:01Z",
   "sections": [
     "持ち越し"
   ],
   "declaredCount": 69,
   "count": 69,
-  "minutes": 1408.0,
+  "minutes": 1392.0,
   "items": [
     {
       "name": "国語",
       "originDate": "2026-06-19",
-      "checked": false,
+      "checked": true,
       "minutes": 7.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 国語2026/06/19（残り時間：7分）"
+      "raw": "- [x] 国語2026/06/19（残り時間：7分）"
     },
     {
       "name": "国語",
       "originDate": "2026-06-24",
       "checked": false,
-      "minutes": 15.0,
+      "minutes": 12.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 国語2026/06/24（残り時間：15分）"
+      "raw": "- [ ] 国語2026/06/24（残り時間：12分）"
     },
     {
       "name": "国語",
@@ -59,20 +59,20 @@
     {
       "name": "音楽",
       "originDate": "2026-08-20",
-      "checked": false,
+      "checked": true,
       "minutes": 2.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 音楽2026/08/20（残り時間：2分）"
+      "raw": "- [x] 音楽2026/08/20（残り時間：2分）"
     },
     {
       "name": "音楽",
       "originDate": "2026-08-21",
       "checked": false,
-      "minutes": 15.0,
+      "minutes": 2.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 音楽2026/08/21（残り時間：15分）"
+      "raw": "- [ ] 音楽2026/08/21（残り時間：2分）"
     },
     {
       "name": "音楽",
