@@ -20,18 +20,6 @@ import io.github.kenichiroarai.dailytasks.carryover.presentation.command.impl.Ca
 public final class DailyTasksApplication {
 
     /**
-     * コンストラクタ<br>
-     * <p>
-     * インスタンス化しない。
-     * </p>
-     */
-    private DailyTasksApplication() {
-
-        // 処理なし
-
-    }
-
-    /**
      * エントリポイント<br>
      *
      * @param args
@@ -45,6 +33,18 @@ public final class DailyTasksApplication {
         /* コマンドの実行 */
         final CarryoverCommand command = new CarryoverCommandImpl(System.out);
         command.execute(args);
+
+    }
+
+    /**
+     * コンストラクタ<br>
+     * <p>
+     * インスタンス化しない。
+     * </p>
+     */
+    private DailyTasksApplication() {
+
+        // 処理なし
 
     }
 
