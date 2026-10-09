@@ -75,7 +75,7 @@ GitHub Actions の [update-carryover.yml](../../../.github/workflows/update-carr
 
 ```mermaid
 flowchart TB
-  trigger["スケジュール / 手動 / Issue イベント / main への push"] --> javaBuild["Java のビルドとテスト"]
+  trigger["スケジュール / 手動 / main への push"] --> javaBuild["Java のビルドとテスト"]
   javaBuild --> collect["Issue の収集と集計"]
   collect --> commit["docs/data の差分をコミット"]
   commit --> configurePages["actions/configure-pages（basePath を取得）"]

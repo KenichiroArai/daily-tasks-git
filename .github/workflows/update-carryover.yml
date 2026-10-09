@@ -10,8 +10,6 @@ on:
         description: "全件モード（#1 から最新まで解析し直す）"
         type: boolean
         default: false
-  issues:
-    types: [opened, edited, closed, reopened]
   # main へのコミット・プッシュのたびに実行する（Actions の GITHUB_TOKEN による push では再実行されない）
   push:
     branches: [main]

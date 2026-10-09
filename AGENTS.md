@@ -109,7 +109,7 @@ frontend/                    # 画面（Next.js + TypeScript）。詳細は fron
 - 全件モード（`--full`）: #1 から最新まで解析し直す。解析ルールや標準時間を変えた場合はこちらを使う
 - 集計（`summary.json`）は、対象セクションが最初に現れた Issue（#175）以降を毎回すべて作り直す
 - 出力した `docs/data/` 配下の JSON は Git で管理する
-- GitHub Actions（`.github/workflows/update-carryover.yml`）は毎日のスケジュール、手動実行（`full` 入力あり）、Issue イベント（opened / edited / closed / reopened）、`main` への push で動き、差分を commit したあと `frontend/` をビルド（lint・型チェック・テストを含む）し、`frontend/out` を Pages にデプロイする。basePath は `actions/configure-pages` の出力を環境変数 `PAGES_BASE_PATH` で渡す
+- GitHub Actions（`.github/workflows/update-carryover.yml`）は毎日のスケジュール、手動実行（`full` 入力あり）、`main` への push で動き（Issue の編集ごとにコミットされないよう、Issue イベントでは動かさない）、差分を commit したあと `frontend/` をビルド（lint・型チェック・テストを含む）し、`frontend/out` を Pages にデプロイする。basePath は `actions/configure-pages` の出力を環境変数 `PAGES_BASE_PATH` で渡す
 - GitHub Pages の Source は「GitHub Actions」にする
 - GitHub API のトークンは環境変数 `GITHUB_TOKEN` から取得する
 
