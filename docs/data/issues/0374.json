@@ -3,13 +3,13 @@
   "title": "2026年10月09日のタスク",
   "date": "2026-10-09",
   "state": "open",
-  "updatedAt": "2026-10-09T13:02:30Z",
+  "updatedAt": "2026-10-09T13:14:07Z",
   "sections": [
     "持ち越し"
   ],
   "declaredCount": 62,
   "count": 62,
-  "minutes": 1288.5,
+  "minutes": 1281.5,
   "items": [
     {
       "name": "国語",
@@ -32,29 +32,29 @@
     {
       "name": "音楽",
       "originDate": "2026-08-21",
-      "checked": false,
+      "checked": true,
       "minutes": 2.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 音楽2026/08/21（残り時間：2分）"
+      "raw": "- [x] 音楽2026/08/21（残り時間：2分）"
     },
     {
       "name": "音楽",
       "originDate": "2026-08-22",
-      "checked": false,
+      "checked": true,
       "minutes": 15.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 音楽2026/08/22（残り時間：15分）"
+      "raw": "- [x] 音楽2026/08/22（残り時間：15分）"
     },
     {
       "name": "音楽",
       "originDate": "2026-08-23",
       "checked": false,
-      "minutes": 15.0,
+      "minutes": 8.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 音楽2026/08/23（残り時間：15分）"
+      "raw": "- [ ] 音楽2026/08/23（残り時間：8分）"
     },
     {
       "name": "本読書",
