@@ -1,5 +1,5 @@
 {
-  "latestIssue": 373,
+  "latestIssue": 374,
   "items": [
     "英語",
     "国語",
@@ -14955,6 +14955,87 @@
         "2026-10": {
           "count": 5,
           "minutes": 116.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      }
+    },
+    {
+      "date": "2026-10-09",
+      "issue": 374,
+      "declaredCount": 62,
+      "total": {
+        "count": 62,
+        "minutes": 1293.5,
+        "checkedCount": 0,
+        "checkedMinutes": 0.0
+      },
+      "byItem": {
+        "3教科以外": {
+          "count": 1,
+          "minutes": 15.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "IT・技術学習": {
+          "count": 6,
+          "minutes": 135.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "国語": {
+          "count": 5,
+          "minutes": 72.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "本読書": {
+          "count": 3,
+          "minutes": 43.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "汎用タスク": {
+          "count": 14,
+          "minutes": 553.5,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "漢字検定": {
+          "count": 1,
+          "minutes": 15.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "英語": {
+          "count": 2,
+          "minutes": 23.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "音楽": {
+          "count": 30,
+          "minutes": 437.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-08": {
+          "count": 15,
+          "minutes": 212.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "2026-09": {
+          "count": 41,
+          "minutes": 950.5,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "2026-10": {
+          "count": 6,
+          "minutes": 131.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         }
