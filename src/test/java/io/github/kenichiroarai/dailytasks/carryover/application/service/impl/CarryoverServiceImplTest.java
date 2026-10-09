@@ -17,8 +17,8 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailyTaskIssue;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.DefaultMinutes;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
 import io.github.kenichiroarai.dailytasks.carryover.domain.parser.CarryoverParser;
-import io.github.kenichiroarai.dailytasks.carryover.infrastructure.github.GitHubIssueClient;
 import io.github.kenichiroarai.dailytasks.carryover.repository.CarryoverDataRepository;
+import io.github.kenichiroarai.dailytasks.carryover.repository.github.GitHubIssueRepository;
 import io.github.kenichiroarai.dailytasks.testutil.LogAssertions;
 import io.github.kenichiroarai.dailytasks.testutil.LogCapture;
 import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
@@ -62,7 +62,7 @@ public class CarryoverServiceImplTest {
     Path tempDir;
 
     /**
-     * テスト用の GitHub API クライアント<br>
+     * テスト用の GitHub API からの Issue の取得<br>
      * <p>
      * 通信せずに登録した Issue を返す。
      * </p>
@@ -73,7 +73,7 @@ public class CarryoverServiceImplTest {
      *
      * @version 0.1.0
      */
-    private static final class StubGitHubIssueClient extends GitHubIssueClient {
+    private static final class StubGitHubIssueRepository extends GitHubIssueRepository {
 
         /**
          * 返す Issue
@@ -86,7 +86,7 @@ public class CarryoverServiceImplTest {
          * @param issues
          *               返す Issue
          */
-        private StubGitHubIssueClient(final List<DailyTaskIssue> issues) {
+        private StubGitHubIssueRepository(final List<DailyTaskIssue> issues) {
 
             super(null, "https://api.example.com", "owner/repo", null);
             this.issues = issues;
@@ -137,7 +137,7 @@ public class CarryoverServiceImplTest {
     private static CarryoverServiceImpl createTarget(final CarryoverDataRepository repository,
         final List<DailyTaskIssue> issues) {
 
-        final CarryoverServiceImpl result = new CarryoverServiceImpl(new StubGitHubIssueClient(issues), repository,
+        final CarryoverServiceImpl result = new CarryoverServiceImpl(new StubGitHubIssueRepository(issues), repository,
             CarryoverServiceImplTest.PARSER, new CarryoverAggregator());
         return result;
 

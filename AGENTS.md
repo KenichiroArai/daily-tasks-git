@@ -41,9 +41,9 @@ src/main/java/io/github/kenichiroarai/dailytasks/
       model/                 # Issue、持ち越し項目、日別集計などのモデル
       parser/                # Issue 本文の解析ルール
       aggregator/            # 日別の集計
-    infrastructure/          # 基盤となる処理層
-      github/                # GitHub REST API クライアント
-    repository/              # JSON ファイルの読み書き（Dao）
+    infrastructure/          # 全機能に跨る基盤処理層（現在は package-info.java のみ）
+    repository/              # データアクセス層（Dao）。JSON ファイルの読み書き
+      github/                # GitHub REST API からの Issue 取得
 src/main/resources/
   logback.xml
 src/test/java/io/github/kenichiroarai/dailytasks/  # main と同じ構成
@@ -73,12 +73,13 @@ frontend/                    # 画面（Next.js + TypeScript）。詳細は fron
 | `presentation/` | CLI などの入出力層（command など） |
 | `application/` | ユースケースや業務ロジック層（service など） |
 | `domain/` | 共通ロジック、ドメインモデル層（model / parser など） |
-| `infrastructure/` | 基盤となる処理層（GitHub API クライアントなど） |
-| `repository/` | JSON ファイルなどのデータアクセス層 |
+| `infrastructure/` | 全機能に跨る基盤処理層（ログ・共通設定など、特定のデータ取得元に依存しないもの） |
+| `repository/` | JSON ファイル・GitHub API などのデータアクセス層（Dao） |
 
 - 新しい機能は `carryover/` と同じ構成で追加する
 - 中身のないパッケージには、Git で消えないように Javadoc 付きの `package-info.java` を置く
 - サービスはインタフェース（`application/service/`）と実装（`application/service/impl/`）に分ける
+- 外部のデータ取得元（GitHub API など）へのアクセスは、ファイルと同じくデータアクセスとして `repository/` に置く（例: `repository/github/GitHubIssueRepository`）
 - domain 層は infrastructure 層・repository 層に依存しない
 - テストのパッケージは main と同じ構成にする
 

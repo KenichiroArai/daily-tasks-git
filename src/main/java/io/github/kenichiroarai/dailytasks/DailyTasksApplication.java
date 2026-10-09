@@ -9,10 +9,10 @@ import io.github.kenichiroarai.dailytasks.carryover.application.service.impl.Car
 import io.github.kenichiroarai.dailytasks.carryover.domain.aggregator.CarryoverAggregator;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.DefaultMinutes;
 import io.github.kenichiroarai.dailytasks.carryover.domain.parser.CarryoverParser;
-import io.github.kenichiroarai.dailytasks.carryover.infrastructure.github.GitHubIssueClient;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.command.CarryoverCommand;
 import io.github.kenichiroarai.dailytasks.carryover.repository.CarryoverDataRepository;
 import io.github.kenichiroarai.dailytasks.carryover.repository.DefaultMinutesRepository;
+import io.github.kenichiroarai.dailytasks.carryover.repository.github.GitHubIssueRepository;
 
 /**
  * 起動クラス<br>
@@ -78,9 +78,9 @@ public final class DailyTasksApplication {
 
         try (HttpClient httpClient = HttpClient.newHttpClient()) {
 
-            final GitHubIssueClient gitHubIssueClient = new GitHubIssueClient(httpClient,
+            final GitHubIssueRepository gitHubIssueRepository = new GitHubIssueRepository(httpClient,
                 DailyTasksApplication.API_BASE_URL, DailyTasksApplication.REPOSITORY, System.getenv("GITHUB_TOKEN"));
-            final CarryoverService carryoverService = new CarryoverServiceImpl(gitHubIssueClient,
+            final CarryoverService carryoverService = new CarryoverServiceImpl(gitHubIssueRepository,
                 new CarryoverDataRepository(DailyTasksApplication.DATA_DIR), new CarryoverParser(defaultMinutes),
                 new CarryoverAggregator());
 

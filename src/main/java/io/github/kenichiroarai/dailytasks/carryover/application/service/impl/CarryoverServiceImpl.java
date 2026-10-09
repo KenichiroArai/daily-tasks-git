@@ -16,8 +16,8 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSummar
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailyTaskIssue;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
 import io.github.kenichiroarai.dailytasks.carryover.domain.parser.CarryoverParser;
-import io.github.kenichiroarai.dailytasks.carryover.infrastructure.github.GitHubIssueClient;
 import io.github.kenichiroarai.dailytasks.carryover.repository.CarryoverDataRepository;
+import io.github.kenichiroarai.dailytasks.carryover.repository.github.GitHubIssueRepository;
 
 /**
  * 持ち越しの収集・集計サービスの実装<br>
@@ -41,9 +41,9 @@ public class CarryoverServiceImpl implements CarryoverService {
     private static final int RECENT_COUNT = 10;
 
     /**
-     * GitHub API クライアント
+     * GitHub API からの Issue の取得
      */
-    private final GitHubIssueClient gitHubIssueClient;
+    private final GitHubIssueRepository gitHubIssueRepository;
 
     /**
      * JSON ファイルの読み書き
@@ -63,8 +63,8 @@ public class CarryoverServiceImpl implements CarryoverService {
     /**
      * コンストラクタ<br>
      *
-     * @param gitHubIssueClient
-     *                                GitHub API クライアント
+     * @param gitHubIssueRepository
+     *                                GitHub API からの Issue の取得
      * @param carryoverDataRepository
      *                                JSON ファイルの読み書き
      * @param carryoverParser
@@ -72,11 +72,11 @@ public class CarryoverServiceImpl implements CarryoverService {
      * @param carryoverAggregator
      *                                日別の集計
      */
-    public CarryoverServiceImpl(final GitHubIssueClient gitHubIssueClient,
+    public CarryoverServiceImpl(final GitHubIssueRepository gitHubIssueRepository,
         final CarryoverDataRepository carryoverDataRepository, final CarryoverParser carryoverParser,
         final CarryoverAggregator carryoverAggregator) {
 
-        this.gitHubIssueClient = gitHubIssueClient;
+        this.gitHubIssueRepository = gitHubIssueRepository;
         this.carryoverDataRepository = carryoverDataRepository;
         this.carryoverParser = carryoverParser;
         this.carryoverAggregator = carryoverAggregator;
@@ -107,7 +107,7 @@ public class CarryoverServiceImpl implements CarryoverService {
         final Map<Integer, CarryoverIssue> all = new TreeMap<>(stored);
 
         /* Issue の取得と解析 */
-        final List<DailyTaskIssue> remoteIssues = this.gitHubIssueClient.fetchAllIssues();
+        final List<DailyTaskIssue> remoteIssues = this.gitHubIssueRepository.fetchAllIssues();
         final int recentFrom = CarryoverServiceImpl.recentFrom(remoteIssues, CarryoverServiceImpl.RECENT_COUNT);
 
         for (final DailyTaskIssue remoteIssue : remoteIssues) {

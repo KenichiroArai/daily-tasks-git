@@ -1,4 +1,4 @@
-package io.github.kenichiroarai.dailytasks.carryover.infrastructure.github;
+package io.github.kenichiroarai.dailytasks.carryover.repository.github;
 
 import java.io.IOException;
 import java.net.URI;
@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailyTaskIssue;
 
 /**
- * GitHub REST API で Issue を取得するクライアント<br>
+ * GitHub REST API で Issue を取得するリポジトリ<br>
  * <p>
  * トークンはログに出力しない。
  * </p>
@@ -31,12 +31,12 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailyTaskIssue;
  * @version 0.1.0
  */
 @SuppressWarnings("nls")
-public class GitHubIssueClient {
+public class GitHubIssueRepository {
 
     /**
      * ロガー
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(GitHubIssueClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GitHubIssueRepository.class);
 
     /**
      * 1 ページあたりの取得件数（GitHub API の上限）
@@ -90,7 +90,7 @@ public class GitHubIssueClient {
      * @param token
      *                   API トークン。未指定の場合は null
      */
-    public GitHubIssueClient(final HttpClient httpClient, final String apiBaseUrl, final String repository,
+    public GitHubIssueRepository(final HttpClient httpClient, final String apiBaseUrl, final String repository,
         final String token) {
 
         this.httpClient = httpClient;
@@ -134,15 +134,15 @@ public class GitHubIssueClient {
 
                 }
 
-                result.add(GitHubIssueClient.toIssue(node));
+                result.add(GitHubIssueRepository.toIssue(node));
 
             }
 
             page++;
 
-        } while (pageSize >= GitHubIssueClient.PER_PAGE);
+        } while (pageSize >= GitHubIssueRepository.PER_PAGE);
 
-        GitHubIssueClient.LOGGER.info("Issue を {} 件取得しました（{} ページ）", result.size(), page - 1);
+        GitHubIssueRepository.LOGGER.info("Issue を {} 件取得しました（{} ページ）", result.size(), page - 1);
         return result;
 
     }
@@ -164,8 +164,8 @@ public class GitHubIssueClient {
 
         /* リクエストの作成 */
         final URI uri = URI.create(String.format("%s/repos/%s/issues?state=all&sort=created&direction=asc&per_page=%d&page=%d",
-            this.apiBaseUrl, this.repository, GitHubIssueClient.PER_PAGE, page));
-        final HttpRequest.Builder builder = HttpRequest.newBuilder(uri).timeout(GitHubIssueClient.TIMEOUT)
+            this.apiBaseUrl, this.repository, GitHubIssueRepository.PER_PAGE, page));
+        final HttpRequest.Builder builder = HttpRequest.newBuilder(uri).timeout(GitHubIssueRepository.TIMEOUT)
             .header("Accept", "application/vnd.github+json").header("X-GitHub-Api-Version", "2022-11-28").GET();
 
         if (this.hasToken()) {
@@ -177,7 +177,7 @@ public class GitHubIssueClient {
         /* 送信と応答の検証 */
         final HttpResponse<String> response = this.send(builder.build());
 
-        if (response.statusCode() != GitHubIssueClient.STATUS_OK) {
+        if (response.statusCode() != GitHubIssueRepository.STATUS_OK) {
 
             throw new IOException(String.format("GitHub API の呼び出しに失敗しました: status=%d, uri=%s",
                 response.statusCode(), uri));
@@ -257,8 +257,8 @@ public class GitHubIssueClient {
     private static DailyTaskIssue toIssue(final JsonNode node) {
 
         final DailyTaskIssue result = new DailyTaskIssue(node.path("number").asInt(),
-            GitHubIssueClient.textOrEmpty(node, "title"), GitHubIssueClient.textOrEmpty(node, "state"),
-            GitHubIssueClient.textOrEmpty(node, "updated_at"), GitHubIssueClient.textOrEmpty(node, "body"));
+            GitHubIssueRepository.textOrEmpty(node, "title"), GitHubIssueRepository.textOrEmpty(node, "state"),
+            GitHubIssueRepository.textOrEmpty(node, "updated_at"), GitHubIssueRepository.textOrEmpty(node, "body"));
         return result;
 
     }
