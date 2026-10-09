@@ -3,13 +3,13 @@
   "title": "2026年10月08日のタスク",
   "date": "2026-10-08",
   "state": "open",
-  "updatedAt": "2026-10-09T00:49:52Z",
+  "updatedAt": "2026-10-09T00:50:17Z",
   "sections": [
     "持ち越し"
   ],
   "declaredCount": 69,
   "count": 69,
-  "minutes": 1383.5,
+  "minutes": 1360.5,
   "items": [
     {
       "name": "国語",
@@ -401,11 +401,11 @@
     {
       "name": "IT・技術学習",
       "originDate": "2026-09-18",
-      "checked": false,
+      "checked": true,
       "minutes": 14.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] IT・技術学習2026/09/18（残り時間：14分）"
+      "raw": "- [x] IT・技術学習2026/09/18（残り時間：14分）"
     },
     {
       "name": "汎用タスク",
@@ -438,10 +438,10 @@
       "name": "IT・技術学習",
       "originDate": "2026-09-19",
       "checked": false,
-      "minutes": 30.0,
+      "minutes": 7.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] IT・技術学習2026/09/19（残り時間：30分）"
+      "raw": "- [ ] IT・技術学習2026/09/19（残り時間：7分）"
     },
     {
       "name": "音楽",

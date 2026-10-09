@@ -14879,9 +14879,9 @@
       "declaredCount": 69,
       "total": {
         "count": 69,
-        "minutes": 1383.5,
-        "checkedCount": 7,
-        "checkedMinutes": 68.0
+        "minutes": 1360.5,
+        "checkedCount": 8,
+        "checkedMinutes": 82.0
       },
       "byItem": {
         "3教科以外": {
@@ -14892,9 +14892,9 @@
         },
         "IT・技術学習": {
           "count": 7,
-          "minutes": 172.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "minutes": 149.0,
+          "checkedCount": 1,
+          "checkedMinutes": 14.0
         },
         "国語": {
           "count": 7,
@@ -14948,9 +14948,9 @@
         },
         "2026-09": {
           "count": 45,
-          "minutes": 1019.5,
-          "checkedCount": 3,
-          "checkedMinutes": 32.0
+          "minutes": 996.5,
+          "checkedCount": 4,
+          "checkedMinutes": 46.0
         },
         "2026-10": {
           "count": 5,
