@@ -14966,7 +14966,7 @@
       "declaredCount": 62,
       "total": {
         "count": 62,
-        "minutes": 1293.5,
+        "minutes": 1288.5,
         "checkedCount": 0,
         "checkedMinutes": 0.0
       },
@@ -14991,7 +14991,7 @@
         },
         "本読書": {
           "count": 3,
-          "minutes": 43.0,
+          "minutes": 38.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
@@ -15023,7 +15023,7 @@
       "byOriginMonth": {
         "2026-08": {
           "count": 15,
-          "minutes": 212.0,
+          "minutes": 207.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },

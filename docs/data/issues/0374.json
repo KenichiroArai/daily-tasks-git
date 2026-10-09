@@ -3,13 +3,13 @@
   "title": "2026年10月09日のタスク",
   "date": "2026-10-09",
   "state": "open",
-  "updatedAt": "2026-10-09T01:04:55Z",
+  "updatedAt": "2026-10-09T13:02:30Z",
   "sections": [
     "持ち越し"
   ],
   "declaredCount": 62,
   "count": 62,
-  "minutes": 1293.5,
+  "minutes": 1288.5,
   "items": [
     {
       "name": "国語",
@@ -60,10 +60,10 @@
       "name": "本読書",
       "originDate": "2026-08-24",
       "checked": false,
-      "minutes": 18.0,
+      "minutes": 13.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 本読書2026/08/24（残り時間：18分）"
+      "raw": "- [ ] 本読書2026/08/24（残り時間：13分）"
     },
     {
       "name": "国語",
