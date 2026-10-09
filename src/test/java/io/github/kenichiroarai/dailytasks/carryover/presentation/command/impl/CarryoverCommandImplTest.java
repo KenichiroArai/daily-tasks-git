@@ -1,20 +1,23 @@
-package io.github.kenichiroarai.dailytasks.carryover.presentation.command;
+package io.github.kenichiroarai.dailytasks.carryover.presentation.command.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSettings;
 import io.github.kenichiroarai.dailytasks.carryover.application.service.CarryoverService;
+import io.github.kenichiroarai.dailytasks.carryover.application.service.impl.CarryoverServiceImpl;
 import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 
 /**
- * {@link CarryoverCommand} のテスト<br>
+ * {@link CarryoverCommandImpl} のテスト<br>
  *
  * @author KenichiroArai
  *
@@ -25,7 +28,7 @@ import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 @SuppressWarnings({
     "nls", "static-method"
 })
-public class CarryoverCommandTest {
+public class CarryoverCommandImplTest {
 
     /**
      * テスト用の収集・集計サービス<br>
@@ -87,8 +90,90 @@ public class CarryoverCommandTest {
      */
     private static String usage() throws Exception {
 
-        final String result = ReflectionTestUtil.getStaticField(CarryoverCommand.class, "USAGE");
+        final String result = ReflectionTestUtil.getStaticField(CarryoverCommandImpl.class, "USAGE");
         return result;
+
+    }
+
+    /**
+     * private の createSettings メソッドを呼び出す<br>
+     *
+     * @param token
+     *              GitHub API のトークン
+     *
+     * @return 持ち越しの収集・集計の設定
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static CarryoverSettings createSettings(final String token) throws Exception {
+
+        final CarryoverSettings result = ReflectionTestUtil.invokeStatic(CarryoverCommandImpl.class, "createSettings",
+            new Class<?>[] {
+                String.class
+            }, token);
+        return result;
+
+    }
+
+    /**
+     * CarryoverCommandImpl コンストラクタのテスト - 正常系:出力先だけを指定した場合は application 層の実装を生成する
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    @Test
+    public void testCarryoverCommandImpl_normalOutOnly() throws Exception {
+
+        /* 期待値の定義 */
+
+        /* 準備 */
+        final PrintStream testOut = System.out;
+
+        /* テスト対象の実行 */
+        final CarryoverCommandImpl testTarget = new CarryoverCommandImpl(testOut);
+
+        /* 検証の準備 */
+        final Object actualService = ReflectionTestUtil.getField(testTarget, "carryoverService");
+        final PrintStream actualOut = ReflectionTestUtil.getField(testTarget, "out");
+
+        /* 検証の実施 */
+        Assertions.assertInstanceOf(CarryoverServiceImpl.class, actualService, "サービスの型が一致しません");
+        Assertions.assertEquals(testOut, actualOut, "出力先が一致しません");
+
+    }
+
+    /**
+     * createSettings メソッドのテスト - 正常系:トークンと既定値から設定を作る場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    @Test
+    public void testCreateSettings_normalDefaults() throws Exception {
+
+        /* 期待値の定義 */
+        final String expectedRepository = "KenichiroArai/daily-tasks-git";
+        final String expectedToken = "test-token";
+        final Path expectedDataDir = Path.of("docs", "data");
+        final Path expectedDefaultMinutesFile = Path.of("config", "default-minutes.json");
+
+        /* 準備 */
+
+        /* テスト対象の実行 */
+        final CarryoverSettings testResult = CarryoverCommandImplTest.createSettings(expectedToken);
+
+        /* 検証の準備 */
+        final String actualRepository = testResult.getRepository();
+        final String actualToken = testResult.getToken();
+        final Path actualDataDir = testResult.getDataDir();
+        final Path actualDefaultMinutesFile = testResult.getDefaultMinutesFile();
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedRepository, actualRepository, "リポジトリが一致しません");
+        Assertions.assertEquals(expectedToken, actualToken, "トークンが一致しません");
+        Assertions.assertEquals(expectedDataDir, actualDataDir, "出力先が一致しません");
+        Assertions.assertEquals(expectedDefaultMinutesFile, actualDefaultMinutesFile, "標準時間の設定ファイルが一致しません");
 
     }
 
@@ -107,7 +192,7 @@ public class CarryoverCommandTest {
 
         /* 準備 */
         final StubCarryoverService testService = new StubCarryoverService();
-        final CarryoverCommand testTarget = new CarryoverCommand(testService, System.out);
+        final CarryoverCommandImpl testTarget = new CarryoverCommandImpl(testService, System.out);
 
         /* テスト対象の実行 */
         final int testResult = testTarget.execute(new String[] {});
@@ -136,7 +221,7 @@ public class CarryoverCommandTest {
 
         /* 準備 */
         final StubCarryoverService testService = new StubCarryoverService();
-        final CarryoverCommand testTarget = new CarryoverCommand(testService, System.out);
+        final CarryoverCommandImpl testTarget = new CarryoverCommandImpl(testService, System.out);
 
         /* テスト対象の実行 */
         testTarget.execute(new String[] {
@@ -161,13 +246,13 @@ public class CarryoverCommandTest {
     public void testExecute_normalHelp() throws Exception {
 
         /* 期待値の定義 */
-        final String expectedOutput = CarryoverCommandTest.usage() + System.lineSeparator();
+        final String expectedOutput = CarryoverCommandImplTest.usage() + System.lineSeparator();
         final int expectedCount = 0;
 
         /* 準備 */
         final StubCarryoverService testService = new StubCarryoverService();
         final ByteArrayOutputStream testOutput = new ByteArrayOutputStream();
-        final CarryoverCommand testTarget = new CarryoverCommand(testService,
+        final CarryoverCommandImpl testTarget = new CarryoverCommandImpl(testService,
             new PrintStream(testOutput, true, StandardCharsets.UTF_8));
 
         /* テスト対象の実行 */
@@ -201,7 +286,7 @@ public class CarryoverCommandTest {
         /* 準備 */
         final StubCarryoverService testService = new StubCarryoverService();
         final ByteArrayOutputStream testOutput = new ByteArrayOutputStream();
-        final CarryoverCommand testTarget = new CarryoverCommand(testService,
+        final CarryoverCommandImpl testTarget = new CarryoverCommandImpl(testService,
             new PrintStream(testOutput, true, StandardCharsets.UTF_8));
 
         /* テスト対象の実行 */
@@ -227,7 +312,7 @@ public class CarryoverCommandTest {
         final String expectedMessage = "不明な引数です: --unknown";
 
         /* 準備 */
-        final CarryoverCommand testTarget = new CarryoverCommand(new StubCarryoverService(), System.out);
+        final CarryoverCommandImpl testTarget = new CarryoverCommandImpl(new StubCarryoverService(), System.out);
 
         /* テスト対象の実行 */
         final IllegalArgumentException testException = Assertions.assertThrows(IllegalArgumentException.class,

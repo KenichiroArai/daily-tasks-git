@@ -1,4 +1,4 @@
-package io.github.kenichiroarai.dailytasks.carryover.domain.aggregator;
+package io.github.kenichiroarai.dailytasks.carryover.domain.aggregator.impl;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailySummary;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
 
 /**
- * {@link CarryoverAggregator} のテスト<br>
+ * {@link CarryoverAggregatorImpl} のテスト<br>
  *
  * @author KenichiroArai
  *
@@ -23,7 +23,7 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
 @SuppressWarnings({
     "nls", "static-method"
 })
-public class CarryoverAggregatorTest {
+public class CarryoverAggregatorImplTest {
 
     /**
      * テスト用の持ち越し項目を作成する<br>
@@ -78,14 +78,14 @@ public class CarryoverAggregatorTest {
 
         /* 準備 */
         final List<CarryoverIssue> testIssues = List.of(
-            CarryoverAggregatorTest.createIssue(177, "2026-03-26", List.of("負債"),
-                List.of(CarryoverAggregatorTest.createItem("音楽"))),
-            CarryoverAggregatorTest.createIssue(176, "2026-03-25", List.of(), List.of()),
-            CarryoverAggregatorTest.createIssue(175, "2026-03-24", List.of("負債"),
-                List.of(CarryoverAggregatorTest.createItem("国語"), CarryoverAggregatorTest.createItem("音楽"))),
-            CarryoverAggregatorTest.createIssue(174, "2026-03-23", List.of(), List.of()),
-            CarryoverAggregatorTest.createIssue(1, null, List.of("負債"), List.of()));
-        final CarryoverAggregator testTarget = new CarryoverAggregator();
+            CarryoverAggregatorImplTest.createIssue(177, "2026-03-26", List.of("負債"),
+                List.of(CarryoverAggregatorImplTest.createItem("音楽"))),
+            CarryoverAggregatorImplTest.createIssue(176, "2026-03-25", List.of(), List.of()),
+            CarryoverAggregatorImplTest.createIssue(175, "2026-03-24", List.of("負債"),
+                List.of(CarryoverAggregatorImplTest.createItem("国語"), CarryoverAggregatorImplTest.createItem("音楽"))),
+            CarryoverAggregatorImplTest.createIssue(174, "2026-03-23", List.of(), List.of()),
+            CarryoverAggregatorImplTest.createIssue(1, null, List.of("負債"), List.of()));
+        final CarryoverAggregatorImpl testTarget = new CarryoverAggregatorImpl();
 
         /* テスト対象の実行 */
         final CarryoverSummary testResult = testTarget.aggregate(testIssues);
@@ -115,7 +115,7 @@ public class CarryoverAggregatorTest {
         final int expectedLatestIssue = 0;
 
         /* 準備 */
-        final CarryoverAggregator testTarget = new CarryoverAggregator();
+        final CarryoverAggregatorImpl testTarget = new CarryoverAggregatorImpl();
 
         /* テスト対象の実行 */
         final CarryoverSummary testResult = testTarget.aggregate(List.of());

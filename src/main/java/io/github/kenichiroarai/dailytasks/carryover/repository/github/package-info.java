@@ -1,7 +1,7 @@
 /**
- * 持ち越し機能の GitHub API のデータアクセス<br>
+ * 持ち越し機能の GitHub API のデータアクセスのインタフェース<br>
  * <p>
- * GitHub REST API から Issue を取得する。
+ * 実装は impl パッケージに置く。
  * </p>
  *
  * @author KenichiroArai

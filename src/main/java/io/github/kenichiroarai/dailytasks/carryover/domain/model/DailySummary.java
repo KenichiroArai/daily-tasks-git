@@ -3,8 +3,6 @@ package io.github.kenichiroarai.dailytasks.carryover.domain.model;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 /**
  * 日別の持ち越しの集計<br>
  *
@@ -14,9 +12,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  *
  * @version 0.1.0
  */
-@JsonPropertyOrder({
-    "date", "issue", "declaredCount", "total", "byItem", "byOriginMonth"
-})
 public class DailySummary {
 
     /**

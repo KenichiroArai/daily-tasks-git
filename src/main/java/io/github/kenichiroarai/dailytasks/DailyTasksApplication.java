@@ -1,23 +1,14 @@
 package io.github.kenichiroarai.dailytasks;
 
 import java.io.IOException;
-import java.net.http.HttpClient;
-import java.nio.file.Path;
 
-import io.github.kenichiroarai.dailytasks.carryover.application.service.CarryoverService;
-import io.github.kenichiroarai.dailytasks.carryover.application.service.impl.CarryoverServiceImpl;
-import io.github.kenichiroarai.dailytasks.carryover.domain.aggregator.CarryoverAggregator;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DefaultMinutes;
-import io.github.kenichiroarai.dailytasks.carryover.domain.parser.CarryoverParser;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.command.CarryoverCommand;
-import io.github.kenichiroarai.dailytasks.carryover.repository.CarryoverDataRepository;
-import io.github.kenichiroarai.dailytasks.carryover.repository.DefaultMinutesRepository;
-import io.github.kenichiroarai.dailytasks.carryover.repository.github.GitHubIssueRepository;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.command.impl.CarryoverCommandImpl;
 
 /**
  * 起動クラス<br>
  * <p>
- * リポジトリのルートをカレントディレクトリとして実行する。
+ * presentation 層のコマンドを生成して実行するだけとする。設定値や部品の組み立ては各層が順に引き継ぐ。 リポジトリのルートをカレントディレクトリとして実行する。
  * </p>
  *
  * @author KenichiroArai
@@ -26,28 +17,7 @@ import io.github.kenichiroarai.dailytasks.carryover.repository.github.GitHubIssu
  *
  * @version 0.1.0
  */
-@SuppressWarnings("nls")
 public final class DailyTasksApplication {
-
-    /**
-     * GitHub API のベース URL
-     */
-    private static final String API_BASE_URL = "https://api.github.com";
-
-    /**
-     * 対象リポジトリ
-     */
-    private static final String REPOSITORY = "KenichiroArai/daily-tasks-git";
-
-    /**
-     * 出力先のディレクトリ
-     */
-    private static final Path DATA_DIR = Path.of("docs", "data");
-
-    /**
-     * 標準時間の設定ファイル
-     */
-    private static final Path DEFAULT_MINUTES_FILE = Path.of("config", "default-minutes.json");
 
     /**
      * コンストラクタ<br>
@@ -72,22 +42,9 @@ public final class DailyTasksApplication {
      */
     public static void main(final String[] args) throws IOException {
 
-        /* 部品の組み立て */
-        final DefaultMinutes defaultMinutes = new DefaultMinutesRepository(DailyTasksApplication.DEFAULT_MINUTES_FILE)
-            .load();
-
-        try (HttpClient httpClient = HttpClient.newHttpClient()) {
-
-            final GitHubIssueRepository gitHubIssueRepository = new GitHubIssueRepository(httpClient,
-                DailyTasksApplication.API_BASE_URL, DailyTasksApplication.REPOSITORY, System.getenv("GITHUB_TOKEN"));
-            final CarryoverService carryoverService = new CarryoverServiceImpl(gitHubIssueRepository,
-                new CarryoverDataRepository(DailyTasksApplication.DATA_DIR), new CarryoverParser(defaultMinutes),
-                new CarryoverAggregator());
-
-            /* コマンドの実行 */
-            new CarryoverCommand(carryoverService, System.out).execute(args);
-
-        }
+        /* コマンドの実行 */
+        final CarryoverCommand command = new CarryoverCommandImpl(System.out);
+        command.execute(args);
 
     }
 

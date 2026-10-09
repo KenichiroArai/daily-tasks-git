@@ -9,18 +9,25 @@ import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSettings;
 import io.github.kenichiroarai.dailytasks.carryover.application.service.CarryoverService;
 import io.github.kenichiroarai.dailytasks.carryover.domain.aggregator.CarryoverAggregator;
+import io.github.kenichiroarai.dailytasks.carryover.domain.aggregator.impl.CarryoverAggregatorImpl;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverIssue;
+import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSource;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSummary;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailyTaskIssue;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
 import io.github.kenichiroarai.dailytasks.carryover.domain.parser.CarryoverParser;
-import io.github.kenichiroarai.dailytasks.carryover.repository.CarryoverDataRepository;
-import io.github.kenichiroarai.dailytasks.carryover.repository.github.GitHubIssueRepository;
+import io.github.kenichiroarai.dailytasks.carryover.domain.parser.impl.CarryoverParserImpl;
+import io.github.kenichiroarai.dailytasks.carryover.domain.service.CarryoverIssueService;
+import io.github.kenichiroarai.dailytasks.carryover.domain.service.impl.CarryoverIssueServiceImpl;
 
 /**
  * 持ち越しの収集・集計サービスの実装<br>
+ * <p>
+ * domain 層のインタフェースだけを使って、取得・解析・保存・集計の流れを組み立てる。
+ * </p>
  *
  * @author KenichiroArai
  *
@@ -41,14 +48,9 @@ public class CarryoverServiceImpl implements CarryoverService {
     private static final int RECENT_COUNT = 10;
 
     /**
-     * GitHub API からの Issue の取得
+     * 持ち越しのデータの取得・保存
      */
-    private final GitHubIssueRepository gitHubIssueRepository;
-
-    /**
-     * JSON ファイルの読み書き
-     */
-    private final CarryoverDataRepository carryoverDataRepository;
+    private final CarryoverIssueService carryoverIssueService;
 
     /**
      * Issue 本文の解析
@@ -62,22 +64,38 @@ public class CarryoverServiceImpl implements CarryoverService {
 
     /**
      * コンストラクタ<br>
+     * <p>
+     * 設定を domain 層のデータの取得元に変換し、domain 層の実装を生成する。標準時間はこの時点で読み込む。
+     * </p>
      *
-     * @param gitHubIssueRepository
-     *                                GitHub API からの Issue の取得
-     * @param carryoverDataRepository
-     *                                JSON ファイルの読み書き
-     * @param carryoverParser
-     *                                Issue 本文の解析
-     * @param carryoverAggregator
-     *                                日別の集計
+     * @param settings
+     *                 持ち越しの収集・集計の設定
+     *
+     * @throws IOException
+     *                     標準時間の読み込みに失敗した場合
      */
-    public CarryoverServiceImpl(final GitHubIssueRepository gitHubIssueRepository,
-        final CarryoverDataRepository carryoverDataRepository, final CarryoverParser carryoverParser,
-        final CarryoverAggregator carryoverAggregator) {
+    public CarryoverServiceImpl(final CarryoverSettings settings) throws IOException {
 
-        this.gitHubIssueRepository = gitHubIssueRepository;
-        this.carryoverDataRepository = carryoverDataRepository;
+        this.carryoverIssueService = new CarryoverIssueServiceImpl(CarryoverServiceImpl.toSource(settings));
+        this.carryoverParser = new CarryoverParserImpl(this.carryoverIssueService.loadDefaultMinutes());
+        this.carryoverAggregator = new CarryoverAggregatorImpl();
+
+    }
+
+    /**
+     * domain 層のサービスを指定するコンストラクタ<br>
+     *
+     * @param carryoverIssueService
+     *                              持ち越しのデータの取得・保存
+     * @param carryoverParser
+     *                              Issue 本文の解析
+     * @param carryoverAggregator
+     *                              日別の集計
+     */
+    public CarryoverServiceImpl(final CarryoverIssueService carryoverIssueService,
+        final CarryoverParser carryoverParser, final CarryoverAggregator carryoverAggregator) {
+
+        this.carryoverIssueService = carryoverIssueService;
         this.carryoverParser = carryoverParser;
         this.carryoverAggregator = carryoverAggregator;
 
@@ -103,11 +121,11 @@ public class CarryoverServiceImpl implements CarryoverService {
         int result = 0;
 
         /* 保存済みの解析結果の読み込み */
-        final Map<Integer, CarryoverIssue> stored = this.carryoverDataRepository.loadIssues();
+        final Map<Integer, CarryoverIssue> stored = this.carryoverIssueService.loadIssues();
         final Map<Integer, CarryoverIssue> all = new TreeMap<>(stored);
 
         /* Issue の取得と解析 */
-        final List<DailyTaskIssue> remoteIssues = this.gitHubIssueRepository.fetchAllIssues();
+        final List<DailyTaskIssue> remoteIssues = this.carryoverIssueService.fetchAllIssues();
         final int recentFrom = CarryoverServiceImpl.recentFrom(remoteIssues, CarryoverServiceImpl.RECENT_COUNT);
 
         for (final DailyTaskIssue remoteIssue : remoteIssues) {
@@ -121,7 +139,7 @@ public class CarryoverServiceImpl implements CarryoverService {
             }
 
             final CarryoverIssue parsed = this.carryoverParser.parse(remoteIssue);
-            this.carryoverDataRepository.saveIssue(parsed);
+            this.carryoverIssueService.saveIssue(parsed);
             all.put(number, parsed);
             result++;
 
@@ -129,7 +147,7 @@ public class CarryoverServiceImpl implements CarryoverService {
 
         /* 画面用の集計の出力 */
         final CarryoverSummary summary = this.carryoverAggregator.aggregate(all.values());
-        this.carryoverDataRepository.saveSummary(summary);
+        this.carryoverIssueService.saveSummary(summary);
 
         /* 結果のログ */
         CarryoverServiceImpl.LOGGER.info("モード={}、取得={} 件、解析・保存={} 件、集計={} 日", full ? "全件" : "差分",
@@ -138,6 +156,22 @@ public class CarryoverServiceImpl implements CarryoverService {
             CarryoverServiceImpl.countBySource(all, MinutesSource.DEFAULT),
             CarryoverServiceImpl.countBySource(all, MinutesSource.UNKNOWN));
 
+        return result;
+
+    }
+
+    /**
+     * application 層の設定を domain 層のデータの取得元に変換する<br>
+     *
+     * @param settings
+     *                 持ち越しの収集・集計の設定
+     *
+     * @return データの取得元と保存先
+     */
+    private static CarryoverSource toSource(final CarryoverSettings settings) {
+
+        final CarryoverSource result = new CarryoverSource(settings.getRepository(), settings.getToken(),
+            settings.getDataDir(), settings.getDefaultMinutesFile());
         return result;
 
     }

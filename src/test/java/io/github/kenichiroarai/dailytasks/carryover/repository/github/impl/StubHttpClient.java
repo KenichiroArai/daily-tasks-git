@@ -1,4 +1,4 @@
-package io.github.kenichiroarai.dailytasks.carryover.repository.github;
+package io.github.kenichiroarai.dailytasks.carryover.repository.github.impl;
 
 import java.io.IOException;
 import java.net.Authenticator;

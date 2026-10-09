@@ -1,7 +1,5 @@
 package io.github.kenichiroarai.dailytasks.carryover.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 /**
  * 持ち越し項目の件数と残り時間の集計値<br>
  * <p>
@@ -14,9 +12,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  *
  * @version 0.1.0
  */
-@JsonPropertyOrder({
-    "count", "minutes", "checkedCount", "checkedMinutes"
-})
 public class ItemStat {
 
     /**

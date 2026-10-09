@@ -1,7 +1,8 @@
-package io.github.kenichiroarai.dailytasks.carryover.repository.github;
+package io.github.kenichiroarai.dailytasks.carryover.repository.github.impl;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
@@ -15,13 +16,14 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailyTaskIssue;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.GitHubIssueDto;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.GitHubSettingsDto;
 import io.github.kenichiroarai.dailytasks.testutil.LogAssertions;
 import io.github.kenichiroarai.dailytasks.testutil.LogCapture;
 import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 
 /**
- * {@link GitHubIssueRepository} のテスト<br>
+ * {@link GitHubIssueRepositoryImpl} のテスト<br>
  * <p>
  * GitHub API への実通信は行わず、{@link StubHttpClient} の応答を使う。
  * </p>
@@ -35,7 +37,7 @@ import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 @SuppressWarnings({
     "nls", "static-method", "resource",
 })
-public class GitHubIssueRepositoryTest {
+public class GitHubIssueRepositoryImplTest {
 
     /**
      * テスト用の API のベース URL
@@ -74,20 +76,23 @@ public class GitHubIssueRepositoryTest {
      * private の fetchPage メソッドを呼び出す<br>
      *
      * @param target
-     *               テスト対象
+     *                   テスト対象
+     * @param httpClient
+     *                   HTTP クライアント
      * @param page
-     *               ページ番号
+     *                   ページ番号
      *
      * @return API の応答
      *
      * @throws Exception
      *                   例外が発生した場合
      */
-    private static JsonNode fetchPage(final GitHubIssueRepository target, final int page) throws Exception {
+    private static JsonNode fetchPage(final GitHubIssueRepositoryImpl target, final HttpClient httpClient,
+        final int page) throws Exception {
 
         final JsonNode result = ReflectionTestUtil.invoke(target, "fetchPage", new Class<?>[] {
-            int.class
-        }, Integer.valueOf(page));
+            HttpClient.class, int.class
+        }, httpClient, Integer.valueOf(page));
         return result;
 
     }
@@ -95,22 +100,23 @@ public class GitHubIssueRepositoryTest {
     /**
      * private の send メソッドを呼び出す<br>
      *
-     * @param target
-     *                テスト対象
+     * @param httpClient
+     *                   HTTP クライアント
      * @param request
-     *                リクエスト
+     *                   リクエスト
      *
      * @return 応答
      *
      * @throws Exception
      *                   例外が発生した場合
      */
-    private static HttpResponse<String> send(final GitHubIssueRepository target, final HttpRequest request)
+    private static HttpResponse<String> send(final HttpClient httpClient, final HttpRequest request)
         throws Exception {
 
-        final HttpResponse<String> result = ReflectionTestUtil.invoke(target, "send", new Class<?>[] {
-            HttpRequest.class
-        }, request);
+        final HttpResponse<String> result = ReflectionTestUtil.invokeStatic(GitHubIssueRepositoryImpl.class, "send",
+            new Class<?>[] {
+                HttpClient.class, HttpRequest.class
+            }, httpClient, request);
         return result;
 
     }
@@ -126,7 +132,7 @@ public class GitHubIssueRepositoryTest {
      * @throws Exception
      *                   例外が発生した場合
      */
-    private static boolean hasToken(final GitHubIssueRepository target) throws Exception {
+    private static boolean hasToken(final GitHubIssueRepositoryImpl target) throws Exception {
 
         final boolean result = ReflectionTestUtil.<Boolean> invoke(target, "hasToken", new Class<?>[] {})
             .booleanValue();
@@ -145,9 +151,9 @@ public class GitHubIssueRepositoryTest {
      * @throws Exception
      *                   例外が発生した場合
      */
-    private static DailyTaskIssue toIssue(final JsonNode node) throws Exception {
+    private static GitHubIssueDto toIssue(final JsonNode node) throws Exception {
 
-        final DailyTaskIssue result = ReflectionTestUtil.invokeStatic(GitHubIssueRepository.class, "toIssue",
+        final GitHubIssueDto result = ReflectionTestUtil.invokeStatic(GitHubIssueRepositoryImpl.class, "toIssue",
             new Class<?>[] {
                 JsonNode.class
             }, node);
@@ -170,11 +176,39 @@ public class GitHubIssueRepositoryTest {
      */
     private static String textOrEmpty(final JsonNode node, final String fieldName) throws Exception {
 
-        final String result = ReflectionTestUtil.invokeStatic(GitHubIssueRepository.class, "textOrEmpty",
+        final String result = ReflectionTestUtil.invokeStatic(GitHubIssueRepositoryImpl.class, "textOrEmpty",
             new Class<?>[] {
                 JsonNode.class, String.class
             }, node, fieldName);
         return result;
+
+    }
+
+    /**
+     * GitHubIssueRepositoryImpl コンストラクタのテスト - 正常系:接続設定だけを指定した場合は GitHub API のベース URL を使う
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    @Test
+    public void testGitHubIssueRepositoryImpl_normalDefaultBaseUrl() throws Exception {
+
+        /* 期待値の定義 */
+        final String expectedApiBaseUrl = "https://api.github.com";
+
+        /* 準備 */
+        final GitHubSettingsDto testSettings = new GitHubSettingsDto(GitHubIssueRepositoryImplTest.REPOSITORY, null);
+
+        /* テスト対象の実行 */
+        final GitHubIssueRepositoryImpl testTarget = new GitHubIssueRepositoryImpl(testSettings);
+
+        /* 検証の準備 */
+        final String actualApiBaseUrl = ReflectionTestUtil.getField(testTarget, "apiBaseUrl");
+        final GitHubSettingsDto actualSettings = ReflectionTestUtil.getField(testTarget, "settings");
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedApiBaseUrl, actualApiBaseUrl, "API のベース URL が一致しません");
+        Assertions.assertEquals(testSettings, actualSettings, "接続設定が一致しません");
 
     }
 
@@ -195,19 +229,19 @@ public class GitHubIssueRepositoryTest {
 
         /* 準備 */
         try (StubHttpClient testHttpClient = new StubHttpClient();
-            LogCapture testLog = new LogCapture(GitHubIssueRepository.class)) {
+            LogCapture testLog = new LogCapture(GitHubIssueRepositoryImpl.class)) {
 
             testHttpClient.addResponse(200,
-                "[" + GitHubIssueRepositoryTest.issueJson(1) + ",{\"number\":2,\"pull_request\":{}}]");
-            final GitHubIssueRepository testTarget = new GitHubIssueRepository(testHttpClient,
-                GitHubIssueRepositoryTest.API_BASE_URL, GitHubIssueRepositoryTest.REPOSITORY, null);
+                "[" + GitHubIssueRepositoryImplTest.issueJson(1) + ",{\"number\":2,\"pull_request\":{}}]");
+            final GitHubIssueRepositoryImpl testTarget = new GitHubIssueRepositoryImpl(() -> testHttpClient,
+                GitHubIssueRepositoryImplTest.API_BASE_URL, new GitHubSettingsDto(GitHubIssueRepositoryImplTest.REPOSITORY, null));
 
             /* テスト対象の実行 */
-            final List<DailyTaskIssue> testResult = testTarget.fetchAllIssues();
+            final List<GitHubIssueDto> testResult = testTarget.fetchAllIssues();
 
             /* 検証の準備 */
             final String[]      actualMsgs    = testLog.getMessages();
-            final List<Integer> actualNumbers = testResult.stream().map(DailyTaskIssue::getNumber).toList();
+            final List<Integer> actualNumbers = testResult.stream().map(GitHubIssueDto::getNumber).toList();
 
             /* 検証の実施 */
             Assertions.assertEquals(expectedNumbers, actualNumbers, "Issue 番号が一致しません");
@@ -231,17 +265,17 @@ public class GitHubIssueRepositoryTest {
         final int expectedRequestCount = 2;
 
         /* 準備 */
-        final String testPage1 = IntStream.rangeClosed(1, 100).mapToObj(GitHubIssueRepositoryTest::issueJson)
+        final String testPage1 = IntStream.rangeClosed(1, 100).mapToObj(GitHubIssueRepositoryImplTest::issueJson)
             .collect(Collectors.joining(",", "[", "]"));
 
         try (StubHttpClient testHttpClient = new StubHttpClient()) {
 
             testHttpClient.addResponse(200, testPage1).addResponse(200, "[]");
-            final GitHubIssueRepository testTarget = new GitHubIssueRepository(testHttpClient,
-                GitHubIssueRepositoryTest.API_BASE_URL, GitHubIssueRepositoryTest.REPOSITORY, null);
+            final GitHubIssueRepositoryImpl testTarget = new GitHubIssueRepositoryImpl(() -> testHttpClient,
+                GitHubIssueRepositoryImplTest.API_BASE_URL, new GitHubSettingsDto(GitHubIssueRepositoryImplTest.REPOSITORY, null));
 
             /* テスト対象の実行 */
-            final List<DailyTaskIssue> testResult = testTarget.fetchAllIssues();
+            final List<GitHubIssueDto> testResult = testTarget.fetchAllIssues();
 
             /* 検証の準備 */
             final int actualSize         = testResult.size();
@@ -266,17 +300,17 @@ public class GitHubIssueRepositoryTest {
 
         /* 期待値の定義 */
         final Optional<String> expectedAuthorization = Optional.of("Bearer test-token");
-        final String           expectedUri           = GitHubIssueRepositoryTest.PAGE1_URI;
+        final String           expectedUri           = GitHubIssueRepositoryImplTest.PAGE1_URI;
 
         /* 準備 */
         try (StubHttpClient testHttpClient = new StubHttpClient()) {
 
             testHttpClient.addResponse(200, "[]");
-            final GitHubIssueRepository testTarget = new GitHubIssueRepository(testHttpClient,
-                GitHubIssueRepositoryTest.API_BASE_URL, GitHubIssueRepositoryTest.REPOSITORY, "test-token");
+            final GitHubIssueRepositoryImpl testTarget = new GitHubIssueRepositoryImpl(() -> testHttpClient,
+                GitHubIssueRepositoryImplTest.API_BASE_URL, new GitHubSettingsDto(GitHubIssueRepositoryImplTest.REPOSITORY, "test-token"));
 
             /* テスト対象の実行 */
-            GitHubIssueRepositoryTest.fetchPage(testTarget, 1);
+            GitHubIssueRepositoryImplTest.fetchPage(testTarget, testHttpClient, 1);
 
             /* 検証の準備 */
             final Optional<String> actualAuthorization = testHttpClient.getRequests().get(0).headers()
@@ -307,11 +341,11 @@ public class GitHubIssueRepositoryTest {
         try (StubHttpClient testHttpClient = new StubHttpClient()) {
 
             testHttpClient.addResponse(200, "[]");
-            final GitHubIssueRepository testTarget = new GitHubIssueRepository(testHttpClient,
-                GitHubIssueRepositoryTest.API_BASE_URL, GitHubIssueRepositoryTest.REPOSITORY, null);
+            final GitHubIssueRepositoryImpl testTarget = new GitHubIssueRepositoryImpl(() -> testHttpClient,
+                GitHubIssueRepositoryImplTest.API_BASE_URL, new GitHubSettingsDto(GitHubIssueRepositoryImplTest.REPOSITORY, null));
 
             /* テスト対象の実行 */
-            GitHubIssueRepositoryTest.fetchPage(testTarget, 1);
+            GitHubIssueRepositoryImplTest.fetchPage(testTarget, testHttpClient, 1);
 
             /* 検証の準備 */
             final Optional<String> actualAuthorization
@@ -331,18 +365,18 @@ public class GitHubIssueRepositoryTest {
     public void testFetchPage_errorStatus() {
 
         /* 期待値の定義 */
-        final String expectedMessage = "GitHub API の呼び出しに失敗しました: status=403, uri=" + GitHubIssueRepositoryTest.PAGE1_URI;
+        final String expectedMessage = "GitHub API の呼び出しに失敗しました: status=403, uri=" + GitHubIssueRepositoryImplTest.PAGE1_URI;
 
         /* 準備 */
         try (StubHttpClient testHttpClient = new StubHttpClient()) {
 
             testHttpClient.addResponse(403, "{}");
-            final GitHubIssueRepository testTarget = new GitHubIssueRepository(testHttpClient,
-                GitHubIssueRepositoryTest.API_BASE_URL, GitHubIssueRepositoryTest.REPOSITORY, null);
+            final GitHubIssueRepositoryImpl testTarget = new GitHubIssueRepositoryImpl(() -> testHttpClient,
+                GitHubIssueRepositoryImplTest.API_BASE_URL, new GitHubSettingsDto(GitHubIssueRepositoryImplTest.REPOSITORY, null));
 
             /* テスト対象の実行 */
             final IOException testException
-                = Assertions.assertThrows(IOException.class, () -> GitHubIssueRepositoryTest.fetchPage(testTarget, 1));
+                = Assertions.assertThrows(IOException.class, () -> GitHubIssueRepositoryImplTest.fetchPage(testTarget, testHttpClient, 1));
 
             /* 検証の準備 */
             final String actualMessage = testException.getMessage();
@@ -361,18 +395,18 @@ public class GitHubIssueRepositoryTest {
     public void testFetchPage_errorNotArray() {
 
         /* 期待値の定義 */
-        final String expectedMessage = "GitHub API の応答が配列ではありません: uri=" + GitHubIssueRepositoryTest.PAGE1_URI;
+        final String expectedMessage = "GitHub API の応答が配列ではありません: uri=" + GitHubIssueRepositoryImplTest.PAGE1_URI;
 
         /* 準備 */
         try (StubHttpClient testHttpClient = new StubHttpClient()) {
 
             testHttpClient.addResponse(200, "{\"message\":\"x\"}");
-            final GitHubIssueRepository testTarget = new GitHubIssueRepository(testHttpClient,
-                GitHubIssueRepositoryTest.API_BASE_URL, GitHubIssueRepositoryTest.REPOSITORY, null);
+            final GitHubIssueRepositoryImpl testTarget = new GitHubIssueRepositoryImpl(() -> testHttpClient,
+                GitHubIssueRepositoryImplTest.API_BASE_URL, new GitHubSettingsDto(GitHubIssueRepositoryImplTest.REPOSITORY, null));
 
             /* テスト対象の実行 */
             final IOException testException
-                = Assertions.assertThrows(IOException.class, () -> GitHubIssueRepositoryTest.fetchPage(testTarget, 1));
+                = Assertions.assertThrows(IOException.class, () -> GitHubIssueRepositoryImplTest.fetchPage(testTarget, testHttpClient, 1));
 
             /* 検証の準備 */
             final String actualMessage = testException.getMessage();
@@ -400,13 +434,11 @@ public class GitHubIssueRepositoryTest {
         try (StubHttpClient testHttpClient = new StubHttpClient()) {
 
             testHttpClient.addResponse(200, "[]");
-            final GitHubIssueRepository testTarget  = new GitHubIssueRepository(testHttpClient,
-                GitHubIssueRepositoryTest.API_BASE_URL, GitHubIssueRepositoryTest.REPOSITORY, null);
-            final HttpRequest       testRequest = HttpRequest.newBuilder(URI.create(GitHubIssueRepositoryTest.PAGE1_URI))
+            final HttpRequest       testRequest = HttpRequest.newBuilder(URI.create(GitHubIssueRepositoryImplTest.PAGE1_URI))
                 .build();
 
             /* テスト対象の実行 */
-            final HttpResponse<String> testResult = GitHubIssueRepositoryTest.send(testTarget, testRequest);
+            final HttpResponse<String> testResult = GitHubIssueRepositoryImplTest.send(testHttpClient, testRequest);
 
             /* 検証の準備 */
             final String actualBody = testResult.body();
@@ -431,15 +463,13 @@ public class GitHubIssueRepositoryTest {
         try (StubHttpClient testHttpClient = new StubHttpClient()) {
 
             testHttpClient.setInterruptedException(new InterruptedException("中断"));
-            final GitHubIssueRepository testTarget  = new GitHubIssueRepository(testHttpClient,
-                GitHubIssueRepositoryTest.API_BASE_URL, GitHubIssueRepositoryTest.REPOSITORY, null);
-            final HttpRequest       testRequest = HttpRequest.newBuilder(URI.create(GitHubIssueRepositoryTest.PAGE1_URI))
+            final HttpRequest       testRequest = HttpRequest.newBuilder(URI.create(GitHubIssueRepositoryImplTest.PAGE1_URI))
                 .build();
 
             /* テスト対象の実行 */
             final IOException testException
                 = Assertions.assertThrows(IOException.class,
-                    () -> GitHubIssueRepositoryTest.send(testTarget, testRequest));
+                    () -> GitHubIssueRepositoryImplTest.send(testHttpClient, testRequest));
 
             /* 検証の準備 */
             final String    actualMessage     = testException.getMessage();
@@ -469,11 +499,11 @@ public class GitHubIssueRepositoryTest {
         /* 準備 */
         try (StubHttpClient testHttpClient = new StubHttpClient()) {
 
-            final GitHubIssueRepository testTarget = new GitHubIssueRepository(testHttpClient,
-                GitHubIssueRepositoryTest.API_BASE_URL, GitHubIssueRepositoryTest.REPOSITORY, "test-token");
+            final GitHubIssueRepositoryImpl testTarget = new GitHubIssueRepositoryImpl(() -> testHttpClient,
+                GitHubIssueRepositoryImplTest.API_BASE_URL, new GitHubSettingsDto(GitHubIssueRepositoryImplTest.REPOSITORY, "test-token"));
 
             /* テスト対象の実行 */
-            final boolean testResult = GitHubIssueRepositoryTest.hasToken(testTarget);
+            final boolean testResult = GitHubIssueRepositoryImplTest.hasToken(testTarget);
 
             /* 検証の準備 */
             final boolean actualHasToken = testResult;
@@ -499,11 +529,11 @@ public class GitHubIssueRepositoryTest {
         /* 準備 */
         try (StubHttpClient testHttpClient = new StubHttpClient()) {
 
-            final GitHubIssueRepository testTarget = new GitHubIssueRepository(testHttpClient,
-                GitHubIssueRepositoryTest.API_BASE_URL, GitHubIssueRepositoryTest.REPOSITORY, null);
+            final GitHubIssueRepositoryImpl testTarget = new GitHubIssueRepositoryImpl(() -> testHttpClient,
+                GitHubIssueRepositoryImplTest.API_BASE_URL, new GitHubSettingsDto(GitHubIssueRepositoryImplTest.REPOSITORY, null));
 
             /* テスト対象の実行 */
-            final boolean testResult = GitHubIssueRepositoryTest.hasToken(testTarget);
+            final boolean testResult = GitHubIssueRepositoryImplTest.hasToken(testTarget);
 
             /* 検証の準備 */
             final boolean actualHasToken = testResult;
@@ -529,11 +559,11 @@ public class GitHubIssueRepositoryTest {
         /* 準備 */
         try (StubHttpClient testHttpClient = new StubHttpClient()) {
 
-            final GitHubIssueRepository testTarget = new GitHubIssueRepository(testHttpClient,
-                GitHubIssueRepositoryTest.API_BASE_URL, GitHubIssueRepositoryTest.REPOSITORY, " ");
+            final GitHubIssueRepositoryImpl testTarget = new GitHubIssueRepositoryImpl(() -> testHttpClient,
+                GitHubIssueRepositoryImplTest.API_BASE_URL, new GitHubSettingsDto(GitHubIssueRepositoryImplTest.REPOSITORY, " "));
 
             /* テスト対象の実行 */
-            final boolean testResult = GitHubIssueRepositoryTest.hasToken(testTarget);
+            final boolean testResult = GitHubIssueRepositoryImplTest.hasToken(testTarget);
 
             /* 検証の準備 */
             final boolean actualHasToken = testResult;
@@ -562,10 +592,10 @@ public class GitHubIssueRepositoryTest {
         final String expectedBody      = "本文";
 
         /* 準備 */
-        final JsonNode testNode = new ObjectMapper().readTree(GitHubIssueRepositoryTest.issueJson(371));
+        final JsonNode testNode = new ObjectMapper().readTree(GitHubIssueRepositoryImplTest.issueJson(371));
 
         /* テスト対象の実行 */
-        final DailyTaskIssue testResult = GitHubIssueRepositoryTest.toIssue(testNode);
+        final GitHubIssueDto testResult = GitHubIssueRepositoryImplTest.toIssue(testNode);
 
         /* 検証の準備 */
         final int    actualNumber    = testResult.getNumber();
@@ -599,7 +629,7 @@ public class GitHubIssueRepositoryTest {
         final JsonNode testNode = new ObjectMapper().readTree("{\"body\":\"本文\"}");
 
         /* テスト対象の実行 */
-        final String testResult = GitHubIssueRepositoryTest.textOrEmpty(testNode, "body");
+        final String testResult = GitHubIssueRepositoryImplTest.textOrEmpty(testNode, "body");
 
         /* 検証の準備 */
         final String actualValue = testResult;
@@ -625,7 +655,7 @@ public class GitHubIssueRepositoryTest {
         final JsonNode testNode = new ObjectMapper().readTree("{\"body\":null}");
 
         /* テスト対象の実行 */
-        final String testResult = GitHubIssueRepositoryTest.textOrEmpty(testNode, "body");
+        final String testResult = GitHubIssueRepositoryImplTest.textOrEmpty(testNode, "body");
 
         /* 検証の準備 */
         final String actualValue = testResult;
@@ -651,7 +681,7 @@ public class GitHubIssueRepositoryTest {
         final JsonNode testNode = new ObjectMapper().readTree("{}");
 
         /* テスト対象の実行 */
-        final String testResult = GitHubIssueRepositoryTest.textOrEmpty(testNode, "body");
+        final String testResult = GitHubIssueRepositoryImplTest.textOrEmpty(testNode, "body");
 
         /* 検証の準備 */
         final String actualValue = testResult;

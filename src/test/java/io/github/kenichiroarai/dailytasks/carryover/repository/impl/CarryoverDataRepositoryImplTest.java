@@ -1,9 +1,10 @@
-package io.github.kenichiroarai.dailytasks.carryover.repository;
+package io.github.kenichiroarai.dailytasks.carryover.repository.impl;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,14 +15,15 @@ import org.junit.jupiter.api.io.TempDir;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverItem;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSummary;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.CarryoverIssueDto;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.CarryoverItemDto;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.CarryoverSummaryDto;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.DailySummaryDto;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.ItemStatDto;
 import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 
 /**
- * {@link CarryoverDataRepository} のテスト<br>
+ * {@link CarryoverDataRepositoryImpl} のテスト<br>
  *
  * @author KenichiroArai
  *
@@ -30,7 +32,7 @@ import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
  * @version 0.1.0
  */
 @SuppressWarnings("nls")
-public class CarryoverDataRepositoryTest {
+public class CarryoverDataRepositoryImplTest {
 
     /**
      * テスト用の一時ディレクトリ
@@ -46,12 +48,12 @@ public class CarryoverDataRepositoryTest {
      *
      * @return 解析結果
      */
-    private static CarryoverIssue createIssue(final int number) {
+    private static CarryoverIssueDto createIssue(final int number) {
 
-        final CarryoverItem item = new CarryoverItem("国語", "2026-06-18", true, 8.5, MinutesSource.PARSED, "持ち越し",
+        final CarryoverItemDto item = new CarryoverItemDto("国語", "2026-06-18", true, 8.5, "parsed", "持ち越し",
             "- [x] 国語2026/06/18（残り時間：8.5分）");
-        final CarryoverIssue result = new CarryoverIssue(number, "2026年10月06日のタスク", "2026-10-06", "open",
-            "2026-10-06T14:23:08Z", List.of("持ち越し"), Integer.valueOf(1), List.of(item));
+        final CarryoverIssueDto result = new CarryoverIssueDto(number, "2026年10月06日のタスク", "2026-10-06", "open",
+            "2026-10-06T14:23:08Z", List.of("持ち越し"), Integer.valueOf(1), 1, 8.5, List.of(item));
         return result;
 
     }
@@ -69,7 +71,7 @@ public class CarryoverDataRepositoryTest {
      * @throws Exception
      *                   例外が発生した場合
      */
-    private static void write(final CarryoverDataRepository target, final Path path, final Object value)
+    private static void write(final CarryoverDataRepositoryImpl target, final Path path, final Object value)
         throws Exception {
 
         ReflectionTestUtil.invoke(target, "write", new Class<?>[] {
@@ -90,22 +92,22 @@ public class CarryoverDataRepositoryTest {
         /* 期待値の定義 */
         final Set<Integer> expectedNumbers = Set.of(Integer.valueOf(1), Integer.valueOf(371));
         final double expectedMinutes = 8.5;
-        final MinutesSource expectedMinutesSource = MinutesSource.PARSED;
+        final String expectedMinutesSource = "parsed";
 
         /* 準備 */
-        final CarryoverDataRepository testTarget = new CarryoverDataRepository(this.tempDir);
-        testTarget.saveIssue(CarryoverDataRepositoryTest.createIssue(1));
-        testTarget.saveIssue(CarryoverDataRepositoryTest.createIssue(371));
+        final CarryoverDataRepositoryImpl testTarget = new CarryoverDataRepositoryImpl(this.tempDir);
+        testTarget.saveIssue(CarryoverDataRepositoryImplTest.createIssue(1));
+        testTarget.saveIssue(CarryoverDataRepositoryImplTest.createIssue(371));
         Files.writeString(this.tempDir.resolve("issues").resolve("memo.txt"), "対象外");
 
         /* テスト対象の実行 */
-        final Map<Integer, CarryoverIssue> testResult = testTarget.loadIssues();
+        final Map<Integer, CarryoverIssueDto> testResult = testTarget.loadIssues();
 
         /* 検証の準備 */
         final Set<Integer> actualNumbers = testResult.keySet();
-        final CarryoverItem actualItem = testResult.get(Integer.valueOf(371)).getItems().get(0);
+        final CarryoverItemDto actualItem = testResult.get(Integer.valueOf(371)).getItems().get(0);
         final double actualMinutes = actualItem.getMinutes();
-        final MinutesSource actualMinutesSource = actualItem.getMinutesSource();
+        final String actualMinutesSource = actualItem.getMinutesSource();
         final boolean actualChecked = actualItem.isChecked();
 
         /* 検証の実施 */
@@ -128,10 +130,10 @@ public class CarryoverDataRepositoryTest {
         /* 期待値の定義 */
 
         /* 準備 */
-        final CarryoverDataRepository testTarget = new CarryoverDataRepository(this.tempDir.resolve("none"));
+        final CarryoverDataRepositoryImpl testTarget = new CarryoverDataRepositoryImpl(this.tempDir.resolve("none"));
 
         /* テスト対象の実行 */
-        final Map<Integer, CarryoverIssue> testResult = testTarget.loadIssues();
+        final Map<Integer, CarryoverIssueDto> testResult = testTarget.loadIssues();
 
         /* 検証の準備 */
         final boolean actualEmpty = testResult.isEmpty();
@@ -155,7 +157,7 @@ public class CarryoverDataRepositoryTest {
         /* 準備 */
         final Path testIssuesDir = Files.createDirectories(this.tempDir.resolve("issues"));
         Files.writeString(testIssuesDir.resolve("0001.json"), "{不正");
-        final CarryoverDataRepository testTarget = new CarryoverDataRepository(this.tempDir);
+        final CarryoverDataRepositoryImpl testTarget = new CarryoverDataRepositoryImpl(this.tempDir);
 
         /* テスト対象の実行 */
         final IOException testException = Assertions.assertThrows(IOException.class, testTarget::loadIssues);
@@ -181,10 +183,10 @@ public class CarryoverDataRepositoryTest {
         final String expectedFirstLines = "{\n  \"number\": 7,\n  \"title\": \"2026年10月06日のタスク\",\n";
 
         /* 準備 */
-        final CarryoverDataRepository testTarget = new CarryoverDataRepository(this.tempDir);
+        final CarryoverDataRepositoryImpl testTarget = new CarryoverDataRepositoryImpl(this.tempDir);
 
         /* テスト対象の実行 */
-        testTarget.saveIssue(CarryoverDataRepositoryTest.createIssue(7));
+        testTarget.saveIssue(CarryoverDataRepositoryImplTest.createIssue(7));
 
         /* 検証の準備 */
         final String actualJson = Files.readString(this.tempDir.resolve("issues").resolve("0007.json"),
@@ -213,10 +215,75 @@ public class CarryoverDataRepositoryTest {
         final String expectedJson = "{\n  \"latestIssue\": 371,\n  \"items\": [\n    \"国語\"\n  ],\n  \"days\": [ ]\n}\n";
 
         /* 準備 */
-        final CarryoverDataRepository testTarget = new CarryoverDataRepository(this.tempDir);
+        final CarryoverDataRepositoryImpl testTarget = new CarryoverDataRepositoryImpl(this.tempDir);
 
         /* テスト対象の実行 */
-        testTarget.saveSummary(new CarryoverSummary(371, List.of("国語"), List.of()));
+        testTarget.saveSummary(new CarryoverSummaryDto(371, List.of("国語"), List.of()));
+
+        /* 検証の準備 */
+        final String actualJson = Files.readString(this.tempDir.resolve("summary.json"), StandardCharsets.UTF_8);
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedJson, actualJson, "JSON が一致しません");
+
+    }
+
+    /**
+     * saveSummary メソッドのテスト - 正常系:日別の集計を指定した順で保存する場合
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
+     */
+    @Test
+    public void testSaveSummary_normalDays() throws IOException {
+
+        /* 期待値の定義 */
+        final String expectedJson = """
+            {
+              "latestIssue": 175,
+              "items": [ ],
+              "days": [
+                {
+                  "date": "2026-03-24",
+                  "issue": 175,
+                  "declaredCount": null,
+                  "total": {
+                    "count": 1,
+                    "minutes": 30.0,
+                    "checkedCount": 0,
+                    "checkedMinutes": 0.0
+                  },
+                  "byItem": {
+                    "英語": {
+                      "count": 1,
+                      "minutes": 30.0,
+                      "checkedCount": 0,
+                      "checkedMinutes": 0.0
+                    },
+                    "国語": {
+                      "count": 0,
+                      "minutes": 0.0,
+                      "checkedCount": 0,
+                      "checkedMinutes": 0.0
+                    }
+                  },
+                  "byOriginMonth": { }
+                }
+              ]
+            }
+            """;
+
+        /* 準備 */
+        final CarryoverDataRepositoryImpl testTarget = new CarryoverDataRepositoryImpl(this.tempDir);
+        final ItemStatDto testStat = new ItemStatDto(1, 30, 0, 0);
+        final ItemStatDto testEmptyStat = new ItemStatDto(0, 0, 0, 0);
+        final Map<String, ItemStatDto> testByItem = new LinkedHashMap<>();
+        testByItem.put("英語", testStat);
+        testByItem.put("国語", testEmptyStat);
+        final DailySummaryDto testDay = new DailySummaryDto("2026-03-24", 175, null, testStat, testByItem, Map.of());
+
+        /* テスト対象の実行 */
+        testTarget.saveSummary(new CarryoverSummaryDto(175, List.of(), List.of(testDay)));
 
         /* 検証の準備 */
         final String actualJson = Files.readString(this.tempDir.resolve("summary.json"), StandardCharsets.UTF_8);
@@ -239,11 +306,11 @@ public class CarryoverDataRepositoryTest {
         final String expectedJson = "[\n  1\n]\n";
 
         /* 準備 */
-        final CarryoverDataRepository testTarget = new CarryoverDataRepository(this.tempDir);
+        final CarryoverDataRepositoryImpl testTarget = new CarryoverDataRepositoryImpl(this.tempDir);
         final Path testPath = this.tempDir.resolve("a").resolve("b").resolve("c.json");
 
         /* テスト対象の実行 */
-        CarryoverDataRepositoryTest.write(testTarget, testPath, List.of(Integer.valueOf(1)));
+        CarryoverDataRepositoryImplTest.write(testTarget, testPath, List.of(Integer.valueOf(1)));
 
         /* 検証の準備 */
         final String actualJson = Files.readString(testPath, StandardCharsets.UTF_8);

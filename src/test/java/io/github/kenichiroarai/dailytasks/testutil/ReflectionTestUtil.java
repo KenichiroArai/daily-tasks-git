@@ -119,6 +119,31 @@ public final class ReflectionTestUtil {
     }
 
     /**
+     * インスタンスフィールドの値を取得する<br>
+     *
+     * @param <T>
+     *               値の型
+     * @param target
+     *               フィールドを持つインスタンス
+     * @param name
+     *               フィールド名
+     *
+     * @return フィールドの値
+     *
+     * @throws ReflectiveOperationException
+     *                                      フィールドが見つからない場合、または値を取得できない場合
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T getField(final Object target, final String name) throws ReflectiveOperationException {
+
+        final Field field = target.getClass().getDeclaredField(name);
+        field.setAccessible(true);
+        final T result = (T) field.get(target);
+        return result;
+
+    }
+
+    /**
      * クラスとその親クラスからメソッドを探し、アクセスできるようにする<br>
      *
      * @param clazz

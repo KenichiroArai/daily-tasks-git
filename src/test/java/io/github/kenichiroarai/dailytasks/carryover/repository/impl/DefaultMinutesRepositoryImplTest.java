@@ -1,8 +1,9 @@
-package io.github.kenichiroarai.dailytasks.carryover.repository;
+package io.github.kenichiroarai.dailytasks.carryover.repository.impl;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Map;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,12 +11,11 @@ import org.junit.jupiter.api.io.TempDir;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DefaultMinutes;
 import io.github.kenichiroarai.dailytasks.testutil.LogAssertions;
 import io.github.kenichiroarai.dailytasks.testutil.LogCapture;
 
 /**
- * {@link DefaultMinutesRepository} のテスト<br>
+ * {@link DefaultMinutesRepositoryImpl} のテスト<br>
  *
  * @author KenichiroArai
  *
@@ -24,7 +24,7 @@ import io.github.kenichiroarai.dailytasks.testutil.LogCapture;
  * @version 0.1.0
  */
 @SuppressWarnings("nls")
-public class DefaultMinutesRepositoryTest {
+public class DefaultMinutesRepositoryImplTest {
 
     /**
      * テスト用の一時ディレクトリ
@@ -47,13 +47,13 @@ public class DefaultMinutesRepositoryTest {
         /* 準備 */
         final Path testConfig = this.tempDir.resolve("default-minutes.json");
         Files.writeString(testConfig, "{\"高校数学\": 30, \"国語\": 15}");
-        final DefaultMinutesRepository testTarget = new DefaultMinutesRepository(testConfig);
+        final DefaultMinutesRepositoryImpl testTarget = new DefaultMinutesRepositoryImpl(testConfig);
 
         /* テスト対象の実行 */
-        final DefaultMinutes testResult = testTarget.load();
+        final Map<String, Double> testResult = testTarget.load();
 
         /* 検証の準備 */
-        final Double actualMinutes = testResult.find("高校数学");
+        final Double actualMinutes = testResult.get("高校数学");
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedMinutes, actualMinutes, "標準時間が一致しません");
@@ -76,16 +76,16 @@ public class DefaultMinutesRepositoryTest {
         };
 
         /* 準備 */
-        final DefaultMinutesRepository testTarget = new DefaultMinutesRepository(testConfig);
+        final DefaultMinutesRepositoryImpl testTarget = new DefaultMinutesRepositoryImpl(testConfig);
 
         /* テスト対象の実行 */
-        try (LogCapture testLog = new LogCapture(DefaultMinutesRepository.class)) {
+        try (LogCapture testLog = new LogCapture(DefaultMinutesRepositoryImpl.class)) {
 
-            final DefaultMinutes testResult = testTarget.load();
+            final Map<String, Double> testResult = testTarget.load();
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
-            final Double actualMinutes = testResult.find("国語");
+            final Double actualMinutes = testResult.get("国語");
 
             /* 検証の実施 */
             Assertions.assertNull(actualMinutes, "標準時間は未登録になる必要があります");
@@ -109,7 +109,7 @@ public class DefaultMinutesRepositoryTest {
         /* 準備 */
         final Path testConfig = this.tempDir.resolve("default-minutes.json");
         Files.writeString(testConfig, "[不正");
-        final DefaultMinutesRepository testTarget = new DefaultMinutesRepository(testConfig);
+        final DefaultMinutesRepositoryImpl testTarget = new DefaultMinutesRepositoryImpl(testConfig);
 
         /* テスト対象の実行 */
         final IOException testException = Assertions.assertThrows(IOException.class, testTarget::load);

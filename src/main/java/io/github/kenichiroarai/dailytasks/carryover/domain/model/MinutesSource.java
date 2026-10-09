@@ -1,7 +1,5 @@
 package io.github.kenichiroarai.dailytasks.carryover.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-
 /**
  * 残り時間の取得元<br>
  *
@@ -32,7 +30,7 @@ public enum MinutesSource {
     ;
 
     /**
-     * JSON での値
+     * 保存するときの値
      */
     private final String value;
 
@@ -40,7 +38,7 @@ public enum MinutesSource {
      * コンストラクタ<br>
      *
      * @param value
-     *              JSON での値
+     *              保存するときの値
      */
     private MinutesSource(final String value) {
 
@@ -49,11 +47,42 @@ public enum MinutesSource {
     }
 
     /**
-     * JSON での値を返す<br>
+     * 保存するときの値から残り時間の取得元を返す<br>
      *
-     * @return JSON での値
+     * @param value
+     *              保存するときの値（parsed / default / unknown）
+     *
+     * @return 残り時間の取得元
+     *
+     * @throws IllegalArgumentException
+     *                                  該当する取得元がない場合
      */
-    @JsonValue
+    public static MinutesSource fromValue(final String value) {
+
+        MinutesSource result = null;
+
+        for (final MinutesSource source : MinutesSource.values()) {
+
+            if (!source.value.equals(value)) {
+
+                continue;
+
+            }
+
+            result = source;
+            return result;
+
+        }
+
+        throw new IllegalArgumentException(String.format("不明な残り時間の取得元です: %s", value));
+
+    }
+
+    /**
+     * 保存するときの値を返す<br>
+     *
+     * @return 保存するときの値
+     */
     public String getValue() {
 
         final String result = this.value;

@@ -22,7 +22,7 @@ Cursor / Codex / Claude Code など複数ツールで共通利用する。
 - HTTP: 標準の `java.net.http.HttpClient`（GitHub REST API）
 - フロントエンド: Next.js（App Router、`output: 'export'` の静的エクスポート）+ TypeScript + React + Recharts、zod（JSON の検証）、CSS Modules。Node.js 20.9 以降（CI は 22）
 - 公開: GitHub Pages（GitHub Actions でデプロイ）
-- テスト: JUnit 5 / JaCoCo（行・分岐 100%）。フロントエンドは Vitest + Testing Library、ESLint、Prettier
+- テスト: JUnit 5 / JaCoCo（行・分岐 100%）/ ArchUnit（層間のルールの検査）。フロントエンドは Vitest + Testing Library、ESLint、Prettier
 - 外部の社内基盤ライブラリ（kmg-core / kmg-fund など）には依存しない
 
 ## ディレクトリ構成
@@ -30,20 +30,30 @@ Cursor / Codex / Claude Code など複数ツールで共通利用する。
 ```text
 pom.xml
 src/main/java/io/github/kenichiroarai/dailytasks/
-  DailyTasksApplication.java # 起動クラス（引数解析と carryover の実行）
+  DailyTasksApplication.java # 起動クラス（presentation のコマンドを生成して実行するだけ）
   carryover/                 # 機能パッケージ（持ち越しの収集・集計）
     presentation/            # CLI などの入出力層
-      command/               # コマンドライン引数の解釈と実行
+      command/               # コマンドのインタフェース
+      command/impl/          # コマンドの実装（引数の解釈、設定値の作成）
     application/             # ユースケースや業務ロジック層
+      model/                 # application が受け取る設定（CarryoverSettings）
       service/               # サービスのインタフェース
       service/impl/          # サービスの実装（収集・解析・集計の流れ）
     domain/                  # 共通ロジック、ドメインモデル層
-      model/                 # Issue、持ち越し項目、日別集計などのモデル
-      parser/                # Issue 本文の解析ルール
-      aggregator/            # 日別の集計
-    infrastructure/          # 全機能に跨る基盤処理層（現在は package-info.java のみ）
-    repository/              # データアクセス層（Dao）。JSON ファイルの読み書き
-      github/                # GitHub REST API からの Issue 取得
+      model/                 # Issue、持ち越し項目、日別集計、domain が受け取る設定などのモデル
+      service/               # データの取得・保存サービスのインタフェース
+      service/impl/          # データの取得・保存サービスの実装（repository を使う）
+      parser/                # Issue 本文の解析のインタフェース
+      parser/impl/           # Issue 本文の解析ルール
+      aggregator/            # 日別の集計のインタフェース
+      aggregator/impl/       # 日別の集計の実装
+      converter/             # repository の DTO と domain のモデルの変換
+    infrastructure/          # 業務を知らない汎用ユーティリティ（現在は package-info.java のみ）
+    repository/              # データアクセス層（Dao）。JSON ファイルの読み書きのインタフェース
+      impl/                  # JSON ファイルの読み書きの実装
+      dto/                   # repository が入出力に使う DTO（JSON・API 応答の形、設定）
+      github/                # GitHub REST API からの Issue 取得のインタフェース
+      github/impl/           # GitHub REST API からの Issue 取得の実装
 src/main/resources/
   logback.xml
 src/test/java/io/github/kenichiroarai/dailytasks/  # main と同じ構成
@@ -73,15 +83,62 @@ frontend/                    # 画面（Next.js + TypeScript）。詳細は fron
 | `presentation/` | CLI などの入出力層（command など） |
 | `application/` | ユースケースや業務ロジック層（service など） |
 | `domain/` | 共通ロジック、ドメインモデル層（model / parser など） |
-| `infrastructure/` | 全機能に跨る基盤処理層（ログ・共通設定など、特定のデータ取得元に依存しないもの） |
+| `infrastructure/` | 業務やドメインを知らない、何にも依存しない汎用のユーティリティ（文字列・日付の汎用処理など） |
 | `repository/` | JSON ファイル・GitHub API などのデータアクセス層（Dao） |
 
 - 新しい機能は `carryover/` と同じ構成で追加する
 - 中身のないパッケージには、Git で消えないように Javadoc 付きの `package-info.java` を置く
-- サービスはインタフェース（`application/service/`）と実装（`application/service/impl/`）に分ける
 - 外部のデータ取得元（GitHub API など）へのアクセスは、ファイルと同じくデータアクセスとして `repository/` に置く（例: `repository/github/GitHubIssueRepository`）
-- domain 層は infrastructure 層・repository 層に依存しない
 - テストのパッケージは main と同じ構成にする
+
+## 層間のルール
+
+各層がごちゃごちゃにならず、処理の流れを上から下へ一本で追えるようにするため、参照できる先を制限し、飛び越しをさせない。
+
+```mermaid
+flowchart TD
+    entryPoint[DailyTasksApplication] --> presentation
+    presentation --> application
+    application --> domain
+    domain --> repository
+    infrastructure["infrastructure（全層から利用可）"]
+```
+
+### 参照の向き
+
+- 参照は矢印の向きに「すぐ下の層」だけにする。逆向きの参照と飛び越しは禁止する
+  - 禁止の例: application → repository、presentation → domain、エントリポイント → application、repository → domain
+- infrastructure は全層から参照してよい。infrastructure から他の層は参照しない
+- infrastructure には業務やドメインを知らない汎用のユーティリティだけを置く。機能固有の値（対象リポジトリ、出力先など）や業務の判断は置かない
+
+### 公開するものと実装
+
+- 各層は、上の層に公開するもの（インタフェースと受け渡し用のデータ型）を層の直下のパッケージ（`service/`、`parser/`、`repository/` など）に置き、実装は `impl/` に置く
+- 上の層は `impl/` のクラスを型（フィールド・引数・戻り値・変数の型）として使わない。参照してよいのは、すぐ下の層の実装を生成するときだけ
+- 生成も同じ流れにする。各層は「すぐ下の層の実装」だけを生成する（エントリポイント → `CarryoverCommandImpl` → `CarryoverServiceImpl` → domain の実装 → repository の実装）
+- テストで差し替えられるよう、実装には「すぐ下の層のインタフェースを受け取るコンストラクタ」も用意する
+
+### データの受け渡しと変換
+
+- 受け渡すデータ型は、その層が持つものを使う。変換は「下の層を知っている側（上の層）」で行う
+  - repository は自分の DTO（`repository/dto/`）を入出力に使い、domain のモデルを知らない。JSON の形（Jackson のアノテーション）は DTO だけが持つ
+  - domain は repository の DTO と domain のモデルを相互に変換する（`domain/converter/`）。両方を知っているのは domain だけである
+  - application は domain のモデルだけを使い、presentation には件数などの結果だけを返す
+- DTO や repository のインタフェースを domain に置かない。repository の実装がそれを実装すると repository → domain の逆向き参照になるため。差し替えやすさは、repository 自身がインタフェースを公開し実装を `impl/` に分けることで確保する
+
+### 設定値の引き継ぎ
+
+- 設定値も業務データと同じく、上の層から下の層へ引き継ぎ、境界ごとに下の層の型に変換して渡す。どこからでも参照できる共有の設定（infrastructure の設定クラスなど）は作らない
+- 値の出どころは入力の窓口である presentation（コマンドライン引数・環境変数 `GITHUB_TOKEN`・既定値）とする
+  - presentation → application: `application/model/CarryoverSettings`
+  - application → domain: `domain/model/CarryoverSource`
+  - domain → repository: `repository/dto/GitHubSettingsDto`、ファイルのパス（`Path`）
+- GitHub API のベース URL のような、業務の設定ではない技術的な固定値は、それを使う repository の実装の定数にする
+- トークンは設定型の `toString` に含めない
+
+### ルールの検査
+
+- 層間のルールは `ArchitectureTest`（ArchUnit）で検査する。違反があると `mvn test` は失敗する
 
 ## フロントエンド
 
@@ -471,6 +528,7 @@ public class SampleClass {
 ## 変更時のチェックリスト
 
 - [ ] パッケージ構成ルール（機能パッケージ + 5 層）の順守
+- [ ] 層間のルール（すぐ下の層だけを参照、飛び越し・逆向き参照なし、`impl/` を型として使わない、データ・設定値は境界で変換）の順守（`ArchitectureTest` が通ること）
 - [ ] JSON 形式の後方互換の確認（変更時は全件モードで再生成）
 - [ ] テストの追加 / 更新（命名・実装順序・検証方法を含む）
 - [ ] `mvn test` で JaCoCo カバレッジ 100% を維持
@@ -484,7 +542,10 @@ public class SampleClass {
 ## やってはいけないこと
 
 - 機能パッケージの外（`io.github.kenichiroarai.dailytasks` 直下など。起動クラスを除く）に業務クラスを置くこと
-- domain 層から infrastructure 層・repository 層に依存すること
+- 層を飛び越して参照すること（例: application → repository、presentation → domain、エントリポイント → application）
+- 下の層から上の層を参照すること（例: repository → domain、domain → application）
+- 上の層で下の層の `impl/` のクラスを型として使うこと（生成するときだけ参照してよい）
+- infrastructure に機能固有の値や業務の判断を置くこと、infrastructure から他の層を参照すること
 - kmg-core / kmg-fund などの社内基盤ライブラリに依存すること
 - シークレット（`GITHUB_TOKEN` など）をコード・ログ・JSON に出すこと
 - テストで GitHub API に実通信すること

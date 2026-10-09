@@ -2,8 +2,6 @@ package io.github.kenichiroarai.dailytasks.carryover.domain.model;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 /**
  * 画面用の持ち越しの集計<br>
  *
@@ -13,9 +11,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  *
  * @version 0.1.0
  */
-@JsonPropertyOrder({
-    "latestIssue", "items", "days"
-})
 public class CarryoverSummary {
 
     /**

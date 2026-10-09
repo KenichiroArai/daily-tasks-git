@@ -1,4 +1,4 @@
-package io.github.kenichiroarai.dailytasks.carryover.domain.parser;
+package io.github.kenichiroarai.dailytasks.carryover.domain.parser.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import io.github.kenichiroarai.dailytasks.testutil.LogCapture;
 import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 
 /**
- * {@link CarryoverParser} のテスト<br>
+ * {@link CarryoverParserImpl} のテスト<br>
  *
  * @author KenichiroArai
  *
@@ -28,7 +28,7 @@ import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 @SuppressWarnings({
     "nls", "static-method"
 })
-public class CarryoverParserTest {
+public class CarryoverParserImplTest {
 
     /**
      * テスト用の標準時間
@@ -74,7 +74,7 @@ public class CarryoverParserTest {
      * @throws Exception
      *                   例外が発生した場合
      */
-    private static CarryoverItem parseItem(final CarryoverParser target, final int number, final String section,
+    private static CarryoverItem parseItem(final CarryoverParserImpl target, final int number, final String section,
         final boolean checked, final String content, final String raw) throws Exception {
 
         final CarryoverItem result = ReflectionTestUtil.invoke(target, "parseItem", new Class<?>[] {
@@ -97,7 +97,7 @@ public class CarryoverParserTest {
      */
     private static String parseTitleDate(final String title) throws Exception {
 
-        final String result = ReflectionTestUtil.invokeStatic(CarryoverParser.class, "parseTitleDate", new Class<?>[] {
+        final String result = ReflectionTestUtil.invokeStatic(CarryoverParserImpl.class, "parseTitleDate", new Class<?>[] {
             String.class
         }, title);
         return result;
@@ -117,7 +117,7 @@ public class CarryoverParserTest {
      */
     private static Double parseMinutes(final String text) throws Exception {
 
-        final Double result = ReflectionTestUtil.invokeStatic(CarryoverParser.class, "parseMinutes", new Class<?>[] {
+        final Double result = ReflectionTestUtil.invokeStatic(CarryoverParserImpl.class, "parseMinutes", new Class<?>[] {
             String.class
         }, text);
         return result;
@@ -137,7 +137,7 @@ public class CarryoverParserTest {
      */
     private static String normalizeName(final String name) throws Exception {
 
-        final String result = ReflectionTestUtil.invokeStatic(CarryoverParser.class, "normalizeName", new Class<?>[] {
+        final String result = ReflectionTestUtil.invokeStatic(CarryoverParserImpl.class, "normalizeName", new Class<?>[] {
             String.class
         }, name);
         return result;
@@ -157,7 +157,7 @@ public class CarryoverParserTest {
      */
     private static List<String> splitLines(final String body) throws Exception {
 
-        final List<String> result = ReflectionTestUtil.invokeStatic(CarryoverParser.class, "splitLines",
+        final List<String> result = ReflectionTestUtil.invokeStatic(CarryoverParserImpl.class, "splitLines",
             new Class<?>[] {
                 String.class
             }, body);
@@ -178,7 +178,7 @@ public class CarryoverParserTest {
      */
     private static void addSection(final List<String> sections, final String section) throws Exception {
 
-        ReflectionTestUtil.invokeStatic(CarryoverParser.class, "addSection", new Class<?>[] {
+        ReflectionTestUtil.invokeStatic(CarryoverParserImpl.class, "addSection", new Class<?>[] {
             List.class, String.class
         }, sections, section);
 
@@ -197,7 +197,7 @@ public class CarryoverParserTest {
      */
     private static void warnUnexpectedLine(final int number, final String line) throws Exception {
 
-        ReflectionTestUtil.invokeStatic(CarryoverParser.class, "warnUnexpectedLine", new Class<?>[] {
+        ReflectionTestUtil.invokeStatic(CarryoverParserImpl.class, "warnUnexpectedLine", new Class<?>[] {
             int.class, String.class
         }, Integer.valueOf(number), line);
 
@@ -219,7 +219,7 @@ public class CarryoverParserTest {
     private static void verifyDeclaredCount(final int number, final Integer declaredCount, final int parsedCount)
         throws Exception {
 
-        ReflectionTestUtil.invokeStatic(CarryoverParser.class, "verifyDeclaredCount", new Class<?>[] {
+        ReflectionTestUtil.invokeStatic(CarryoverParserImpl.class, "verifyDeclaredCount", new Class<?>[] {
             int.class, Integer.class, int.class
         }, Integer.valueOf(number), declaredCount, Integer.valueOf(parsedCount));
 
@@ -242,7 +242,7 @@ public class CarryoverParserTest {
      */
     private static String formatDate(final String year, final String month, final String day) throws Exception {
 
-        final String result = ReflectionTestUtil.invokeStatic(CarryoverParser.class, "formatDate", new Class<?>[] {
+        final String result = ReflectionTestUtil.invokeStatic(CarryoverParserImpl.class, "formatDate", new Class<?>[] {
             String.class, String.class, String.class
         }, year, month, day);
         return result;
@@ -267,13 +267,13 @@ public class CarryoverParserTest {
         final String testBody = String.join("\r\n", "## ルーティン", "", "- [ ] 国語（15分）", "## 追加", "## 持ち越し", "残：2",
             "- [ ] 国語2026/06/18（残り時間：15分）", "- [x] 音楽2026/08/18（残り時間：8.5分）", "## 先行",
             "- [ ] 国語2026/10/07（残り時間：15分）");
-        final CarryoverParser testTarget = new CarryoverParser(CarryoverParserTest.DEFAULT_MINUTES);
-        final DailyTaskIssue testIssue = CarryoverParserTest.createIssue("2026年10月06日のタスク", testBody);
+        final CarryoverParserImpl testTarget = new CarryoverParserImpl(CarryoverParserImplTest.DEFAULT_MINUTES);
+        final DailyTaskIssue testIssue = CarryoverParserImplTest.createIssue("2026年10月06日のタスク", testBody);
 
         /* テスト対象の実行 */
         final CarryoverIssue testResult;
 
-        try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
+        try (LogCapture testLog = new LogCapture(CarryoverParserImpl.class)) {
 
             testResult = testTarget.parse(testIssue);
 
@@ -309,8 +309,8 @@ public class CarryoverParserTest {
         final int expectedCount = 0;
 
         /* 準備 */
-        final CarryoverParser testTarget = new CarryoverParser(CarryoverParserTest.DEFAULT_MINUTES);
-        final DailyTaskIssue testIssue = CarryoverParserTest.createIssue("2025年10月01日のタスク",
+        final CarryoverParserImpl testTarget = new CarryoverParserImpl(CarryoverParserImplTest.DEFAULT_MINUTES);
+        final DailyTaskIssue testIssue = CarryoverParserImplTest.createIssue("2025年10月01日のタスク",
             "## ルーティン\n- [ ] 国語（15分）\n## 追加");
 
         /* テスト対象の実行 */
@@ -336,8 +336,8 @@ public class CarryoverParserTest {
         final List<String> expectedSections = List.of("負債", "繰り越し");
 
         /* 準備 */
-        final CarryoverParser testTarget = new CarryoverParser(CarryoverParserTest.DEFAULT_MINUTES);
-        final DailyTaskIssue testIssue = CarryoverParserTest.createIssue("2026年04月10日のタスク",
+        final CarryoverParserImpl testTarget = new CarryoverParserImpl(CarryoverParserImplTest.DEFAULT_MINUTES);
+        final DailyTaskIssue testIssue = CarryoverParserImplTest.createIssue("2026年04月10日のタスク",
             "## 負債\n- [ ] 国語2026/03/30\n## 繰り越し\n- [ ] 国語2026/03/31（残り9分）");
 
         /* テスト対象の実行 */
@@ -363,11 +363,11 @@ public class CarryoverParserTest {
         };
 
         /* 準備 */
-        final CarryoverParser testTarget = new CarryoverParser(CarryoverParserTest.DEFAULT_MINUTES);
-        final DailyTaskIssue testIssue = CarryoverParserTest.createIssue("タスク", null);
+        final CarryoverParserImpl testTarget = new CarryoverParserImpl(CarryoverParserImplTest.DEFAULT_MINUTES);
+        final DailyTaskIssue testIssue = CarryoverParserImplTest.createIssue("タスク", null);
 
         /* テスト対象の実行 */
-        try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
+        try (LogCapture testLog = new LogCapture(CarryoverParserImpl.class)) {
 
             final CarryoverIssue testResult = testTarget.parse(testIssue);
 
@@ -396,12 +396,12 @@ public class CarryoverParserTest {
         };
 
         /* 準備 */
-        final CarryoverParser testTarget = new CarryoverParser(CarryoverParserTest.DEFAULT_MINUTES);
-        final DailyTaskIssue testIssue = CarryoverParserTest.createIssue("2026年10月06日のタスク",
+        final CarryoverParserImpl testTarget = new CarryoverParserImpl(CarryoverParserImplTest.DEFAULT_MINUTES);
+        final DailyTaskIssue testIssue = CarryoverParserImplTest.createIssue("2026年10月06日のタスク",
             "## 持ち越し\nメモ\n\n-----\n- [ ] 国語2026/06/18（残り時間：15分）");
 
         /* テスト対象の実行 */
-        try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
+        try (LogCapture testLog = new LogCapture(CarryoverParserImpl.class)) {
 
             final CarryoverIssue testResult = testTarget.parse(testIssue);
 
@@ -429,12 +429,12 @@ public class CarryoverParserTest {
         };
 
         /* 準備 */
-        final CarryoverParser testTarget = new CarryoverParser(CarryoverParserTest.DEFAULT_MINUTES);
-        final DailyTaskIssue testIssue = CarryoverParserTest.createIssue("2026年10月06日のタスク",
+        final CarryoverParserImpl testTarget = new CarryoverParserImpl(CarryoverParserImplTest.DEFAULT_MINUTES);
+        final DailyTaskIssue testIssue = CarryoverParserImplTest.createIssue("2026年10月06日のタスク",
             "## 持ち越し\n残：3\n- [ ] 国語2026/06/18（残り時間：15分）");
 
         /* テスト対象の実行 */
-        try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
+        try (LogCapture testLog = new LogCapture(CarryoverParserImpl.class)) {
 
             testTarget.parse(testIssue);
 
@@ -465,10 +465,10 @@ public class CarryoverParserTest {
         final String expectedSection = "持ち越し";
 
         /* 準備 */
-        final CarryoverParser testTarget = new CarryoverParser(CarryoverParserTest.DEFAULT_MINUTES);
+        final CarryoverParserImpl testTarget = new CarryoverParserImpl(CarryoverParserImplTest.DEFAULT_MINUTES);
 
         /* テスト対象の実行 */
-        final CarryoverItem testResult = CarryoverParserTest.parseItem(testTarget, 371, "持ち越し", false, "国語2026/06/18（残り時間：4分）",
+        final CarryoverItem testResult = CarryoverParserImplTest.parseItem(testTarget, 371, "持ち越し", false, "国語2026/06/18（残り時間：4分）",
             "- [ ] 国語2026/06/18（残り時間：4分）");
 
         /* 検証の準備 */
@@ -502,12 +502,12 @@ public class CarryoverParserTest {
         final String[] expectedMsgs = {};
 
         /* 準備 */
-        final CarryoverParser testTarget = new CarryoverParser(CarryoverParserTest.DEFAULT_MINUTES);
+        final CarryoverParserImpl testTarget = new CarryoverParserImpl(CarryoverParserImplTest.DEFAULT_MINUTES);
 
         /* テスト対象の実行 */
-        try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
+        try (LogCapture testLog = new LogCapture(CarryoverParserImpl.class)) {
 
-            final CarryoverItem testResult = CarryoverParserTest.parseItem(testTarget, 371, "負債", false, "国語2026/03/30", "- [ ] 国語2026/03/30");
+            final CarryoverItem testResult = CarryoverParserImplTest.parseItem(testTarget, 371, "負債", false, "国語2026/03/30", "- [ ] 国語2026/03/30");
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
@@ -540,12 +540,12 @@ public class CarryoverParserTest {
         };
 
         /* 準備 */
-        final CarryoverParser testTarget = new CarryoverParser(CarryoverParserTest.DEFAULT_MINUTES);
+        final CarryoverParserImpl testTarget = new CarryoverParserImpl(CarryoverParserImplTest.DEFAULT_MINUTES);
 
         /* テスト対象の実行 */
-        try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
+        try (LogCapture testLog = new LogCapture(CarryoverParserImpl.class)) {
 
-            final CarryoverItem testResult = CarryoverParserTest.parseItem(testTarget, 371, "負債", false, "英語2026/03/30", "- [ ] 英語2026/03/30");
+            final CarryoverItem testResult = CarryoverParserImplTest.parseItem(testTarget, 371, "負債", false, "英語2026/03/30", "- [ ] 英語2026/03/30");
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
@@ -578,12 +578,12 @@ public class CarryoverParserTest {
         };
 
         /* 準備 */
-        final CarryoverParser testTarget = new CarryoverParser(CarryoverParserTest.DEFAULT_MINUTES);
+        final CarryoverParserImpl testTarget = new CarryoverParserImpl(CarryoverParserImplTest.DEFAULT_MINUTES);
 
         /* テスト対象の実行 */
-        try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
+        try (LogCapture testLog = new LogCapture(CarryoverParserImpl.class)) {
 
-            final CarryoverItem testResult = CarryoverParserTest.parseItem(testTarget, 371, "持ち越し", false, "国語（10分）", "- [ ] 国語（10分）");
+            final CarryoverItem testResult = CarryoverParserImplTest.parseItem(testTarget, 371, "持ち越し", false, "国語（10分）", "- [ ] 国語（10分）");
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
@@ -618,12 +618,12 @@ public class CarryoverParserTest {
         };
 
         /* 準備 */
-        final CarryoverParser testTarget = new CarryoverParser(CarryoverParserTest.DEFAULT_MINUTES);
+        final CarryoverParserImpl testTarget = new CarryoverParserImpl(CarryoverParserImplTest.DEFAULT_MINUTES);
 
         /* テスト対象の実行 */
-        try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
+        try (LogCapture testLog = new LogCapture(CarryoverParserImpl.class)) {
 
-            final CarryoverItem testResult = CarryoverParserTest.parseItem(testTarget, 371, "持ち越し", false, "国語2026/06/18（未定）",
+            final CarryoverItem testResult = CarryoverParserImplTest.parseItem(testTarget, 371, "持ち越し", false, "国語2026/06/18（未定）",
                 "- [ ] 国語2026/06/18（未定）");
 
             /* 検証の準備 */
@@ -656,12 +656,12 @@ public class CarryoverParserTest {
         };
 
         /* 準備 */
-        final CarryoverParser testTarget = new CarryoverParser(CarryoverParserTest.DEFAULT_MINUTES);
+        final CarryoverParserImpl testTarget = new CarryoverParserImpl(CarryoverParserImplTest.DEFAULT_MINUTES);
 
         /* テスト対象の実行 */
-        try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
+        try (LogCapture testLog = new LogCapture(CarryoverParserImpl.class)) {
 
-            final CarryoverItem testResult = CarryoverParserTest.parseItem(testTarget, 371, "持ち越し", false, "2026/06/18（残り時間：15分）",
+            final CarryoverItem testResult = CarryoverParserImplTest.parseItem(testTarget, 371, "持ち越し", false, "2026/06/18（残り時間：15分）",
                 "- [ ] 2026/06/18（残り時間：15分）");
 
             /* 検証の準備 */
@@ -692,7 +692,7 @@ public class CarryoverParserTest {
         final String testTitle = "2026年10月6日のタスク";
 
         /* テスト対象の実行 */
-        final String testResult = CarryoverParserTest.parseTitleDate(testTitle);
+        final String testResult = CarryoverParserImplTest.parseTitleDate(testTitle);
 
         /* 検証の準備 */
         final String actualDate = testResult;
@@ -717,7 +717,7 @@ public class CarryoverParserTest {
         final String testTitle = "タスク";
 
         /* テスト対象の実行 */
-        final String testResult = CarryoverParserTest.parseTitleDate(testTitle);
+        final String testResult = CarryoverParserImplTest.parseTitleDate(testTitle);
 
         /* 検証の準備 */
         final String actualDate = testResult;
@@ -742,7 +742,7 @@ public class CarryoverParserTest {
         final String testTitle = null;
 
         /* テスト対象の実行 */
-        final String testResult = CarryoverParserTest.parseTitleDate(testTitle);
+        final String testResult = CarryoverParserImplTest.parseTitleDate(testTitle);
 
         /* 検証の準備 */
         final String actualDate = testResult;
@@ -768,7 +768,7 @@ public class CarryoverParserTest {
         final String testText = "（残り時間：15分）";
 
         /* テスト対象の実行 */
-        final Double testResult = CarryoverParserTest.parseMinutes(testText);
+        final Double testResult = CarryoverParserImplTest.parseMinutes(testText);
 
         /* 検証の準備 */
         final Double actualMinutes = testResult;
@@ -794,7 +794,7 @@ public class CarryoverParserTest {
         final String testText = "（残り時間：8.5分）";
 
         /* テスト対象の実行 */
-        final Double testResult = CarryoverParserTest.parseMinutes(testText);
+        final Double testResult = CarryoverParserImplTest.parseMinutes(testText);
 
         /* 検証の準備 */
         final Double actualMinutes = testResult;
@@ -820,7 +820,7 @@ public class CarryoverParserTest {
         final String testText = "（残り9分）";
 
         /* テスト対象の実行 */
-        final Double testResult = CarryoverParserTest.parseMinutes(testText);
+        final Double testResult = CarryoverParserImplTest.parseMinutes(testText);
 
         /* 検証の準備 */
         final Double actualMinutes = testResult;
@@ -846,7 +846,7 @@ public class CarryoverParserTest {
         final String testText = "（先行分残り5分）";
 
         /* テスト対象の実行 */
-        final Double testResult = CarryoverParserTest.parseMinutes(testText);
+        final Double testResult = CarryoverParserImplTest.parseMinutes(testText);
 
         /* 検証の準備 */
         final Double actualMinutes = testResult;
@@ -872,7 +872,7 @@ public class CarryoverParserTest {
         final String testText = "（30分）";
 
         /* テスト対象の実行 */
-        final Double testResult = CarryoverParserTest.parseMinutes(testText);
+        final Double testResult = CarryoverParserImplTest.parseMinutes(testText);
 
         /* 検証の準備 */
         final Double actualMinutes = testResult;
@@ -898,7 +898,7 @@ public class CarryoverParserTest {
         final String testText = "(15分)";
 
         /* テスト対象の実行 */
-        final Double testResult = CarryoverParserTest.parseMinutes(testText);
+        final Double testResult = CarryoverParserImplTest.parseMinutes(testText);
 
         /* 検証の準備 */
         final Double actualMinutes = testResult;
@@ -923,7 +923,7 @@ public class CarryoverParserTest {
         final String testText = "";
 
         /* テスト対象の実行 */
-        final Double testResult = CarryoverParserTest.parseMinutes(testText);
+        final Double testResult = CarryoverParserImplTest.parseMinutes(testText);
 
         /* 検証の準備 */
         final Double actualMinutes = testResult;
@@ -948,7 +948,7 @@ public class CarryoverParserTest {
         final String testText = "（未定）";
 
         /* テスト対象の実行 */
-        final Double testResult = CarryoverParserTest.parseMinutes(testText);
+        final Double testResult = CarryoverParserImplTest.parseMinutes(testText);
 
         /* 検証の準備 */
         final Double actualMinutes = testResult;
@@ -974,7 +974,7 @@ public class CarryoverParserTest {
         final String testName = " IT・技術学習 ";
 
         /* テスト対象の実行 */
-        final String testResult = CarryoverParserTest.normalizeName(testName);
+        final String testResult = CarryoverParserImplTest.normalizeName(testName);
 
         /* 検証の準備 */
         final String actualName = testResult;
@@ -1000,7 +1000,7 @@ public class CarryoverParserTest {
         final String testName = "汎用タスク（15分）";
 
         /* テスト対象の実行 */
-        final String testResult = CarryoverParserTest.normalizeName(testName);
+        final String testResult = CarryoverParserImplTest.normalizeName(testName);
 
         /* 検証の準備 */
         final String actualName = testResult;
@@ -1026,7 +1026,7 @@ public class CarryoverParserTest {
         final String testName = "フロントエンドまたはサーバー系に関係する学習(";
 
         /* テスト対象の実行 */
-        final String testResult = CarryoverParserTest.normalizeName(testName);
+        final String testResult = CarryoverParserImplTest.normalizeName(testName);
 
         /* 検証の準備 */
         final String actualName = testResult;
@@ -1052,7 +1052,7 @@ public class CarryoverParserTest {
         final String testName = "（15分）";
 
         /* テスト対象の実行 */
-        final String testResult = CarryoverParserTest.normalizeName(testName);
+        final String testResult = CarryoverParserImplTest.normalizeName(testName);
 
         /* 検証の準備 */
         final String actualName = testResult;
@@ -1078,7 +1078,7 @@ public class CarryoverParserTest {
         final String testBody = "a\r\nb\nc";
 
         /* テスト対象の実行 */
-        final List<String> testResult = CarryoverParserTest.splitLines(testBody);
+        final List<String> testResult = CarryoverParserImplTest.splitLines(testBody);
 
         /* 検証の準備 */
         final List<String> actualLines = testResult;
@@ -1104,7 +1104,7 @@ public class CarryoverParserTest {
         final String testBody = null;
 
         /* テスト対象の実行 */
-        final List<String> testResult = CarryoverParserTest.splitLines(testBody);
+        final List<String> testResult = CarryoverParserImplTest.splitLines(testBody);
 
         /* 検証の準備 */
         final List<String> actualLines = testResult;
@@ -1130,7 +1130,7 @@ public class CarryoverParserTest {
         final List<String> testSections = new ArrayList<>();
 
         /* テスト対象の実行 */
-        CarryoverParserTest.addSection(testSections, "持ち越し");
+        CarryoverParserImplTest.addSection(testSections, "持ち越し");
 
         /* 検証の準備 */
         final List<String> actualSections = testSections;
@@ -1156,7 +1156,7 @@ public class CarryoverParserTest {
         final List<String> testSections = new ArrayList<>(List.of("持ち越し"));
 
         /* テスト対象の実行 */
-        CarryoverParserTest.addSection(testSections, "持ち越し");
+        CarryoverParserImplTest.addSection(testSections, "持ち越し");
 
         /* 検証の準備 */
         final List<String> actualSections = testSections;
@@ -1182,7 +1182,7 @@ public class CarryoverParserTest {
         final List<String> testSections = new ArrayList<>();
 
         /* テスト対象の実行 */
-        CarryoverParserTest.addSection(testSections, "先行");
+        CarryoverParserImplTest.addSection(testSections, "先行");
 
         /* 検証の準備 */
         final List<String> actualSections = testSections;
@@ -1207,9 +1207,9 @@ public class CarryoverParserTest {
         /* 準備 */
 
         /* テスト対象の実行 */
-        try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
+        try (LogCapture testLog = new LogCapture(CarryoverParserImpl.class)) {
 
-            CarryoverParserTest.warnUnexpectedLine(371, "   ");
+            CarryoverParserImplTest.warnUnexpectedLine(371, "   ");
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
@@ -1236,9 +1236,9 @@ public class CarryoverParserTest {
         /* 準備 */
 
         /* テスト対象の実行 */
-        try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
+        try (LogCapture testLog = new LogCapture(CarryoverParserImpl.class)) {
 
-            CarryoverParserTest.warnUnexpectedLine(371, "-----");
+            CarryoverParserImplTest.warnUnexpectedLine(371, "-----");
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
@@ -1267,9 +1267,9 @@ public class CarryoverParserTest {
         /* 準備 */
 
         /* テスト対象の実行 */
-        try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
+        try (LogCapture testLog = new LogCapture(CarryoverParserImpl.class)) {
 
-            CarryoverParserTest.warnUnexpectedLine(371, "メモ");
+            CarryoverParserImplTest.warnUnexpectedLine(371, "メモ");
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
@@ -1296,9 +1296,9 @@ public class CarryoverParserTest {
         /* 準備 */
 
         /* テスト対象の実行 */
-        try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
+        try (LogCapture testLog = new LogCapture(CarryoverParserImpl.class)) {
 
-            CarryoverParserTest.verifyDeclaredCount(371, Integer.valueOf(76), 76);
+            CarryoverParserImplTest.verifyDeclaredCount(371, Integer.valueOf(76), 76);
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
@@ -1325,9 +1325,9 @@ public class CarryoverParserTest {
         /* 準備 */
 
         /* テスト対象の実行 */
-        try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
+        try (LogCapture testLog = new LogCapture(CarryoverParserImpl.class)) {
 
-            CarryoverParserTest.verifyDeclaredCount(371, null, 76);
+            CarryoverParserImplTest.verifyDeclaredCount(371, null, 76);
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
@@ -1356,9 +1356,9 @@ public class CarryoverParserTest {
         /* 準備 */
 
         /* テスト対象の実行 */
-        try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
+        try (LogCapture testLog = new LogCapture(CarryoverParserImpl.class)) {
 
-            CarryoverParserTest.verifyDeclaredCount(371, Integer.valueOf(76), 75);
+            CarryoverParserImplTest.verifyDeclaredCount(371, Integer.valueOf(76), 75);
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
@@ -1385,7 +1385,7 @@ public class CarryoverParserTest {
         /* 準備 */
 
         /* テスト対象の実行 */
-        final String testResult = CarryoverParserTest.formatDate("2026", "6", "5");
+        final String testResult = CarryoverParserImplTest.formatDate("2026", "6", "5");
 
         /* 検証の準備 */
         final String actualDate = testResult;

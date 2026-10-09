@@ -2,12 +2,6 @@ package io.github.kenichiroarai.dailytasks.carryover.domain.model;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 /**
  * 持ち越しの解析結果（Issue 単位）<br>
  *
@@ -17,10 +11,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  *
  * @version 0.1.0
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonPropertyOrder({
-    "number", "title", "date", "state", "updatedAt", "sections", "declaredCount", "count", "minutes", "items"
-})
 @SuppressWarnings("nls")
 public class CarryoverIssue {
 
@@ -84,12 +74,9 @@ public class CarryoverIssue {
      * @param items
      *                      持ち越し項目
      */
-    @JsonCreator
-    public CarryoverIssue(@JsonProperty("number") final int number, @JsonProperty("title") final String title,
-        @JsonProperty("date") final String date, @JsonProperty("state") final String state,
-        @JsonProperty("updatedAt") final String updatedAt, @JsonProperty("sections") final List<String> sections,
-        @JsonProperty("declaredCount") final Integer declaredCount,
-        @JsonProperty("items") final List<CarryoverItem> items) {
+    public CarryoverIssue(final int number, final String title, final String date, final String state,
+        final String updatedAt, final List<String> sections, final Integer declaredCount,
+        final List<CarryoverItem> items) {
 
         this.number = number;
         this.title = title;
@@ -239,7 +226,6 @@ public class CarryoverIssue {
      *
      * @return true：オープン中、false：クローズ済み
      */
-    @JsonIgnore
     public boolean isOpen() {
 
         final boolean result = "open".equals(this.state);

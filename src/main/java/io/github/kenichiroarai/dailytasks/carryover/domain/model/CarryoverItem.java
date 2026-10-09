@@ -1,9 +1,5 @@
 package io.github.kenichiroarai.dailytasks.carryover.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 /**
  * 持ち越し項目<br>
  * <p>
@@ -16,9 +12,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  *
  * @version 0.1.0
  */
-@JsonPropertyOrder({
-    "name", "originDate", "checked", "minutes", "minutesSource", "section", "raw"
-})
 public class CarryoverItem {
 
     /**
@@ -74,11 +67,8 @@ public class CarryoverItem {
      * @param raw
      *                      元の行
      */
-    @JsonCreator
-    public CarryoverItem(@JsonProperty("name") final String name, @JsonProperty("originDate") final String originDate,
-        @JsonProperty("checked") final boolean checked, @JsonProperty("minutes") final double minutes,
-        @JsonProperty("minutesSource") final MinutesSource minutesSource,
-        @JsonProperty("section") final String section, @JsonProperty("raw") final String raw) {
+    public CarryoverItem(final String name, final String originDate, final boolean checked, final double minutes,
+        final MinutesSource minutesSource, final String section, final String raw) {
 
         this.name = name;
         this.originDate = originDate;

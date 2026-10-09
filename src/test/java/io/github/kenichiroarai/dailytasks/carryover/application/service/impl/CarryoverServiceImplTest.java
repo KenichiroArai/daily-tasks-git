@@ -3,22 +3,28 @@ package io.github.kenichiroarai.dailytasks.carryover.application.service.impl;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import io.github.kenichiroarai.dailytasks.carryover.domain.aggregator.CarryoverAggregator;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSettings;
+import io.github.kenichiroarai.dailytasks.carryover.domain.aggregator.impl.CarryoverAggregatorImpl;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverIssue;
+import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSource;
+import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSummary;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailyTaskIssue;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.DefaultMinutes;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
 import io.github.kenichiroarai.dailytasks.carryover.domain.parser.CarryoverParser;
-import io.github.kenichiroarai.dailytasks.carryover.repository.CarryoverDataRepository;
-import io.github.kenichiroarai.dailytasks.carryover.repository.github.GitHubIssueRepository;
+import io.github.kenichiroarai.dailytasks.carryover.domain.parser.impl.CarryoverParserImpl;
+import io.github.kenichiroarai.dailytasks.carryover.domain.service.CarryoverIssueService;
+import io.github.kenichiroarai.dailytasks.carryover.domain.service.impl.CarryoverIssueServiceImpl;
 import io.github.kenichiroarai.dailytasks.testutil.LogAssertions;
 import io.github.kenichiroarai.dailytasks.testutil.LogCapture;
 import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
@@ -52,7 +58,7 @@ public class CarryoverServiceImplTest {
     /**
      * テスト用の Issue 本文の解析
      */
-    private static final CarryoverParser PARSER = new CarryoverParser(
+    private static final CarryoverParser PARSER = new CarryoverParserImpl(
         new DefaultMinutes(Map.of("国語", Double.valueOf(15))));
 
     /**
@@ -62,9 +68,9 @@ public class CarryoverServiceImplTest {
     Path tempDir;
 
     /**
-     * テスト用の GitHub API からの Issue の取得<br>
+     * テスト用の持ち越しのデータの取得・保存サービス<br>
      * <p>
-     * 通信せずに登録した Issue を返す。
+     * 通信やファイルの入出力をせず、登録した Issue と保存済みの解析結果をメモリ上で扱う。
      * </p>
      *
      * @author KenichiroArai
@@ -73,23 +79,49 @@ public class CarryoverServiceImplTest {
      *
      * @version 0.1.0
      */
-    private static final class StubGitHubIssueRepository extends GitHubIssueRepository {
+    private static final class StubCarryoverIssueService implements CarryoverIssueService {
 
         /**
-         * 返す Issue
+         * 取得する Issue
          */
-        private final List<DailyTaskIssue> issues;
+        private final List<DailyTaskIssue> remoteIssues;
+
+        /**
+         * 保存済みの解析結果
+         */
+        private final Map<Integer, CarryoverIssue> storedIssues = new TreeMap<>();
+
+        /**
+         * 保存した Issue 番号
+         */
+        private final List<Integer> savedNumbers = new ArrayList<>();
+
+        /**
+         * 保存した集計
+         */
+        private CarryoverSummary savedSummary;
 
         /**
          * コンストラクタ<br>
          *
-         * @param issues
-         *               返す Issue
+         * @param remoteIssues
+         *                     取得する Issue
          */
-        private StubGitHubIssueRepository(final List<DailyTaskIssue> issues) {
+        private StubCarryoverIssueService(final List<DailyTaskIssue> remoteIssues) {
 
-            super(null, "https://api.example.com", "owner/repo", null);
-            this.issues = issues;
+            this.remoteIssues = remoteIssues;
+
+        }
+
+        /**
+         * 保存済みの解析結果を登録する<br>
+         *
+         * @param issue
+         *              解析結果
+         */
+        private void store(final CarryoverIssue issue) {
+
+            this.storedIssues.put(Integer.valueOf(issue.getNumber()), issue);
 
         }
 
@@ -101,7 +133,83 @@ public class CarryoverServiceImplTest {
         @Override
         public List<DailyTaskIssue> fetchAllIssues() {
 
-            final List<DailyTaskIssue> result = this.issues;
+            final List<DailyTaskIssue> result = this.remoteIssues;
+            return result;
+
+        }
+
+        /**
+         * 保存済みの解析結果を返す<br>
+         *
+         * @return 保存済みの解析結果
+         */
+        @Override
+        public Map<Integer, CarryoverIssue> loadIssues() {
+
+            final Map<Integer, CarryoverIssue> result = new TreeMap<>(this.storedIssues);
+            return result;
+
+        }
+
+        /**
+         * 保存した Issue 番号を記録する<br>
+         *
+         * @param issue
+         *              解析結果
+         */
+        @Override
+        public void saveIssue(final CarryoverIssue issue) {
+
+            this.savedNumbers.add(Integer.valueOf(issue.getNumber()));
+
+        }
+
+        /**
+         * 保存した集計を記録する<br>
+         *
+         * @param summary
+         *                画面用の集計
+         */
+        @Override
+        public void saveSummary(final CarryoverSummary summary) {
+
+            this.savedSummary = summary;
+
+        }
+
+        /**
+         * 空の標準時間を返す<br>
+         *
+         * @return 空の標準時間
+         */
+        @Override
+        public DefaultMinutes loadDefaultMinutes() {
+
+            final DefaultMinutes result = new DefaultMinutes(Map.of());
+            return result;
+
+        }
+
+        /**
+         * 保存した Issue 番号を返す<br>
+         *
+         * @return 保存した Issue 番号
+         */
+        private List<Integer> getSavedNumbers() {
+
+            final List<Integer> result = this.savedNumbers;
+            return result;
+
+        }
+
+        /**
+         * 保存した集計を返す<br>
+         *
+         * @return 保存した集計。保存していない場合は null
+         */
+        private CarryoverSummary getSavedSummary() {
+
+            final CarryoverSummary result = this.savedSummary;
             return result;
 
         }
@@ -111,34 +219,36 @@ public class CarryoverServiceImplTest {
     /**
      * テスト対象を作成する<br>
      *
-     * @param repository
-     *                   JSON ファイルの読み書き
+     * @param issueService
+     *                     持ち越しのデータの取得・保存
      *
      * @return テスト対象
      */
-    private static CarryoverServiceImpl createTarget(final CarryoverDataRepository repository) {
+    private static CarryoverServiceImpl createTarget(final CarryoverIssueService issueService) {
 
-        final CarryoverServiceImpl result = CarryoverServiceImplTest.createTarget(repository,
-            List.of(CarryoverServiceImplTest.ISSUE1, CarryoverServiceImplTest.ISSUE2));
+        final CarryoverServiceImpl result = new CarryoverServiceImpl(issueService, CarryoverServiceImplTest.PARSER,
+            new CarryoverAggregatorImpl());
         return result;
 
     }
 
     /**
-     * 取得する Issue を指定してテスト対象を作成する<br>
+     * private の toSource メソッドを呼び出す<br>
      *
-     * @param repository
-     *                   JSON ファイルの読み書き
-     * @param issues
-     *                   取得する Issue
+     * @param settings
+     *                 持ち越しの収集・集計の設定
      *
-     * @return テスト対象
+     * @return データの取得元と保存先
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
-    private static CarryoverServiceImpl createTarget(final CarryoverDataRepository repository,
-        final List<DailyTaskIssue> issues) {
+    private static CarryoverSource toSource(final CarryoverSettings settings) throws Exception {
 
-        final CarryoverServiceImpl result = new CarryoverServiceImpl(new StubGitHubIssueRepository(issues), repository,
-            CarryoverServiceImplTest.PARSER, new CarryoverAggregator());
+        final CarryoverSource result = ReflectionTestUtil.invokeStatic(CarryoverServiceImpl.class, "toSource",
+            new Class<?>[] {
+                CarryoverSettings.class
+            }, settings);
         return result;
 
     }
@@ -240,6 +350,44 @@ public class CarryoverServiceImplTest {
     }
 
     /**
+     * CarryoverServiceImpl コンストラクタのテスト - 正常系:設定から domain 層の実装を生成し、標準時間を読み込む場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    @Test
+    public void testCarryoverServiceImpl_normalSettings() throws Exception {
+
+        /* 期待値の定義 */
+        final MinutesSource expectedMinutesSource = MinutesSource.DEFAULT;
+        final double expectedMinutes = 15;
+
+        /* 準備 */
+        final Path testDefaultMinutesFile = this.tempDir.resolve("default-minutes.json");
+        Files.writeString(testDefaultMinutesFile, "{\"国語\": 15}");
+        final CarryoverSettings testSettings = new CarryoverSettings("owner/repo", null, this.tempDir,
+            testDefaultMinutesFile);
+
+        /* テスト対象の実行 */
+        final CarryoverServiceImpl testTarget = new CarryoverServiceImpl(testSettings);
+
+        /* 検証の準備 */
+        final Object actualIssueService = ReflectionTestUtil.getField(testTarget, "carryoverIssueService");
+        final Object actualAggregator = ReflectionTestUtil.getField(testTarget, "carryoverAggregator");
+        final CarryoverParser actualParser = ReflectionTestUtil.getField(testTarget, "carryoverParser");
+        final CarryoverIssue actualParsed = actualParser.parse(CarryoverServiceImplTest.ISSUE1);
+        final MinutesSource actualMinutesSource = actualParsed.getItems().get(0).getMinutesSource();
+        final double actualMinutes = actualParsed.getItems().get(0).getMinutes();
+
+        /* 検証の実施 */
+        Assertions.assertInstanceOf(CarryoverIssueServiceImpl.class, actualIssueService, "サービスの型が一致しません");
+        Assertions.assertInstanceOf(CarryoverAggregatorImpl.class, actualAggregator, "集計の型が一致しません");
+        Assertions.assertEquals(expectedMinutesSource, actualMinutesSource, "残り時間の取得元が一致しません");
+        Assertions.assertEquals(expectedMinutes, actualMinutes, "残り時間が一致しません");
+
+    }
+
+    /**
      * collect メソッドのテスト - 正常系:全件モードの場合はすべての Issue を解析する
      *
      * @throws IOException
@@ -250,15 +398,18 @@ public class CarryoverServiceImplTest {
 
         /* 期待値の定義 */
         final int expectedCount = 2;
+        final List<Integer> expectedSavedNumbers = List.of(Integer.valueOf(1), Integer.valueOf(2));
+        final int expectedDays = 2;
         final String[] expectedMsgs = {
             "モード=全件、取得=2 件、解析・保存=2 件、集計=2 日",
             "標準時間で補完した行=1 件、標準時間が未登録の行=0 件",
         };
 
         /* 準備 */
-        final CarryoverDataRepository testRepository = new CarryoverDataRepository(this.tempDir);
-        testRepository.saveIssue(CarryoverServiceImplTest.PARSER.parse(CarryoverServiceImplTest.ISSUE1));
-        final CarryoverServiceImpl testTarget = CarryoverServiceImplTest.createTarget(testRepository);
+        final StubCarryoverIssueService testIssueService = new StubCarryoverIssueService(
+            List.of(CarryoverServiceImplTest.ISSUE1, CarryoverServiceImplTest.ISSUE2));
+        testIssueService.store(CarryoverServiceImplTest.PARSER.parse(CarryoverServiceImplTest.ISSUE1));
+        final CarryoverServiceImpl testTarget = CarryoverServiceImplTest.createTarget(testIssueService);
 
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverServiceImpl.class)) {
@@ -268,13 +419,13 @@ public class CarryoverServiceImplTest {
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
             final int actualCount = testResult;
-            final boolean actualSummaryExists = Files.isRegularFile(this.tempDir.resolve("summary.json"));
-            final boolean actualIssue2Exists = Files.isRegularFile(this.tempDir.resolve("issues").resolve("0002.json"));
+            final List<Integer> actualSavedNumbers = testIssueService.getSavedNumbers();
+            final int actualDays = testIssueService.getSavedSummary().getDays().size();
 
             /* 検証の実施 */
             Assertions.assertEquals(expectedCount, actualCount, "解析件数が一致しません");
-            Assertions.assertTrue(actualSummaryExists, "集計の JSON が出力される必要があります");
-            Assertions.assertTrue(actualIssue2Exists, "Issue #2 の JSON が出力される必要があります");
+            Assertions.assertEquals(expectedSavedNumbers, actualSavedNumbers, "保存した Issue 番号が一致しません");
+            Assertions.assertEquals(expectedDays, actualDays, "集計の日数が一致しません");
             LogAssertions.assertMessages(expectedMsgs, actualMsgs);
 
         }
@@ -299,10 +450,10 @@ public class CarryoverServiceImplTest {
 
         /* 準備 */
         final List<DailyTaskIssue> testIssues = CarryoverServiceImplTest.createIssues(12);
-        final CarryoverDataRepository testRepository = new CarryoverDataRepository(this.tempDir);
-        testRepository.saveIssue(CarryoverServiceImplTest.PARSER.parse(testIssues.get(0)));
-        testRepository.saveIssue(CarryoverServiceImplTest.PARSER.parse(testIssues.get(1)));
-        final CarryoverServiceImpl testTarget = CarryoverServiceImplTest.createTarget(testRepository, testIssues);
+        final StubCarryoverIssueService testIssueService = new StubCarryoverIssueService(testIssues);
+        testIssueService.store(CarryoverServiceImplTest.PARSER.parse(testIssues.get(0)));
+        testIssueService.store(CarryoverServiceImplTest.PARSER.parse(testIssues.get(1)));
+        final CarryoverServiceImpl testTarget = CarryoverServiceImplTest.createTarget(testIssueService);
 
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverServiceImpl.class)) {
@@ -338,9 +489,10 @@ public class CarryoverServiceImplTest {
         };
 
         /* 準備 */
-        final CarryoverDataRepository testRepository = new CarryoverDataRepository(this.tempDir);
-        testRepository.saveIssue(CarryoverServiceImplTest.PARSER.parse(CarryoverServiceImplTest.ISSUE1));
-        final CarryoverServiceImpl testTarget = CarryoverServiceImplTest.createTarget(testRepository);
+        final StubCarryoverIssueService testIssueService = new StubCarryoverIssueService(
+            List.of(CarryoverServiceImplTest.ISSUE1, CarryoverServiceImplTest.ISSUE2));
+        testIssueService.store(CarryoverServiceImplTest.PARSER.parse(CarryoverServiceImplTest.ISSUE1));
+        final CarryoverServiceImpl testTarget = CarryoverServiceImplTest.createTarget(testIssueService);
 
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverServiceImpl.class)) {
@@ -356,6 +508,42 @@ public class CarryoverServiceImplTest {
             LogAssertions.assertMessages(expectedMsgs, actualMsgs);
 
         }
+
+    }
+
+    /**
+     * toSource メソッドのテスト - 正常系:設定を domain 層の取得元に引き継ぐ場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    @Test
+    public void testToSource_normalConvert() throws Exception {
+
+        /* 期待値の定義 */
+        final String expectedRepository = "owner/repo";
+        final String expectedToken = "test-token";
+        final Path expectedDataDir = Path.of("docs", "data");
+        final Path expectedDefaultMinutesFile = Path.of("config", "default-minutes.json");
+
+        /* 準備 */
+        final CarryoverSettings testSettings = new CarryoverSettings(expectedRepository, expectedToken,
+            expectedDataDir, expectedDefaultMinutesFile);
+
+        /* テスト対象の実行 */
+        final CarryoverSource testResult = CarryoverServiceImplTest.toSource(testSettings);
+
+        /* 検証の準備 */
+        final String actualRepository = testResult.getRepository();
+        final String actualToken = testResult.getToken();
+        final Path actualDataDir = testResult.getDataDir();
+        final Path actualDefaultMinutesFile = testResult.getDefaultMinutesFile();
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedRepository, actualRepository, "リポジトリが一致しません");
+        Assertions.assertEquals(expectedToken, actualToken, "トークンが一致しません");
+        Assertions.assertEquals(expectedDataDir, actualDataDir, "保存先が一致しません");
+        Assertions.assertEquals(expectedDefaultMinutesFile, actualDefaultMinutesFile, "標準時間の設定ファイルが一致しません");
 
     }
 
