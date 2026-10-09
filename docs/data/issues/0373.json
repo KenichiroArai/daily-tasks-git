@@ -3,13 +3,13 @@
   "title": "2026年10月08日のタスク",
   "date": "2026-10-08",
   "state": "open",
-  "updatedAt": "2026-10-09T00:47:35Z",
+  "updatedAt": "2026-10-09T00:49:52Z",
   "sections": [
     "持ち越し"
   ],
   "declaredCount": 69,
   "count": 69,
-  "minutes": 1389.0,
+  "minutes": 1383.5,
   "items": [
     {
       "name": "国語",
@@ -221,11 +221,11 @@
     {
       "name": "汎用タスク",
       "originDate": "2026-09-04",
-      "checked": false,
+      "checked": true,
       "minutes": 6.5,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 汎用タスク2026/09/04（残り時間：6.5分）"
+      "raw": "- [x] 汎用タスク2026/09/04（残り時間：6.5分）"
     },
     {
       "name": "音楽",
@@ -257,11 +257,11 @@
     {
       "name": "汎用タスク",
       "originDate": "2026-09-07",
-      "checked": false,
+      "checked": true,
       "minutes": 24.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 汎用タスク2026/09/07（残り時間：24分）"
+      "raw": "- [x] 汎用タスク2026/09/07（残り時間：24分）"
     },
     {
       "name": "音楽",
@@ -285,10 +285,10 @@
       "name": "汎用タスク",
       "originDate": "2026-09-09",
       "checked": false,
-      "minutes": 9.0,
+      "minutes": 3.5,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 汎用タスク2026/09/09（残り時間：9分）"
+      "raw": "- [ ] 汎用タスク2026/09/09（残り時間：3.5分）"
     },
     {
       "name": "音楽",
