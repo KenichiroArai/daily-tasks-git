@@ -35,12 +35,12 @@ public class CarryoverDataRepository {
     /**
      * Issue ごとの JSON を置くディレクトリ名
      */
-    static final String ISSUES_DIR = "issues";
+    private static final String ISSUES_DIR = "issues";
 
     /**
      * 画面用の集計の JSON ファイル名
      */
-    static final String SUMMARY_FILE = "summary.json";
+    private static final String SUMMARY_FILE = "summary.json";
 
     /**
      * JSON ファイルの拡張子
@@ -163,7 +163,7 @@ public class CarryoverDataRepository {
      * @throws IOException
      *                     書き込みに失敗した場合
      */
-    void write(final Path path, final Object value) throws IOException {
+    private void write(final Path path, final Object value) throws IOException {
 
         Files.createDirectories(path.getParent());
         final String json = this.objectWriter.writeValueAsString(value) + "\n";

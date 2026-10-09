@@ -38,7 +38,7 @@ public class CarryoverServiceImpl implements CarryoverService {
     /**
      * 差分モードで更新日時に関係なく解析し直す最新の Issue の件数
      */
-    static final int RECENT_COUNT = 10;
+    private static final int RECENT_COUNT = 10;
 
     /**
      * GitHub API クライアント
@@ -156,7 +156,7 @@ public class CarryoverServiceImpl implements CarryoverService {
      *
      * @return true：解析し直す、false：保存済みの解析結果を使う
      */
-    static boolean needsUpdate(final boolean full, final CarryoverIssue stored, final DailyTaskIssue remoteIssue,
+    private static boolean needsUpdate(final boolean full, final CarryoverIssue stored, final DailyTaskIssue remoteIssue,
         final int recentFrom) {
 
         boolean result = true;
@@ -194,7 +194,7 @@ public class CarryoverServiceImpl implements CarryoverService {
      *
      * @return 最小の Issue 番号。Issue がない場合は 0
      */
-    static int recentFrom(final List<DailyTaskIssue> issues, final int count) {
+    private static int recentFrom(final List<DailyTaskIssue> issues, final int count) {
 
         final int result = issues.stream().map(issue -> Integer.valueOf(issue.getNumber()))
             .sorted(Comparator.reverseOrder()).limit(count).min(Comparator.naturalOrder()).orElse(Integer.valueOf(0))
@@ -213,7 +213,7 @@ public class CarryoverServiceImpl implements CarryoverService {
      *
      * @return 行数
      */
-    static long countBySource(final Map<Integer, CarryoverIssue> issues, final MinutesSource source) {
+    private static long countBySource(final Map<Integer, CarryoverIssue> issues, final MinutesSource source) {
 
         final long result = issues.values().stream().flatMap(issue -> issue.getItems().stream())
             .filter(item -> item.getMinutesSource() == source).count();

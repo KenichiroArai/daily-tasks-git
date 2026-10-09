@@ -18,6 +18,7 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverIssue;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverItem;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSummary;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
+import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 
 /**
  * {@link CarryoverDataRepository} のテスト<br>
@@ -52,6 +53,28 @@ public class CarryoverDataRepositoryTest {
         final CarryoverIssue result = new CarryoverIssue(number, "2026年10月06日のタスク", "2026-10-06", "open",
             "2026-10-06T14:23:08Z", List.of("持ち越し"), Integer.valueOf(1), List.of(item));
         return result;
+
+    }
+
+    /**
+     * private の write メソッドを呼び出す<br>
+     *
+     * @param target
+     *               テスト対象
+     * @param path
+     *               書き込み先
+     * @param value
+     *               書き込む値
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static void write(final CarryoverDataRepository target, final Path path, final Object value)
+        throws Exception {
+
+        ReflectionTestUtil.invoke(target, "write", new Class<?>[] {
+            Path.class, Object.class
+        }, path, value);
 
     }
 
@@ -206,11 +229,11 @@ public class CarryoverDataRepositoryTest {
     /**
      * write メソッドのテスト - 正常系:親ディレクトリを作成して書き込む場合
      *
-     * @throws IOException
-     *                     入出力エラーが発生した場合
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testWrite_normalCreateParent() throws IOException {
+    public void testWrite_normalCreateParent() throws Exception {
 
         /* 期待値の定義 */
         final String expectedJson = "[\n  1\n]\n";
@@ -220,7 +243,7 @@ public class CarryoverDataRepositoryTest {
         final Path testPath = this.tempDir.resolve("a").resolve("b").resolve("c.json");
 
         /* テスト対象の実行 */
-        testTarget.write(testPath, List.of(Integer.valueOf(1)));
+        CarryoverDataRepositoryTest.write(testTarget, testPath, List.of(Integer.valueOf(1)));
 
         /* 検証の準備 */
         final String actualJson = Files.readString(testPath, StandardCharsets.UTF_8);

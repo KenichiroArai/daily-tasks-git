@@ -42,7 +42,7 @@ public enum MinutesSource {
      * @param value
      *              JSON での値
      */
-    MinutesSource(final String value) {
+    private MinutesSource(final String value) {
 
         this.value = value;
 

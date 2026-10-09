@@ -209,7 +209,7 @@ public class CarryoverParser {
      *
      * @return 持ち越し項目
      */
-    CarryoverItem parseItem(final int number, final String section, final boolean checked, final String content,
+    private CarryoverItem parseItem(final int number, final String section, final boolean checked, final String content,
         final String raw) {
 
         CarryoverItem result = null;
@@ -283,7 +283,7 @@ public class CarryoverParser {
      *
      * @return 日付（yyyy-MM-dd）。取得できない場合は null
      */
-    static String parseTitleDate(final String title) {
+    private static String parseTitleDate(final String title) {
 
         String result = null;
 
@@ -317,7 +317,7 @@ public class CarryoverParser {
      *
      * @return 残り時間（分）。解釈できない場合は null
      */
-    static Double parseMinutes(final String text) {
+    private static Double parseMinutes(final String text) {
 
         Double result = null;
 
@@ -367,7 +367,7 @@ public class CarryoverParser {
      *
      * @return 正規化した項目名。空になる場合は「不明」
      */
-    static String normalizeName(final String name) {
+    private static String normalizeName(final String name) {
 
         String result = name.strip();
         String previous;
@@ -399,7 +399,7 @@ public class CarryoverParser {
      *
      * @return 行
      */
-    static List<String> splitLines(final String body) {
+    private static List<String> splitLines(final String body) {
 
         List<String> result = List.of();
 
@@ -422,7 +422,7 @@ public class CarryoverParser {
      * @param section
      *                 セクション名
      */
-    static void addSection(final List<String> sections, final String section) {
+    private static void addSection(final List<String> sections, final String section) {
 
         if (!CarryoverParser.TARGET_SECTIONS.contains(section)) {
 
@@ -451,7 +451,7 @@ public class CarryoverParser {
      * @param line
      *               行
      */
-    static void warnUnexpectedLine(final int number, final String line) {
+    private static void warnUnexpectedLine(final int number, final String line) {
 
         final String stripped = line.strip();
 
@@ -481,7 +481,7 @@ public class CarryoverParser {
      * @param parsedCount
      *                      解析件数
      */
-    static void verifyDeclaredCount(final int number, final Integer declaredCount, final int parsedCount) {
+    private static void verifyDeclaredCount(final int number, final Integer declaredCount, final int parsedCount) {
 
         if (declaredCount == null) {
 
@@ -511,7 +511,7 @@ public class CarryoverParser {
      *
      * @return yyyy-MM-dd 形式の日付
      */
-    static String formatDate(final String year, final String month, final String day) {
+    private static String formatDate(final String year, final String month, final String day) {
 
         final String result = String.format("%04d-%02d-%02d", Integer.valueOf(year), Integer.valueOf(month),
             Integer.valueOf(day));

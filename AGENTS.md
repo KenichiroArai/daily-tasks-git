@@ -47,7 +47,7 @@ src/main/java/io/github/kenichiroarai/dailytasks/
 src/main/resources/
   logback.xml
 src/test/java/io/github/kenichiroarai/dailytasks/  # main と同じ構成
-  testutil/                  # テスト用のユーティリティ（ログ取得など）
+  testutil/                  # テスト用のユーティリティ（ログ取得、リフレクションなど）
 config/
   default-minutes.json       # 時間表記なしの行を補完する項目ごとの標準時間
 docs/                        # 収集ツールが出力するデータだけを置く（ソースコードは置かない）
@@ -164,6 +164,13 @@ java -jar target/daily-tasks-0.1.0.jar --full
 
 - 修飾子に限らず必須
 - 後述の「Javadoc のフォーマットルール」に従う
+
+### アクセス修飾子
+
+- 外部に公開しないもの、サブクラスも使わないもの（フィールド・メソッド・コンストラクタ・入れ子クラス）は `private` にする
+- 修飾子なし（パッケージプライベート）は原則として禁止する。enum のコンストラクタも `private` を明示する
+- テストから呼び出すためだけにパッケージプライベートにしない。テストでは `testutil/ReflectionTestUtil`（標準のリフレクション）で private のメソッド・フィールドにアクセスする
+- 例外: JUnit の `@TempDir` フィールドなど、フレームワークの制約で `private` にできないもの。インタフェースのメソッドは暗黙的に `public` なので修飾子を付けなくてよい
 
 ### record の禁止
 
@@ -467,6 +474,7 @@ public class SampleClass {
 - [ ] テストの追加 / 更新（命名・実装順序・検証方法を含む）
 - [ ] `mvn test` で JaCoCo カバレッジ 100% を維持
 - [ ] コーディングルール（戻り値 `result`、早期リターン、処理コメント、`record` 禁止）の順守
+- [ ] アクセス修飾子の順守（公開しないものは `private`、修飾子なしは原則禁止）
 - [ ] Javadoc の追加 / 更新
 - [ ] 解析ルールを変更した場合、`declaredCount` との食い違いと補完件数のログを確認
 - [ ] 画面を変更した場合、[frontend/AGENTS.md](frontend/AGENTS.md) の「変更時のチェックリスト」を確認
@@ -482,6 +490,7 @@ public class SampleClass {
 - `docs/data/` の JSON を手で編集すること（必ず収集ツールで生成する）
 - `docs/` にソースコード（HTML / JS / CSS など）を置くこと（画面のソースは `frontend/` に置く）
 - `record` を使うこと（ブレークポイントを設定できずデバッグ・トレースの妨げになるため。通常の `class` とゲッターで実装する）
+- 外部に公開しないメンバーを修飾子なし（パッケージプライベート）にすること（テストのためだけに公開範囲を広げない）
 - 深いネストのままガード節を使わずに実装すること
 - テストメソッドに複数ケースを詰め込むこと
 

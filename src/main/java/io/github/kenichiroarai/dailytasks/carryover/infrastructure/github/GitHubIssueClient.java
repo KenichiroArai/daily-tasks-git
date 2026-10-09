@@ -41,7 +41,7 @@ public class GitHubIssueClient {
     /**
      * 1 ページあたりの取得件数（GitHub API の上限）
      */
-    static final int PER_PAGE = 100;
+    private static final int PER_PAGE = 100;
 
     /**
      * 正常応答のステータスコード
@@ -158,7 +158,7 @@ public class GitHubIssueClient {
      * @throws IOException
      *                     通信に失敗した場合、または応答が不正な場合
      */
-    JsonNode fetchPage(final int page) throws IOException {
+    private JsonNode fetchPage(final int page) throws IOException {
 
         JsonNode result = null;
 
@@ -207,7 +207,7 @@ public class GitHubIssueClient {
      * @throws IOException
      *                     通信に失敗した場合、または中断された場合
      */
-    HttpResponse<String> send(final HttpRequest request) throws IOException {
+    private HttpResponse<String> send(final HttpRequest request) throws IOException {
 
         HttpResponse<String> result = null;
 
@@ -231,7 +231,7 @@ public class GitHubIssueClient {
      *
      * @return true：指定されている、false：指定されていない
      */
-    boolean hasToken() {
+    private boolean hasToken() {
 
         boolean result = false;
 
@@ -254,7 +254,7 @@ public class GitHubIssueClient {
      *
      * @return Issue
      */
-    static DailyTaskIssue toIssue(final JsonNode node) {
+    private static DailyTaskIssue toIssue(final JsonNode node) {
 
         final DailyTaskIssue result = new DailyTaskIssue(node.path("number").asInt(),
             GitHubIssueClient.textOrEmpty(node, "title"), GitHubIssueClient.textOrEmpty(node, "state"),
@@ -273,7 +273,7 @@ public class GitHubIssueClient {
      *
      * @return 値。項目がない場合または null の場合は空文字
      */
-    static String textOrEmpty(final JsonNode node, final String fieldName) {
+    private static String textOrEmpty(final JsonNode node, final String fieldName) {
 
         String result = "";
         final JsonNode value = node.get(fieldName);

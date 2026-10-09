@@ -21,6 +21,7 @@ import io.github.kenichiroarai.dailytasks.carryover.infrastructure.github.GitHub
 import io.github.kenichiroarai.dailytasks.carryover.repository.CarryoverDataRepository;
 import io.github.kenichiroarai.dailytasks.testutil.LogAssertions;
 import io.github.kenichiroarai.dailytasks.testutil.LogCapture;
+import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 
 /**
  * {@link CarryoverServiceImpl} のテスト<br>
@@ -85,7 +86,7 @@ public class CarryoverServiceImplTest {
          * @param issues
          *               返す Issue
          */
-        StubGitHubIssueClient(final List<DailyTaskIssue> issues) {
+        private StubGitHubIssueClient(final List<DailyTaskIssue> issues) {
 
             super(null, "https://api.example.com", "owner/repo", null);
             this.issues = issues;
@@ -138,6 +139,81 @@ public class CarryoverServiceImplTest {
 
         final CarryoverServiceImpl result = new CarryoverServiceImpl(new StubGitHubIssueClient(issues), repository,
             CarryoverServiceImplTest.PARSER, new CarryoverAggregator());
+        return result;
+
+    }
+
+    /**
+     * private の needsUpdate メソッドを呼び出す<br>
+     *
+     * @param full
+     *                    全件モードか
+     * @param stored
+     *                    保存済みの解析結果
+     * @param remoteIssue
+     *                    取得した Issue
+     * @param recentFrom
+     *                    毎回解析し直す Issue 番号の下限
+     *
+     * @return 解析し直す場合は true
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static boolean needsUpdate(final boolean full, final CarryoverIssue stored,
+        final DailyTaskIssue remoteIssue, final int recentFrom) throws Exception {
+
+        final boolean result = ReflectionTestUtil.<Boolean> invokeStatic(CarryoverServiceImpl.class, "needsUpdate",
+            new Class<?>[] {
+                boolean.class, CarryoverIssue.class, DailyTaskIssue.class, int.class
+            }, Boolean.valueOf(full), stored, remoteIssue, Integer.valueOf(recentFrom)).booleanValue();
+        return result;
+
+    }
+
+    /**
+     * private の recentFrom メソッドを呼び出す<br>
+     *
+     * @param issues
+     *               取得した Issue
+     * @param count
+     *               件数
+     *
+     * @return 毎回解析し直す Issue 番号の下限
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static int recentFrom(final List<DailyTaskIssue> issues, final int count) throws Exception {
+
+        final int result = ReflectionTestUtil.<Integer> invokeStatic(CarryoverServiceImpl.class, "recentFrom",
+            new Class<?>[] {
+                List.class, int.class
+            }, issues, Integer.valueOf(count)).intValue();
+        return result;
+
+    }
+
+    /**
+     * private の countBySource メソッドを呼び出す<br>
+     *
+     * @param issues
+     *               解析結果
+     * @param source
+     *               残り時間の取得元
+     *
+     * @return 行数
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static long countBySource(final Map<Integer, CarryoverIssue> issues, final MinutesSource source)
+        throws Exception {
+
+        final long result = ReflectionTestUtil.<Long> invokeStatic(CarryoverServiceImpl.class, "countBySource",
+            new Class<?>[] {
+                Map.class, MinutesSource.class
+            }, issues, source).longValue();
         return result;
 
     }
@@ -285,9 +361,12 @@ public class CarryoverServiceImplTest {
 
     /**
      * needsUpdate メソッドのテスト - 正常系:全件モードの場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testNeedsUpdate_normalFull() {
+    public void testNeedsUpdate_normalFull() throws Exception {
 
         /* 期待値の定義 */
 
@@ -295,7 +374,7 @@ public class CarryoverServiceImplTest {
         final CarryoverIssue testStored = CarryoverServiceImplTest.PARSER.parse(CarryoverServiceImplTest.ISSUE1);
 
         /* テスト対象の実行 */
-        final boolean testResult = CarryoverServiceImpl.needsUpdate(true, testStored, CarryoverServiceImplTest.ISSUE1,
+        final boolean testResult = CarryoverServiceImplTest.needsUpdate(true, testStored, CarryoverServiceImplTest.ISSUE1,
             2);
 
         /* 検証の準備 */
@@ -308,16 +387,19 @@ public class CarryoverServiceImplTest {
 
     /**
      * needsUpdate メソッドのテスト - 正常系:未保存の場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testNeedsUpdate_normalNotStored() {
+    public void testNeedsUpdate_normalNotStored() throws Exception {
 
         /* 期待値の定義 */
 
         /* 準備 */
 
         /* テスト対象の実行 */
-        final boolean testResult = CarryoverServiceImpl.needsUpdate(false, null, CarryoverServiceImplTest.ISSUE1, 2);
+        final boolean testResult = CarryoverServiceImplTest.needsUpdate(false, null, CarryoverServiceImplTest.ISSUE1, 2);
 
         /* 検証の準備 */
         final boolean actualNeedsUpdate = testResult;
@@ -329,9 +411,12 @@ public class CarryoverServiceImplTest {
 
     /**
      * needsUpdate メソッドのテスト - 正常系:更新日時が変わった場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testNeedsUpdate_normalUpdated() {
+    public void testNeedsUpdate_normalUpdated() throws Exception {
 
         /* 期待値の定義 */
 
@@ -340,7 +425,7 @@ public class CarryoverServiceImplTest {
         final DailyTaskIssue testRemote = new DailyTaskIssue(1, "2026年03月24日のタスク", "closed", "u9", "");
 
         /* テスト対象の実行 */
-        final boolean testResult = CarryoverServiceImpl.needsUpdate(false, testStored, testRemote, 2);
+        final boolean testResult = CarryoverServiceImplTest.needsUpdate(false, testStored, testRemote, 2);
 
         /* 検証の準備 */
         final boolean actualNeedsUpdate = testResult;
@@ -352,9 +437,12 @@ public class CarryoverServiceImplTest {
 
     /**
      * needsUpdate メソッドのテスト - 正常系:最新の Issue の場合は更新日時が同じでも解析し直す
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testNeedsUpdate_normalRecent() {
+    public void testNeedsUpdate_normalRecent() throws Exception {
 
         /* 期待値の定義 */
 
@@ -362,7 +450,7 @@ public class CarryoverServiceImplTest {
         final CarryoverIssue testStored = CarryoverServiceImplTest.PARSER.parse(CarryoverServiceImplTest.ISSUE1);
 
         /* テスト対象の実行 */
-        final boolean testResult = CarryoverServiceImpl.needsUpdate(false, testStored,
+        final boolean testResult = CarryoverServiceImplTest.needsUpdate(false, testStored,
             CarryoverServiceImplTest.ISSUE1, 1);
 
         /* 検証の準備 */
@@ -375,9 +463,12 @@ public class CarryoverServiceImplTest {
 
     /**
      * needsUpdate メソッドのテスト - 準正常系:更新日時が同じ場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testNeedsUpdate_semiNotUpdated() {
+    public void testNeedsUpdate_semiNotUpdated() throws Exception {
 
         /* 期待値の定義 */
 
@@ -385,7 +476,7 @@ public class CarryoverServiceImplTest {
         final CarryoverIssue testStored = CarryoverServiceImplTest.PARSER.parse(CarryoverServiceImplTest.ISSUE1);
 
         /* テスト対象の実行 */
-        final boolean testResult = CarryoverServiceImpl.needsUpdate(false, testStored,
+        final boolean testResult = CarryoverServiceImplTest.needsUpdate(false, testStored,
             CarryoverServiceImplTest.ISSUE1, 2);
 
         /* 検証の準備 */
@@ -398,9 +489,12 @@ public class CarryoverServiceImplTest {
 
     /**
      * recentFrom メソッドのテスト - 正常系:件数より多い Issue がある場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testRecentFrom_normalMoreThanCount() {
+    public void testRecentFrom_normalMoreThanCount() throws Exception {
 
         /* 期待値の定義 */
         final int expectedRecentFrom = 3;
@@ -409,7 +503,7 @@ public class CarryoverServiceImplTest {
         final List<DailyTaskIssue> testIssues = CarryoverServiceImplTest.createIssues(12);
 
         /* テスト対象の実行 */
-        final int testResult = CarryoverServiceImpl.recentFrom(testIssues, 10);
+        final int testResult = CarryoverServiceImplTest.recentFrom(testIssues, 10);
 
         /* 検証の準備 */
         final int actualRecentFrom = testResult;
@@ -421,9 +515,12 @@ public class CarryoverServiceImplTest {
 
     /**
      * recentFrom メソッドのテスト - 正常系:件数より少ない Issue しかない場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testRecentFrom_normalLessThanCount() {
+    public void testRecentFrom_normalLessThanCount() throws Exception {
 
         /* 期待値の定義 */
         final int expectedRecentFrom = 1;
@@ -433,7 +530,7 @@ public class CarryoverServiceImplTest {
             CarryoverServiceImplTest.ISSUE1);
 
         /* テスト対象の実行 */
-        final int testResult = CarryoverServiceImpl.recentFrom(testIssues, 10);
+        final int testResult = CarryoverServiceImplTest.recentFrom(testIssues, 10);
 
         /* 検証の準備 */
         final int actualRecentFrom = testResult;
@@ -445,9 +542,12 @@ public class CarryoverServiceImplTest {
 
     /**
      * recentFrom メソッドのテスト - 準正常系:Issue がない場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testRecentFrom_semiEmpty() {
+    public void testRecentFrom_semiEmpty() throws Exception {
 
         /* 期待値の定義 */
         final int expectedRecentFrom = 0;
@@ -456,7 +556,7 @@ public class CarryoverServiceImplTest {
         final List<DailyTaskIssue> testIssues = List.of();
 
         /* テスト対象の実行 */
-        final int testResult = CarryoverServiceImpl.recentFrom(testIssues, 10);
+        final int testResult = CarryoverServiceImplTest.recentFrom(testIssues, 10);
 
         /* 検証の準備 */
         final int actualRecentFrom = testResult;
@@ -468,9 +568,12 @@ public class CarryoverServiceImplTest {
 
     /**
      * countBySource メソッドのテスト - 正常系:取得元ごとの行数を数える場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testCountBySource_normalCount() {
+    public void testCountBySource_normalCount() throws Exception {
 
         /* 期待値の定義 */
         final long expectedCount = 1;
@@ -481,7 +584,7 @@ public class CarryoverServiceImplTest {
             CarryoverServiceImplTest.PARSER.parse(CarryoverServiceImplTest.ISSUE2));
 
         /* テスト対象の実行 */
-        final long testResult = CarryoverServiceImpl.countBySource(testIssues, MinutesSource.PARSED);
+        final long testResult = CarryoverServiceImplTest.countBySource(testIssues, MinutesSource.PARSED);
 
         /* 検証の準備 */
         final long actualCount = testResult;

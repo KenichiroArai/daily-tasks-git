@@ -14,6 +14,7 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.model.DefaultMinutes;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
 import io.github.kenichiroarai.dailytasks.testutil.LogAssertions;
 import io.github.kenichiroarai.dailytasks.testutil.LogCapture;
+import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 
 /**
  * {@link CarryoverParser} のテスト<br>
@@ -48,6 +49,202 @@ public class CarryoverParserTest {
     private static DailyTaskIssue createIssue(final String title, final String body) {
 
         final DailyTaskIssue result = new DailyTaskIssue(371, title, "open", "2026-10-06T14:23:08Z", body);
+        return result;
+
+    }
+
+    /**
+     * private の parseItem メソッドを呼び出す<br>
+     *
+     * @param target
+     *                テスト対象
+     * @param number
+     *                Issue 番号
+     * @param section
+     *                セクション名
+     * @param checked
+     *                チェック済みか
+     * @param content
+     *                チェックボックスの後ろの内容
+     * @param raw
+     *                元の行
+     *
+     * @return 持ち越し項目
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static CarryoverItem parseItem(final CarryoverParser target, final int number, final String section,
+        final boolean checked, final String content, final String raw) throws Exception {
+
+        final CarryoverItem result = ReflectionTestUtil.invoke(target, "parseItem", new Class<?>[] {
+            int.class, String.class, boolean.class, String.class, String.class
+        }, Integer.valueOf(number), section, Boolean.valueOf(checked), content, raw);
+        return result;
+
+    }
+
+    /**
+     * private の parseTitleDate メソッドを呼び出す<br>
+     *
+     * @param title
+     *              Issue タイトル
+     *
+     * @return 日付
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static String parseTitleDate(final String title) throws Exception {
+
+        final String result = ReflectionTestUtil.invokeStatic(CarryoverParser.class, "parseTitleDate", new Class<?>[] {
+            String.class
+        }, title);
+        return result;
+
+    }
+
+    /**
+     * private の parseMinutes メソッドを呼び出す<br>
+     *
+     * @param text
+     *             時間表記を含む文字列
+     *
+     * @return 残り時間（分）
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static Double parseMinutes(final String text) throws Exception {
+
+        final Double result = ReflectionTestUtil.invokeStatic(CarryoverParser.class, "parseMinutes", new Class<?>[] {
+            String.class
+        }, text);
+        return result;
+
+    }
+
+    /**
+     * private の normalizeName メソッドを呼び出す<br>
+     *
+     * @param name
+     *             項目名
+     *
+     * @return 正規化した項目名
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static String normalizeName(final String name) throws Exception {
+
+        final String result = ReflectionTestUtil.invokeStatic(CarryoverParser.class, "normalizeName", new Class<?>[] {
+            String.class
+        }, name);
+        return result;
+
+    }
+
+    /**
+     * private の splitLines メソッドを呼び出す<br>
+     *
+     * @param body
+     *             本文
+     *
+     * @return 行
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static List<String> splitLines(final String body) throws Exception {
+
+        final List<String> result = ReflectionTestUtil.invokeStatic(CarryoverParser.class, "splitLines",
+            new Class<?>[] {
+                String.class
+            }, body);
+        return result;
+
+    }
+
+    /**
+     * private の addSection メソッドを呼び出す<br>
+     *
+     * @param sections
+     *                 対象セクション名
+     * @param section
+     *                 追加するセクション名
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static void addSection(final List<String> sections, final String section) throws Exception {
+
+        ReflectionTestUtil.invokeStatic(CarryoverParser.class, "addSection", new Class<?>[] {
+            List.class, String.class
+        }, sections, section);
+
+    }
+
+    /**
+     * private の warnUnexpectedLine メソッドを呼び出す<br>
+     *
+     * @param number
+     *               Issue 番号
+     * @param line
+     *               行
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static void warnUnexpectedLine(final int number, final String line) throws Exception {
+
+        ReflectionTestUtil.invokeStatic(CarryoverParser.class, "warnUnexpectedLine", new Class<?>[] {
+            int.class, String.class
+        }, Integer.valueOf(number), line);
+
+    }
+
+    /**
+     * private の verifyDeclaredCount メソッドを呼び出す<br>
+     *
+     * @param number
+     *                      Issue 番号
+     * @param declaredCount
+     *                      本文の残数
+     * @param parsedCount
+     *                      解析件数
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static void verifyDeclaredCount(final int number, final Integer declaredCount, final int parsedCount)
+        throws Exception {
+
+        ReflectionTestUtil.invokeStatic(CarryoverParser.class, "verifyDeclaredCount", new Class<?>[] {
+            int.class, Integer.class, int.class
+        }, Integer.valueOf(number), declaredCount, Integer.valueOf(parsedCount));
+
+    }
+
+    /**
+     * private の formatDate メソッドを呼び出す<br>
+     *
+     * @param year
+     *              年
+     * @param month
+     *              月
+     * @param day
+     *              日
+     *
+     * @return 日付
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static String formatDate(final String year, final String month, final String day) throws Exception {
+
+        final String result = ReflectionTestUtil.invokeStatic(CarryoverParser.class, "formatDate", new Class<?>[] {
+            String.class, String.class, String.class
+        }, year, month, day);
         return result;
 
     }
@@ -253,9 +450,12 @@ public class CarryoverParserTest {
 
     /**
      * parseItem メソッドのテスト - 正常系:時間表記から残り時間を取得する場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testParseItem_normalParsedMinutes() {
+    public void testParseItem_normalParsedMinutes() throws Exception {
 
         /* 期待値の定義 */
         final String expectedName = "国語";
@@ -268,7 +468,7 @@ public class CarryoverParserTest {
         final CarryoverParser testTarget = new CarryoverParser(CarryoverParserTest.DEFAULT_MINUTES);
 
         /* テスト対象の実行 */
-        final CarryoverItem testResult = testTarget.parseItem(371, "持ち越し", false, "国語2026/06/18（残り時間：4分）",
+        final CarryoverItem testResult = CarryoverParserTest.parseItem(testTarget, 371, "持ち越し", false, "国語2026/06/18（残り時間：4分）",
             "- [ ] 国語2026/06/18（残り時間：4分）");
 
         /* 検証の準備 */
@@ -289,9 +489,12 @@ public class CarryoverParserTest {
 
     /**
      * parseItem メソッドのテスト - 正常系:時間表記がなく標準時間で補完する場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testParseItem_normalDefaultMinutes() {
+    public void testParseItem_normalDefaultMinutes() throws Exception {
 
         /* 期待値の定義 */
         final double expectedMinutes = 15;
@@ -304,7 +507,7 @@ public class CarryoverParserTest {
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
 
-            final CarryoverItem testResult = testTarget.parseItem(371, "負債", false, "国語2026/03/30", "- [ ] 国語2026/03/30");
+            final CarryoverItem testResult = CarryoverParserTest.parseItem(testTarget, 371, "負債", false, "国語2026/03/30", "- [ ] 国語2026/03/30");
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
@@ -322,9 +525,12 @@ public class CarryoverParserTest {
 
     /**
      * parseItem メソッドのテスト - 準正常系:標準時間が未登録の場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testParseItem_semiUnknownMinutes() {
+    public void testParseItem_semiUnknownMinutes() throws Exception {
 
         /* 期待値の定義 */
         final double expectedMinutes = 0;
@@ -339,7 +545,7 @@ public class CarryoverParserTest {
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
 
-            final CarryoverItem testResult = testTarget.parseItem(371, "負債", false, "英語2026/03/30", "- [ ] 英語2026/03/30");
+            final CarryoverItem testResult = CarryoverParserTest.parseItem(testTarget, 371, "負債", false, "英語2026/03/30", "- [ ] 英語2026/03/30");
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
@@ -357,9 +563,12 @@ public class CarryoverParserTest {
 
     /**
      * parseItem メソッドのテスト - 準正常系:持ち越し元の日付がない場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testParseItem_semiWithoutOriginDate() {
+    public void testParseItem_semiWithoutOriginDate() throws Exception {
 
         /* 期待値の定義 */
         final String expectedName = "国語";
@@ -374,7 +583,7 @@ public class CarryoverParserTest {
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
 
-            final CarryoverItem testResult = testTarget.parseItem(371, "持ち越し", false, "国語（10分）", "- [ ] 国語（10分）");
+            final CarryoverItem testResult = CarryoverParserTest.parseItem(testTarget, 371, "持ち越し", false, "国語（10分）", "- [ ] 国語（10分）");
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
@@ -394,9 +603,12 @@ public class CarryoverParserTest {
 
     /**
      * parseItem メソッドのテスト - 準正常系:時間表記を解釈できない場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testParseItem_semiUnparsableMinutes() {
+    public void testParseItem_semiUnparsableMinutes() throws Exception {
 
         /* 期待値の定義 */
         final double expectedMinutes = 15;
@@ -411,7 +623,7 @@ public class CarryoverParserTest {
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
 
-            final CarryoverItem testResult = testTarget.parseItem(371, "持ち越し", false, "国語2026/06/18（未定）",
+            final CarryoverItem testResult = CarryoverParserTest.parseItem(testTarget, 371, "持ち越し", false, "国語2026/06/18（未定）",
                 "- [ ] 国語2026/06/18（未定）");
 
             /* 検証の準備 */
@@ -430,9 +642,12 @@ public class CarryoverParserTest {
 
     /**
      * parseItem メソッドのテスト - 準正常系:項目名がない場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testParseItem_semiEmptyName() {
+    public void testParseItem_semiEmptyName() throws Exception {
 
         /* 期待値の定義 */
         final String expectedName = "不明";
@@ -446,7 +661,7 @@ public class CarryoverParserTest {
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
 
-            final CarryoverItem testResult = testTarget.parseItem(371, "持ち越し", false, "2026/06/18（残り時間：15分）",
+            final CarryoverItem testResult = CarryoverParserTest.parseItem(testTarget, 371, "持ち越し", false, "2026/06/18（残り時間：15分）",
                 "- [ ] 2026/06/18（残り時間：15分）");
 
             /* 検証の準備 */
@@ -463,9 +678,12 @@ public class CarryoverParserTest {
 
     /**
      * parseTitleDate メソッドのテスト - 正常系:タイトルに日付がある場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testParseTitleDate_normalDate() {
+    public void testParseTitleDate_normalDate() throws Exception {
 
         /* 期待値の定義 */
         final String expectedDate = "2026-10-06";
@@ -474,7 +692,7 @@ public class CarryoverParserTest {
         final String testTitle = "2026年10月6日のタスク";
 
         /* テスト対象の実行 */
-        final String testResult = CarryoverParser.parseTitleDate(testTitle);
+        final String testResult = CarryoverParserTest.parseTitleDate(testTitle);
 
         /* 検証の準備 */
         final String actualDate = testResult;
@@ -486,9 +704,12 @@ public class CarryoverParserTest {
 
     /**
      * parseTitleDate メソッドのテスト - 準正常系:タイトルに日付がない場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testParseTitleDate_semiNoDate() {
+    public void testParseTitleDate_semiNoDate() throws Exception {
 
         /* 期待値の定義 */
 
@@ -496,7 +717,7 @@ public class CarryoverParserTest {
         final String testTitle = "タスク";
 
         /* テスト対象の実行 */
-        final String testResult = CarryoverParser.parseTitleDate(testTitle);
+        final String testResult = CarryoverParserTest.parseTitleDate(testTitle);
 
         /* 検証の準備 */
         final String actualDate = testResult;
@@ -508,9 +729,12 @@ public class CarryoverParserTest {
 
     /**
      * parseTitleDate メソッドのテスト - 準正常系:タイトルが null の場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testParseTitleDate_semiNull() {
+    public void testParseTitleDate_semiNull() throws Exception {
 
         /* 期待値の定義 */
 
@@ -518,7 +742,7 @@ public class CarryoverParserTest {
         final String testTitle = null;
 
         /* テスト対象の実行 */
-        final String testResult = CarryoverParser.parseTitleDate(testTitle);
+        final String testResult = CarryoverParserTest.parseTitleDate(testTitle);
 
         /* 検証の準備 */
         final String actualDate = testResult;
@@ -530,9 +754,12 @@ public class CarryoverParserTest {
 
     /**
      * parseMinutes メソッドのテスト - 正常系:「残り時間：N分」の場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testParseMinutes_normalRemainingTime() {
+    public void testParseMinutes_normalRemainingTime() throws Exception {
 
         /* 期待値の定義 */
         final Double expectedMinutes = Double.valueOf(15);
@@ -541,7 +768,7 @@ public class CarryoverParserTest {
         final String testText = "（残り時間：15分）";
 
         /* テスト対象の実行 */
-        final Double testResult = CarryoverParser.parseMinutes(testText);
+        final Double testResult = CarryoverParserTest.parseMinutes(testText);
 
         /* 検証の準備 */
         final Double actualMinutes = testResult;
@@ -553,9 +780,12 @@ public class CarryoverParserTest {
 
     /**
      * parseMinutes メソッドのテスト - 正常系:「残り時間：N分」で小数の場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testParseMinutes_normalDecimal() {
+    public void testParseMinutes_normalDecimal() throws Exception {
 
         /* 期待値の定義 */
         final Double expectedMinutes = Double.valueOf(8.5);
@@ -564,7 +794,7 @@ public class CarryoverParserTest {
         final String testText = "（残り時間：8.5分）";
 
         /* テスト対象の実行 */
-        final Double testResult = CarryoverParser.parseMinutes(testText);
+        final Double testResult = CarryoverParserTest.parseMinutes(testText);
 
         /* 検証の準備 */
         final Double actualMinutes = testResult;
@@ -576,9 +806,12 @@ public class CarryoverParserTest {
 
     /**
      * parseMinutes メソッドのテスト - 正常系:「残りN分」の場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testParseMinutes_normalRemaining() {
+    public void testParseMinutes_normalRemaining() throws Exception {
 
         /* 期待値の定義 */
         final Double expectedMinutes = Double.valueOf(9);
@@ -587,7 +820,7 @@ public class CarryoverParserTest {
         final String testText = "（残り9分）";
 
         /* テスト対象の実行 */
-        final Double testResult = CarryoverParser.parseMinutes(testText);
+        final Double testResult = CarryoverParserTest.parseMinutes(testText);
 
         /* 検証の準備 */
         final Double actualMinutes = testResult;
@@ -599,9 +832,12 @@ public class CarryoverParserTest {
 
     /**
      * parseMinutes メソッドのテスト - 正常系:「先行分残りN分」の場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testParseMinutes_normalAdvanceRemaining() {
+    public void testParseMinutes_normalAdvanceRemaining() throws Exception {
 
         /* 期待値の定義 */
         final Double expectedMinutes = Double.valueOf(5);
@@ -610,7 +846,7 @@ public class CarryoverParserTest {
         final String testText = "（先行分残り5分）";
 
         /* テスト対象の実行 */
-        final Double testResult = CarryoverParser.parseMinutes(testText);
+        final Double testResult = CarryoverParserTest.parseMinutes(testText);
 
         /* 検証の準備 */
         final Double actualMinutes = testResult;
@@ -622,9 +858,12 @@ public class CarryoverParserTest {
 
     /**
      * parseMinutes メソッドのテスト - 正常系:「N分」の場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testParseMinutes_normalSimple() {
+    public void testParseMinutes_normalSimple() throws Exception {
 
         /* 期待値の定義 */
         final Double expectedMinutes = Double.valueOf(30);
@@ -633,7 +872,7 @@ public class CarryoverParserTest {
         final String testText = "（30分）";
 
         /* テスト対象の実行 */
-        final Double testResult = CarryoverParser.parseMinutes(testText);
+        final Double testResult = CarryoverParserTest.parseMinutes(testText);
 
         /* 検証の準備 */
         final Double actualMinutes = testResult;
@@ -645,9 +884,12 @@ public class CarryoverParserTest {
 
     /**
      * parseMinutes メソッドのテスト - 正常系:半角括弧の場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testParseMinutes_normalHalfWidthParentheses() {
+    public void testParseMinutes_normalHalfWidthParentheses() throws Exception {
 
         /* 期待値の定義 */
         final Double expectedMinutes = Double.valueOf(15);
@@ -656,7 +898,7 @@ public class CarryoverParserTest {
         final String testText = "(15分)";
 
         /* テスト対象の実行 */
-        final Double testResult = CarryoverParser.parseMinutes(testText);
+        final Double testResult = CarryoverParserTest.parseMinutes(testText);
 
         /* 検証の準備 */
         final Double actualMinutes = testResult;
@@ -668,9 +910,12 @@ public class CarryoverParserTest {
 
     /**
      * parseMinutes メソッドのテスト - 準正常系:括弧がない場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testParseMinutes_semiNoParentheses() {
+    public void testParseMinutes_semiNoParentheses() throws Exception {
 
         /* 期待値の定義 */
 
@@ -678,7 +923,7 @@ public class CarryoverParserTest {
         final String testText = "";
 
         /* テスト対象の実行 */
-        final Double testResult = CarryoverParser.parseMinutes(testText);
+        final Double testResult = CarryoverParserTest.parseMinutes(testText);
 
         /* 検証の準備 */
         final Double actualMinutes = testResult;
@@ -690,9 +935,12 @@ public class CarryoverParserTest {
 
     /**
      * parseMinutes メソッドのテスト - 準正常系:括弧内を解釈できない場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testParseMinutes_semiUnparsable() {
+    public void testParseMinutes_semiUnparsable() throws Exception {
 
         /* 期待値の定義 */
 
@@ -700,7 +948,7 @@ public class CarryoverParserTest {
         final String testText = "（未定）";
 
         /* テスト対象の実行 */
-        final Double testResult = CarryoverParser.parseMinutes(testText);
+        final Double testResult = CarryoverParserTest.parseMinutes(testText);
 
         /* 検証の準備 */
         final Double actualMinutes = testResult;
@@ -712,9 +960,12 @@ public class CarryoverParserTest {
 
     /**
      * normalizeName メソッドのテスト - 正常系:そのままの項目名の場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testNormalizeName_normalPlain() {
+    public void testNormalizeName_normalPlain() throws Exception {
 
         /* 期待値の定義 */
         final String expectedName = "IT・技術学習";
@@ -723,7 +974,7 @@ public class CarryoverParserTest {
         final String testName = " IT・技術学習 ";
 
         /* テスト対象の実行 */
-        final String testResult = CarryoverParser.normalizeName(testName);
+        final String testResult = CarryoverParserTest.normalizeName(testName);
 
         /* 検証の準備 */
         final String actualName = testResult;
@@ -735,9 +986,12 @@ public class CarryoverParserTest {
 
     /**
      * normalizeName メソッドのテスト - 正常系:末尾に括弧書きがある場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testNormalizeName_normalTrailingParentheses() {
+    public void testNormalizeName_normalTrailingParentheses() throws Exception {
 
         /* 期待値の定義 */
         final String expectedName = "汎用タスク";
@@ -746,7 +1000,7 @@ public class CarryoverParserTest {
         final String testName = "汎用タスク（15分）";
 
         /* テスト対象の実行 */
-        final String testResult = CarryoverParser.normalizeName(testName);
+        final String testResult = CarryoverParserTest.normalizeName(testName);
 
         /* 検証の準備 */
         final String actualName = testResult;
@@ -758,9 +1012,12 @@ public class CarryoverParserTest {
 
     /**
      * normalizeName メソッドのテスト - 正常系:末尾に開き括弧がある場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testNormalizeName_normalTrailingOpenParentheses() {
+    public void testNormalizeName_normalTrailingOpenParentheses() throws Exception {
 
         /* 期待値の定義 */
         final String expectedName = "フロントエンドまたはサーバー系に関係する学習";
@@ -769,7 +1026,7 @@ public class CarryoverParserTest {
         final String testName = "フロントエンドまたはサーバー系に関係する学習(";
 
         /* テスト対象の実行 */
-        final String testResult = CarryoverParser.normalizeName(testName);
+        final String testResult = CarryoverParserTest.normalizeName(testName);
 
         /* 検証の準備 */
         final String actualName = testResult;
@@ -781,9 +1038,12 @@ public class CarryoverParserTest {
 
     /**
      * normalizeName メソッドのテスト - 準正常系:空になる場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testNormalizeName_semiEmpty() {
+    public void testNormalizeName_semiEmpty() throws Exception {
 
         /* 期待値の定義 */
         final String expectedName = "不明";
@@ -792,7 +1052,7 @@ public class CarryoverParserTest {
         final String testName = "（15分）";
 
         /* テスト対象の実行 */
-        final String testResult = CarryoverParser.normalizeName(testName);
+        final String testResult = CarryoverParserTest.normalizeName(testName);
 
         /* 検証の準備 */
         final String actualName = testResult;
@@ -804,9 +1064,12 @@ public class CarryoverParserTest {
 
     /**
      * splitLines メソッドのテスト - 正常系:改行コードが混在する場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testSplitLines_normalMixedLineBreaks() {
+    public void testSplitLines_normalMixedLineBreaks() throws Exception {
 
         /* 期待値の定義 */
         final List<String> expectedLines = List.of("a", "b", "c");
@@ -815,7 +1078,7 @@ public class CarryoverParserTest {
         final String testBody = "a\r\nb\nc";
 
         /* テスト対象の実行 */
-        final List<String> testResult = CarryoverParser.splitLines(testBody);
+        final List<String> testResult = CarryoverParserTest.splitLines(testBody);
 
         /* 検証の準備 */
         final List<String> actualLines = testResult;
@@ -827,9 +1090,12 @@ public class CarryoverParserTest {
 
     /**
      * splitLines メソッドのテスト - 準正常系:本文が null の場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testSplitLines_semiNull() {
+    public void testSplitLines_semiNull() throws Exception {
 
         /* 期待値の定義 */
         final List<String> expectedLines = List.of();
@@ -838,7 +1104,7 @@ public class CarryoverParserTest {
         final String testBody = null;
 
         /* テスト対象の実行 */
-        final List<String> testResult = CarryoverParser.splitLines(testBody);
+        final List<String> testResult = CarryoverParserTest.splitLines(testBody);
 
         /* 検証の準備 */
         final List<String> actualLines = testResult;
@@ -850,9 +1116,12 @@ public class CarryoverParserTest {
 
     /**
      * addSection メソッドのテスト - 正常系:対象セクションを追加する場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testAddSection_normalTarget() {
+    public void testAddSection_normalTarget() throws Exception {
 
         /* 期待値の定義 */
         final List<String> expectedSections = List.of("持ち越し");
@@ -861,7 +1130,7 @@ public class CarryoverParserTest {
         final List<String> testSections = new ArrayList<>();
 
         /* テスト対象の実行 */
-        CarryoverParser.addSection(testSections, "持ち越し");
+        CarryoverParserTest.addSection(testSections, "持ち越し");
 
         /* 検証の準備 */
         final List<String> actualSections = testSections;
@@ -873,9 +1142,12 @@ public class CarryoverParserTest {
 
     /**
      * addSection メソッドのテスト - 準正常系:追加済みのセクションの場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testAddSection_semiDuplicate() {
+    public void testAddSection_semiDuplicate() throws Exception {
 
         /* 期待値の定義 */
         final List<String> expectedSections = List.of("持ち越し");
@@ -884,7 +1156,7 @@ public class CarryoverParserTest {
         final List<String> testSections = new ArrayList<>(List.of("持ち越し"));
 
         /* テスト対象の実行 */
-        CarryoverParser.addSection(testSections, "持ち越し");
+        CarryoverParserTest.addSection(testSections, "持ち越し");
 
         /* 検証の準備 */
         final List<String> actualSections = testSections;
@@ -896,9 +1168,12 @@ public class CarryoverParserTest {
 
     /**
      * addSection メソッドのテスト - 準正常系:対象外のセクションの場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testAddSection_semiNotTarget() {
+    public void testAddSection_semiNotTarget() throws Exception {
 
         /* 期待値の定義 */
         final List<String> expectedSections = List.of();
@@ -907,7 +1182,7 @@ public class CarryoverParserTest {
         final List<String> testSections = new ArrayList<>();
 
         /* テスト対象の実行 */
-        CarryoverParser.addSection(testSections, "先行");
+        CarryoverParserTest.addSection(testSections, "先行");
 
         /* 検証の準備 */
         final List<String> actualSections = testSections;
@@ -919,9 +1194,12 @@ public class CarryoverParserTest {
 
     /**
      * warnUnexpectedLine メソッドのテスト - 正常系:空行の場合は警告しない
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testWarnUnexpectedLine_normalBlank() {
+    public void testWarnUnexpectedLine_normalBlank() throws Exception {
 
         /* 期待値の定義 */
         final String[] expectedMsgs = {};
@@ -931,7 +1209,7 @@ public class CarryoverParserTest {
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
 
-            CarryoverParser.warnUnexpectedLine(371, "   ");
+            CarryoverParserTest.warnUnexpectedLine(371, "   ");
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
@@ -945,9 +1223,12 @@ public class CarryoverParserTest {
 
     /**
      * warnUnexpectedLine メソッドのテスト - 正常系:区切り線の場合は警告しない
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testWarnUnexpectedLine_normalSeparator() {
+    public void testWarnUnexpectedLine_normalSeparator() throws Exception {
 
         /* 期待値の定義 */
         final String[] expectedMsgs = {};
@@ -957,7 +1238,7 @@ public class CarryoverParserTest {
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
 
-            CarryoverParser.warnUnexpectedLine(371, "-----");
+            CarryoverParserTest.warnUnexpectedLine(371, "-----");
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
@@ -971,9 +1252,12 @@ public class CarryoverParserTest {
 
     /**
      * warnUnexpectedLine メソッドのテスト - 準正常系:想定外の行の場合は警告する
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testWarnUnexpectedLine_semiUnexpected() {
+    public void testWarnUnexpectedLine_semiUnexpected() throws Exception {
 
         /* 期待値の定義 */
         final String[] expectedMsgs = {
@@ -985,7 +1269,7 @@ public class CarryoverParserTest {
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
 
-            CarryoverParser.warnUnexpectedLine(371, "メモ");
+            CarryoverParserTest.warnUnexpectedLine(371, "メモ");
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
@@ -999,9 +1283,12 @@ public class CarryoverParserTest {
 
     /**
      * verifyDeclaredCount メソッドのテスト - 正常系:残数と解析件数が一致する場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testVerifyDeclaredCount_normalMatch() {
+    public void testVerifyDeclaredCount_normalMatch() throws Exception {
 
         /* 期待値の定義 */
         final String[] expectedMsgs = {};
@@ -1011,7 +1298,7 @@ public class CarryoverParserTest {
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
 
-            CarryoverParser.verifyDeclaredCount(371, Integer.valueOf(76), 76);
+            CarryoverParserTest.verifyDeclaredCount(371, Integer.valueOf(76), 76);
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
@@ -1025,9 +1312,12 @@ public class CarryoverParserTest {
 
     /**
      * verifyDeclaredCount メソッドのテスト - 正常系:残数の記載がない場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testVerifyDeclaredCount_normalNoDeclared() {
+    public void testVerifyDeclaredCount_normalNoDeclared() throws Exception {
 
         /* 期待値の定義 */
         final String[] expectedMsgs = {};
@@ -1037,7 +1327,7 @@ public class CarryoverParserTest {
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
 
-            CarryoverParser.verifyDeclaredCount(371, null, 76);
+            CarryoverParserTest.verifyDeclaredCount(371, null, 76);
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
@@ -1051,9 +1341,12 @@ public class CarryoverParserTest {
 
     /**
      * verifyDeclaredCount メソッドのテスト - 準正常系:残数と解析件数が一致しない場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testVerifyDeclaredCount_semiMismatch() {
+    public void testVerifyDeclaredCount_semiMismatch() throws Exception {
 
         /* 期待値の定義 */
         final String[] expectedMsgs = {
@@ -1065,7 +1358,7 @@ public class CarryoverParserTest {
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverParser.class)) {
 
-            CarryoverParser.verifyDeclaredCount(371, Integer.valueOf(76), 75);
+            CarryoverParserTest.verifyDeclaredCount(371, Integer.valueOf(76), 75);
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
@@ -1079,9 +1372,12 @@ public class CarryoverParserTest {
 
     /**
      * formatDate メソッドのテスト - 正常系:月・日をゼロ埋めする場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testFormatDate_normalZeroPadding() {
+    public void testFormatDate_normalZeroPadding() throws Exception {
 
         /* 期待値の定義 */
         final String expectedDate = "2026-06-05";
@@ -1089,7 +1385,7 @@ public class CarryoverParserTest {
         /* 準備 */
 
         /* テスト対象の実行 */
-        final String testResult = CarryoverParser.formatDate("2026", "6", "5");
+        final String testResult = CarryoverParserTest.formatDate("2026", "6", "5");
 
         /* 検証の準備 */
         final String actualDate = testResult;

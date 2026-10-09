@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailyTaskIssue;
 import io.github.kenichiroarai.dailytasks.testutil.LogAssertions;
 import io.github.kenichiroarai.dailytasks.testutil.LogCapture;
+import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 
 /**
  * {@link GitHubIssueClient} のテスト<br>
@@ -65,6 +66,114 @@ public class GitHubIssueClientTest {
         final String result = String.format(
             "{\"number\":%d,\"title\":\"2026年10月06日のタスク\",\"state\":\"open\",\"updated_at\":\"2026-10-06T14:23:08Z\",\"body\":\"本文\"}",
             Integer.valueOf(number));
+        return result;
+
+    }
+
+    /**
+     * private の fetchPage メソッドを呼び出す<br>
+     *
+     * @param target
+     *               テスト対象
+     * @param page
+     *               ページ番号
+     *
+     * @return API の応答
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static JsonNode fetchPage(final GitHubIssueClient target, final int page) throws Exception {
+
+        final JsonNode result = ReflectionTestUtil.invoke(target, "fetchPage", new Class<?>[] {
+            int.class
+        }, Integer.valueOf(page));
+        return result;
+
+    }
+
+    /**
+     * private の send メソッドを呼び出す<br>
+     *
+     * @param target
+     *                テスト対象
+     * @param request
+     *                リクエスト
+     *
+     * @return 応答
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static HttpResponse<String> send(final GitHubIssueClient target, final HttpRequest request)
+        throws Exception {
+
+        final HttpResponse<String> result = ReflectionTestUtil.invoke(target, "send", new Class<?>[] {
+            HttpRequest.class
+        }, request);
+        return result;
+
+    }
+
+    /**
+     * private の hasToken メソッドを呼び出す<br>
+     *
+     * @param target
+     *               テスト対象
+     *
+     * @return トークンがある場合は true
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static boolean hasToken(final GitHubIssueClient target) throws Exception {
+
+        final boolean result = ReflectionTestUtil.<Boolean> invoke(target, "hasToken", new Class<?>[] {})
+            .booleanValue();
+        return result;
+
+    }
+
+    /**
+     * private の toIssue メソッドを呼び出す<br>
+     *
+     * @param node
+     *             API の応答の Issue
+     *
+     * @return Issue
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static DailyTaskIssue toIssue(final JsonNode node) throws Exception {
+
+        final DailyTaskIssue result = ReflectionTestUtil.invokeStatic(GitHubIssueClient.class, "toIssue",
+            new Class<?>[] {
+                JsonNode.class
+            }, node);
+        return result;
+
+    }
+
+    /**
+     * private の textOrEmpty メソッドを呼び出す<br>
+     *
+     * @param node
+     *                  API の応答
+     * @param fieldName
+     *                  項目名
+     *
+     * @return 項目の値
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static String textOrEmpty(final JsonNode node, final String fieldName) throws Exception {
+
+        final String result = ReflectionTestUtil.invokeStatic(GitHubIssueClient.class, "textOrEmpty",
+            new Class<?>[] {
+                JsonNode.class, String.class
+            }, node, fieldName);
         return result;
 
     }
@@ -149,11 +258,11 @@ public class GitHubIssueClientTest {
     /**
      * fetchPage メソッドのテスト - 正常系:トークンを指定した場合は認証ヘッダを付ける
      *
-     * @throws IOException
-     *                     入出力エラーが発生した場合
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testFetchPage_normalWithToken() throws IOException {
+    public void testFetchPage_normalWithToken() throws Exception {
 
         /* 期待値の定義 */
         final Optional<String> expectedAuthorization = Optional.of("Bearer test-token");
@@ -167,7 +276,7 @@ public class GitHubIssueClientTest {
                 GitHubIssueClientTest.API_BASE_URL, GitHubIssueClientTest.REPOSITORY, "test-token");
 
             /* テスト対象の実行 */
-            testTarget.fetchPage(1);
+            GitHubIssueClientTest.fetchPage(testTarget, 1);
 
             /* 検証の準備 */
             final Optional<String> actualAuthorization = testHttpClient.getRequests().get(0).headers()
@@ -185,11 +294,11 @@ public class GitHubIssueClientTest {
     /**
      * fetchPage メソッドのテスト - 正常系:トークンを指定しない場合は認証ヘッダを付けない
      *
-     * @throws IOException
-     *                     入出力エラーが発生した場合
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testFetchPage_normalWithoutToken() throws IOException {
+    public void testFetchPage_normalWithoutToken() throws Exception {
 
         /* 期待値の定義 */
         final Optional<String> expectedAuthorization = Optional.empty();
@@ -202,7 +311,7 @@ public class GitHubIssueClientTest {
                 GitHubIssueClientTest.API_BASE_URL, GitHubIssueClientTest.REPOSITORY, null);
 
             /* テスト対象の実行 */
-            testTarget.fetchPage(1);
+            GitHubIssueClientTest.fetchPage(testTarget, 1);
 
             /* 検証の準備 */
             final Optional<String> actualAuthorization
@@ -232,7 +341,8 @@ public class GitHubIssueClientTest {
                 GitHubIssueClientTest.API_BASE_URL, GitHubIssueClientTest.REPOSITORY, null);
 
             /* テスト対象の実行 */
-            final IOException testException = Assertions.assertThrows(IOException.class, () -> testTarget.fetchPage(1));
+            final IOException testException
+                = Assertions.assertThrows(IOException.class, () -> GitHubIssueClientTest.fetchPage(testTarget, 1));
 
             /* 検証の準備 */
             final String actualMessage = testException.getMessage();
@@ -261,7 +371,8 @@ public class GitHubIssueClientTest {
                 GitHubIssueClientTest.API_BASE_URL, GitHubIssueClientTest.REPOSITORY, null);
 
             /* テスト対象の実行 */
-            final IOException testException = Assertions.assertThrows(IOException.class, () -> testTarget.fetchPage(1));
+            final IOException testException
+                = Assertions.assertThrows(IOException.class, () -> GitHubIssueClientTest.fetchPage(testTarget, 1));
 
             /* 検証の準備 */
             final String actualMessage = testException.getMessage();
@@ -276,11 +387,11 @@ public class GitHubIssueClientTest {
     /**
      * send メソッドのテスト - 正常系:応答を返す場合
      *
-     * @throws IOException
-     *                     入出力エラーが発生した場合
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testSend_normalResponse() throws IOException {
+    public void testSend_normalResponse() throws Exception {
 
         /* 期待値の定義 */
         final String expectedBody = "[]";
@@ -295,7 +406,7 @@ public class GitHubIssueClientTest {
                 .build();
 
             /* テスト対象の実行 */
-            final HttpResponse<String> testResult = testTarget.send(testRequest);
+            final HttpResponse<String> testResult = GitHubIssueClientTest.send(testTarget, testRequest);
 
             /* 検証の準備 */
             final String actualBody = testResult.body();
@@ -327,7 +438,8 @@ public class GitHubIssueClientTest {
 
             /* テスト対象の実行 */
             final IOException testException
-                = Assertions.assertThrows(IOException.class, () -> testTarget.send(testRequest));
+                = Assertions.assertThrows(IOException.class,
+                    () -> GitHubIssueClientTest.send(testTarget, testRequest));
 
             /* 検証の準備 */
             final String    actualMessage     = testException.getMessage();
@@ -345,9 +457,12 @@ public class GitHubIssueClientTest {
 
     /**
      * hasToken メソッドのテスト - 正常系:トークンを指定した場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testHasToken_normalSpecified() {
+    public void testHasToken_normalSpecified() throws Exception {
 
         /* 期待値の定義 */
 
@@ -358,7 +473,7 @@ public class GitHubIssueClientTest {
                 GitHubIssueClientTest.API_BASE_URL, GitHubIssueClientTest.REPOSITORY, "test-token");
 
             /* テスト対象の実行 */
-            final boolean testResult = testTarget.hasToken();
+            final boolean testResult = GitHubIssueClientTest.hasToken(testTarget);
 
             /* 検証の準備 */
             final boolean actualHasToken = testResult;
@@ -372,9 +487,12 @@ public class GitHubIssueClientTest {
 
     /**
      * hasToken メソッドのテスト - 準正常系:トークンが null の場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testHasToken_semiNull() {
+    public void testHasToken_semiNull() throws Exception {
 
         /* 期待値の定義 */
 
@@ -385,7 +503,7 @@ public class GitHubIssueClientTest {
                 GitHubIssueClientTest.API_BASE_URL, GitHubIssueClientTest.REPOSITORY, null);
 
             /* テスト対象の実行 */
-            final boolean testResult = testTarget.hasToken();
+            final boolean testResult = GitHubIssueClientTest.hasToken(testTarget);
 
             /* 検証の準備 */
             final boolean actualHasToken = testResult;
@@ -399,9 +517,12 @@ public class GitHubIssueClientTest {
 
     /**
      * hasToken メソッドのテスト - 準正常系:トークンが空白の場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testHasToken_semiBlank() {
+    public void testHasToken_semiBlank() throws Exception {
 
         /* 期待値の定義 */
 
@@ -412,7 +533,7 @@ public class GitHubIssueClientTest {
                 GitHubIssueClientTest.API_BASE_URL, GitHubIssueClientTest.REPOSITORY, " ");
 
             /* テスト対象の実行 */
-            final boolean testResult = testTarget.hasToken();
+            final boolean testResult = GitHubIssueClientTest.hasToken(testTarget);
 
             /* 検証の準備 */
             final boolean actualHasToken = testResult;
@@ -427,11 +548,11 @@ public class GitHubIssueClientTest {
     /**
      * toIssue メソッドのテスト - 正常系:API の応答を Issue に変換する場合
      *
-     * @throws IOException
-     *                     入出力エラーが発生した場合
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testToIssue_normalConvert() throws IOException {
+    public void testToIssue_normalConvert() throws Exception {
 
         /* 期待値の定義 */
         final int    expectedNumber    = 371;
@@ -444,7 +565,7 @@ public class GitHubIssueClientTest {
         final JsonNode testNode = new ObjectMapper().readTree(GitHubIssueClientTest.issueJson(371));
 
         /* テスト対象の実行 */
-        final DailyTaskIssue testResult = GitHubIssueClient.toIssue(testNode);
+        final DailyTaskIssue testResult = GitHubIssueClientTest.toIssue(testNode);
 
         /* 検証の準備 */
         final int    actualNumber    = testResult.getNumber();
@@ -465,11 +586,11 @@ public class GitHubIssueClientTest {
     /**
      * textOrEmpty メソッドのテスト - 正常系:値がある場合
      *
-     * @throws IOException
-     *                     入出力エラーが発生した場合
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testTextOrEmpty_normalValue() throws IOException {
+    public void testTextOrEmpty_normalValue() throws Exception {
 
         /* 期待値の定義 */
         final String expectedValue = "本文";
@@ -478,7 +599,7 @@ public class GitHubIssueClientTest {
         final JsonNode testNode = new ObjectMapper().readTree("{\"body\":\"本文\"}");
 
         /* テスト対象の実行 */
-        final String testResult = GitHubIssueClient.textOrEmpty(testNode, "body");
+        final String testResult = GitHubIssueClientTest.textOrEmpty(testNode, "body");
 
         /* 検証の準備 */
         final String actualValue = testResult;
@@ -491,11 +612,11 @@ public class GitHubIssueClientTest {
     /**
      * textOrEmpty メソッドのテスト - 準正常系:値が null の場合
      *
-     * @throws IOException
-     *                     入出力エラーが発生した場合
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testTextOrEmpty_semiNull() throws IOException {
+    public void testTextOrEmpty_semiNull() throws Exception {
 
         /* 期待値の定義 */
         final String expectedValue = "";
@@ -504,7 +625,7 @@ public class GitHubIssueClientTest {
         final JsonNode testNode = new ObjectMapper().readTree("{\"body\":null}");
 
         /* テスト対象の実行 */
-        final String testResult = GitHubIssueClient.textOrEmpty(testNode, "body");
+        final String testResult = GitHubIssueClientTest.textOrEmpty(testNode, "body");
 
         /* 検証の準備 */
         final String actualValue = testResult;
@@ -517,11 +638,11 @@ public class GitHubIssueClientTest {
     /**
      * textOrEmpty メソッドのテスト - 準正常系:項目がない場合
      *
-     * @throws IOException
-     *                     入出力エラーが発生した場合
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testTextOrEmpty_semiMissing() throws IOException {
+    public void testTextOrEmpty_semiMissing() throws Exception {
 
         /* 期待値の定義 */
         final String expectedValue = "";
@@ -530,7 +651,7 @@ public class GitHubIssueClientTest {
         final JsonNode testNode = new ObjectMapper().readTree("{}");
 
         /* テスト対象の実行 */
-        final String testResult = GitHubIssueClient.textOrEmpty(testNode, "body");
+        final String testResult = GitHubIssueClientTest.textOrEmpty(testNode, "body");
 
         /* 検証の準備 */
         final String actualValue = testResult;

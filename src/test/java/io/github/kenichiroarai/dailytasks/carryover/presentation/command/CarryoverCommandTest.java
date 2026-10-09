@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import io.github.kenichiroarai.dailytasks.carryover.application.service.CarryoverService;
+import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 
 /**
  * {@link CarryoverCommand} のテスト<br>
@@ -67,12 +68,27 @@ public class CarryoverCommandTest {
          *
          * @return 呼び出し時のモード
          */
-        List<Boolean> getCalls() {
+        private List<Boolean> getCalls() {
 
             final List<Boolean> result = this.calls;
             return result;
 
         }
+
+    }
+
+    /**
+     * private の USAGE フィールドの値を取得する<br>
+     *
+     * @return 使い方
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static String usage() throws Exception {
+
+        final String result = ReflectionTestUtil.getStaticField(CarryoverCommand.class, "USAGE");
+        return result;
 
     }
 
@@ -138,14 +154,14 @@ public class CarryoverCommandTest {
     /**
      * execute メソッドのテスト - 正常系:--help の場合は使い方を表示して収集しない
      *
-     * @throws IOException
-     *                     入出力エラーが発生した場合
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testExecute_normalHelp() throws IOException {
+    public void testExecute_normalHelp() throws Exception {
 
         /* 期待値の定義 */
-        final String expectedOutput = CarryoverCommand.USAGE + System.lineSeparator();
+        final String expectedOutput = CarryoverCommandTest.usage() + System.lineSeparator();
         final int expectedCount = 0;
 
         /* 準備 */

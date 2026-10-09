@@ -32,22 +32,22 @@ public final class DailyTasksApplication {
     /**
      * GitHub API のベース URL
      */
-    static final String API_BASE_URL = "https://api.github.com";
+    private static final String API_BASE_URL = "https://api.github.com";
 
     /**
      * 対象リポジトリ
      */
-    static final String REPOSITORY = "KenichiroArai/daily-tasks-git";
+    private static final String REPOSITORY = "KenichiroArai/daily-tasks-git";
 
     /**
      * 出力先のディレクトリ
      */
-    static final Path DATA_DIR = Path.of("docs", "data");
+    private static final Path DATA_DIR = Path.of("docs", "data");
 
     /**
      * 標準時間の設定ファイル
      */
-    static final Path DEFAULT_MINUTES_FILE = Path.of("config", "default-minutes.json");
+    private static final Path DEFAULT_MINUTES_FILE = Path.of("config", "default-minutes.json");
 
     /**
      * コンストラクタ<br>

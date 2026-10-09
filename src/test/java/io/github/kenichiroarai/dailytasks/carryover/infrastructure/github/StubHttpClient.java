@@ -348,7 +348,7 @@ public class StubHttpClient extends HttpClient {
          * @param body
          *                   本文
          */
-        StubHttpResponse(final HttpRequest request, final int statusCode, final String body) {
+        private StubHttpResponse(final HttpRequest request, final int statusCode, final String body) {
 
             this.request = request;
             this.statusCode = statusCode;
