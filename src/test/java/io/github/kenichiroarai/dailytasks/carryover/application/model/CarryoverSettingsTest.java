@@ -27,7 +27,7 @@ public class CarryoverSettingsTest {
     private static CarryoverSettings createTarget() {
 
         final CarryoverSettings result = new CarryoverSettings("owner/repo", "test-token", Path.of("docs", "data"),
-            Path.of("config", "default-minutes.json"));
+            Path.of("config", "default-minutes.json"), 10);
         return result;
 
     }
@@ -125,6 +125,29 @@ public class CarryoverSettingsTest {
     }
 
     /**
+     * getRecentCount メソッドのテスト - 正常系:最新の Issue の件数を返す場合
+     */
+    @Test
+    public void testGetRecentCount_normalValue() {
+
+        /* 期待値の定義 */
+        final int expectedRecentCount = 10;
+
+        /* 準備 */
+        final CarryoverSettings testTarget = CarryoverSettingsTest.createTarget();
+
+        /* テスト対象の実行 */
+        final int testResult = testTarget.getRecentCount();
+
+        /* 検証の準備 */
+        final int actualRecentCount = testResult;
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedRecentCount, actualRecentCount, "最新の Issue の件数が一致しません");
+
+    }
+
+    /**
      * toString メソッドのテスト - 正常系:トークンを含めない場合
      */
     @Test
@@ -132,7 +155,7 @@ public class CarryoverSettingsTest {
 
         /* 期待値の定義 */
         final String expectedString = "CarryoverSettings[repository=owner/repo, dataDir=" + Path.of("docs", "data")
-            + ", defaultMinutesFile=" + Path.of("config", "default-minutes.json") + "]";
+            + ", defaultMinutesFile=" + Path.of("config", "default-minutes.json") + ", recentCount=10]";
 
         /* 準備 */
         final CarryoverSettings testTarget = CarryoverSettingsTest.createTarget();

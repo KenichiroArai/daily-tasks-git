@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageUtil;
 import io.github.kenichiroarai.dailytasks.carryover.repository.DefaultMinutesRepository;
 
 /**
@@ -29,6 +30,16 @@ public class DefaultMinutesRepositoryImpl implements DefaultMinutesRepository {
      * ロガー
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultMinutesRepositoryImpl.class);
+
+    /**
+     * メッセージのバンドル名
+     */
+    private static final String MESSAGES = "messages";
+
+    /**
+     * メッセージのキー：設定ファイルがない
+     */
+    private static final String MSG_FILE_NOT_FOUND = "carryover.defaultMinutes.fileNotFound";
 
     /**
      * 設定ファイルのパス
@@ -62,7 +73,9 @@ public class DefaultMinutesRepositoryImpl implements DefaultMinutesRepository {
 
         if (!Files.isRegularFile(this.configFile)) {
 
-            DefaultMinutesRepositoryImpl.LOGGER.warn("標準時間の設定ファイルがありません: {}", this.configFile);
+            final String message = MessageUtil.get(DefaultMinutesRepositoryImpl.MESSAGES,
+                DefaultMinutesRepositoryImpl.MSG_FILE_NOT_FOUND);
+            DefaultMinutesRepositoryImpl.LOGGER.warn(message, this.configFile);
             return result;
 
         }

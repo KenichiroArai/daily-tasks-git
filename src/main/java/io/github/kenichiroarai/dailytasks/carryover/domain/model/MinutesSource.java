@@ -1,5 +1,7 @@
 package io.github.kenichiroarai.dailytasks.carryover.domain.model;
 
+import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageUtil;
+
 /**
  * 残り時間の取得元<br>
  *
@@ -28,6 +30,16 @@ public enum MinutesSource {
     UNKNOWN("unknown"),
 
     ;
+
+    /**
+     * メッセージのバンドル名
+     */
+    private static final String MESSAGES = "messages";
+
+    /**
+     * メッセージのキー：不明な残り時間の取得元
+     */
+    private static final String MSG_UNKNOWN_VALUE = "carryover.minutesSource.unknownValue";
 
     /**
      * 保存するときの値
@@ -74,7 +86,9 @@ public enum MinutesSource {
 
         }
 
-        throw new IllegalArgumentException(String.format("不明な残り時間の取得元です: %s", value));
+        final String template = MessageUtil.get(MinutesSource.MESSAGES, MinutesSource.MSG_UNKNOWN_VALUE);
+        final String message = String.format(template, value);
+        throw new IllegalArgumentException(message);
 
     }
 

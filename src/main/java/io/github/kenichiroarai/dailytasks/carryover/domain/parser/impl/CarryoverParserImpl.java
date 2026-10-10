@@ -15,6 +15,7 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailyTaskIssue;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.DefaultMinutes;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
 import io.github.kenichiroarai.dailytasks.carryover.domain.parser.CarryoverParser;
+import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageUtil;
 
 /**
  * 日々のタスク Issue から持ち越し項目を解析する実装<br>
@@ -35,6 +36,46 @@ public class CarryoverParserImpl implements CarryoverParser {
      * ロガー
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(CarryoverParserImpl.class);
+
+    /**
+     * メッセージのバンドル名
+     */
+    private static final String MESSAGES = "messages";
+
+    /**
+     * メッセージのキー：タイトルから日付を取得できない
+     */
+    private static final String MSG_TITLE_DATE_NOT_FOUND = "carryover.parser.titleDateNotFound";
+
+    /**
+     * メッセージのキー：持ち越し元の日付がない
+     */
+    private static final String MSG_ORIGIN_DATE_NOT_FOUND = "carryover.parser.originDateNotFound";
+
+    /**
+     * メッセージのキー：項目名を取得できない
+     */
+    private static final String MSG_NAME_NOT_FOUND = "carryover.parser.nameNotFound";
+
+    /**
+     * メッセージのキー：時間表記を解釈できない
+     */
+    private static final String MSG_MINUTES_NOT_PARSED = "carryover.parser.minutesNotParsed";
+
+    /**
+     * メッセージのキー：標準時間が未登録
+     */
+    private static final String MSG_DEFAULT_MINUTES_NOT_FOUND = "carryover.parser.defaultMinutesNotFound";
+
+    /**
+     * メッセージのキー：想定外の行
+     */
+    private static final String MSG_UNEXPECTED_LINE = "carryover.parser.unexpectedLine";
+
+    /**
+     * メッセージのキー：残数と解析件数の食い違い
+     */
+    private static final String MSG_DECLARED_COUNT_MISMATCH = "carryover.parser.declaredCountMismatch";
 
     /**
      * 対象セクション名
@@ -132,7 +173,9 @@ public class CarryoverParserImpl implements CarryoverParser {
 
         if (date == null) {
 
-            CarryoverParserImpl.LOGGER.warn("#{} タイトルから日付を取得できません: {}", issue.getNumber(), issue.getTitle());
+            final String message = MessageUtil.get(CarryoverParserImpl.MESSAGES,
+                CarryoverParserImpl.MSG_TITLE_DATE_NOT_FOUND);
+            CarryoverParserImpl.LOGGER.warn(message, issue.getNumber(), issue.getTitle());
 
         }
 
@@ -231,7 +274,9 @@ public class CarryoverParserImpl implements CarryoverParser {
 
         } else {
 
-            CarryoverParserImpl.LOGGER.warn("#{} 持ち越し元の日付がありません: {}", number, raw);
+            final String message = MessageUtil.get(CarryoverParserImpl.MESSAGES,
+                CarryoverParserImpl.MSG_ORIGIN_DATE_NOT_FOUND);
+            CarryoverParserImpl.LOGGER.warn(message, number, raw);
 
         }
 
@@ -239,7 +284,8 @@ public class CarryoverParserImpl implements CarryoverParser {
 
         if (UNKNOWN_NAME.equals(name)) {
 
-            CarryoverParserImpl.LOGGER.warn("#{} 項目名を取得できません: {}", number, raw);
+            final String message = MessageUtil.get(CarryoverParserImpl.MESSAGES, CarryoverParserImpl.MSG_NAME_NOT_FOUND);
+            CarryoverParserImpl.LOGGER.warn(message, number, raw);
 
         }
 
@@ -256,7 +302,9 @@ public class CarryoverParserImpl implements CarryoverParser {
 
         if (!rest.isBlank()) {
 
-            CarryoverParserImpl.LOGGER.warn("#{} 時間表記を解釈できないため標準時間で補完します: {}", number, raw);
+            final String message = MessageUtil.get(CarryoverParserImpl.MESSAGES,
+                CarryoverParserImpl.MSG_MINUTES_NOT_PARSED);
+            CarryoverParserImpl.LOGGER.warn(message, number, raw);
 
         }
 
@@ -265,7 +313,9 @@ public class CarryoverParserImpl implements CarryoverParser {
 
         if (defaultValue == null) {
 
-            CarryoverParserImpl.LOGGER.warn("#{} 標準時間が未登録のため 0 分とします: {}", number, name);
+            final String message = MessageUtil.get(CarryoverParserImpl.MESSAGES,
+                CarryoverParserImpl.MSG_DEFAULT_MINUTES_NOT_FOUND);
+            CarryoverParserImpl.LOGGER.warn(message, number, name);
             result = new CarryoverItem(name, originDate, checked, 0, MinutesSource.UNKNOWN, section, raw);
             return result;
 
@@ -469,7 +519,8 @@ public class CarryoverParserImpl implements CarryoverParser {
 
         }
 
-        CarryoverParserImpl.LOGGER.warn("#{} 想定外の行です: {}", number, line);
+        final String message = MessageUtil.get(CarryoverParserImpl.MESSAGES, CarryoverParserImpl.MSG_UNEXPECTED_LINE);
+        CarryoverParserImpl.LOGGER.warn(message, number, line);
 
     }
 
@@ -497,7 +548,9 @@ public class CarryoverParserImpl implements CarryoverParser {
 
         }
 
-        CarryoverParserImpl.LOGGER.warn("#{} 残数と解析件数が一致しません: 残={}, 解析={}", number, declaredCount, parsedCount);
+        final String message = MessageUtil.get(CarryoverParserImpl.MESSAGES,
+            CarryoverParserImpl.MSG_DECLARED_COUNT_MISMATCH);
+        CarryoverParserImpl.LOGGER.warn(message, number, declaredCount, parsedCount);
 
     }
 

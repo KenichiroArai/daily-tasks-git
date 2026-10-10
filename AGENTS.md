@@ -48,16 +48,20 @@ src/main/java/io/github/kenichiroarai/dailytasks/
       aggregator/            # 日別の集計のインタフェース
       aggregator/impl/       # 日別の集計の実装
       converter/             # repository の DTO と domain のモデルの変換
-    infrastructure/          # 業務を知らない汎用ユーティリティ（現在は package-info.java のみ）
+    infrastructure/          # 業務を知らない汎用ユーティリティ
+      resource/              # クラスパスのプロパティファイル・メッセージの読み込み（PropertiesUtil、MessageUtil）
     repository/              # データアクセス層（Dao）。JSON ファイルの読み書きのインタフェース
       impl/                  # JSON ファイルの読み書きの実装
       dto/                   # repository が入出力に使う DTO（JSON・API 応答の形、設定）
       github/                # GitHub REST API からの Issue 取得のインタフェース
       github/impl/           # GitHub REST API からの Issue 取得の実装
 src/main/resources/
+  application.properties     # 設定値（対象リポジトリ、出力先、標準時間のファイル、最新の件数、トークンの環境変数名）
+  messages.properties        # 文字列（使い方、ログ・例外のメッセージ）
   logback.xml
 src/test/java/io/github/kenichiroarai/dailytasks/  # main と同じ構成
   testutil/                  # テスト用のユーティリティ（ログ取得、リフレクションなど）
+src/test/resources/          # テスト用のリソース
 config/
   default-minutes.json       # 時間表記なしの行を補完する項目ごとの標準時間
 docs/                        # 収集ツールが出力するデータだけを置く（ソースコードは置かない）
@@ -129,12 +133,18 @@ flowchart TD
 ### 設定値の引き継ぎ
 
 - 設定値も業務データと同じく、上の層から下の層へ引き継ぎ、境界ごとに下の層の型に変換して渡す。どこからでも参照できる共有の設定（infrastructure の設定クラスなど）は作らない
-- 値の出どころは入力の窓口である presentation（コマンドライン引数・環境変数 `GITHUB_TOKEN`・既定値）とする
+- 値の出どころは入力の窓口である presentation（コマンドライン引数・環境変数 `GITHUB_TOKEN`・設定ファイル `src/main/resources/application.properties`）とする。設定ファイルは presentation だけが読み込む
   - presentation → application: `application/model/CarryoverSettings`
   - application → domain: `domain/model/CarryoverSource`
   - domain → repository: `repository/dto/GitHubSettingsDto`、ファイルのパス（`Path`）
 - GitHub API のベース URL のような、業務の設定ではない技術的な固定値は、それを使う repository の実装の定数にする
 - トークンは設定型の `toString` に含めない
+
+### 文字列（メッセージ）の管理
+
+- 使い方、ログ・例外のメッセージは `src/main/resources/messages.properties` に置き、各クラスはバンドル名とキーを定数で持って `infrastructure/resource/MessageUtil` で取得する
+- ログは SLF4J の `{}`、例外は `String.format` の `%s` / `%d` を埋め込み位置に使う。取得したメッセージはいったん変数に入れてから渡す
+- 解析ルールそのものの文字列（対象セクション名、正規表現など）は messages.properties に置かず、それを使う実装の定数にする
 
 ### ルールの検査
 

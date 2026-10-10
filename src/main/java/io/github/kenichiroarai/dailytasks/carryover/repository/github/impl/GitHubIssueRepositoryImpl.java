@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageUtil;
 import io.github.kenichiroarai.dailytasks.carryover.repository.dto.GitHubIssueDto;
 import io.github.kenichiroarai.dailytasks.carryover.repository.dto.GitHubSettingsDto;
 import io.github.kenichiroarai.dailytasks.carryover.repository.github.GitHubIssueRepository;
@@ -40,6 +41,31 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
      * ロガー
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(GitHubIssueRepositoryImpl.class);
+
+    /**
+     * メッセージのバンドル名
+     */
+    private static final String MESSAGES = "messages";
+
+    /**
+     * メッセージのキー：Issue の取得件数
+     */
+    private static final String MSG_FETCHED = "carryover.github.fetched";
+
+    /**
+     * メッセージのキー：API の呼び出しの失敗
+     */
+    private static final String MSG_CALL_FAILED = "carryover.github.callFailed";
+
+    /**
+     * メッセージのキー：応答が配列ではない
+     */
+    private static final String MSG_NOT_ARRAY = "carryover.github.notArray";
+
+    /**
+     * メッセージのキー：API の呼び出しの中断
+     */
+    private static final String MSG_INTERRUPTED = "carryover.github.interrupted";
 
     /**
      * GitHub API のベース URL
@@ -159,7 +185,8 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
 
         }
 
-        GitHubIssueRepositoryImpl.LOGGER.info("Issue を {} 件取得しました（{} ページ）", result.size(), page - 1);
+        final String message = MessageUtil.get(GitHubIssueRepositoryImpl.MESSAGES, GitHubIssueRepositoryImpl.MSG_FETCHED);
+        GitHubIssueRepositoryImpl.LOGGER.info(message, result.size(), page - 1);
         return result;
 
     }
@@ -198,8 +225,10 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
 
         if (response.statusCode() != GitHubIssueRepositoryImpl.STATUS_OK) {
 
-            throw new IOException(String.format("GitHub API の呼び出しに失敗しました: status=%d, uri=%s",
-                response.statusCode(), uri));
+            final String template = MessageUtil.get(GitHubIssueRepositoryImpl.MESSAGES,
+                GitHubIssueRepositoryImpl.MSG_CALL_FAILED);
+            final String message = String.format(template, response.statusCode(), uri);
+            throw new IOException(message);
 
         }
 
@@ -207,7 +236,10 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
 
         if (!result.isArray()) {
 
-            throw new IOException(String.format("GitHub API の応答が配列ではありません: uri=%s", uri));
+            final String template = MessageUtil.get(GitHubIssueRepositoryImpl.MESSAGES,
+                GitHubIssueRepositoryImpl.MSG_NOT_ARRAY);
+            final String message = String.format(template, uri);
+            throw new IOException(message);
 
         }
 
@@ -240,7 +272,9 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
         } catch (final InterruptedException e) {
 
             Thread.currentThread().interrupt();
-            throw new IOException("GitHub API の呼び出しが中断されました", e);
+            final String message = MessageUtil.get(GitHubIssueRepositoryImpl.MESSAGES,
+                GitHubIssueRepositoryImpl.MSG_INTERRUPTED);
+            throw new IOException(message, e);
 
         }
 

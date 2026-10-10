@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSettings;
 import io.github.kenichiroarai.dailytasks.carryover.application.service.CarryoverService;
 import io.github.kenichiroarai.dailytasks.carryover.application.service.impl.CarryoverServiceImpl;
+import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageUtil;
 import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 
 /**
@@ -81,16 +83,33 @@ public class CarryoverCommandImplTest {
     }
 
     /**
-     * private の USAGE フィールドの値を取得する<br>
+     * 使い方のメッセージを取得する<br>
      *
      * @return 使い方
-     *
-     * @throws Exception
-     *                   例外が発生した場合
      */
-    private static String usage() throws Exception {
+    private static String usage() {
 
-        final String result = ReflectionTestUtil.getStaticField(CarryoverCommandImpl.class, "USAGE");
+        final String result = MessageUtil.get("messages", "carryover.command.usage");
+        return result;
+
+    }
+
+    /**
+     * 設定ファイルの内容を作成する<br>
+     *
+     * @param recentCount
+     *                    差分モードで解析し直す最新の Issue の件数（文字列）
+     *
+     * @return 設定ファイルの内容
+     */
+    private static Properties createConfig(final String recentCount) {
+
+        final Properties result = new Properties();
+        result.setProperty("carryover.repository", "owner/repo");
+        result.setProperty("carryover.tokenEnv", "TEST_TOKEN");
+        result.setProperty("carryover.dataDir", "out/data");
+        result.setProperty("carryover.defaultMinutesFile", "conf/minutes.json");
+        result.setProperty("carryover.recentCount", recentCount);
         return result;
 
     }
@@ -98,20 +117,64 @@ public class CarryoverCommandImplTest {
     /**
      * private の createSettings メソッドを呼び出す<br>
      *
+     * @param config
+     *               設定ファイルの内容
      * @param token
-     *              GitHub API のトークン
+     *               GitHub API のトークン
      *
      * @return 持ち越しの収集・集計の設定
      *
      * @throws Exception
      *                   例外が発生した場合
      */
-    private static CarryoverSettings createSettings(final String token) throws Exception {
+    private static CarryoverSettings createSettings(final Properties config, final String token) throws Exception {
 
         final CarryoverSettings result = ReflectionTestUtil.invokeStatic(CarryoverCommandImpl.class, "createSettings",
             new Class<?>[] {
-                String.class
-            }, token);
+                Properties.class, String.class
+            }, config, token);
+        return result;
+
+    }
+
+    /**
+     * private の isFull メソッドを呼び出す<br>
+     *
+     * @param args
+     *             コマンドライン引数
+     *
+     * @return 全件モードの場合は true
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static boolean isFull(final String... args) throws Exception {
+
+        final boolean result = ReflectionTestUtil.<Boolean> invokeStatic(CarryoverCommandImpl.class, "isFull",
+            new Class<?>[] {
+                String[].class
+            }, (Object) args).booleanValue();
+        return result;
+
+    }
+
+    /**
+     * private の isHelp メソッドを呼び出す<br>
+     *
+     * @param args
+     *             コマンドライン引数
+     *
+     * @return 使い方を表示する場合は true
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static boolean isHelp(final String... args) throws Exception {
+
+        final boolean result = ReflectionTestUtil.<Boolean> invokeStatic(CarryoverCommandImpl.class, "isHelp",
+            new Class<?>[] {
+                String[].class
+            }, (Object) args).booleanValue();
         return result;
 
     }
@@ -144,36 +207,207 @@ public class CarryoverCommandImplTest {
     }
 
     /**
-     * createSettings メソッドのテスト - 正常系:トークンと既定値から設定を作る場合
+     * createSettings メソッドのテスト - 正常系:設定ファイルの内容とトークンから設定を作る場合
      *
      * @throws Exception
      *                   例外が発生した場合
      */
     @Test
-    public void testCreateSettings_normalDefaults() throws Exception {
+    public void testCreateSettings_normalConfig() throws Exception {
 
         /* 期待値の定義 */
-        final String expectedRepository = "KenichiroArai/daily-tasks-git";
+        final String expectedRepository = "owner/repo";
         final String expectedToken = "test-token";
-        final Path expectedDataDir = Path.of("docs", "data");
-        final Path expectedDefaultMinutesFile = Path.of("config", "default-minutes.json");
+        final Path expectedDataDir = Path.of("out", "data");
+        final Path expectedDefaultMinutesFile = Path.of("conf", "minutes.json");
+        final int expectedRecentCount = 7;
 
         /* 準備 */
+        final Properties testConfig = CarryoverCommandImplTest.createConfig("7");
 
         /* テスト対象の実行 */
-        final CarryoverSettings testResult = CarryoverCommandImplTest.createSettings(expectedToken);
+        final CarryoverSettings testResult = CarryoverCommandImplTest.createSettings(testConfig, expectedToken);
 
         /* 検証の準備 */
         final String actualRepository = testResult.getRepository();
         final String actualToken = testResult.getToken();
         final Path actualDataDir = testResult.getDataDir();
         final Path actualDefaultMinutesFile = testResult.getDefaultMinutesFile();
+        final int actualRecentCount = testResult.getRecentCount();
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedRepository, actualRepository, "リポジトリが一致しません");
         Assertions.assertEquals(expectedToken, actualToken, "トークンが一致しません");
         Assertions.assertEquals(expectedDataDir, actualDataDir, "出力先が一致しません");
         Assertions.assertEquals(expectedDefaultMinutesFile, actualDefaultMinutesFile, "標準時間の設定ファイルが一致しません");
+        Assertions.assertEquals(expectedRecentCount, actualRecentCount, "最新の Issue の件数が一致しません");
+
+    }
+
+    /**
+     * createSettings メソッドのテスト - 準正常系:最新の Issue の件数が数値ではない場合
+     */
+    @Test
+    public void testCreateSettings_semiInvalidRecentCount() {
+
+        /* 期待値の定義 */
+        final String expectedMessage = "For input string: \"abc\"";
+
+        /* 準備 */
+        final Properties testConfig = CarryoverCommandImplTest.createConfig("abc");
+
+        /* テスト対象の実行 */
+        final NumberFormatException testException = Assertions.assertThrows(NumberFormatException.class,
+            () -> CarryoverCommandImplTest.createSettings(testConfig, null));
+
+        /* 検証の準備 */
+        final String actualMessage = testException.getMessage();
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedMessage, actualMessage, "例外のメッセージが一致しません");
+
+    }
+
+    /**
+     * isFull メソッドのテスト - 正常系:--full がある場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    @Test
+    public void testIsFull_normalFull() throws Exception {
+
+        /* 期待値の定義 */
+
+        /* 準備 */
+
+        /* テスト対象の実行 */
+        final boolean testResult = CarryoverCommandImplTest.isFull("--full");
+
+        /* 検証の準備 */
+        final boolean actualFull = testResult;
+
+        /* 検証の実施 */
+        Assertions.assertTrue(actualFull, "全件モードと判定される必要があります");
+
+    }
+
+    /**
+     * isFull メソッドのテスト - 正常系:--full がなく使い方の指定だけがある場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    @Test
+    public void testIsFull_normalHelpOnly() throws Exception {
+
+        /* 期待値の定義 */
+
+        /* 準備 */
+
+        /* テスト対象の実行 */
+        final boolean testResult = CarryoverCommandImplTest.isFull("--help", "-h");
+
+        /* 検証の準備 */
+        final boolean actualFull = testResult;
+
+        /* 検証の実施 */
+        Assertions.assertFalse(actualFull, "差分モードと判定される必要があります");
+
+    }
+
+    /**
+     * isFull メソッドのテスト - 準正常系:不明な引数がある場合
+     */
+    @Test
+    public void testIsFull_semiUnknownArgument() {
+
+        /* 期待値の定義 */
+        final String expectedMessage = "不明な引数です: --unknown";
+
+        /* 準備 */
+
+        /* テスト対象の実行 */
+        final IllegalArgumentException testException = Assertions.assertThrows(IllegalArgumentException.class,
+            () -> CarryoverCommandImplTest.isFull("--full", "--unknown"));
+
+        /* 検証の準備 */
+        final String actualMessage = testException.getMessage();
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedMessage, actualMessage, "例外のメッセージが一致しません");
+
+    }
+
+    /**
+     * isHelp メソッドのテスト - 正常系:--help がある場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    @Test
+    public void testIsHelp_normalHelp() throws Exception {
+
+        /* 期待値の定義 */
+
+        /* 準備 */
+
+        /* テスト対象の実行 */
+        final boolean testResult = CarryoverCommandImplTest.isHelp("--help");
+
+        /* 検証の準備 */
+        final boolean actualHelp = testResult;
+
+        /* 検証の実施 */
+        Assertions.assertTrue(actualHelp, "使い方を表示すると判定される必要があります");
+
+    }
+
+    /**
+     * isHelp メソッドのテスト - 正常系:-h がある場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    @Test
+    public void testIsHelp_normalShortHelp() throws Exception {
+
+        /* 期待値の定義 */
+
+        /* 準備 */
+
+        /* テスト対象の実行 */
+        final boolean testResult = CarryoverCommandImplTest.isHelp("-h");
+
+        /* 検証の準備 */
+        final boolean actualHelp = testResult;
+
+        /* 検証の実施 */
+        Assertions.assertTrue(actualHelp, "使い方を表示すると判定される必要があります");
+
+    }
+
+    /**
+     * isHelp メソッドのテスト - 準正常系:使い方の指定がない場合
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    @Test
+    public void testIsHelp_semiNoHelp() throws Exception {
+
+        /* 期待値の定義 */
+
+        /* 準備 */
+
+        /* テスト対象の実行 */
+        final boolean testResult = CarryoverCommandImplTest.isHelp("--full");
+
+        /* 検証の準備 */
+        final boolean actualHelp = testResult;
+
+        /* 検証の実施 */
+        Assertions.assertFalse(actualHelp, "使い方を表示しないと判定される必要があります");
 
     }
 

@@ -226,7 +226,7 @@ public class CarryoverServiceImplTest {
      */
     private static CarryoverServiceImpl createTarget(final CarryoverIssueService issueService) {
 
-        final CarryoverServiceImpl result = new CarryoverServiceImpl(issueService, CarryoverServiceImplTest.PARSER,
+        final CarryoverServiceImpl result = new CarryoverServiceImpl(10, issueService, CarryoverServiceImplTest.PARSER,
             new CarryoverAggregatorImpl());
         return result;
 
@@ -361,12 +361,13 @@ public class CarryoverServiceImplTest {
         /* 期待値の定義 */
         final MinutesSource expectedMinutesSource = MinutesSource.DEFAULT;
         final double expectedMinutes = 15;
+        final int expectedRecentCount = 5;
 
         /* 準備 */
         final Path testDefaultMinutesFile = this.tempDir.resolve("default-minutes.json");
         Files.writeString(testDefaultMinutesFile, "{\"国語\": 15}");
         final CarryoverSettings testSettings = new CarryoverSettings("owner/repo", null, this.tempDir,
-            testDefaultMinutesFile);
+            testDefaultMinutesFile, expectedRecentCount);
 
         /* テスト対象の実行 */
         final CarryoverServiceImpl testTarget = new CarryoverServiceImpl(testSettings);
@@ -378,12 +379,14 @@ public class CarryoverServiceImplTest {
         final CarryoverIssue actualParsed = actualParser.parse(CarryoverServiceImplTest.ISSUE1);
         final MinutesSource actualMinutesSource = actualParsed.getItems().get(0).getMinutesSource();
         final double actualMinutes = actualParsed.getItems().get(0).getMinutes();
+        final int actualRecentCount = ReflectionTestUtil.<Integer> getField(testTarget, "recentCount").intValue();
 
         /* 検証の実施 */
         Assertions.assertInstanceOf(CarryoverIssueServiceImpl.class, actualIssueService, "サービスの型が一致しません");
         Assertions.assertInstanceOf(CarryoverAggregatorImpl.class, actualAggregator, "集計の型が一致しません");
         Assertions.assertEquals(expectedMinutesSource, actualMinutesSource, "残り時間の取得元が一致しません");
         Assertions.assertEquals(expectedMinutes, actualMinutes, "残り時間が一致しません");
+        Assertions.assertEquals(expectedRecentCount, actualRecentCount, "最新の Issue の件数が一致しません");
 
     }
 
@@ -528,7 +531,7 @@ public class CarryoverServiceImplTest {
 
         /* 準備 */
         final CarryoverSettings testSettings = new CarryoverSettings(expectedRepository, expectedToken,
-            expectedDataDir, expectedDefaultMinutesFile);
+            expectedDataDir, expectedDefaultMinutesFile, 10);
 
         /* テスト対象の実行 */
         final CarryoverSource testResult = CarryoverServiceImplTest.toSource(testSettings);
