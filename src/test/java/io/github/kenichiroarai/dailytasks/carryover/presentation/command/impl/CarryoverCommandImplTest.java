@@ -16,6 +16,7 @@ import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverS
 import io.github.kenichiroarai.dailytasks.carryover.application.service.CarryoverService;
 import io.github.kenichiroarai.dailytasks.carryover.application.service.impl.CarryoverServiceImpl;
 import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageUtil;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverOptions;
 import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 
 /**
@@ -138,43 +139,22 @@ public class CarryoverCommandImplTest {
     }
 
     /**
-     * private の isFull メソッドを呼び出す<br>
+     * private の parseArgs メソッドを呼び出す<br>
      *
      * @param args
      *             コマンドライン引数
      *
-     * @return 全件モードの場合は true
+     * @return 持ち越しの収集コマンドのオプション
      *
      * @throws Exception
      *                   例外が発生した場合
      */
-    private static boolean isFull(final String... args) throws Exception {
+    private static CarryoverOptions parseArgs(final String... args) throws Exception {
 
-        final boolean result = ReflectionTestUtil.<Boolean> invokeStatic(CarryoverCommandImpl.class, "isFull",
+        final CarryoverOptions result = ReflectionTestUtil.invokeStatic(CarryoverCommandImpl.class, "parseArgs",
             new Class<?>[] {
                 String[].class
-            }, (Object) args).booleanValue();
-        return result;
-
-    }
-
-    /**
-     * private の isHelp メソッドを呼び出す<br>
-     *
-     * @param args
-     *             コマンドライン引数
-     *
-     * @return 使い方を表示する場合は true
-     *
-     * @throws Exception
-     *                   例外が発生した場合
-     */
-    private static boolean isHelp(final String... args) throws Exception {
-
-        final boolean result = ReflectionTestUtil.<Boolean> invokeStatic(CarryoverCommandImpl.class, "isHelp",
-            new Class<?>[] {
-                String[].class
-            }, (Object) args).booleanValue();
+            }, (Object) args);
         return result;
 
     }
@@ -269,58 +249,112 @@ public class CarryoverCommandImplTest {
     }
 
     /**
-     * isFull メソッドのテスト - 正常系:--full がある場合
+     * parseArgs メソッドのテスト - 正常系:引数なしの場合は差分モードで使い方を表示しない
      *
      * @throws Exception
      *                   例外が発生した場合
      */
     @Test
-    public void testIsFull_normalFull() throws Exception {
+    public void testParseArgs_normalNoArgs() throws Exception {
 
         /* 期待値の定義 */
 
         /* 準備 */
 
         /* テスト対象の実行 */
-        final boolean testResult = CarryoverCommandImplTest.isFull("--full");
+        final CarryoverOptions testResult = CarryoverCommandImplTest.parseArgs();
 
         /* 検証の準備 */
-        final boolean actualFull = testResult;
-
-        /* 検証の実施 */
-        Assertions.assertTrue(actualFull, "全件モードと判定される必要があります");
-
-    }
-
-    /**
-     * isFull メソッドのテスト - 正常系:--full がなく使い方の指定だけがある場合
-     *
-     * @throws Exception
-     *                   例外が発生した場合
-     */
-    @Test
-    public void testIsFull_normalHelpOnly() throws Exception {
-
-        /* 期待値の定義 */
-
-        /* 準備 */
-
-        /* テスト対象の実行 */
-        final boolean testResult = CarryoverCommandImplTest.isFull("--help", "-h");
-
-        /* 検証の準備 */
-        final boolean actualFull = testResult;
+        final boolean actualFull = testResult.isFull();
+        final boolean actualHelp = testResult.isHelp();
 
         /* 検証の実施 */
         Assertions.assertFalse(actualFull, "差分モードと判定される必要があります");
+        Assertions.assertFalse(actualHelp, "使い方を表示しないと判定される必要があります");
 
     }
 
     /**
-     * isFull メソッドのテスト - 準正常系:不明な引数がある場合
+     * parseArgs メソッドのテスト - 正常系:--full がある場合は全件モード
+     *
+     * @throws Exception
+     *                   例外が発生した場合
      */
     @Test
-    public void testIsFull_semiUnknownArgument() {
+    public void testParseArgs_normalFull() throws Exception {
+
+        /* 期待値の定義 */
+
+        /* 準備 */
+
+        /* テスト対象の実行 */
+        final CarryoverOptions testResult = CarryoverCommandImplTest.parseArgs("--full");
+
+        /* 検証の準備 */
+        final boolean actualFull = testResult.isFull();
+        final boolean actualHelp = testResult.isHelp();
+
+        /* 検証の実施 */
+        Assertions.assertTrue(actualFull, "全件モードと判定される必要があります");
+        Assertions.assertFalse(actualHelp, "使い方を表示しないと判定される必要があります");
+
+    }
+
+    /**
+     * parseArgs メソッドのテスト - 正常系:--help がある場合は使い方を表示する
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    @Test
+    public void testParseArgs_normalHelp() throws Exception {
+
+        /* 期待値の定義 */
+
+        /* 準備 */
+
+        /* テスト対象の実行 */
+        final CarryoverOptions testResult = CarryoverCommandImplTest.parseArgs("--help");
+
+        /* 検証の準備 */
+        final boolean actualFull = testResult.isFull();
+        final boolean actualHelp = testResult.isHelp();
+
+        /* 検証の実施 */
+        Assertions.assertFalse(actualFull, "差分モードと判定される必要があります");
+        Assertions.assertTrue(actualHelp, "使い方を表示すると判定される必要があります");
+
+    }
+
+    /**
+     * parseArgs メソッドのテスト - 正常系:-h がある場合は使い方を表示する
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    @Test
+    public void testParseArgs_normalShortHelp() throws Exception {
+
+        /* 期待値の定義 */
+
+        /* 準備 */
+
+        /* テスト対象の実行 */
+        final CarryoverOptions testResult = CarryoverCommandImplTest.parseArgs("-h");
+
+        /* 検証の準備 */
+        final boolean actualHelp = testResult.isHelp();
+
+        /* 検証の実施 */
+        Assertions.assertTrue(actualHelp, "使い方を表示すると判定される必要があります");
+
+    }
+
+    /**
+     * parseArgs メソッドのテスト - 準正常系:不明な引数がある場合
+     */
+    @Test
+    public void testParseArgs_semiUnknownArgument() {
 
         /* 期待値の定義 */
         final String expectedMessage = "不明な引数です: --unknown";
@@ -329,85 +363,13 @@ public class CarryoverCommandImplTest {
 
         /* テスト対象の実行 */
         final IllegalArgumentException testException = Assertions.assertThrows(IllegalArgumentException.class,
-            () -> CarryoverCommandImplTest.isFull("--full", "--unknown"));
+            () -> CarryoverCommandImplTest.parseArgs("--full", "--unknown"));
 
         /* 検証の準備 */
         final String actualMessage = testException.getMessage();
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedMessage, actualMessage, "例外のメッセージが一致しません");
-
-    }
-
-    /**
-     * isHelp メソッドのテスト - 正常系:--help がある場合
-     *
-     * @throws Exception
-     *                   例外が発生した場合
-     */
-    @Test
-    public void testIsHelp_normalHelp() throws Exception {
-
-        /* 期待値の定義 */
-
-        /* 準備 */
-
-        /* テスト対象の実行 */
-        final boolean testResult = CarryoverCommandImplTest.isHelp("--help");
-
-        /* 検証の準備 */
-        final boolean actualHelp = testResult;
-
-        /* 検証の実施 */
-        Assertions.assertTrue(actualHelp, "使い方を表示すると判定される必要があります");
-
-    }
-
-    /**
-     * isHelp メソッドのテスト - 正常系:-h がある場合
-     *
-     * @throws Exception
-     *                   例外が発生した場合
-     */
-    @Test
-    public void testIsHelp_normalShortHelp() throws Exception {
-
-        /* 期待値の定義 */
-
-        /* 準備 */
-
-        /* テスト対象の実行 */
-        final boolean testResult = CarryoverCommandImplTest.isHelp("-h");
-
-        /* 検証の準備 */
-        final boolean actualHelp = testResult;
-
-        /* 検証の実施 */
-        Assertions.assertTrue(actualHelp, "使い方を表示すると判定される必要があります");
-
-    }
-
-    /**
-     * isHelp メソッドのテスト - 準正常系:使い方の指定がない場合
-     *
-     * @throws Exception
-     *                   例外が発生した場合
-     */
-    @Test
-    public void testIsHelp_semiNoHelp() throws Exception {
-
-        /* 期待値の定義 */
-
-        /* 準備 */
-
-        /* テスト対象の実行 */
-        final boolean testResult = CarryoverCommandImplTest.isHelp("--full");
-
-        /* 検証の準備 */
-        final boolean actualHelp = testResult;
-
-        /* 検証の実施 */
-        Assertions.assertFalse(actualHelp, "使い方を表示しないと判定される必要があります");
 
     }
 

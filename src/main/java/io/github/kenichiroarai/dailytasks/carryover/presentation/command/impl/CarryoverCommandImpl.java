@@ -3,7 +3,6 @@ package io.github.kenichiroarai.dailytasks.carryover.presentation.command.impl;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Properties;
 
 import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSettings;
@@ -12,6 +11,7 @@ import io.github.kenichiroarai.dailytasks.carryover.application.service.impl.Car
 import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageUtil;
 import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.PropertiesUtil;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.command.CarryoverCommand;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverOptions;
 
 /**
  * 持ち越しの収集コマンドの実装<br>
@@ -154,12 +154,11 @@ public class CarryoverCommandImpl implements CarryoverCommand {
 
         int result = 0;
 
-        /* 引数の解釈 */
-        final boolean full = CarryoverCommandImpl.isFull(args);
-        final boolean help = CarryoverCommandImpl.isHelp(args);
+        /* 引数の解析 */
+        final CarryoverOptions options = CarryoverCommandImpl.parseArgs(args);
 
         /* 使い方の表示 */
-        if (help) {
+        if (options.isHelp()) {
 
             final String usage = MessageUtil.get(CarryoverCommandImpl.MESSAGES, CarryoverCommandImpl.MSG_USAGE);
             this.out.println(usage);
@@ -168,40 +167,33 @@ public class CarryoverCommandImpl implements CarryoverCommand {
         }
 
         /* 収集の実行 */
-        result = this.carryoverService.collect(full);
+        result = this.carryoverService.collect(options.isFull());
         return result;
 
     }
 
     /**
-     * 引数に全件モードの指定があるかを返す<br>
-     * <p>
-     * 不明な引数がないことも検証する。
-     * </p>
+     * コマンドライン引数を解析してオプションを返す<br>
      *
      * @param args
      *             コマンドライン引数
      *
-     * @return true：全件モード、false：差分モード
+     * @return 持ち越しの収集コマンドのオプション
      *
      * @throws IllegalArgumentException
      *                                  不明な引数が指定された場合
      */
-    private static boolean isFull(final String[] args) {
+    private static CarryoverOptions parseArgs(final String[] args) {
 
-        boolean result = false;
+        final CarryoverOptions result = new CarryoverOptions();
 
         for (final String arg : args) {
 
             switch (arg) {
 
-                case CarryoverCommandImpl.ARG_FULL -> result = true;
+                case CarryoverCommandImpl.ARG_FULL -> result.setFull(true);
 
-                case CarryoverCommandImpl.ARG_HELP, CarryoverCommandImpl.ARG_SHORT_HELP -> {
-
-                    // 使い方の表示は isHelp で判定する
-
-                }
+                case CarryoverCommandImpl.ARG_HELP, CarryoverCommandImpl.ARG_SHORT_HELP -> result.setHelp(true);
 
                 default -> {
 
@@ -216,23 +208,6 @@ public class CarryoverCommandImpl implements CarryoverCommand {
 
         }
 
-        return result;
-
-    }
-
-    /**
-     * 引数に使い方の表示の指定があるかを返す<br>
-     *
-     * @param args
-     *             コマンドライン引数
-     *
-     * @return true：使い方を表示する、false：表示しない
-     */
-    private static boolean isHelp(final String[] args) {
-
-        final List<String> argList = List.of(args);
-        final boolean result = argList.contains(CarryoverCommandImpl.ARG_HELP)
-            || argList.contains(CarryoverCommandImpl.ARG_SHORT_HELP);
         return result;
 
     }

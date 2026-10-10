@@ -34,7 +34,8 @@ src/main/java/io/github/kenichiroarai/dailytasks/
   carryover/                 # 機能パッケージ（持ち越しの収集・集計）
     presentation/            # CLI などの入出力層
       command/               # コマンドのインタフェース
-      command/impl/          # コマンドの実装（引数の解釈、設定値の作成）
+      command/impl/          # コマンドの実装（引数の解析、設定値の作成）
+      model/                 # 引数を解析したオプション（CarryoverOptions）
     application/             # ユースケースや業務ロジック層
       model/                 # application が受け取る設定（CarryoverSettings）
       service/               # サービスのインタフェース
