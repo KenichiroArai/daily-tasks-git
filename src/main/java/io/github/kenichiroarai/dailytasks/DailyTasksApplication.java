@@ -27,6 +27,9 @@ public class DailyTasksApplication {
      * @param args
      *             コマンドライン引数（{@code --full}、{@code --help}）
      */
+    @SuppressWarnings({
+        "resource",
+    })
     public static void main(final String[] args) {
 
         /* Spring Boot の起動 */
