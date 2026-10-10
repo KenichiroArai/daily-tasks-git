@@ -50,18 +50,6 @@ public class CarryoverOptions {
     }
 
     /**
-     * 全件モードかを設定する<br>
-     *
-     * @param full
-     *             true：全件モード、false：差分モード
-     */
-    public void setFull(final boolean full) {
-
-        this.full = full;
-
-    }
-
-    /**
      * 使い方を表示するかを返す<br>
      *
      * @return true：使い方を表示する、false：表示しない
@@ -70,6 +58,18 @@ public class CarryoverOptions {
 
         final boolean result = this.help;
         return result;
+
+    }
+
+    /**
+     * 全件モードかを設定する<br>
+     *
+     * @param full
+     *             true：全件モード、false：差分モード
+     */
+    public void setFull(final boolean full) {
+
+        this.full = full;
 
     }
 

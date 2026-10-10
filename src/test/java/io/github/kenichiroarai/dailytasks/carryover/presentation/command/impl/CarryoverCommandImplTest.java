@@ -33,12 +33,6 @@ import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 public class CarryoverCommandImplTest {
 
     /**
-     * テスト用の設定ファイルの値
-     */
-    private static final CarryoverProperties PROPERTIES = new CarryoverProperties("owner/repo", "test-token",
-        "out/data", "conf/minutes.json", 7);
-
-    /**
      * テスト用の収集・集計サービス<br>
      * <p>
      * 呼び出し時のモードと設定を記録し、固定の件数を返す。
@@ -76,7 +70,7 @@ public class CarryoverCommandImplTest {
         public int collect(final CarryoverSettings settings, final boolean full) {
 
             this.settingsList.add(settings);
-            this.calls.add(Boolean.valueOf(full));
+            this.calls.add(full);
             final int result = 3;
             return result;
 
@@ -109,13 +103,28 @@ public class CarryoverCommandImplTest {
     }
 
     /**
-     * 使い方のメッセージを取得する<br>
-     *
-     * @return 使い方
+     * テスト用の設定ファイルの値
      */
-    private static String usage() {
+    private static final CarryoverProperties PROPERTIES
+        = new CarryoverProperties("owner/repo", "test-token", "out/data", "conf/minutes.json", 7);
 
-        final String result = MessageProviderTestUtil.create().get("carryover.command.usage");
+    /**
+     * private の createSettings メソッドを呼び出す<br>
+     *
+     * @param properties
+     *                   設定ファイルの値
+     *
+     * @return 持ち越しの収集・集計の設定
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    private static CarryoverSettings createSettings(final CarryoverProperties properties) throws Exception {
+
+        final CarryoverSettings result
+            = ReflectionTestUtil.invokeStatic(CarryoverCommandImpl.class, "createSettings", new Class<?>[] {
+                CarryoverProperties.class
+            }, properties);
         return result;
 
     }
@@ -139,27 +148,6 @@ public class CarryoverCommandImplTest {
     }
 
     /**
-     * private の createSettings メソッドを呼び出す<br>
-     *
-     * @param properties
-     *                   設定ファイルの値
-     *
-     * @return 持ち越しの収集・集計の設定
-     *
-     * @throws Exception
-     *                   例外が発生した場合
-     */
-    private static CarryoverSettings createSettings(final CarryoverProperties properties) throws Exception {
-
-        final CarryoverSettings result = ReflectionTestUtil.invokeStatic(CarryoverCommandImpl.class, "createSettings",
-            new Class<?>[] {
-                CarryoverProperties.class
-            }, properties);
-        return result;
-
-    }
-
-    /**
      * private の parseArgs メソッドを呼び出す<br>
      *
      * @param args
@@ -174,9 +162,21 @@ public class CarryoverCommandImplTest {
 
         final CarryoverCommandImpl target = CarryoverCommandImplTest.createTarget(new StubCarryoverService(),
             System.out);
-        final CarryoverOptions result = ReflectionTestUtil.invoke(target, "parseArgs", new Class<?>[] {
+        final CarryoverOptions     result = ReflectionTestUtil.invoke(target, "parseArgs", new Class<?>[] {
             String[].class
         }, (Object) args);
+        return result;
+
+    }
+
+    /**
+     * 使い方のメッセージを取得する<br>
+     *
+     * @return 使い方
+     */
+    private static String usage() {
+
+        final String result = MessageProviderTestUtil.create().get("carryover.command.usage");
         return result;
 
     }
@@ -201,8 +201,8 @@ public class CarryoverCommandImplTest {
             CarryoverCommandImplTest.PROPERTIES, MessageProviderTestUtil.create());
 
         /* 検証の準備 */
-        final Object actualService = ReflectionTestUtil.getField(testTarget, "carryoverService");
-        final PrintStream actualOut = ReflectionTestUtil.getField(testTarget, "out");
+        final Object      actualService = ReflectionTestUtil.getField(testTarget, "carryoverService");
+        final PrintStream actualOut     = ReflectionTestUtil.getField(testTarget, "out");
 
         /* 検証の実施 */
         Assertions.assertEquals(testService, actualService, "サービスが一致しません");
@@ -220,11 +220,11 @@ public class CarryoverCommandImplTest {
     public void testCreateSettings_normalProperties() throws Exception {
 
         /* 期待値の定義 */
-        final String expectedRepository = "owner/repo";
-        final String expectedToken = "test-token";
-        final Path expectedDataDir = Path.of("out", "data");
-        final Path expectedDefaultMinutesFile = Path.of("conf", "minutes.json");
-        final int expectedRecentCount = 7;
+        final String expectedRepository         = "owner/repo";
+        final String expectedToken              = "test-token";
+        final Path   expectedDataDir            = Path.of("out", "data");
+        final Path   expectedDefaultMinutesFile = Path.of("conf", "minutes.json");
+        final int    expectedRecentCount        = 7;
 
         /* 準備 */
         final CarryoverProperties testProperties = CarryoverCommandImplTest.PROPERTIES;
@@ -233,11 +233,11 @@ public class CarryoverCommandImplTest {
         final CarryoverSettings testResult = CarryoverCommandImplTest.createSettings(testProperties);
 
         /* 検証の準備 */
-        final String actualRepository = testResult.getRepository();
-        final String actualToken = testResult.getToken();
-        final Path actualDataDir = testResult.getDataDir();
-        final Path actualDefaultMinutesFile = testResult.getDefaultMinutesFile();
-        final int actualRecentCount = testResult.getRecentCount();
+        final String actualRepository         = testResult.getRepository();
+        final String actualToken              = testResult.getToken();
+        final Path   actualDataDir            = testResult.getDataDir();
+        final Path   actualDefaultMinutesFile = testResult.getDefaultMinutesFile();
+        final int    actualRecentCount        = testResult.getRecentCount();
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedRepository, actualRepository, "リポジトリが一致しません");
@@ -249,28 +249,157 @@ public class CarryoverCommandImplTest {
     }
 
     /**
-     * parseArgs メソッドのテスト - 正常系:引数なしの場合は差分モードで使い方を表示しない
+     * execute メソッドのテスト - 正常系:引数なしの場合は差分モードで実行する
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
+     */
+    @Test
+    public void testExecute_normalDiff() throws IOException {
+
+        /* 期待値の定義 */
+        final int           expectedCount      = 3;
+        final List<Boolean> expectedCalls      = List.of(Boolean.FALSE);
+        final String        expectedRepository = "owner/repo";
+
+        /* 準備 */
+        final StubCarryoverService testService = new StubCarryoverService();
+        final CarryoverCommandImpl testTarget  = CarryoverCommandImplTest.createTarget(testService, System.out);
+
+        /* テスト対象の実行 */
+        final int testResult = testTarget.execute(new String[] {});
+
+        /* 検証の準備 */
+        final int           actualCount      = testResult;
+        final List<Boolean> actualCalls      = testService.getCalls();
+        final String        actualRepository = testService.getSettingsList().get(0).getRepository();
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedCount, actualCount, "解析件数が一致しません");
+        Assertions.assertEquals(expectedCalls, actualCalls, "呼び出し時のモードが一致しません");
+        Assertions.assertEquals(expectedRepository, actualRepository, "引き継いだ設定のリポジトリが一致しません");
+
+    }
+
+    /**
+     * execute メソッドのテスト - 正常系:--full の場合は全件モードで実行する
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
+     */
+    @Test
+    public void testExecute_normalFull() throws IOException {
+
+        /* 期待値の定義 */
+        final List<Boolean> expectedCalls = List.of(Boolean.TRUE);
+
+        /* 準備 */
+        final StubCarryoverService testService = new StubCarryoverService();
+        final CarryoverCommandImpl testTarget  = CarryoverCommandImplTest.createTarget(testService, System.out);
+
+        /* テスト対象の実行 */
+        testTarget.execute(new String[] {
+            "--full"
+        });
+
+        /* 検証の準備 */
+        final List<Boolean> actualCalls = testService.getCalls();
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedCalls, actualCalls, "呼び出し時のモードが一致しません");
+
+    }
+
+    /**
+     * execute メソッドのテスト - 正常系:--help の場合は使い方を表示して収集しない
      *
      * @throws Exception
      *                   例外が発生した場合
      */
     @Test
-    public void testParseArgs_normalNoArgs() throws Exception {
+    public void testExecute_normalHelp() throws Exception {
+
+        /* 期待値の定義 */
+        final String expectedOutput = CarryoverCommandImplTest.usage() + System.lineSeparator();
+        final int    expectedCount  = 0;
+
+        /* 準備 */
+        final StubCarryoverService  testService = new StubCarryoverService();
+        final ByteArrayOutputStream testOutput  = new ByteArrayOutputStream();
+        final CarryoverCommandImpl  testTarget  = CarryoverCommandImplTest.createTarget(testService,
+            new PrintStream(testOutput, true, StandardCharsets.UTF_8));
+
+        /* テスト対象の実行 */
+        final int testResult = testTarget.execute(new String[] {
+            "--help"
+        });
+
+        /* 検証の準備 */
+        final String  actualOutput    = testOutput.toString(StandardCharsets.UTF_8);
+        final int     actualCount     = testResult;
+        final boolean actualNotCalled = testService.getCalls().isEmpty();
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedOutput, actualOutput, "使い方が一致しません");
+        Assertions.assertEquals(expectedCount, actualCount, "解析件数が一致しません");
+        Assertions.assertTrue(actualNotCalled, "収集は実行されない必要があります");
+
+    }
+
+    /**
+     * execute メソッドのテスト - 正常系:-h の場合は使い方を表示して収集しない
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
+     */
+    @Test
+    public void testExecute_normalShortHelp() throws IOException {
 
         /* 期待値の定義 */
 
         /* 準備 */
+        final StubCarryoverService  testService = new StubCarryoverService();
+        final ByteArrayOutputStream testOutput  = new ByteArrayOutputStream();
+        final CarryoverCommandImpl  testTarget  = CarryoverCommandImplTest.createTarget(testService,
+            new PrintStream(testOutput, true, StandardCharsets.UTF_8));
 
         /* テスト対象の実行 */
-        final CarryoverOptions testResult = CarryoverCommandImplTest.parseArgs();
+        testTarget.execute(new String[] {
+            "-h"
+        });
 
         /* 検証の準備 */
-        final boolean actualFull = testResult.isFull();
-        final boolean actualHelp = testResult.isHelp();
+        final boolean actualNotCalled = testService.getCalls().isEmpty();
 
         /* 検証の実施 */
-        Assertions.assertFalse(actualFull, "差分モードと判定される必要があります");
-        Assertions.assertFalse(actualHelp, "使い方を表示しないと判定される必要があります");
+        Assertions.assertTrue(actualNotCalled, "収集は実行されない必要があります");
+
+    }
+
+    /**
+     * execute メソッドのテスト - 準正常系:不明な引数の場合
+     */
+    @Test
+    public void testExecute_semiUnknownArgument() {
+
+        /* 期待値の定義 */
+        final String expectedMessage = "不明な引数です: --unknown";
+
+        /* 準備 */
+        final CarryoverCommandImpl testTarget
+            = CarryoverCommandImplTest.createTarget(new StubCarryoverService(), System.out);
+
+        /* テスト対象の実行 */
+        final IllegalArgumentException testException
+            = Assertions.assertThrows(IllegalArgumentException.class, () -> testTarget.execute(new String[] {
+                "--unknown"
+            }));
+
+        /* 検証の準備 */
+        final String actualMessage = testException.getMessage();
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedMessage, actualMessage, "例外のメッセージが一致しません");
 
     }
 
@@ -323,6 +452,32 @@ public class CarryoverCommandImplTest {
         /* 検証の実施 */
         Assertions.assertFalse(actualFull, "差分モードと判定される必要があります");
         Assertions.assertTrue(actualHelp, "使い方を表示すると判定される必要があります");
+
+    }
+
+    /**
+     * parseArgs メソッドのテスト - 正常系:引数なしの場合は差分モードで使い方を表示しない
+     *
+     * @throws Exception
+     *                   例外が発生した場合
+     */
+    @Test
+    public void testParseArgs_normalNoArgs() throws Exception {
+
+        /* 期待値の定義 */
+
+        /* 準備 */
+
+        /* テスト対象の実行 */
+        final CarryoverOptions testResult = CarryoverCommandImplTest.parseArgs();
+
+        /* 検証の準備 */
+        final boolean actualFull = testResult.isFull();
+        final boolean actualHelp = testResult.isHelp();
+
+        /* 検証の実施 */
+        Assertions.assertFalse(actualFull, "差分モードと判定される必要があります");
+        Assertions.assertFalse(actualHelp, "使い方を表示しないと判定される必要があります");
 
     }
 
@@ -387,7 +542,7 @@ public class CarryoverCommandImplTest {
 
         /* 準備 */
         final StubCarryoverService testService = new StubCarryoverService();
-        final CarryoverCommandImpl testTarget = CarryoverCommandImplTest.createTarget(testService, System.out);
+        final CarryoverCommandImpl testTarget  = CarryoverCommandImplTest.createTarget(testService, System.out);
 
         /* テスト対象の実行 */
         testTarget.run("--full");
@@ -397,161 +552,6 @@ public class CarryoverCommandImplTest {
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedCalls, actualCalls, "呼び出し時のモードが一致しません");
-
-    }
-
-    /**
-     * execute メソッドのテスト - 正常系:引数なしの場合は差分モードで実行する
-     *
-     * @throws IOException
-     *                     入出力エラーが発生した場合
-     */
-    @Test
-    public void testExecute_normalDiff() throws IOException {
-
-        /* 期待値の定義 */
-        final int expectedCount = 3;
-        final List<Boolean> expectedCalls = List.of(Boolean.FALSE);
-        final String expectedRepository = "owner/repo";
-
-        /* 準備 */
-        final StubCarryoverService testService = new StubCarryoverService();
-        final CarryoverCommandImpl testTarget = CarryoverCommandImplTest.createTarget(testService, System.out);
-
-        /* テスト対象の実行 */
-        final int testResult = testTarget.execute(new String[] {});
-
-        /* 検証の準備 */
-        final int actualCount = testResult;
-        final List<Boolean> actualCalls = testService.getCalls();
-        final String actualRepository = testService.getSettingsList().get(0).getRepository();
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedCount, actualCount, "解析件数が一致しません");
-        Assertions.assertEquals(expectedCalls, actualCalls, "呼び出し時のモードが一致しません");
-        Assertions.assertEquals(expectedRepository, actualRepository, "引き継いだ設定のリポジトリが一致しません");
-
-    }
-
-    /**
-     * execute メソッドのテスト - 正常系:--full の場合は全件モードで実行する
-     *
-     * @throws IOException
-     *                     入出力エラーが発生した場合
-     */
-    @Test
-    public void testExecute_normalFull() throws IOException {
-
-        /* 期待値の定義 */
-        final List<Boolean> expectedCalls = List.of(Boolean.TRUE);
-
-        /* 準備 */
-        final StubCarryoverService testService = new StubCarryoverService();
-        final CarryoverCommandImpl testTarget = CarryoverCommandImplTest.createTarget(testService, System.out);
-
-        /* テスト対象の実行 */
-        testTarget.execute(new String[] {
-            "--full"
-        });
-
-        /* 検証の準備 */
-        final List<Boolean> actualCalls = testService.getCalls();
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedCalls, actualCalls, "呼び出し時のモードが一致しません");
-
-    }
-
-    /**
-     * execute メソッドのテスト - 正常系:--help の場合は使い方を表示して収集しない
-     *
-     * @throws Exception
-     *                   例外が発生した場合
-     */
-    @Test
-    public void testExecute_normalHelp() throws Exception {
-
-        /* 期待値の定義 */
-        final String expectedOutput = CarryoverCommandImplTest.usage() + System.lineSeparator();
-        final int expectedCount = 0;
-
-        /* 準備 */
-        final StubCarryoverService testService = new StubCarryoverService();
-        final ByteArrayOutputStream testOutput = new ByteArrayOutputStream();
-        final CarryoverCommandImpl testTarget = CarryoverCommandImplTest.createTarget(testService,
-            new PrintStream(testOutput, true, StandardCharsets.UTF_8));
-
-        /* テスト対象の実行 */
-        final int testResult = testTarget.execute(new String[] {
-            "--help"
-        });
-
-        /* 検証の準備 */
-        final String actualOutput = testOutput.toString(StandardCharsets.UTF_8);
-        final int actualCount = testResult;
-        final boolean actualNotCalled = testService.getCalls().isEmpty();
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedOutput, actualOutput, "使い方が一致しません");
-        Assertions.assertEquals(expectedCount, actualCount, "解析件数が一致しません");
-        Assertions.assertTrue(actualNotCalled, "収集は実行されない必要があります");
-
-    }
-
-    /**
-     * execute メソッドのテスト - 正常系:-h の場合は使い方を表示して収集しない
-     *
-     * @throws IOException
-     *                     入出力エラーが発生した場合
-     */
-    @Test
-    public void testExecute_normalShortHelp() throws IOException {
-
-        /* 期待値の定義 */
-
-        /* 準備 */
-        final StubCarryoverService testService = new StubCarryoverService();
-        final ByteArrayOutputStream testOutput = new ByteArrayOutputStream();
-        final CarryoverCommandImpl testTarget = CarryoverCommandImplTest.createTarget(testService,
-            new PrintStream(testOutput, true, StandardCharsets.UTF_8));
-
-        /* テスト対象の実行 */
-        testTarget.execute(new String[] {
-            "-h"
-        });
-
-        /* 検証の準備 */
-        final boolean actualNotCalled = testService.getCalls().isEmpty();
-
-        /* 検証の実施 */
-        Assertions.assertTrue(actualNotCalled, "収集は実行されない必要があります");
-
-    }
-
-    /**
-     * execute メソッドのテスト - 準正常系:不明な引数の場合
-     */
-    @Test
-    public void testExecute_semiUnknownArgument() {
-
-        /* 期待値の定義 */
-        final String expectedMessage = "不明な引数です: --unknown";
-
-        /* 準備 */
-        final CarryoverCommandImpl testTarget = CarryoverCommandImplTest.createTarget(new StubCarryoverService(),
-            System.out);
-
-        /* テスト対象の実行 */
-        final IllegalArgumentException testException = Assertions.assertThrows(IllegalArgumentException.class,
-            () -> testTarget.execute(new String[] {
-                "--unknown"
-            }));
-
-        /* 検証の準備 */
-        final String actualMessage = testException.getMessage();
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedMessage, actualMessage, "例外のメッセージが一致しません");
 
     }
 

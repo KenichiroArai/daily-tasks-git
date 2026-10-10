@@ -24,9 +24,32 @@ public class DailyTaskIssueTest {
      */
     private static DailyTaskIssue createIssue() {
 
-        final DailyTaskIssue result = new DailyTaskIssue(371, "2026年10月06日のタスク", "open", "2026-10-06T14:23:08Z",
-            "## 持ち越し");
+        final DailyTaskIssue result
+            = new DailyTaskIssue(371, "2026年10月06日のタスク", "open", "2026-10-06T14:23:08Z", "## 持ち越し");
         return result;
+
+    }
+
+    /**
+     * getBody メソッドのテスト - 正常系:本文を返す場合
+     */
+    @Test
+    public void testGetBody_normalValue() {
+
+        /* 期待値の定義 */
+        final String expectedBody = "## 持ち越し";
+
+        /* 準備 */
+        final DailyTaskIssue testTarget = DailyTaskIssueTest.createIssue();
+
+        /* テスト対象の実行 */
+        final String testResult = testTarget.getBody();
+
+        /* 検証の準備 */
+        final String actualBody = testResult;
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedBody, actualBody, "本文が一致しません");
 
     }
 
@@ -54,29 +77,6 @@ public class DailyTaskIssueTest {
     }
 
     /**
-     * getTitle メソッドのテスト - 正常系:タイトルを返す場合
-     */
-    @Test
-    public void testGetTitle_normalValue() {
-
-        /* 期待値の定義 */
-        final String expectedTitle = "2026年10月06日のタスク";
-
-        /* 準備 */
-        final DailyTaskIssue testTarget = DailyTaskIssueTest.createIssue();
-
-        /* テスト対象の実行 */
-        final String testResult = testTarget.getTitle();
-
-        /* 検証の準備 */
-        final String actualTitle = testResult;
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedTitle, actualTitle, "タイトルが一致しません");
-
-    }
-
-    /**
      * getState メソッドのテスト - 正常系:状態を返す場合
      */
     @Test
@@ -100,6 +100,29 @@ public class DailyTaskIssueTest {
     }
 
     /**
+     * getTitle メソッドのテスト - 正常系:タイトルを返す場合
+     */
+    @Test
+    public void testGetTitle_normalValue() {
+
+        /* 期待値の定義 */
+        final String expectedTitle = "2026年10月06日のタスク";
+
+        /* 準備 */
+        final DailyTaskIssue testTarget = DailyTaskIssueTest.createIssue();
+
+        /* テスト対象の実行 */
+        final String testResult = testTarget.getTitle();
+
+        /* 検証の準備 */
+        final String actualTitle = testResult;
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedTitle, actualTitle, "タイトルが一致しません");
+
+    }
+
+    /**
      * getUpdatedAt メソッドのテスト - 正常系:更新日時を返す場合
      */
     @Test
@@ -119,29 +142,6 @@ public class DailyTaskIssueTest {
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedUpdatedAt, actualUpdatedAt, "更新日時が一致しません");
-
-    }
-
-    /**
-     * getBody メソッドのテスト - 正常系:本文を返す場合
-     */
-    @Test
-    public void testGetBody_normalValue() {
-
-        /* 期待値の定義 */
-        final String expectedBody = "## 持ち越し";
-
-        /* 準備 */
-        final DailyTaskIssue testTarget = DailyTaskIssueTest.createIssue();
-
-        /* テスト対象の実行 */
-        final String testResult = testTarget.getBody();
-
-        /* 検証の準備 */
-        final String actualBody = testResult;
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedBody, actualBody, "本文が一致しません");
 
     }
 

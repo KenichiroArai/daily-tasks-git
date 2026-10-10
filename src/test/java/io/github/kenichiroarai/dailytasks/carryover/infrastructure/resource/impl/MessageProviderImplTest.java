@@ -57,8 +57,8 @@ public class MessageProviderImplTest {
         final MessageProvider testTarget = MessageProviderTestUtil.create();
 
         /* テスト対象の実行 */
-        final NoSuchMessageException testException = Assertions.assertThrows(NoSuchMessageException.class,
-            () -> testTarget.get("unknown.key"));
+        final NoSuchMessageException testException
+            = Assertions.assertThrows(NoSuchMessageException.class, () -> testTarget.get("unknown.key"));
 
         /* 検証の準備 */
         final String actualMessage = testException.getMessage();

@@ -26,10 +26,10 @@ public class DefaultMinutesTest {
     public void testFind_normalRegistered() {
 
         /* 期待値の定義 */
-        final Double expectedMinutes = Double.valueOf(15);
+        final Double expectedMinutes = (double) 15;
 
         /* 準備 */
-        final DefaultMinutes testTarget = new DefaultMinutes(Map.of("国語", Double.valueOf(15)));
+        final DefaultMinutes testTarget = new DefaultMinutes(Map.of("国語", (double) 15));
 
         /* テスト対象の実行 */
         final Double testResult = testTarget.find("国語");
@@ -51,7 +51,7 @@ public class DefaultMinutesTest {
         /* 期待値の定義 */
 
         /* 準備 */
-        final DefaultMinutes testTarget = new DefaultMinutes(Map.of("国語", Double.valueOf(15)));
+        final DefaultMinutes testTarget = new DefaultMinutes(Map.of("国語", (double) 15));
 
         /* テスト対象の実行 */
         final Double testResult = testTarget.find("英語");

@@ -30,52 +30,6 @@ public class ItemStatDtoTest {
     }
 
     /**
-     * getCount メソッドのテスト - 正常系:件数を返す場合
-     */
-    @Test
-    public void testGetCount_normalValue() {
-
-        /* 期待値の定義 */
-        final int expectedCount = 2;
-
-        /* 準備 */
-        final ItemStatDto testTarget = ItemStatDtoTest.createTarget();
-
-        /* テスト対象の実行 */
-        final int testResult = testTarget.getCount();
-
-        /* 検証の準備 */
-        final int actualCount = testResult;
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedCount, actualCount, "件数が一致しません");
-
-    }
-
-    /**
-     * getMinutes メソッドのテスト - 正常系:残り時間を返す場合
-     */
-    @Test
-    public void testGetMinutes_normalValue() {
-
-        /* 期待値の定義 */
-        final double expectedMinutes = 30.5;
-
-        /* 準備 */
-        final ItemStatDto testTarget = ItemStatDtoTest.createTarget();
-
-        /* テスト対象の実行 */
-        final double testResult = testTarget.getMinutes();
-
-        /* 検証の準備 */
-        final double actualMinutes = testResult;
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedMinutes, actualMinutes, "残り時間が一致しません");
-
-    }
-
-    /**
      * getCheckedCount メソッドのテスト - 正常系:チェック済みの件数を返す場合
      */
     @Test
@@ -118,6 +72,52 @@ public class ItemStatDtoTest {
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedCheckedMinutes, actualCheckedMinutes, "チェック済みの残り時間が一致しません");
+
+    }
+
+    /**
+     * getCount メソッドのテスト - 正常系:件数を返す場合
+     */
+    @Test
+    public void testGetCount_normalValue() {
+
+        /* 期待値の定義 */
+        final int expectedCount = 2;
+
+        /* 準備 */
+        final ItemStatDto testTarget = ItemStatDtoTest.createTarget();
+
+        /* テスト対象の実行 */
+        final int testResult = testTarget.getCount();
+
+        /* 検証の準備 */
+        final int actualCount = testResult;
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedCount, actualCount, "件数が一致しません");
+
+    }
+
+    /**
+     * getMinutes メソッドのテスト - 正常系:残り時間を返す場合
+     */
+    @Test
+    public void testGetMinutes_normalValue() {
+
+        /* 期待値の定義 */
+        final double expectedMinutes = 30.5;
+
+        /* 準備 */
+        final ItemStatDto testTarget = ItemStatDtoTest.createTarget();
+
+        /* テスト対象の実行 */
+        final double testResult = testTarget.getMinutes();
+
+        /* 検証の準備 */
+        final double actualMinutes = testResult;
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedMinutes, actualMinutes, "残り時間が一致しません");
 
     }
 

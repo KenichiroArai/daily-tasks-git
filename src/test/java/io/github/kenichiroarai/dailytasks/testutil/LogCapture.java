@@ -46,19 +46,6 @@ public final class LogCapture implements AutoCloseable {
     }
 
     /**
-     * 取得したログメッセージを返す<br>
-     *
-     * @return ログメッセージ（出力順）
-     */
-    public String[] getMessages() {
-
-        final String[] result = this.listAppender.list.stream().map(ILoggingEvent::getFormattedMessage)
-            .toArray(String[]::new);
-        return result;
-
-    }
-
-    /**
      * ログの取得を終了する<br>
      */
     @Override
@@ -66,6 +53,19 @@ public final class LogCapture implements AutoCloseable {
 
         this.logger.detachAppender(this.listAppender);
         this.listAppender.stop();
+
+    }
+
+    /**
+     * 取得したログメッセージを返す<br>
+     *
+     * @return ログメッセージ（出力順）
+     */
+    public String[] getMessages() {
+
+        final String[] result
+            = this.listAppender.list.stream().map(ILoggingEvent::getFormattedMessage).toArray(String[]::new);
+        return result;
 
     }
 

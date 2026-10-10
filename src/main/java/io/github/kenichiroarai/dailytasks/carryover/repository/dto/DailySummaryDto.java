@@ -82,54 +82,6 @@ public class DailySummaryDto {
     }
 
     /**
-     * その日の日付を返す<br>
-     *
-     * @return その日の日付（yyyy-MM-dd）
-     */
-    public String getDate() {
-
-        final String result = this.date;
-        return result;
-
-    }
-
-    /**
-     * Issue 番号を返す<br>
-     *
-     * @return Issue 番号
-     */
-    public int getIssue() {
-
-        final int result = this.issue;
-        return result;
-
-    }
-
-    /**
-     * 本文の「残：N」の値を返す<br>
-     *
-     * @return 「残：N」の値。記載がない場合は null
-     */
-    public Integer getDeclaredCount() {
-
-        final Integer result = this.declaredCount;
-        return result;
-
-    }
-
-    /**
-     * 全体の集計を返す<br>
-     *
-     * @return 全体の集計
-     */
-    public ItemStatDto getTotal() {
-
-        final ItemStatDto result = this.total;
-        return result;
-
-    }
-
-    /**
      * 項目ごとの集計を返す<br>
      *
      * @return 項目ごとの集計（キーは項目名）
@@ -149,6 +101,54 @@ public class DailySummaryDto {
     public Map<String, ItemStatDto> getByOriginMonth() {
 
         final Map<String, ItemStatDto> result = this.byOriginMonth;
+        return result;
+
+    }
+
+    /**
+     * その日の日付を返す<br>
+     *
+     * @return その日の日付（yyyy-MM-dd）
+     */
+    public String getDate() {
+
+        final String result = this.date;
+        return result;
+
+    }
+
+    /**
+     * 本文の「残：N」の値を返す<br>
+     *
+     * @return 「残：N」の値。記載がない場合は null
+     */
+    public Integer getDeclaredCount() {
+
+        final Integer result = this.declaredCount;
+        return result;
+
+    }
+
+    /**
+     * Issue 番号を返す<br>
+     *
+     * @return Issue 番号
+     */
+    public int getIssue() {
+
+        final int result = this.issue;
+        return result;
+
+    }
+
+    /**
+     * 全体の集計を返す<br>
+     *
+     * @return 全体の集計
+     */
+    public ItemStatDto getTotal() {
+
+        final ItemStatDto result = this.total;
         return result;
 
     }

@@ -38,281 +38,6 @@ import javax.net.ssl.SSLSession;
 public class StubHttpClient extends HttpClient {
 
     /**
-     * 返す応答（ステータスコードと本文）
-     */
-    private final Deque<Object[]> responses = new ArrayDeque<>();
-
-    /**
-     * 送信されたリクエスト
-     */
-    private final List<HttpRequest> requests = new ArrayList<>();
-
-    /**
-     * send で投げる中断例外。null の場合は投げない
-     */
-    private InterruptedException interruptedException;
-
-    /**
-     * 返す応答を追加する<br>
-     *
-     * @param statusCode
-     *                   ステータスコード
-     * @param body
-     *                   本文
-     *
-     * @return 自身
-     */
-    public StubHttpClient addResponse(final int statusCode, final String body) {
-
-        this.responses.add(new Object[] {
-            Integer.valueOf(statusCode), body
-        });
-        final StubHttpClient result = this;
-        return result;
-
-    }
-
-    /**
-     * send で中断例外を投げるようにする<br>
-     *
-     * @param exception
-     *                  中断例外
-     */
-    public void setInterruptedException(final InterruptedException exception) {
-
-        this.interruptedException = exception;
-
-    }
-
-    /**
-     * 送信されたリクエストを返す<br>
-     *
-     * @return 送信されたリクエスト
-     */
-    public List<HttpRequest> getRequests() {
-
-        final List<HttpRequest> result = this.requests;
-        return result;
-
-    }
-
-    /**
-     * リクエストを記録し、登録した応答を返す<br>
-     *
-     * @param <T>
-     *                    本文の型
-     * @param request
-     *                    リクエスト
-     * @param bodyHandler
-     *                    本文の変換（使用しない）
-     *
-     * @return 応答
-     *
-     * @throws IOException
-     *                              使用しない
-     * @throws InterruptedException
-     *                              中断例外を設定した場合
-     */
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> HttpResponse<T> send(final HttpRequest request, final HttpResponse.BodyHandler<T> bodyHandler)
-        throws IOException, InterruptedException {
-
-        this.requests.add(request);
-
-        if (this.interruptedException != null) {
-
-            throw this.interruptedException;
-
-        }
-
-        final Object[] response = this.responses.removeFirst();
-        final HttpResponse<T> result = (HttpResponse<T>) new StubHttpResponse(request,
-            ((Integer) response[0]).intValue(), (String) response[1]);
-        return result;
-
-    }
-
-    /**
-     * 非同期送信（使用しない）<br>
-     *
-     * @param <T>
-     *                            本文の型
-     * @param request
-     *                            リクエスト
-     * @param responseBodyHandler
-     *                            本文の変換
-     *
-     * @return 返さない
-     *
-     * @throws UnsupportedOperationException
-     *                                       常に投げる
-     */
-    @Override
-    public <T> CompletableFuture<HttpResponse<T>> sendAsync(final HttpRequest request,
-        final HttpResponse.BodyHandler<T> responseBodyHandler) {
-
-        throw new UnsupportedOperationException();
-
-    }
-
-    /**
-     * プッシュ対応の非同期送信（使用しない）<br>
-     *
-     * @param <T>
-     *                           本文の型
-     * @param request
-     *                           リクエスト
-     * @param responseBodyHandler
-     *                           本文の変換
-     * @param pushPromiseHandler
-     *                           プッシュの処理
-     *
-     * @return 返さない
-     *
-     * @throws UnsupportedOperationException
-     *                                       常に投げる
-     */
-    @Override
-    public <T> CompletableFuture<HttpResponse<T>> sendAsync(final HttpRequest request,
-        final HttpResponse.BodyHandler<T> responseBodyHandler,
-        final HttpResponse.PushPromiseHandler<T> pushPromiseHandler) {
-
-        throw new UnsupportedOperationException();
-
-    }
-
-    /**
-     * Cookie ハンドラを返す<br>
-     *
-     * @return 空
-     */
-    @Override
-    public Optional<CookieHandler> cookieHandler() {
-
-        final Optional<CookieHandler> result = Optional.empty();
-        return result;
-
-    }
-
-    /**
-     * 接続タイムアウトを返す<br>
-     *
-     * @return 空
-     */
-    @Override
-    public Optional<Duration> connectTimeout() {
-
-        final Optional<Duration> result = Optional.empty();
-        return result;
-
-    }
-
-    /**
-     * リダイレクトの方針を返す<br>
-     *
-     * @return リダイレクトしない
-     */
-    @Override
-    public Redirect followRedirects() {
-
-        final Redirect result = Redirect.NEVER;
-        return result;
-
-    }
-
-    /**
-     * プロキシを返す<br>
-     *
-     * @return 空
-     */
-    @Override
-    public Optional<ProxySelector> proxy() {
-
-        final Optional<ProxySelector> result = Optional.empty();
-        return result;
-
-    }
-
-    /**
-     * SSL コンテキストを返す<br>
-     *
-     * @return null
-     */
-    @Override
-    public SSLContext sslContext() {
-
-        final SSLContext result = null;
-        return result;
-
-    }
-
-    /**
-     * SSL パラメータを返す<br>
-     *
-     * @return null
-     */
-    @Override
-    public SSLParameters sslParameters() {
-
-        final SSLParameters result = null;
-        return result;
-
-    }
-
-    /**
-     * 認証を返す<br>
-     *
-     * @return 空
-     */
-    @Override
-    public Optional<Authenticator> authenticator() {
-
-        final Optional<Authenticator> result = Optional.empty();
-        return result;
-
-    }
-
-    /**
-     * HTTP のバージョンを返す<br>
-     *
-     * @return HTTP/1.1
-     */
-    @Override
-    public Version version() {
-
-        final Version result = Version.HTTP_1_1;
-        return result;
-
-    }
-
-    /**
-     * エグゼキュータを返す<br>
-     *
-     * @return 空
-     */
-    @Override
-    public Optional<Executor> executor() {
-
-        final Optional<Executor> result = Optional.empty();
-        return result;
-
-    }
-
-    /**
-     * クライアントを閉じる<br>
-     * <p>
-     * 通信を行わないため、何もしない。
-     * </p>
-     */
-    @Override
-    public void close() {
-
-        // 処理なし
-
-    }
-
-    /**
      * テスト用の応答<br>
      *
      * @author KenichiroArai
@@ -357,40 +82,14 @@ public class StubHttpClient extends HttpClient {
         }
 
         /**
-         * ステータスコードを返す<br>
+         * 本文を返す<br>
          *
-         * @return ステータスコード
+         * @return 本文
          */
         @Override
-        public int statusCode() {
+        public String body() {
 
-            final int result = this.statusCode;
-            return result;
-
-        }
-
-        /**
-         * リクエストを返す<br>
-         *
-         * @return リクエスト
-         */
-        @Override
-        public HttpRequest request() {
-
-            final HttpRequest result = this.request;
-            return result;
-
-        }
-
-        /**
-         * 前の応答を返す<br>
-         *
-         * @return 空
-         */
-        @Override
-        public Optional<HttpResponse<String>> previousResponse() {
-
-            final Optional<HttpResponse<String>> result = Optional.empty();
+            final String result = this.body;
             return result;
 
         }
@@ -409,14 +108,27 @@ public class StubHttpClient extends HttpClient {
         }
 
         /**
-         * 本文を返す<br>
+         * 前の応答を返す<br>
          *
-         * @return 本文
+         * @return 空
          */
         @Override
-        public String body() {
+        public Optional<HttpResponse<String>> previousResponse() {
 
-            final String result = this.body;
+            final Optional<HttpResponse<String>> result = Optional.empty();
+            return result;
+
+        }
+
+        /**
+         * リクエストを返す<br>
+         *
+         * @return リクエスト
+         */
+        @Override
+        public HttpRequest request() {
+
+            final HttpRequest result = this.request;
             return result;
 
         }
@@ -430,6 +142,19 @@ public class StubHttpClient extends HttpClient {
         public Optional<SSLSession> sslSession() {
 
             final Optional<SSLSession> result = Optional.empty();
+            return result;
+
+        }
+
+        /**
+         * ステータスコードを返す<br>
+         *
+         * @return ステータスコード
+         */
+        @Override
+        public int statusCode() {
+
+            final int result = this.statusCode;
             return result;
 
         }
@@ -459,6 +184,281 @@ public class StubHttpClient extends HttpClient {
             return result;
 
         }
+
+    }
+
+    /**
+     * 返す応答（ステータスコードと本文）
+     */
+    private final Deque<Object[]> responses = new ArrayDeque<>();
+
+    /**
+     * 送信されたリクエスト
+     */
+    private final List<HttpRequest> requests = new ArrayList<>();
+
+    /**
+     * send で投げる中断例外。null の場合は投げない
+     */
+    private InterruptedException interruptedException;
+
+    /**
+     * 返す応答を追加する<br>
+     *
+     * @param statusCode
+     *                   ステータスコード
+     * @param body
+     *                   本文
+     *
+     * @return 自身
+     */
+    public StubHttpClient addResponse(final int statusCode, final String body) {
+
+        this.responses.add(new Object[] {
+            Integer.valueOf(statusCode), body
+        });
+        final StubHttpClient result = this;
+        return result;
+
+    }
+
+    /**
+     * 認証を返す<br>
+     *
+     * @return 空
+     */
+    @Override
+    public Optional<Authenticator> authenticator() {
+
+        final Optional<Authenticator> result = Optional.empty();
+        return result;
+
+    }
+
+    /**
+     * クライアントを閉じる<br>
+     * <p>
+     * 通信を行わないため、何もしない。
+     * </p>
+     */
+    @Override
+    public void close() {
+
+        // 処理なし
+
+    }
+
+    /**
+     * 接続タイムアウトを返す<br>
+     *
+     * @return 空
+     */
+    @Override
+    public Optional<Duration> connectTimeout() {
+
+        final Optional<Duration> result = Optional.empty();
+        return result;
+
+    }
+
+    /**
+     * Cookie ハンドラを返す<br>
+     *
+     * @return 空
+     */
+    @Override
+    public Optional<CookieHandler> cookieHandler() {
+
+        final Optional<CookieHandler> result = Optional.empty();
+        return result;
+
+    }
+
+    /**
+     * エグゼキュータを返す<br>
+     *
+     * @return 空
+     */
+    @Override
+    public Optional<Executor> executor() {
+
+        final Optional<Executor> result = Optional.empty();
+        return result;
+
+    }
+
+    /**
+     * リダイレクトの方針を返す<br>
+     *
+     * @return リダイレクトしない
+     */
+    @Override
+    public Redirect followRedirects() {
+
+        final Redirect result = Redirect.NEVER;
+        return result;
+
+    }
+
+    /**
+     * 送信されたリクエストを返す<br>
+     *
+     * @return 送信されたリクエスト
+     */
+    public List<HttpRequest> getRequests() {
+
+        final List<HttpRequest> result = this.requests;
+        return result;
+
+    }
+
+    /**
+     * プロキシを返す<br>
+     *
+     * @return 空
+     */
+    @Override
+    public Optional<ProxySelector> proxy() {
+
+        final Optional<ProxySelector> result = Optional.empty();
+        return result;
+
+    }
+
+    /**
+     * リクエストを記録し、登録した応答を返す<br>
+     *
+     * @param <T>
+     *                    本文の型
+     * @param request
+     *                    リクエスト
+     * @param bodyHandler
+     *                    本文の変換（使用しない）
+     *
+     * @return 応答
+     *
+     * @throws IOException
+     *                              使用しない
+     * @throws InterruptedException
+     *                              中断例外を設定した場合
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> HttpResponse<T> send(final HttpRequest request, final HttpResponse.BodyHandler<T> bodyHandler)
+        throws IOException, InterruptedException {
+
+        this.requests.add(request);
+
+        if (this.interruptedException != null) {
+
+            throw this.interruptedException;
+
+        }
+
+        final Object[]        response = this.responses.removeFirst();
+        final HttpResponse<T> result   = (HttpResponse<T>) new StubHttpResponse(request,
+            ((Integer) response[0]), (String) response[1]);
+        return result;
+
+    }
+
+    /**
+     * 非同期送信（使用しない）<br>
+     *
+     * @param <T>
+     *                            本文の型
+     * @param request
+     *                            リクエスト
+     * @param responseBodyHandler
+     *                            本文の変換
+     *
+     * @return 返さない
+     *
+     * @throws UnsupportedOperationException
+     *                                       常に投げる
+     */
+    @Override
+    public <T> CompletableFuture<HttpResponse<T>> sendAsync(final HttpRequest request,
+        final HttpResponse.BodyHandler<T> responseBodyHandler) {
+
+        throw new UnsupportedOperationException();
+
+    }
+
+    /**
+     * プッシュ対応の非同期送信（使用しない）<br>
+     *
+     * @param <T>
+     *                            本文の型
+     * @param request
+     *                            リクエスト
+     * @param responseBodyHandler
+     *                            本文の変換
+     * @param pushPromiseHandler
+     *                            プッシュの処理
+     *
+     * @return 返さない
+     *
+     * @throws UnsupportedOperationException
+     *                                       常に投げる
+     */
+    @Override
+    public <T> CompletableFuture<HttpResponse<T>> sendAsync(final HttpRequest request,
+        final HttpResponse.BodyHandler<T> responseBodyHandler,
+        final HttpResponse.PushPromiseHandler<T> pushPromiseHandler) {
+
+        throw new UnsupportedOperationException();
+
+    }
+
+    /**
+     * send で中断例外を投げるようにする<br>
+     *
+     * @param exception
+     *                  中断例外
+     */
+    public void setInterruptedException(final InterruptedException exception) {
+
+        this.interruptedException = exception;
+
+    }
+
+    /**
+     * SSL コンテキストを返す<br>
+     *
+     * @return null
+     */
+    @Override
+    public SSLContext sslContext() {
+
+        final SSLContext result = null;
+        return result;
+
+    }
+
+    /**
+     * SSL パラメータを返す<br>
+     *
+     * @return null
+     */
+    @Override
+    public SSLParameters sslParameters() {
+
+        final SSLParameters result = null;
+        return result;
+
+    }
+
+    /**
+     * HTTP のバージョンを返す<br>
+     *
+     * @return HTTP/1.1
+     */
+    @Override
+    public Version version() {
+
+        final Version result = Version.HTTP_1_1;
+        return result;
 
     }
 

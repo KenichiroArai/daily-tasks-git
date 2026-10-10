@@ -72,8 +72,8 @@ public class CarryoverDataRepositoryImpl implements CarryoverDataRepository {
         this.jsonMapper = jsonMapper;
 
         /* 改行を LF に統一した整形出力 */
-        final DefaultIndenter indenter = new DefaultIndenter("  ", "\n");
-        final DefaultPrettyPrinter printer = new DefaultPrettyPrinter()
+        final DefaultIndenter      indenter = new DefaultIndenter("  ", "\n");
+        final DefaultPrettyPrinter printer  = new DefaultPrettyPrinter()
             .withSeparators(Separators.createDefaultInstance().withObjectNameValueSpacing(Separators.Spacing.AFTER))
             .withObjectIndenter(indenter).withArrayIndenter(indenter);
         this.objectWriter = this.jsonMapper.writer().with(printer);
@@ -94,8 +94,8 @@ public class CarryoverDataRepositoryImpl implements CarryoverDataRepository {
     @Override
     public Map<Integer, CarryoverIssueDto> loadIssues(final Path dataDir) throws IOException {
 
-        final Map<Integer, CarryoverIssueDto> result = new TreeMap<>();
-        final Path issuesDir = dataDir.resolve(CarryoverDataRepositoryImpl.ISSUES_DIR);
+        final Map<Integer, CarryoverIssueDto> result    = new TreeMap<>();
+        final Path                            issuesDir = dataDir.resolve(CarryoverDataRepositoryImpl.ISSUES_DIR);
 
         if (!Files.isDirectory(issuesDir)) {
 
@@ -105,12 +105,43 @@ public class CarryoverDataRepositoryImpl implements CarryoverDataRepository {
 
         try (Stream<Path> paths = Files.list(issuesDir)) {
 
-            for (final Path path : paths.filter(p -> p.getFileName().toString().endsWith(JSON_EXTENSION)).toList()) {
+            for (final Path path : paths
+                .filter(p -> p.getFileName().toString().endsWith(CarryoverDataRepositoryImpl.JSON_EXTENSION))
+                .toList()) {
 
                 final CarryoverIssueDto issue = this.readIssue(path);
-                result.put(Integer.valueOf(issue.getNumber()), issue);
+                result.put(issue.getNumber(), issue);
 
             }
+
+        }
+
+        return result;
+
+    }
+
+    /**
+     * Issue ごとの解析結果の JSON ファイルを読み込む<br>
+     *
+     * @param path
+     *             JSON ファイル
+     *
+     * @return 解析結果
+     *
+     * @throws IOException
+     *                     読み込みまたは JSON の変換に失敗した場合
+     */
+    private CarryoverIssueDto readIssue(final Path path) throws IOException {
+
+        CarryoverIssueDto result = null;
+
+        try {
+
+            result = this.jsonMapper.readValue(path.toFile(), CarryoverIssueDto.class);
+
+        } catch (final JacksonException e) {
+
+            throw new IOException(e);
 
         }
 
@@ -157,35 +188,6 @@ public class CarryoverDataRepositoryImpl implements CarryoverDataRepository {
 
         final Path path = dataDir.resolve(CarryoverDataRepositoryImpl.SUMMARY_FILE);
         this.write(path, summary);
-
-    }
-
-    /**
-     * Issue ごとの解析結果の JSON ファイルを読み込む<br>
-     *
-     * @param path
-     *             JSON ファイル
-     *
-     * @return 解析結果
-     *
-     * @throws IOException
-     *                     読み込みまたは JSON の変換に失敗した場合
-     */
-    private CarryoverIssueDto readIssue(final Path path) throws IOException {
-
-        CarryoverIssueDto result = null;
-
-        try {
-
-            result = this.jsonMapper.readValue(path.toFile(), CarryoverIssueDto.class);
-
-        } catch (final JacksonException e) {
-
-            throw new IOException(e);
-
-        }
-
-        return result;
 
     }
 

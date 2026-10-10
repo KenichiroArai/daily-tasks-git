@@ -117,8 +117,7 @@ public class CarryoverParserImpl implements CarryoverParser {
     /**
      * 残り時間の表記（残り時間：N分 / 残りN分 / 先行分残りN分）
      */
-    private static final Pattern REMAINING_MINUTES = Pattern
-        .compile("残り(?:時間)?\\s*[：:]?\\s*(\\d+(?:\\.\\d+)?)\\s*分");
+    private static final Pattern REMAINING_MINUTES = Pattern.compile("残り(?:時間)?\\s*[：:]?\\s*(\\d+(?:\\.\\d+)?)\\s*分");
 
     /**
      * 時間だけの表記（N分）
@@ -134,6 +133,191 @@ public class CarryoverParserImpl implements CarryoverParser {
      * 項目名の末尾の開き括弧
      */
     private static final Pattern TRAILING_OPEN_PARENTHESES = Pattern.compile("[（(]+$");
+
+    /**
+     * 対象セクションの場合にセクション名を追加する<br>
+     *
+     * @param sections
+     *                 対象セクション名の一覧
+     * @param section
+     *                 セクション名
+     */
+    private static void addSection(final List<String> sections, final String section) {
+
+        if (!CarryoverParserImpl.TARGET_SECTIONS.contains(section)) {
+
+            return;
+
+        }
+
+        if (sections.contains(section)) {
+
+            return;
+
+        }
+
+        sections.add(section);
+
+    }
+
+    /**
+     * 年・月・日を yyyy-MM-dd 形式にする<br>
+     *
+     * @param year
+     *              年
+     * @param month
+     *              月
+     * @param day
+     *              日
+     *
+     * @return yyyy-MM-dd 形式の日付
+     */
+    private static String formatDate(final String year, final String month, final String day) {
+
+        final String result
+            = String.format("%04d-%02d-%02d", Integer.valueOf(year), Integer.valueOf(month), Integer.valueOf(day));
+        return result;
+
+    }
+
+    /**
+     * 項目名を正規化する<br>
+     * <p>
+     * 末尾の括弧書き（例: 「（15分）」）や閉じられていない開き括弧を取り除く。
+     * </p>
+     *
+     * @param name
+     *             項目名
+     *
+     * @return 正規化した項目名。空になる場合は「不明」
+     */
+    private static String normalizeName(final String name) {
+
+        String result = name.strip();
+        String previous;
+
+        do {
+
+            previous = result;
+            result = CarryoverParserImpl.TRAILING_PARENTHESES.matcher(result).replaceAll("").strip();
+            result = CarryoverParserImpl.TRAILING_OPEN_PARENTHESES.matcher(result).replaceAll("").strip();
+
+        } while (!result.equals(previous));
+
+        if (!result.isEmpty()) {
+
+            return result;
+
+        }
+
+        result = CarryoverParserImpl.UNKNOWN_NAME;
+        return result;
+
+    }
+
+    /**
+     * 時間表記から残り時間（分）を取得する<br>
+     * <p>
+     * 括弧内の「残り時間：N分」「残りN分」「先行分残りN分」「N分」を解釈する。
+     * </p>
+     *
+     * @param text
+     *             持ち越し元の日付より後ろの部分
+     *
+     * @return 残り時間（分）。解釈できない場合は null
+     */
+    private static Double parseMinutes(final String text) {
+
+        Double result = null;
+
+        /* 括弧内の取得 */
+        final Matcher parenthesesMatcher = CarryoverParserImpl.PARENTHESES.matcher(text);
+
+        if (!parenthesesMatcher.find()) {
+
+            return result;
+
+        }
+
+        final String inner = parenthesesMatcher.group(1);
+
+        /* 残り時間の表記 */
+        final Matcher remainingMatcher = CarryoverParserImpl.REMAINING_MINUTES.matcher(inner);
+
+        if (remainingMatcher.find()) {
+
+            result = Double.valueOf(remainingMatcher.group(1));
+            return result;
+
+        }
+
+        /* 時間だけの表記 */
+        final Matcher simpleMatcher = CarryoverParserImpl.SIMPLE_MINUTES.matcher(inner);
+
+        if (!simpleMatcher.matches()) {
+
+            return result;
+
+        }
+
+        result = Double.valueOf(simpleMatcher.group(1));
+        return result;
+
+    }
+
+    /**
+     * タイトルから日付を取得する<br>
+     *
+     * @param title
+     *              Issue タイトル
+     *
+     * @return 日付（yyyy-MM-dd）。取得できない場合は null
+     */
+    private static String parseTitleDate(final String title) {
+
+        String result = null;
+
+        if (title == null) {
+
+            return result;
+
+        }
+
+        final Matcher matcher = CarryoverParserImpl.TITLE_DATE.matcher(title);
+
+        if (!matcher.find()) {
+
+            return result;
+
+        }
+
+        result = CarryoverParserImpl.formatDate(matcher.group(1), matcher.group(2), matcher.group(3));
+        return result;
+
+    }
+
+    /**
+     * 本文を行に分割する<br>
+     *
+     * @param body
+     *             Issue 本文。null の場合は空とみなす
+     *
+     * @return 行
+     */
+    private static List<String> splitLines(final String body) {
+
+        List<String> result = List.of();
+
+        if (body == null) {
+
+            return result;
+
+        }
+
+        result = List.of(body.split("\\R", -1));
+        return result;
+
+    }
 
     /**
      * メッセージの取得
@@ -178,10 +362,10 @@ public class CarryoverParserImpl implements CarryoverParser {
         }
 
         /* 本文の解析 */
-        final List<String> sections = new ArrayList<>();
-        final List<CarryoverItem> items = new ArrayList<>();
-        Integer declaredCount = null;
-        String currentSection = "";
+        final List<String>        sections       = new ArrayList<>();
+        final List<CarryoverItem> items          = new ArrayList<>();
+        Integer                   declaredCount  = null;
+        String                    currentSection = "";
 
         for (final String line : CarryoverParserImpl.splitLines(issue.getBody())) {
 
@@ -241,13 +425,13 @@ public class CarryoverParserImpl implements CarryoverParser {
      * 持ち越し項目の内容を解析する<br>
      *
      * @param number
-     *                Issue 番号
+     *                       Issue 番号
      * @param section
-     *                セクション名
+     *                       セクション名
      * @param checked
-     *                チェック済みか
+     *                       チェック済みか
      * @param content
-     *                チェックボックスの後ろの内容
+     *                       チェックボックスの後ろの内容
      * @param raw
      *                       元の行
      * @param defaultMinutes
@@ -261,16 +445,16 @@ public class CarryoverParserImpl implements CarryoverParser {
         CarryoverItem result = null;
 
         /* 項目名・持ち越し元の日付・残りの部分の分割 */
-        String namePart = content;
-        String originDate = null;
-        String rest = content;
+        String        namePart     = content;
+        String        originDate   = null;
+        String        rest         = content;
         final Matcher datedMatcher = CarryoverParserImpl.DATED_CONTENT.matcher(content);
 
         if (datedMatcher.matches()) {
 
             namePart = datedMatcher.group(1);
-            originDate = CarryoverParserImpl.formatDate(datedMatcher.group(2), datedMatcher.group(3),
-                datedMatcher.group(4));
+            originDate
+                = CarryoverParserImpl.formatDate(datedMatcher.group(2), datedMatcher.group(3), datedMatcher.group(4));
             rest = datedMatcher.group(5);
 
         } else {
@@ -282,7 +466,7 @@ public class CarryoverParserImpl implements CarryoverParser {
 
         final String name = CarryoverParserImpl.normalizeName(namePart);
 
-        if (UNKNOWN_NAME.equals(name)) {
+        if (CarryoverParserImpl.UNKNOWN_NAME.equals(name)) {
 
             final String message = this.messageProvider.get(CarryoverParserImpl.MSG_NAME_NOT_FOUND);
             CarryoverParserImpl.LOGGER.warn(message, number, raw);
@@ -294,7 +478,7 @@ public class CarryoverParserImpl implements CarryoverParser {
 
         if (parsedMinutes != null) {
 
-            result = new CarryoverItem(name, originDate, checked, parsedMinutes.doubleValue(), MinutesSource.PARSED,
+            result = new CarryoverItem(name, originDate, checked, parsedMinutes, MinutesSource.PARSED,
                 section, raw);
             return result;
 
@@ -319,206 +503,9 @@ public class CarryoverParserImpl implements CarryoverParser {
 
         }
 
-        result = new CarryoverItem(name, originDate, checked, defaultValue.doubleValue(), MinutesSource.DEFAULT,
+        result = new CarryoverItem(name, originDate, checked, defaultValue, MinutesSource.DEFAULT,
             section, raw);
         return result;
-
-    }
-
-    /**
-     * タイトルから日付を取得する<br>
-     *
-     * @param title
-     *              Issue タイトル
-     *
-     * @return 日付（yyyy-MM-dd）。取得できない場合は null
-     */
-    private static String parseTitleDate(final String title) {
-
-        String result = null;
-
-        if (title == null) {
-
-            return result;
-
-        }
-
-        final Matcher matcher = CarryoverParserImpl.TITLE_DATE.matcher(title);
-
-        if (!matcher.find()) {
-
-            return result;
-
-        }
-
-        result = CarryoverParserImpl.formatDate(matcher.group(1), matcher.group(2), matcher.group(3));
-        return result;
-
-    }
-
-    /**
-     * 時間表記から残り時間（分）を取得する<br>
-     * <p>
-     * 括弧内の「残り時間：N分」「残りN分」「先行分残りN分」「N分」を解釈する。
-     * </p>
-     *
-     * @param text
-     *             持ち越し元の日付より後ろの部分
-     *
-     * @return 残り時間（分）。解釈できない場合は null
-     */
-    private static Double parseMinutes(final String text) {
-
-        Double result = null;
-
-        /* 括弧内の取得 */
-        final Matcher parenthesesMatcher = CarryoverParserImpl.PARENTHESES.matcher(text);
-
-        if (!parenthesesMatcher.find()) {
-
-            return result;
-
-        }
-
-        final String inner = parenthesesMatcher.group(1);
-
-        /* 残り時間の表記 */
-        final Matcher remainingMatcher = CarryoverParserImpl.REMAINING_MINUTES.matcher(inner);
-
-        if (remainingMatcher.find()) {
-
-            result = Double.valueOf(remainingMatcher.group(1));
-            return result;
-
-        }
-
-        /* 時間だけの表記 */
-        final Matcher simpleMatcher = CarryoverParserImpl.SIMPLE_MINUTES.matcher(inner);
-
-        if (!simpleMatcher.matches()) {
-
-            return result;
-
-        }
-
-        result = Double.valueOf(simpleMatcher.group(1));
-        return result;
-
-    }
-
-    /**
-     * 項目名を正規化する<br>
-     * <p>
-     * 末尾の括弧書き（例: 「（15分）」）や閉じられていない開き括弧を取り除く。
-     * </p>
-     *
-     * @param name
-     *             項目名
-     *
-     * @return 正規化した項目名。空になる場合は「不明」
-     */
-    private static String normalizeName(final String name) {
-
-        String result = name.strip();
-        String previous;
-
-        do {
-
-            previous = result;
-            result = CarryoverParserImpl.TRAILING_PARENTHESES.matcher(result).replaceAll("").strip();
-            result = CarryoverParserImpl.TRAILING_OPEN_PARENTHESES.matcher(result).replaceAll("").strip();
-
-        } while (!result.equals(previous));
-
-        if (!result.isEmpty()) {
-
-            return result;
-
-        }
-
-        result = CarryoverParserImpl.UNKNOWN_NAME;
-        return result;
-
-    }
-
-    /**
-     * 本文を行に分割する<br>
-     *
-     * @param body
-     *             Issue 本文。null の場合は空とみなす
-     *
-     * @return 行
-     */
-    private static List<String> splitLines(final String body) {
-
-        List<String> result = List.of();
-
-        if (body == null) {
-
-            return result;
-
-        }
-
-        result = List.of(body.split("\\R", -1));
-        return result;
-
-    }
-
-    /**
-     * 対象セクションの場合にセクション名を追加する<br>
-     *
-     * @param sections
-     *                 対象セクション名の一覧
-     * @param section
-     *                 セクション名
-     */
-    private static void addSection(final List<String> sections, final String section) {
-
-        if (!CarryoverParserImpl.TARGET_SECTIONS.contains(section)) {
-
-            return;
-
-        }
-
-        if (sections.contains(section)) {
-
-            return;
-
-        }
-
-        sections.add(section);
-
-    }
-
-    /**
-     * 対象セクション内の想定外の行を警告する<br>
-     * <p>
-     * 空行と区切り線（---）は警告しない。
-     * </p>
-     *
-     * @param number
-     *               Issue 番号
-     * @param line
-     *               行
-     */
-    private void warnUnexpectedLine(final int number, final String line) {
-
-        final String stripped = line.strip();
-
-        if (stripped.isEmpty()) {
-
-            return;
-
-        }
-
-        if (stripped.matches("^-{3,}$")) {
-
-            return;
-
-        }
-
-        final String message = this.messageProvider.get(CarryoverParserImpl.MSG_UNEXPECTED_LINE);
-        CarryoverParserImpl.LOGGER.warn(message, number, line);
 
     }
 
@@ -552,22 +539,34 @@ public class CarryoverParserImpl implements CarryoverParser {
     }
 
     /**
-     * 年・月・日を yyyy-MM-dd 形式にする<br>
+     * 対象セクション内の想定外の行を警告する<br>
+     * <p>
+     * 空行と区切り線（---）は警告しない。
+     * </p>
      *
-     * @param year
-     *              年
-     * @param month
-     *              月
-     * @param day
-     *              日
-     *
-     * @return yyyy-MM-dd 形式の日付
+     * @param number
+     *               Issue 番号
+     * @param line
+     *               行
      */
-    private static String formatDate(final String year, final String month, final String day) {
+    private void warnUnexpectedLine(final int number, final String line) {
 
-        final String result = String.format("%04d-%02d-%02d", Integer.valueOf(year), Integer.valueOf(month),
-            Integer.valueOf(day));
-        return result;
+        final String stripped = line.strip();
+
+        if (stripped.isEmpty()) {
+
+            return;
+
+        }
+
+        if (stripped.matches("^-{3,}$")) {
+
+            return;
+
+        }
+
+        final String message = this.messageProvider.get(CarryoverParserImpl.MSG_UNEXPECTED_LINE);
+        CarryoverParserImpl.LOGGER.warn(message, number, line);
 
     }
 

@@ -81,42 +81,6 @@ public class CarryoverItem {
     }
 
     /**
-     * 項目名（正規化済み）を返す<br>
-     *
-     * @return 項目名
-     */
-    public String getName() {
-
-        final String result = this.name;
-        return result;
-
-    }
-
-    /**
-     * 持ち越し元の日付を返す<br>
-     *
-     * @return 持ち越し元の日付（yyyy-MM-dd）。日付がない行は null
-     */
-    public String getOriginDate() {
-
-        final String result = this.originDate;
-        return result;
-
-    }
-
-    /**
-     * チェック済みかを返す<br>
-     *
-     * @return true：チェック済み、false：未チェック
-     */
-    public boolean isChecked() {
-
-        final boolean result = this.checked;
-        return result;
-
-    }
-
-    /**
      * 残り時間（分）を返す<br>
      *
      * @return 残り時間（分）
@@ -141,13 +105,25 @@ public class CarryoverItem {
     }
 
     /**
-     * セクション名を返す<br>
+     * 項目名（正規化済み）を返す<br>
      *
-     * @return セクション名
+     * @return 項目名
      */
-    public String getSection() {
+    public String getName() {
 
-        final String result = this.section;
+        final String result = this.name;
+        return result;
+
+    }
+
+    /**
+     * 持ち越し元の日付を返す<br>
+     *
+     * @return 持ち越し元の日付（yyyy-MM-dd）。日付がない行は null
+     */
+    public String getOriginDate() {
+
+        final String result = this.originDate;
         return result;
 
     }
@@ -160,6 +136,30 @@ public class CarryoverItem {
     public String getRaw() {
 
         final String result = this.raw;
+        return result;
+
+    }
+
+    /**
+     * セクション名を返す<br>
+     *
+     * @return セクション名
+     */
+    public String getSection() {
+
+        final String result = this.section;
+        return result;
+
+    }
+
+    /**
+     * チェック済みかを返す<br>
+     *
+     * @return true：チェック済み、false：未チェック
+     */
+    public boolean isChecked() {
+
+        final boolean result = this.checked;
         return result;
 
     }

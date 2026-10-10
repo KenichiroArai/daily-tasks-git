@@ -91,7 +91,7 @@ public class GitHubSettingsDtoTest {
         final String testResult = testTarget.toString();
 
         /* 検証の準備 */
-        final String actualString = testResult;
+        final String  actualString   = testResult;
         final boolean actualHasToken = actualString.contains("test-token");
 
         /* 検証の実施 */

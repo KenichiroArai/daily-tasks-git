@@ -58,30 +58,6 @@ public class ItemStatDto {
     }
 
     /**
-     * 件数を返す<br>
-     *
-     * @return 件数
-     */
-    public int getCount() {
-
-        final int result = this.count;
-        return result;
-
-    }
-
-    /**
-     * 残り時間（分）を返す<br>
-     *
-     * @return 残り時間（分）
-     */
-    public double getMinutes() {
-
-        final double result = this.minutes;
-        return result;
-
-    }
-
-    /**
      * チェック済みの件数を返す<br>
      *
      * @return チェック済みの件数
@@ -101,6 +77,30 @@ public class ItemStatDto {
     public double getCheckedMinutes() {
 
         final double result = this.checkedMinutes;
+        return result;
+
+    }
+
+    /**
+     * 件数を返す<br>
+     *
+     * @return 件数
+     */
+    public int getCount() {
+
+        final int result = this.count;
+        return result;
+
+    }
+
+    /**
+     * 残り時間（分）を返す<br>
+     *
+     * @return 残り時間（分）
+     */
+    public double getMinutes() {
+
+        final double result = this.minutes;
         return result;
 
     }

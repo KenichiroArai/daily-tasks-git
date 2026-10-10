@@ -45,13 +45,12 @@ public class CarryoverAggregatorImpl implements CarryoverAggregator {
 
         /* 日付のある Issue を日付順に並べる */
         final List<CarryoverIssue> sorted = issues.stream().filter(issue -> issue.getDate() != null)
-            .sorted(Comparator.comparing(CarryoverIssue::getDate).thenComparingInt(CarryoverIssue::getNumber))
-            .toList();
+            .sorted(Comparator.comparing(CarryoverIssue::getDate).thenComparingInt(CarryoverIssue::getNumber)).toList();
 
         /* 日別の集計 */
-        final List<DailySummary> days = new ArrayList<>();
+        final List<DailySummary>   days       = new ArrayList<>();
         final Map<String, Integer> itemCounts = new HashMap<>();
-        boolean tracking = false;
+        boolean                    tracking   = false;
 
         for (final CarryoverIssue issue : sorted) {
 
@@ -78,7 +77,7 @@ public class CarryoverAggregatorImpl implements CarryoverAggregator {
 
         /* 項目名を延べ件数の多い順に並べる */
         final List<String> items = itemCounts.entrySet().stream()
-            .sorted(Map.Entry.<String, Integer> comparingByValue().reversed().thenComparing(Map.Entry.comparingByKey()))
+            .sorted(Map.Entry.<String, Integer>comparingByValue().reversed().thenComparing(Map.Entry.comparingByKey()))
             .map(Map.Entry::getKey).toList();
 
         final int latestIssue = issues.stream().mapToInt(CarryoverIssue::getNumber).max().orElse(0);

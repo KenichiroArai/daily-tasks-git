@@ -55,13 +55,13 @@ public class CarryoverSummaryDto {
     }
 
     /**
-     * 集計に含めた最新の Issue 番号を返す<br>
+     * 日別の集計を返す<br>
      *
-     * @return 最新の Issue 番号。Issue がない場合は 0
+     * @return 日別の集計（日付順）
      */
-    public int getLatestIssue() {
+    public List<DailySummaryDto> getDays() {
 
-        final int result = this.latestIssue;
+        final List<DailySummaryDto> result = this.days;
         return result;
 
     }
@@ -79,13 +79,13 @@ public class CarryoverSummaryDto {
     }
 
     /**
-     * 日別の集計を返す<br>
+     * 集計に含めた最新の Issue 番号を返す<br>
      *
-     * @return 日別の集計（日付順）
+     * @return 最新の Issue 番号。Issue がない場合は 0
      */
-    public List<DailySummaryDto> getDays() {
+    public int getLatestIssue() {
 
-        final List<DailySummaryDto> result = this.days;
+        final int result = this.latestIssue;
         return result;
 
     }

@@ -24,77 +24,9 @@ public class CarryoverItemDtoTest {
      */
     private static CarryoverItemDto createTarget() {
 
-        final CarryoverItemDto result = new CarryoverItemDto("音楽", "2026-08-18", true, 11.5, "parsed", "持ち越し",
-            "- [x] 音楽2026/08/18（残り時間：11.5分）");
+        final CarryoverItemDto result
+            = new CarryoverItemDto("音楽", "2026-08-18", true, 11.5, "parsed", "持ち越し", "- [x] 音楽2026/08/18（残り時間：11.5分）");
         return result;
-
-    }
-
-    /**
-     * getName メソッドのテスト - 正常系:項目名を返す場合
-     */
-    @Test
-    public void testGetName_normalValue() {
-
-        /* 期待値の定義 */
-        final String expectedName = "音楽";
-
-        /* 準備 */
-        final CarryoverItemDto testTarget = CarryoverItemDtoTest.createTarget();
-
-        /* テスト対象の実行 */
-        final String testResult = testTarget.getName();
-
-        /* 検証の準備 */
-        final String actualName = testResult;
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedName, actualName, "項目名が一致しません");
-
-    }
-
-    /**
-     * getOriginDate メソッドのテスト - 正常系:持ち越し元の日付を返す場合
-     */
-    @Test
-    public void testGetOriginDate_normalValue() {
-
-        /* 期待値の定義 */
-        final String expectedOriginDate = "2026-08-18";
-
-        /* 準備 */
-        final CarryoverItemDto testTarget = CarryoverItemDtoTest.createTarget();
-
-        /* テスト対象の実行 */
-        final String testResult = testTarget.getOriginDate();
-
-        /* 検証の準備 */
-        final String actualOriginDate = testResult;
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedOriginDate, actualOriginDate, "持ち越し元の日付が一致しません");
-
-    }
-
-    /**
-     * isChecked メソッドのテスト - 正常系:チェック済みを返す場合
-     */
-    @Test
-    public void testIsChecked_normalChecked() {
-
-        /* 期待値の定義 */
-
-        /* 準備 */
-        final CarryoverItemDto testTarget = CarryoverItemDtoTest.createTarget();
-
-        /* テスト対象の実行 */
-        final boolean testResult = testTarget.isChecked();
-
-        /* 検証の準備 */
-        final boolean actualChecked = testResult;
-
-        /* 検証の実施 */
-        Assertions.assertTrue(actualChecked, "チェック済みになっていません");
 
     }
 
@@ -145,25 +77,48 @@ public class CarryoverItemDtoTest {
     }
 
     /**
-     * getSection メソッドのテスト - 正常系:セクション名を返す場合
+     * getName メソッドのテスト - 正常系:項目名を返す場合
      */
     @Test
-    public void testGetSection_normalValue() {
+    public void testGetName_normalValue() {
 
         /* 期待値の定義 */
-        final String expectedSection = "持ち越し";
+        final String expectedName = "音楽";
 
         /* 準備 */
         final CarryoverItemDto testTarget = CarryoverItemDtoTest.createTarget();
 
         /* テスト対象の実行 */
-        final String testResult = testTarget.getSection();
+        final String testResult = testTarget.getName();
 
         /* 検証の準備 */
-        final String actualSection = testResult;
+        final String actualName = testResult;
 
         /* 検証の実施 */
-        Assertions.assertEquals(expectedSection, actualSection, "セクション名が一致しません");
+        Assertions.assertEquals(expectedName, actualName, "項目名が一致しません");
+
+    }
+
+    /**
+     * getOriginDate メソッドのテスト - 正常系:持ち越し元の日付を返す場合
+     */
+    @Test
+    public void testGetOriginDate_normalValue() {
+
+        /* 期待値の定義 */
+        final String expectedOriginDate = "2026-08-18";
+
+        /* 準備 */
+        final CarryoverItemDto testTarget = CarryoverItemDtoTest.createTarget();
+
+        /* テスト対象の実行 */
+        final String testResult = testTarget.getOriginDate();
+
+        /* 検証の準備 */
+        final String actualOriginDate = testResult;
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedOriginDate, actualOriginDate, "持ち越し元の日付が一致しません");
 
     }
 
@@ -187,6 +142,51 @@ public class CarryoverItemDtoTest {
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedRaw, actualRaw, "元の行が一致しません");
+
+    }
+
+    /**
+     * getSection メソッドのテスト - 正常系:セクション名を返す場合
+     */
+    @Test
+    public void testGetSection_normalValue() {
+
+        /* 期待値の定義 */
+        final String expectedSection = "持ち越し";
+
+        /* 準備 */
+        final CarryoverItemDto testTarget = CarryoverItemDtoTest.createTarget();
+
+        /* テスト対象の実行 */
+        final String testResult = testTarget.getSection();
+
+        /* 検証の準備 */
+        final String actualSection = testResult;
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedSection, actualSection, "セクション名が一致しません");
+
+    }
+
+    /**
+     * isChecked メソッドのテスト - 正常系:チェック済みを返す場合
+     */
+    @Test
+    public void testIsChecked_normalChecked() {
+
+        /* 期待値の定義 */
+
+        /* 準備 */
+        final CarryoverItemDto testTarget = CarryoverItemDtoTest.createTarget();
+
+        /* テスト対象の実行 */
+        final boolean testResult = testTarget.isChecked();
+
+        /* 検証の準備 */
+        final boolean actualChecked = testResult;
+
+        /* 検証の実施 */
+        Assertions.assertTrue(actualChecked, "チェック済みになっていません");
 
     }
 

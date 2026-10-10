@@ -18,8 +18,8 @@ import io.github.kenichiroarai.dailytasks.carryover.presentation.model.Carryover
 /**
  * 持ち越しの収集コマンドの実装<br>
  * <p>
- * 入力の窓口として、設定ファイル（application.properties）の値とコマンドライン引数から設定を作り、application 層へ引き継ぐ。Spring Boot
- * の起動後に {@link CommandLineRunner} として実行される。リポジトリのルートをカレントディレクトリとして実行する。
+ * 入力の窓口として、設定ファイル（application.properties）の値とコマンドライン引数から設定を作り、application 層へ引き継ぐ。Spring Boot の起動後に
+ * {@link CommandLineRunner} として実行される。リポジトリのルートをカレントディレクトリとして実行する。
  * </p>
  *
  * @author KenichiroArai
@@ -56,6 +56,25 @@ public class CarryoverCommandImpl implements CarryoverCommand, CommandLineRunner
      * 引数：使い方の表示（短縮形）
      */
     private static final String ARG_SHORT_HELP = "-h";
+
+    /**
+     * 設定ファイルの値から application 層に引き継ぐ設定を作る<br>
+     *
+     * @param properties
+     *                   設定ファイルの値
+     *
+     * @return 持ち越しの収集・集計の設定
+     */
+    private static CarryoverSettings createSettings(final CarryoverProperties properties) {
+
+        final Path dataDir            = Path.of(properties.getDataDir());
+        final Path defaultMinutesFile = Path.of(properties.getDefaultMinutesFile());
+
+        final CarryoverSettings result = new CarryoverSettings(properties.getRepository(), properties.getToken(),
+            dataDir, defaultMinutesFile, properties.getRecentCount());
+        return result;
+
+    }
 
     /**
      * 持ち越しの収集・集計サービス
@@ -117,24 +136,6 @@ public class CarryoverCommandImpl implements CarryoverCommand, CommandLineRunner
         this.properties = properties;
         this.messageProvider = messageProvider;
         this.out = out;
-
-    }
-
-    /**
-     * Spring Boot の起動後にコマンドを実行する<br>
-     *
-     * @param args
-     *             コマンドライン引数
-     *
-     * @throws IOException
-     *                                  取得、読み込みまたは書き込みに失敗した場合
-     * @throws IllegalArgumentException
-     *                                  不明な引数が指定された場合
-     */
-    @Override
-    public void run(final String... args) throws IOException {
-
-        this.execute(args);
 
     }
 
@@ -201,7 +202,7 @@ public class CarryoverCommandImpl implements CarryoverCommand, CommandLineRunner
                 default -> {
 
                     final String template = this.messageProvider.get(CarryoverCommandImpl.MSG_UNKNOWN_ARGUMENT);
-                    final String message = String.format(template, arg);
+                    final String message  = String.format(template, arg);
                     throw new IllegalArgumentException(message);
 
                 }
@@ -215,21 +216,20 @@ public class CarryoverCommandImpl implements CarryoverCommand, CommandLineRunner
     }
 
     /**
-     * 設定ファイルの値から application 層に引き継ぐ設定を作る<br>
+     * Spring Boot の起動後にコマンドを実行する<br>
      *
-     * @param properties
-     *                   設定ファイルの値
+     * @param args
+     *             コマンドライン引数
      *
-     * @return 持ち越しの収集・集計の設定
+     * @throws IOException
+     *                                  取得、読み込みまたは書き込みに失敗した場合
+     * @throws IllegalArgumentException
+     *                                  不明な引数が指定された場合
      */
-    private static CarryoverSettings createSettings(final CarryoverProperties properties) {
+    @Override
+    public void run(final String... args) throws IOException {
 
-        final Path dataDir = Path.of(properties.getDataDir());
-        final Path defaultMinutesFile = Path.of(properties.getDefaultMinutesFile());
-
-        final CarryoverSettings result = new CarryoverSettings(properties.getRepository(), properties.getToken(),
-            dataDir, defaultMinutesFile, properties.getRecentCount());
-        return result;
+        this.execute(args);
 
     }
 

@@ -23,7 +23,8 @@ import io.github.kenichiroarai.dailytasks.carryover.repository.github.GitHubIssu
 /**
  * 持ち越しのデータの取得・保存サービスの実装<br>
  * <p>
- * repository 層の DTO と domain 層のモデルを {@link CarryoverDtoConverter} で変換する。データの取得元と保存先は、repository 層の型（接続設定の DTO・パス）に変換して渡す。
+ * repository 層の DTO と domain 層のモデルを {@link CarryoverDtoConverter} で変換する。データの取得元と保存先は、repository 層の型（接続設定の
+ * DTO・パス）に変換して渡す。
  * </p>
  *
  * @author KenichiroArai
@@ -92,9 +93,29 @@ public class CarryoverIssueServiceImpl implements CarryoverIssueService {
     @Override
     public List<DailyTaskIssue> fetchAllIssues(final CarryoverSource source) throws IOException {
 
-        final GitHubSettingsDto settings = this.converter.toGitHubSettingsDto(source);
-        final List<DailyTaskIssue> result = this.gitHubIssueRepository.fetchAllIssues(settings).stream()
+        final GitHubSettingsDto    settings = this.converter.toGitHubSettingsDto(source);
+        final List<DailyTaskIssue> result   = this.gitHubIssueRepository.fetchAllIssues(settings).stream()
             .map(this.converter::toDailyTaskIssue).toList();
+        return result;
+
+    }
+
+    /**
+     * 項目ごとの標準時間を読み込む<br>
+     *
+     * @param source
+     *               データの取得元と保存先
+     *
+     * @return 項目ごとの標準時間。設定がない場合は空
+     *
+     * @throws IOException
+     *                     読み込みに失敗した場合
+     */
+    @Override
+    public DefaultMinutes loadDefaultMinutes(final CarryoverSource source) throws IOException {
+
+        final Map<String, Double> minutesByName = this.defaultMinutesRepository.load(source.getDefaultMinutesFile());
+        final DefaultMinutes      result        = this.converter.toDefaultMinutes(minutesByName);
         return result;
 
     }
@@ -159,26 +180,6 @@ public class CarryoverIssueServiceImpl implements CarryoverIssueService {
     public void saveSummary(final CarryoverSource source, final CarryoverSummary summary) throws IOException {
 
         this.carryoverDataRepository.saveSummary(source.getDataDir(), this.converter.toCarryoverSummaryDto(summary));
-
-    }
-
-    /**
-     * 項目ごとの標準時間を読み込む<br>
-     *
-     * @param source
-     *               データの取得元と保存先
-     *
-     * @return 項目ごとの標準時間。設定がない場合は空
-     *
-     * @throws IOException
-     *                     読み込みに失敗した場合
-     */
-    @Override
-    public DefaultMinutes loadDefaultMinutes(final CarryoverSource source) throws IOException {
-
-        final Map<String, Double> minutesByName = this.defaultMinutesRepository.load(source.getDefaultMinutesFile());
-        final DefaultMinutes result = this.converter.toDefaultMinutes(minutesByName);
-        return result;
 
     }
 

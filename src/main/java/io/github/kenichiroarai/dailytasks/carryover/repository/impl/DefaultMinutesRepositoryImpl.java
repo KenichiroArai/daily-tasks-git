@@ -39,6 +39,16 @@ public class DefaultMinutesRepositoryImpl implements DefaultMinutesRepository {
     private static final String MSG_FILE_NOT_FOUND = "carryover.defaultMinutes.fileNotFound";
 
     /**
+     * 設定ファイルの型（項目名と標準時間（分）の対応）
+     * <p>
+     * 無名クラスが外側のインスタンスを持たないよう、static の定数にする。
+     * </p>
+     */
+    private static final TypeReference<Map<String, Double>> DEFAULT_MINUTES_TYPE = new TypeReference<>() {
+        // 型情報の保持のみ
+    };
+
+    /**
      * JSON の変換
      */
     private final JsonMapper jsonMapper;
@@ -89,9 +99,8 @@ public class DefaultMinutesRepositoryImpl implements DefaultMinutesRepository {
 
         try {
 
-            result = this.jsonMapper.readValue(configFile.toFile(), new TypeReference<Map<String, Double>>() {
-                // 型情報の保持のみ
-            });
+            result = this.jsonMapper.readValue(configFile.toFile(),
+                DefaultMinutesRepositoryImpl.DEFAULT_MINUTES_TYPE);
 
         } catch (final JacksonException e) {
 

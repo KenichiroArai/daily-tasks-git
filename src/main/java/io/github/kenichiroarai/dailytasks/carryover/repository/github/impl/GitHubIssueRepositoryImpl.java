@@ -86,6 +86,80 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
     private static final Duration TIMEOUT = Duration.ofSeconds(30);
 
     /**
+     * トークンが指定されているかを返す<br>
+     *
+     * @param settings
+     *                 GitHub API の接続設定
+     *
+     * @return true：指定されている、false：指定されていない
+     */
+    private static boolean hasToken(final GitHubSettingsDto settings) {
+
+        boolean      result = false;
+        final String token  = settings.getToken();
+
+        if (token == null) {
+
+            return result;
+
+        }
+
+        result = !token.isBlank();
+        return result;
+
+    }
+
+    /**
+     * 文字列の項目を返す<br>
+     *
+     * @param node
+     *                  JSON
+     * @param fieldName
+     *                  項目名
+     *
+     * @return 値。項目がない場合または null の場合は空文字
+     */
+    private static String textOrEmpty(final JsonNode node, final String fieldName) {
+
+        String         result = "";
+        final JsonNode value  = node.get(fieldName);
+
+        if (value == null) {
+
+            return result;
+
+        }
+
+        if (value.isNull()) {
+
+            return result;
+
+        }
+
+        result = value.asString();
+        return result;
+
+    }
+
+    /**
+     * API の応答を Issue の DTO に変換する<br>
+     *
+     * @param node
+     *             Issue の JSON
+     *
+     * @return Issue の DTO
+     */
+    private static GitHubIssueDto toIssue(final JsonNode node) {
+
+        final GitHubIssueDto result = new GitHubIssueDto(node.path("number").asInt(),
+            GitHubIssueRepositoryImpl.textOrEmpty(node, "title"), GitHubIssueRepositoryImpl.textOrEmpty(node, "state"),
+            GitHubIssueRepositoryImpl.textOrEmpty(node, "updated_at"),
+            GitHubIssueRepositoryImpl.textOrEmpty(node, "body"));
+        return result;
+
+    }
+
+    /**
      * HTTP クライアントの生成
      */
     private final Supplier<HttpClient> httpClientSupplier;
@@ -218,8 +292,9 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
         JsonNode result = null;
 
         /* リクエストの作成 */
-        final URI uri = URI.create(String.format("%s/repos/%s/issues?state=all&sort=created&direction=asc&per_page=%d&page=%d",
-            this.apiBaseUrl, settings.getRepository(), GitHubIssueRepositoryImpl.PER_PAGE, page));
+        final URI                 uri     = URI
+            .create(String.format("%s/repos/%s/issues?state=all&sort=created&direction=asc&per_page=%d&page=%d",
+                this.apiBaseUrl, settings.getRepository(), GitHubIssueRepositoryImpl.PER_PAGE, page));
         final HttpRequest.Builder builder = HttpRequest.newBuilder(uri).timeout(GitHubIssueRepositoryImpl.TIMEOUT)
             .header("Accept", "application/vnd.github+json").header("X-GitHub-Api-Version", "2022-11-28").GET();
 
@@ -235,7 +310,7 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
         if (response.statusCode() != GitHubIssueRepositoryImpl.STATUS_OK) {
 
             final String template = this.messageProvider.get(GitHubIssueRepositoryImpl.MSG_CALL_FAILED);
-            final String message = String.format(template, response.statusCode(), uri);
+            final String message  = String.format(template, response.statusCode(), uri);
             throw new IOException(message);
 
         }
@@ -245,7 +320,7 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
         if (!result.isArray()) {
 
             final String template = this.messageProvider.get(GitHubIssueRepositoryImpl.MSG_NOT_ARRAY);
-            final String message = String.format(template, uri);
+            final String message  = String.format(template, uri);
             throw new IOException(message);
 
         }
@@ -312,80 +387,6 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
 
         }
 
-        return result;
-
-    }
-
-    /**
-     * トークンが指定されているかを返す<br>
-     *
-     * @param settings
-     *                 GitHub API の接続設定
-     *
-     * @return true：指定されている、false：指定されていない
-     */
-    private static boolean hasToken(final GitHubSettingsDto settings) {
-
-        boolean result = false;
-        final String token = settings.getToken();
-
-        if (token == null) {
-
-            return result;
-
-        }
-
-        result = !token.isBlank();
-        return result;
-
-    }
-
-    /**
-     * API の応答を Issue の DTO に変換する<br>
-     *
-     * @param node
-     *             Issue の JSON
-     *
-     * @return Issue の DTO
-     */
-    private static GitHubIssueDto toIssue(final JsonNode node) {
-
-        final GitHubIssueDto result = new GitHubIssueDto(node.path("number").asInt(),
-            GitHubIssueRepositoryImpl.textOrEmpty(node, "title"), GitHubIssueRepositoryImpl.textOrEmpty(node, "state"),
-            GitHubIssueRepositoryImpl.textOrEmpty(node, "updated_at"),
-            GitHubIssueRepositoryImpl.textOrEmpty(node, "body"));
-        return result;
-
-    }
-
-    /**
-     * 文字列の項目を返す<br>
-     *
-     * @param node
-     *                  JSON
-     * @param fieldName
-     *                  項目名
-     *
-     * @return 値。項目がない場合または null の場合は空文字
-     */
-    private static String textOrEmpty(final JsonNode node, final String fieldName) {
-
-        String result = "";
-        final JsonNode value = node.get(fieldName);
-
-        if (value == null) {
-
-            return result;
-
-        }
-
-        if (value.isNull()) {
-
-            return result;
-
-        }
-
-        result = value.asString();
         return result;
 
     }

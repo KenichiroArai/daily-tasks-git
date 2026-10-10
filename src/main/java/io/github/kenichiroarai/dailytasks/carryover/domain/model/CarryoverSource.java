@@ -60,30 +60,6 @@ public class CarryoverSource {
     }
 
     /**
-     * Issue を取得するリポジトリを返す<br>
-     *
-     * @return Issue を取得するリポジトリ（owner/name）
-     */
-    public String getRepository() {
-
-        final String result = this.repository;
-        return result;
-
-    }
-
-    /**
-     * GitHub API のトークンを返す<br>
-     *
-     * @return GitHub API のトークン。未指定の場合は null
-     */
-    public String getToken() {
-
-        final String result = this.token;
-        return result;
-
-    }
-
-    /**
      * 解析結果と集計の保存先のディレクトリを返す<br>
      *
      * @return 保存先のディレクトリ
@@ -103,6 +79,30 @@ public class CarryoverSource {
     public Path getDefaultMinutesFile() {
 
         final Path result = this.defaultMinutesFile;
+        return result;
+
+    }
+
+    /**
+     * Issue を取得するリポジトリを返す<br>
+     *
+     * @return Issue を取得するリポジトリ（owner/name）
+     */
+    public String getRepository() {
+
+        final String result = this.repository;
+        return result;
+
+    }
+
+    /**
+     * GitHub API のトークンを返す<br>
+     *
+     * @return GitHub API のトークン。未指定の場合は null
+     */
+    public String getToken() {
+
+        final String result = this.token;
         return result;
 
     }

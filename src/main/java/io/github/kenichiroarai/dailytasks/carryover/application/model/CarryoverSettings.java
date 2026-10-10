@@ -68,30 +68,6 @@ public class CarryoverSettings {
     }
 
     /**
-     * 対象リポジトリを返す<br>
-     *
-     * @return 対象リポジトリ（owner/name）
-     */
-    public String getRepository() {
-
-        final String result = this.repository;
-        return result;
-
-    }
-
-    /**
-     * GitHub API のトークンを返す<br>
-     *
-     * @return GitHub API のトークン。未指定の場合は null
-     */
-    public String getToken() {
-
-        final String result = this.token;
-        return result;
-
-    }
-
-    /**
      * 出力先のディレクトリを返す<br>
      *
      * @return 出力先のディレクトリ
@@ -128,6 +104,30 @@ public class CarryoverSettings {
     }
 
     /**
+     * 対象リポジトリを返す<br>
+     *
+     * @return 対象リポジトリ（owner/name）
+     */
+    public String getRepository() {
+
+        final String result = this.repository;
+        return result;
+
+    }
+
+    /**
+     * GitHub API のトークンを返す<br>
+     *
+     * @return GitHub API のトークン。未指定の場合は null
+     */
+    public String getToken() {
+
+        final String result = this.token;
+        return result;
+
+    }
+
+    /**
      * 文字列表現を返す<br>
      * <p>
      * トークンは含めない。
@@ -138,9 +138,9 @@ public class CarryoverSettings {
     @Override
     public String toString() {
 
-        final String result = String.format(
-            "CarryoverSettings[repository=%s, dataDir=%s, defaultMinutesFile=%s, recentCount=%d]", this.repository,
-            this.dataDir, this.defaultMinutesFile, Integer.valueOf(this.recentCount));
+        final String result
+            = String.format("CarryoverSettings[repository=%s, dataDir=%s, defaultMinutesFile=%s, recentCount=%d]",
+                this.repository, this.dataDir, this.defaultMinutesFile, Integer.valueOf(this.recentCount));
         return result;
 
     }

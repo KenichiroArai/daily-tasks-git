@@ -90,25 +90,13 @@ public class CarryoverIssue {
     }
 
     /**
-     * Issue 番号を返す<br>
+     * 持ち越し項目の件数を返す<br>
      *
-     * @return Issue 番号
+     * @return 持ち越し項目の件数
      */
-    public int getNumber() {
+    public int getCount() {
 
-        final int result = this.number;
-        return result;
-
-    }
-
-    /**
-     * Issue タイトルを返す<br>
-     *
-     * @return Issue タイトル
-     */
-    public String getTitle() {
-
-        final String result = this.title;
+        final int result = this.items.size();
         return result;
 
     }
@@ -121,42 +109,6 @@ public class CarryoverIssue {
     public String getDate() {
 
         final String result = this.date;
-        return result;
-
-    }
-
-    /**
-     * Issue の状態を返す<br>
-     *
-     * @return Issue の状態（open / closed）
-     */
-    public String getState() {
-
-        final String result = this.state;
-        return result;
-
-    }
-
-    /**
-     * Issue の更新日時を返す<br>
-     *
-     * @return Issue の更新日時（ISO-8601）
-     */
-    public String getUpdatedAt() {
-
-        final String result = this.updatedAt;
-        return result;
-
-    }
-
-    /**
-     * 本文にあった対象セクション名を返す<br>
-     *
-     * @return 対象セクション名
-     */
-    public List<String> getSections() {
-
-        final List<String> result = this.sections;
         return result;
 
     }
@@ -186,18 +138,6 @@ public class CarryoverIssue {
     }
 
     /**
-     * 持ち越し項目の件数を返す<br>
-     *
-     * @return 持ち越し項目の件数
-     */
-    public int getCount() {
-
-        final int result = this.items.size();
-        return result;
-
-    }
-
-    /**
      * 持ち越し項目の残り時間（分）の合計を返す<br>
      *
      * @return 残り時間（分）の合計
@@ -205,6 +145,66 @@ public class CarryoverIssue {
     public double getMinutes() {
 
         final double result = this.items.stream().mapToDouble(CarryoverItem::getMinutes).sum();
+        return result;
+
+    }
+
+    /**
+     * Issue 番号を返す<br>
+     *
+     * @return Issue 番号
+     */
+    public int getNumber() {
+
+        final int result = this.number;
+        return result;
+
+    }
+
+    /**
+     * 本文にあった対象セクション名を返す<br>
+     *
+     * @return 対象セクション名
+     */
+    public List<String> getSections() {
+
+        final List<String> result = this.sections;
+        return result;
+
+    }
+
+    /**
+     * Issue の状態を返す<br>
+     *
+     * @return Issue の状態（open / closed）
+     */
+    public String getState() {
+
+        final String result = this.state;
+        return result;
+
+    }
+
+    /**
+     * Issue タイトルを返す<br>
+     *
+     * @return Issue タイトル
+     */
+    public String getTitle() {
+
+        final String result = this.title;
+        return result;
+
+    }
+
+    /**
+     * Issue の更新日時を返す<br>
+     *
+     * @return Issue の更新日時（ISO-8601）
+     */
+    public String getUpdatedAt() {
+
+        final String result = this.updatedAt;
         return result;
 
     }

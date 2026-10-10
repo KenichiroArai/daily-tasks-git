@@ -31,32 +31,32 @@ public class CarryoverSummaryTest {
      */
     private static CarryoverSummary createSummary() {
 
-        final CarryoverSummary result = new CarryoverSummary(371, List.of("音楽", "国語"),
-            List.of(CarryoverSummaryTest.DAY));
+        final CarryoverSummary result
+            = new CarryoverSummary(371, List.of("音楽", "国語"), List.of(CarryoverSummaryTest.DAY));
         return result;
 
     }
 
     /**
-     * getLatestIssue メソッドのテスト - 正常系:最新の Issue 番号を返す場合
+     * getDays メソッドのテスト - 正常系:日別の集計を返す場合
      */
     @Test
-    public void testGetLatestIssue_normalValue() {
+    public void testGetDays_normalValue() {
 
         /* 期待値の定義 */
-        final int expectedLatestIssue = 371;
+        final List<DailySummary> expectedDays = List.of(CarryoverSummaryTest.DAY);
 
         /* 準備 */
         final CarryoverSummary testTarget = CarryoverSummaryTest.createSummary();
 
         /* テスト対象の実行 */
-        final int testResult = testTarget.getLatestIssue();
+        final List<DailySummary> testResult = testTarget.getDays();
 
         /* 検証の準備 */
-        final int actualLatestIssue = testResult;
+        final List<DailySummary> actualDays = testResult;
 
         /* 検証の実施 */
-        Assertions.assertEquals(expectedLatestIssue, actualLatestIssue, "最新の Issue 番号が一致しません");
+        Assertions.assertEquals(expectedDays, actualDays, "日別の集計が一致しません");
 
     }
 
@@ -84,25 +84,25 @@ public class CarryoverSummaryTest {
     }
 
     /**
-     * getDays メソッドのテスト - 正常系:日別の集計を返す場合
+     * getLatestIssue メソッドのテスト - 正常系:最新の Issue 番号を返す場合
      */
     @Test
-    public void testGetDays_normalValue() {
+    public void testGetLatestIssue_normalValue() {
 
         /* 期待値の定義 */
-        final List<DailySummary> expectedDays = List.of(CarryoverSummaryTest.DAY);
+        final int expectedLatestIssue = 371;
 
         /* 準備 */
         final CarryoverSummary testTarget = CarryoverSummaryTest.createSummary();
 
         /* テスト対象の実行 */
-        final List<DailySummary> testResult = testTarget.getDays();
+        final int testResult = testTarget.getLatestIssue();
 
         /* 検証の準備 */
-        final List<DailySummary> actualDays = testResult;
+        final int actualLatestIssue = testResult;
 
         /* 検証の実施 */
-        Assertions.assertEquals(expectedDays, actualDays, "日別の集計が一致しません");
+        Assertions.assertEquals(expectedLatestIssue, actualLatestIssue, "最新の Issue 番号が一致しません");
 
     }
 

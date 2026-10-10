@@ -38,6 +38,19 @@ public interface CarryoverIssueService {
     List<DailyTaskIssue> fetchAllIssues(CarryoverSource source) throws IOException;
 
     /**
+     * 項目ごとの標準時間を読み込む<br>
+     *
+     * @param source
+     *               データの取得元と保存先
+     *
+     * @return 項目ごとの標準時間。設定がない場合は空
+     *
+     * @throws IOException
+     *                     読み込みに失敗した場合
+     */
+    DefaultMinutes loadDefaultMinutes(CarryoverSource source) throws IOException;
+
+    /**
      * 保存済みの持ち越しの解析結果を読み込む<br>
      *
      * @param source
@@ -75,18 +88,5 @@ public interface CarryoverIssueService {
      *                     書き込みに失敗した場合
      */
     void saveSummary(CarryoverSource source, CarryoverSummary summary) throws IOException;
-
-    /**
-     * 項目ごとの標準時間を読み込む<br>
-     *
-     * @param source
-     *               データの取得元と保存先
-     *
-     * @return 項目ごとの標準時間。設定がない場合は空
-     *
-     * @throws IOException
-     *                     読み込みに失敗した場合
-     */
-    DefaultMinutes loadDefaultMinutes(CarryoverSource source) throws IOException;
 
 }

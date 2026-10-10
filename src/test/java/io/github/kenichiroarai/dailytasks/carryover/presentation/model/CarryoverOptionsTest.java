@@ -60,28 +60,6 @@ public class CarryoverOptionsTest {
     }
 
     /**
-     * setFull メソッドのテスト - 正常系:true を設定した場合
-     */
-    @Test
-    public void testSetFull_normalTrue() {
-
-        /* 期待値の定義 */
-
-        /* 準備 */
-        final CarryoverOptions testTarget = new CarryoverOptions();
-
-        /* テスト対象の実行 */
-        testTarget.setFull(true);
-
-        /* 検証の準備 */
-        final boolean actualFull = testTarget.isFull();
-
-        /* 検証の実施 */
-        Assertions.assertTrue(actualFull, "全件モードである必要があります");
-
-    }
-
-    /**
      * setFull メソッドのテスト - 正常系:false を設定した場合
      */
     @Test
@@ -105,10 +83,10 @@ public class CarryoverOptionsTest {
     }
 
     /**
-     * setHelp メソッドのテスト - 正常系:true を設定した場合
+     * setFull メソッドのテスト - 正常系:true を設定した場合
      */
     @Test
-    public void testSetHelp_normalTrue() {
+    public void testSetFull_normalTrue() {
 
         /* 期待値の定義 */
 
@@ -116,13 +94,13 @@ public class CarryoverOptionsTest {
         final CarryoverOptions testTarget = new CarryoverOptions();
 
         /* テスト対象の実行 */
-        testTarget.setHelp(true);
+        testTarget.setFull(true);
 
         /* 検証の準備 */
-        final boolean actualHelp = testTarget.isHelp();
+        final boolean actualFull = testTarget.isFull();
 
         /* 検証の実施 */
-        Assertions.assertTrue(actualHelp, "使い方を表示する必要があります");
+        Assertions.assertTrue(actualFull, "全件モードである必要があります");
 
     }
 
@@ -146,6 +124,28 @@ public class CarryoverOptionsTest {
 
         /* 検証の実施 */
         Assertions.assertFalse(actualHelp, "使い方を表示しない必要があります");
+
+    }
+
+    /**
+     * setHelp メソッドのテスト - 正常系:true を設定した場合
+     */
+    @Test
+    public void testSetHelp_normalTrue() {
+
+        /* 期待値の定義 */
+
+        /* 準備 */
+        final CarryoverOptions testTarget = new CarryoverOptions();
+
+        /* テスト対象の実行 */
+        testTarget.setHelp(true);
+
+        /* 検証の準備 */
+        final boolean actualHelp = testTarget.isHelp();
+
+        /* 検証の実施 */
+        Assertions.assertTrue(actualHelp, "使い方を表示する必要があります");
 
     }
 

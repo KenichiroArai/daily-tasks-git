@@ -15,18 +15,6 @@ import org.junit.jupiter.api.Assertions;
 public final class LogAssertions {
 
     /**
-     * コンストラクタ<br>
-     * <p>
-     * インスタンス化しない。
-     * </p>
-     */
-    private LogAssertions() {
-
-        // 処理なし
-
-    }
-
-    /**
      * ログメッセージを 1 行ずつ検証し、件数も検証する<br>
      *
      * @param expectedMsgs
@@ -41,13 +29,24 @@ public final class LogAssertions {
 
         for (int i = 0; i < verMsgLength; i++) {
 
-            Assertions.assertEquals(expectedMsgs[i], actualMsgs[i],
-                String.format("メッセージが一致しません: %s", expectedMsgs[i]));
+            Assertions.assertEquals(expectedMsgs[i], actualMsgs[i], String.format("メッセージが一致しません: %s", expectedMsgs[i]));
 
         }
 
         // ログの数のチェック
         Assertions.assertEquals(expectedMsgs.length, actualMsgs.length, "ログの数が一致しません");
+
+    }
+
+    /**
+     * コンストラクタ<br>
+     * <p>
+     * インスタンス化しない。
+     * </p>
+     */
+    private LogAssertions() {
+
+        // 処理なし
 
     }
 

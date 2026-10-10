@@ -26,22 +26,6 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
 public class CarryoverAggregatorImplTest {
 
     /**
-     * テスト用の持ち越し項目を作成する<br>
-     *
-     * @param name
-     *             項目名
-     *
-     * @return 持ち越し項目
-     */
-    private static CarryoverItem createItem(final String name) {
-
-        final CarryoverItem result = new CarryoverItem(name, "2026-06-18", false, 15, MinutesSource.PARSED, "持ち越し",
-            "raw");
-        return result;
-
-    }
-
-    /**
      * テスト用の解析結果を作成する<br>
      *
      * @param number
@@ -58,8 +42,24 @@ public class CarryoverAggregatorImplTest {
     private static CarryoverIssue createIssue(final int number, final String date, final List<String> sections,
         final List<CarryoverItem> items) {
 
-        final CarryoverIssue result = new CarryoverIssue(number, "title", date, "closed", "2026-10-06T00:00:00Z",
-            sections, null, items);
+        final CarryoverIssue result
+            = new CarryoverIssue(number, "title", date, "closed", "2026-10-06T00:00:00Z", sections, null, items);
+        return result;
+
+    }
+
+    /**
+     * テスト用の持ち越し項目を作成する<br>
+     *
+     * @param name
+     *             項目名
+     *
+     * @return 持ち越し項目
+     */
+    private static CarryoverItem createItem(final String name) {
+
+        final CarryoverItem result
+            = new CarryoverItem(name, "2026-06-18", false, 15, MinutesSource.PARSED, "持ち越し", "raw");
         return result;
 
     }
@@ -71,13 +71,13 @@ public class CarryoverAggregatorImplTest {
     public void testAggregate_normalFromFirstSection() {
 
         /* 期待値の定義 */
-        final List<String> expectedDates = List.of("2026-03-24", "2026-03-25", "2026-03-26");
-        final List<Integer> expectedCounts = List.of(Integer.valueOf(2), Integer.valueOf(0), Integer.valueOf(1));
-        final List<String> expectedItems = List.of("音楽", "国語");
-        final int expectedLatestIssue = 177;
+        final List<String>  expectedDates       = List.of("2026-03-24", "2026-03-25", "2026-03-26");
+        final List<Integer> expectedCounts      = List.of(2, 0, 1);
+        final List<String>  expectedItems       = List.of("音楽", "国語");
+        final int           expectedLatestIssue = 177;
 
         /* 準備 */
-        final List<CarryoverIssue> testIssues = List.of(
+        final List<CarryoverIssue>    testIssues = List.of(
             CarryoverAggregatorImplTest.createIssue(177, "2026-03-26", List.of("負債"),
                 List.of(CarryoverAggregatorImplTest.createItem("音楽"))),
             CarryoverAggregatorImplTest.createIssue(176, "2026-03-25", List.of(), List.of()),
@@ -91,11 +91,11 @@ public class CarryoverAggregatorImplTest {
         final CarryoverSummary testResult = testTarget.aggregate(testIssues);
 
         /* 検証の準備 */
-        final List<String> actualDates = testResult.getDays().stream().map(DailySummary::getDate).toList();
-        final List<Integer> actualCounts = testResult.getDays().stream()
-            .map(day -> Integer.valueOf(day.getTotal().getCount())).toList();
-        final List<String> actualItems = testResult.getItems();
-        final int actualLatestIssue = testResult.getLatestIssue();
+        final List<String>  actualDates       = testResult.getDays().stream().map(DailySummary::getDate).toList();
+        final List<Integer> actualCounts      = testResult.getDays().stream()
+            .map(day -> day.getTotal().getCount()).toList();
+        final List<String>  actualItems       = testResult.getItems();
+        final int           actualLatestIssue = testResult.getLatestIssue();
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedDates, actualDates, "日付が一致しません");
@@ -121,8 +121,8 @@ public class CarryoverAggregatorImplTest {
         final CarryoverSummary testResult = testTarget.aggregate(List.of());
 
         /* 検証の準備 */
-        final int actualLatestIssue = testResult.getLatestIssue();
-        final boolean actualDaysEmpty = testResult.getDays().isEmpty();
+        final int     actualLatestIssue = testResult.getLatestIssue();
+        final boolean actualDaysEmpty   = testResult.getDays().isEmpty();
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedLatestIssue, actualLatestIssue, "最新の Issue 番号が一致しません");

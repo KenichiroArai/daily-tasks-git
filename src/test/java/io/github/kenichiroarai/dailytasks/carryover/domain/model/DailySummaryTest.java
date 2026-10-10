@@ -31,8 +31,8 @@ public class DailySummaryTest {
      */
     private static CarryoverItem createItem(final String name, final String originDate) {
 
-        final CarryoverItem result = new CarryoverItem(name, originDate, false, 15, MinutesSource.PARSED, "持ち越し",
-            "raw");
+        final CarryoverItem result
+            = new CarryoverItem(name, originDate, false, 15, MinutesSource.PARSED, "持ち越し", "raw");
         return result;
 
     }
@@ -44,7 +44,7 @@ public class DailySummaryTest {
      */
     private static DailySummary createSummary() {
 
-        final DailySummary result = new DailySummary("2026-10-06", 371, Integer.valueOf(3));
+        final DailySummary result = new DailySummary("2026-10-06", 371, 3);
         result.add(DailySummaryTest.createItem("国語", "2026-06-18"));
         result.add(DailySummaryTest.createItem("国語", "2026-08-01"));
         result.add(DailySummaryTest.createItem("音楽", "2026-08-18"));
@@ -98,98 +98,6 @@ public class DailySummaryTest {
     }
 
     /**
-     * getDate メソッドのテスト - 正常系:日付を返す場合
-     */
-    @Test
-    public void testGetDate_normalValue() {
-
-        /* 期待値の定義 */
-        final String expectedDate = "2026-10-06";
-
-        /* 準備 */
-        final DailySummary testTarget = DailySummaryTest.createSummary();
-
-        /* テスト対象の実行 */
-        final String testResult = testTarget.getDate();
-
-        /* 検証の準備 */
-        final String actualDate = testResult;
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedDate, actualDate, "日付が一致しません");
-
-    }
-
-    /**
-     * getIssue メソッドのテスト - 正常系:Issue 番号を返す場合
-     */
-    @Test
-    public void testGetIssue_normalValue() {
-
-        /* 期待値の定義 */
-        final int expectedIssue = 371;
-
-        /* 準備 */
-        final DailySummary testTarget = DailySummaryTest.createSummary();
-
-        /* テスト対象の実行 */
-        final int testResult = testTarget.getIssue();
-
-        /* 検証の準備 */
-        final int actualIssue = testResult;
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedIssue, actualIssue, "Issue 番号が一致しません");
-
-    }
-
-    /**
-     * getDeclaredCount メソッドのテスト - 正常系:残数を返す場合
-     */
-    @Test
-    public void testGetDeclaredCount_normalValue() {
-
-        /* 期待値の定義 */
-        final Integer expectedDeclaredCount = Integer.valueOf(3);
-
-        /* 準備 */
-        final DailySummary testTarget = DailySummaryTest.createSummary();
-
-        /* テスト対象の実行 */
-        final Integer testResult = testTarget.getDeclaredCount();
-
-        /* 検証の準備 */
-        final Integer actualDeclaredCount = testResult;
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedDeclaredCount, actualDeclaredCount, "残数が一致しません");
-
-    }
-
-    /**
-     * getTotal メソッドのテスト - 正常系:全体の件数を返す場合
-     */
-    @Test
-    public void testGetTotal_normalCount() {
-
-        /* 期待値の定義 */
-        final int expectedCount = 3;
-
-        /* 準備 */
-        final DailySummary testTarget = DailySummaryTest.createSummary();
-
-        /* テスト対象の実行 */
-        final ItemStat testResult = testTarget.getTotal();
-
-        /* 検証の準備 */
-        final int actualCount = testResult.getCount();
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedCount, actualCount, "全体の件数が一致しません");
-
-    }
-
-    /**
      * getByItem メソッドのテスト - 正常系:項目ごとの件数を返す場合
      */
     @Test
@@ -232,6 +140,98 @@ public class DailySummaryTest {
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedMonths, actualMonths, "持ち越し元の月が一致しません");
+
+    }
+
+    /**
+     * getDate メソッドのテスト - 正常系:日付を返す場合
+     */
+    @Test
+    public void testGetDate_normalValue() {
+
+        /* 期待値の定義 */
+        final String expectedDate = "2026-10-06";
+
+        /* 準備 */
+        final DailySummary testTarget = DailySummaryTest.createSummary();
+
+        /* テスト対象の実行 */
+        final String testResult = testTarget.getDate();
+
+        /* 検証の準備 */
+        final String actualDate = testResult;
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedDate, actualDate, "日付が一致しません");
+
+    }
+
+    /**
+     * getDeclaredCount メソッドのテスト - 正常系:残数を返す場合
+     */
+    @Test
+    public void testGetDeclaredCount_normalValue() {
+
+        /* 期待値の定義 */
+        final Integer expectedDeclaredCount = 3;
+
+        /* 準備 */
+        final DailySummary testTarget = DailySummaryTest.createSummary();
+
+        /* テスト対象の実行 */
+        final Integer testResult = testTarget.getDeclaredCount();
+
+        /* 検証の準備 */
+        final Integer actualDeclaredCount = testResult;
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedDeclaredCount, actualDeclaredCount, "残数が一致しません");
+
+    }
+
+    /**
+     * getIssue メソッドのテスト - 正常系:Issue 番号を返す場合
+     */
+    @Test
+    public void testGetIssue_normalValue() {
+
+        /* 期待値の定義 */
+        final int expectedIssue = 371;
+
+        /* 準備 */
+        final DailySummary testTarget = DailySummaryTest.createSummary();
+
+        /* テスト対象の実行 */
+        final int testResult = testTarget.getIssue();
+
+        /* 検証の準備 */
+        final int actualIssue = testResult;
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedIssue, actualIssue, "Issue 番号が一致しません");
+
+    }
+
+    /**
+     * getTotal メソッドのテスト - 正常系:全体の件数を返す場合
+     */
+    @Test
+    public void testGetTotal_normalCount() {
+
+        /* 期待値の定義 */
+        final int expectedCount = 3;
+
+        /* 準備 */
+        final DailySummary testTarget = DailySummaryTest.createSummary();
+
+        /* テスト対象の実行 */
+        final ItemStat testResult = testTarget.getTotal();
+
+        /* 検証の準備 */
+        final int actualCount = testResult.getCount();
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedCount, actualCount, "全体の件数が一致しません");
 
     }
 

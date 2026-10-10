@@ -23,18 +23,6 @@ import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.impl
 public final class MessageProviderTestUtil {
 
     /**
-     * コンストラクタ<br>
-     * <p>
-     * インスタンス化しない。
-     * </p>
-     */
-    private MessageProviderTestUtil() {
-
-        // 処理なし
-
-    }
-
-    /**
      * messages.properties を読むメッセージの取得を作る<br>
      *
      * @return メッセージの取得
@@ -48,6 +36,18 @@ public final class MessageProviderTestUtil {
 
         final MessageProvider result = new MessageProviderImpl(messageSource);
         return result;
+
+    }
+
+    /**
+     * コンストラクタ<br>
+     * <p>
+     * インスタンス化しない。
+     * </p>
+     */
+    private MessageProviderTestUtil() {
+
+        // 処理なし
 
     }
 

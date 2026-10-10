@@ -35,10 +35,34 @@ import tools.jackson.databind.json.JsonMapper;
 public class CarryoverDataRepositoryImplTest {
 
     /**
-     * テスト用の一時ディレクトリ
+     * JSON に変換できない Bean<br>
+     * <p>
+     * ゲッターが例外を投げるため、JSON への変換に失敗する。
+     * </p>
+     *
+     * @author KenichiroArai
+     *
+     * @since 0.1.0
+     *
+     * @version 0.1.0
      */
-    @TempDir
-    Path tempDir;
+    public static final class FailingBean {
+
+        /**
+         * 常に例外を投げる<br>
+         *
+         * @return 返らない
+         *
+         * @throws IllegalStateException
+         *                               常に投げる
+         */
+        public String getValue() {
+
+            throw new IllegalStateException("変換できません");
+
+        }
+
+    }
 
     /**
      * テスト用の解析結果を作成する<br>
@@ -50,10 +74,22 @@ public class CarryoverDataRepositoryImplTest {
      */
     private static CarryoverIssueDto createIssue(final int number) {
 
-        final CarryoverItemDto item = new CarryoverItemDto("国語", "2026-06-18", true, 8.5, "parsed", "持ち越し",
+        final CarryoverItemDto  item   = new CarryoverItemDto("国語", "2026-06-18", true, 8.5, "parsed", "持ち越し",
             "- [x] 国語2026/06/18（残り時間：8.5分）");
         final CarryoverIssueDto result = new CarryoverIssueDto(number, "2026年10月06日のタスク", "2026-10-06", "open",
-            "2026-10-06T14:23:08Z", List.of("持ち越し"), Integer.valueOf(1), 1, 8.5, List.of(item));
+            "2026-10-06T14:23:08Z", List.of("持ち越し"), 1, 1, 8.5, List.of(item));
+        return result;
+
+    }
+
+    /**
+     * テスト対象を作成する<br>
+     *
+     * @return テスト対象
+     */
+    private static CarryoverDataRepositoryImpl createTarget() {
+
+        final CarryoverDataRepositoryImpl result = new CarryoverDataRepositoryImpl(new JsonMapper());
         return result;
 
     }
@@ -81,6 +117,40 @@ public class CarryoverDataRepositoryImplTest {
     }
 
     /**
+     * テスト用の一時ディレクトリ
+     */
+    @TempDir
+    Path tempDir;
+
+    /**
+     * loadIssues メソッドのテスト - 異常系:JSON が不正な場合
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
+     */
+    @Test
+    public void testLoadIssues_errorInvalidJson() throws IOException {
+
+        /* 期待値の定義 */
+
+        /* 準備 */
+        final Path testIssuesDir = Files.createDirectories(this.tempDir.resolve("issues"));
+        Files.writeString(testIssuesDir.resolve("0001.json"), "{不正");
+        final CarryoverDataRepositoryImpl testTarget = CarryoverDataRepositoryImplTest.createTarget();
+
+        /* テスト対象の実行 */
+        final IOException testException
+            = Assertions.assertThrows(IOException.class, () -> testTarget.loadIssues(this.tempDir));
+
+        /* 検証の準備 */
+        final Throwable actualCause = testException.getCause();
+
+        /* 検証の実施 */
+        Assertions.assertInstanceOf(JacksonException.class, actualCause, "原因の例外の型が一致しません");
+
+    }
+
+    /**
      * loadIssues メソッドのテスト - 正常系:保存済みの JSON を読み込む場合
      *
      * @throws IOException
@@ -90,9 +160,9 @@ public class CarryoverDataRepositoryImplTest {
     public void testLoadIssues_normalSaved() throws IOException {
 
         /* 期待値の定義 */
-        final Set<Integer> expectedNumbers = Set.of(Integer.valueOf(1), Integer.valueOf(371));
-        final double expectedMinutes = 8.5;
-        final String expectedMinutesSource = "parsed";
+        final Set<Integer> expectedNumbers       = Set.of(1, 371);
+        final double       expectedMinutes       = 8.5;
+        final String       expectedMinutesSource = "parsed";
 
         /* 準備 */
         final CarryoverDataRepositoryImpl testTarget = CarryoverDataRepositoryImplTest.createTarget();
@@ -104,11 +174,11 @@ public class CarryoverDataRepositoryImplTest {
         final Map<Integer, CarryoverIssueDto> testResult = testTarget.loadIssues(this.tempDir);
 
         /* 検証の準備 */
-        final Set<Integer> actualNumbers = testResult.keySet();
-        final CarryoverItemDto actualItem = testResult.get(Integer.valueOf(371)).getItems().get(0);
-        final double actualMinutes = actualItem.getMinutes();
-        final String actualMinutesSource = actualItem.getMinutesSource();
-        final boolean actualChecked = actualItem.isChecked();
+        final Set<Integer>     actualNumbers       = testResult.keySet();
+        final CarryoverItemDto actualItem          = testResult.get(Integer.valueOf(371)).getItems().get(0);
+        final double           actualMinutes       = actualItem.getMinutes();
+        final String           actualMinutesSource = actualItem.getMinutesSource();
+        final boolean          actualChecked       = actualItem.isChecked();
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedNumbers, actualNumbers, "Issue 番号が一致しません");
@@ -144,34 +214,6 @@ public class CarryoverDataRepositoryImplTest {
     }
 
     /**
-     * loadIssues メソッドのテスト - 異常系:JSON が不正な場合
-     *
-     * @throws IOException
-     *                     入出力エラーが発生した場合
-     */
-    @Test
-    public void testLoadIssues_errorInvalidJson() throws IOException {
-
-        /* 期待値の定義 */
-
-        /* 準備 */
-        final Path testIssuesDir = Files.createDirectories(this.tempDir.resolve("issues"));
-        Files.writeString(testIssuesDir.resolve("0001.json"), "{不正");
-        final CarryoverDataRepositoryImpl testTarget = CarryoverDataRepositoryImplTest.createTarget();
-
-        /* テスト対象の実行 */
-        final IOException testException = Assertions.assertThrows(IOException.class,
-            () -> testTarget.loadIssues(this.tempDir));
-
-        /* 検証の準備 */
-        final Throwable actualCause = testException.getCause();
-
-        /* 検証の実施 */
-        Assertions.assertInstanceOf(JacksonException.class, actualCause, "原因の例外の型が一致しません");
-
-    }
-
-    /**
      * saveIssue メソッドのテスト - 正常系:4 桁ゼロ埋めのファイル名で LF 改行の JSON を保存する場合
      *
      * @throws IOException
@@ -190,42 +232,16 @@ public class CarryoverDataRepositoryImplTest {
         testTarget.saveIssue(this.tempDir, CarryoverDataRepositoryImplTest.createIssue(7));
 
         /* 検証の準備 */
-        final String actualJson = Files.readString(this.tempDir.resolve("issues").resolve("0007.json"),
+        final String  actualJson       = Files.readString(this.tempDir.resolve("issues").resolve("0007.json"),
             StandardCharsets.UTF_8);
         final boolean actualStartsWith = actualJson.startsWith(expectedFirstLines);
-        final boolean actualHasCr = actualJson.contains("\r");
+        final boolean actualHasCr      = actualJson.contains("\r");
         final boolean actualEndsWithLf = actualJson.endsWith("}\n");
 
         /* 検証の実施 */
         Assertions.assertTrue(actualStartsWith, "JSON の先頭が一致しません: " + actualJson);
         Assertions.assertFalse(actualHasCr, "改行は LF である必要があります");
         Assertions.assertTrue(actualEndsWithLf, "末尾は改行である必要があります");
-
-    }
-
-    /**
-     * saveSummary メソッドのテスト - 正常系:画面用の集計を保存する場合
-     *
-     * @throws IOException
-     *                     入出力エラーが発生した場合
-     */
-    @Test
-    public void testSaveSummary_normalSave() throws IOException {
-
-        /* 期待値の定義 */
-        final String expectedJson = "{\n  \"latestIssue\": 371,\n  \"items\": [\n    \"国語\"\n  ],\n  \"days\": [ ]\n}\n";
-
-        /* 準備 */
-        final CarryoverDataRepositoryImpl testTarget = CarryoverDataRepositoryImplTest.createTarget();
-
-        /* テスト対象の実行 */
-        testTarget.saveSummary(this.tempDir, new CarryoverSummaryDto(371, List.of("国語"), List.of()));
-
-        /* 検証の準備 */
-        final String actualJson = Files.readString(this.tempDir.resolve("summary.json"), StandardCharsets.UTF_8);
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedJson, actualJson, "JSON が一致しません");
 
     }
 
@@ -275,10 +291,10 @@ public class CarryoverDataRepositoryImplTest {
             """;
 
         /* 準備 */
-        final CarryoverDataRepositoryImpl testTarget = CarryoverDataRepositoryImplTest.createTarget();
-        final ItemStatDto testStat = new ItemStatDto(1, 30, 0, 0);
-        final ItemStatDto testEmptyStat = new ItemStatDto(0, 0, 0, 0);
-        final Map<String, ItemStatDto> testByItem = new LinkedHashMap<>();
+        final CarryoverDataRepositoryImpl testTarget    = CarryoverDataRepositoryImplTest.createTarget();
+        final ItemStatDto                 testStat      = new ItemStatDto(1, 30, 0, 0);
+        final ItemStatDto                 testEmptyStat = new ItemStatDto(0, 0, 0, 0);
+        final Map<String, ItemStatDto>    testByItem    = new LinkedHashMap<>();
         testByItem.put("英語", testStat);
         testByItem.put("国語", testEmptyStat);
         final DailySummaryDto testDay = new DailySummaryDto("2026-03-24", 175, null, testStat, testByItem, Map.of());
@@ -291,6 +307,59 @@ public class CarryoverDataRepositoryImplTest {
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedJson, actualJson, "JSON が一致しません");
+
+    }
+
+    /**
+     * saveSummary メソッドのテスト - 正常系:画面用の集計を保存する場合
+     *
+     * @throws IOException
+     *                     入出力エラーが発生した場合
+     */
+    @Test
+    public void testSaveSummary_normalSave() throws IOException {
+
+        /* 期待値の定義 */
+        final String expectedJson
+            = "{\n  \"latestIssue\": 371,\n  \"items\": [\n    \"国語\"\n  ],\n  \"days\": [ ]\n}\n";
+
+        /* 準備 */
+        final CarryoverDataRepositoryImpl testTarget = CarryoverDataRepositoryImplTest.createTarget();
+
+        /* テスト対象の実行 */
+        testTarget.saveSummary(this.tempDir, new CarryoverSummaryDto(371, List.of("国語"), List.of()));
+
+        /* 検証の準備 */
+        final String actualJson = Files.readString(this.tempDir.resolve("summary.json"), StandardCharsets.UTF_8);
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedJson, actualJson, "JSON が一致しません");
+
+    }
+
+    /**
+     * write メソッドのテスト - 異常系:JSON に変換できない場合
+     */
+    @Test
+    public void testWrite_errorNotSerializable() {
+
+        /* 期待値の定義 */
+
+        /* 準備 */
+        final CarryoverDataRepositoryImpl testTarget = CarryoverDataRepositoryImplTest.createTarget();
+        final Path                        testPath   = this.tempDir.resolve("error.json");
+
+        /* テスト対象の実行 */
+        final IOException testException = Assertions.assertThrows(IOException.class,
+            () -> CarryoverDataRepositoryImplTest.write(testTarget, testPath, new FailingBean()));
+
+        /* 検証の準備 */
+        final Throwable actualCause  = testException.getCause();
+        final boolean   actualExists = Files.exists(testPath);
+
+        /* 検証の実施 */
+        Assertions.assertInstanceOf(JacksonException.class, actualCause, "原因の例外の型が一致しません");
+        Assertions.assertFalse(actualExists, "ファイルは作成されない必要があります");
 
     }
 
@@ -308,84 +377,16 @@ public class CarryoverDataRepositoryImplTest {
 
         /* 準備 */
         final CarryoverDataRepositoryImpl testTarget = CarryoverDataRepositoryImplTest.createTarget();
-        final Path testPath = this.tempDir.resolve("a").resolve("b").resolve("c.json");
+        final Path                        testPath   = this.tempDir.resolve("a").resolve("b").resolve("c.json");
 
         /* テスト対象の実行 */
-        CarryoverDataRepositoryImplTest.write(testTarget, testPath, List.of(Integer.valueOf(1)));
+        CarryoverDataRepositoryImplTest.write(testTarget, testPath, List.of(1));
 
         /* 検証の準備 */
         final String actualJson = Files.readString(testPath, StandardCharsets.UTF_8);
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedJson, actualJson, "JSON が一致しません");
-
-    }
-
-    /**
-     * write メソッドのテスト - 異常系:JSON に変換できない場合
-     */
-    @Test
-    public void testWrite_errorNotSerializable() {
-
-        /* 期待値の定義 */
-
-        /* 準備 */
-        final CarryoverDataRepositoryImpl testTarget = CarryoverDataRepositoryImplTest.createTarget();
-        final Path testPath = this.tempDir.resolve("error.json");
-
-        /* テスト対象の実行 */
-        final IOException testException = Assertions.assertThrows(IOException.class,
-            () -> CarryoverDataRepositoryImplTest.write(testTarget, testPath, new FailingBean()));
-
-        /* 検証の準備 */
-        final Throwable actualCause = testException.getCause();
-        final boolean actualExists = Files.exists(testPath);
-
-        /* 検証の実施 */
-        Assertions.assertInstanceOf(JacksonException.class, actualCause, "原因の例外の型が一致しません");
-        Assertions.assertFalse(actualExists, "ファイルは作成されない必要があります");
-
-    }
-
-    /**
-     * JSON に変換できない Bean<br>
-     * <p>
-     * ゲッターが例外を投げるため、JSON への変換に失敗する。
-     * </p>
-     *
-     * @author KenichiroArai
-     *
-     * @since 0.1.0
-     *
-     * @version 0.1.0
-     */
-    public static final class FailingBean {
-
-        /**
-         * 常に例外を投げる<br>
-         *
-         * @return 返らない
-         *
-         * @throws IllegalStateException
-         *                               常に投げる
-         */
-        public String getValue() {
-
-            throw new IllegalStateException("変換できません");
-
-        }
-
-    }
-
-    /**
-     * テスト対象を作成する<br>
-     *
-     * @return テスト対象
-     */
-    private static CarryoverDataRepositoryImpl createTarget() {
-
-        final CarryoverDataRepositoryImpl result = new CarryoverDataRepositoryImpl(new JsonMapper());
-        return result;
 
     }
 

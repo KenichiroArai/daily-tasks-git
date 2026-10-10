@@ -39,121 +39,61 @@ import io.github.kenichiroarai.dailytasks.testutil.MessageProviderTestUtil;
 public class CarryoverDtoConverterTest {
 
     /**
-     * toGitHubSettingsDto メソッドのテスト - 正常系:リポジトリ名を引き継ぐ場合
+     * 持ち越しの解析結果を作成する<br>
+     *
+     * @return 持ち越しの解析結果
      */
-    @Test
-    public void testToGitHubSettingsDto_normalRepository() {
+    private static CarryoverIssue createIssue() {
 
-        /* 期待値の定義 */
-        final String expectedRepository = "owner/repo";
-
-        /* 準備 */
-        final CarryoverSource testSource = new CarryoverSource("owner/repo", "test-token", Path.of("docs", "data"),
-            Path.of("config", "default-minutes.json"));
-
-        /* テスト対象の実行 */
-        final GitHubSettingsDto testResult = CarryoverDtoConverterTest.createTarget().toGitHubSettingsDto(testSource);
-
-        /* 検証の準備 */
-        final String actualRepository = testResult.getRepository();
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedRepository, actualRepository, "リポジトリ名が一致しません");
+        final CarryoverItem  item   = new CarryoverItem("音楽", "2026-08-18", true, 11.5, MinutesSource.PARSED, "持ち越し",
+            "- [x] 音楽2026/08/18（残り時間：11.5分）");
+        final CarryoverIssue result = new CarryoverIssue(371, "2026年10月06日のタスク", "2026-10-06", "open",
+            "2026-10-06T14:23:08Z", List.of("持ち越し"), 1, List.of(item));
+        return result;
 
     }
 
     /**
-     * toGitHubSettingsDto メソッドのテスト - 正常系:トークンを引き継ぐ場合
+     * 保存済みの解析結果を作成する<br>
+     *
+     * @param minutesSource
+     *                      残り時間の取得元の値
+     *
+     * @return 保存済みの解析結果
      */
-    @Test
-    public void testToGitHubSettingsDto_normalToken() {
+    private static CarryoverIssueDto createIssueDto(final String minutesSource) {
 
-        /* 期待値の定義 */
-        final String expectedToken = "test-token";
-
-        /* 準備 */
-        final CarryoverSource testSource = new CarryoverSource("owner/repo", "test-token", Path.of("docs", "data"),
-            Path.of("config", "default-minutes.json"));
-
-        /* テスト対象の実行 */
-        final GitHubSettingsDto testResult = CarryoverDtoConverterTest.createTarget().toGitHubSettingsDto(testSource);
-
-        /* 検証の準備 */
-        final String actualToken = testResult.getToken();
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedToken, actualToken, "トークンが一致しません");
+        final CarryoverItemDto  item   = new CarryoverItemDto("国語", "2026-06-18", false, 15.0, minutesSource, "持ち越し",
+            "- [ ] 国語2026/06/18");
+        final CarryoverIssueDto result = new CarryoverIssueDto(371, "2026年10月06日のタスク", "2026-10-06", "open",
+            "2026-10-06T14:23:08Z", List.of("持ち越し"), 1, 1, 15.0, List.of(item));
+        return result;
 
     }
 
     /**
-     * toDailyTaskIssue メソッドのテスト - 正常系:Issue 番号を引き継ぐ場合
+     * 画面用の集計を作成する<br>
+     *
+     * @return 画面用の集計
      */
-    @Test
-    public void testToDailyTaskIssue_normalNumber() {
+    private static CarryoverSummary createSummary() {
 
-        /* 期待値の定義 */
-        final int expectedNumber = 371;
-
-        /* 準備 */
-        final GitHubIssueDto testDto = new GitHubIssueDto(371, "2026年10月06日のタスク", "open", "2026-10-06T14:23:08Z",
-            "本文");
-
-        /* テスト対象の実行 */
-        final DailyTaskIssue testResult = CarryoverDtoConverterTest.createTarget().toDailyTaskIssue(testDto);
-
-        /* 検証の準備 */
-        final int actualNumber = testResult.getNumber();
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedNumber, actualNumber, "Issue 番号が一致しません");
+        final DailySummary day = new DailySummary("2026-10-06", 371, 1);
+        day.add(CarryoverDtoConverterTest.createIssue().getItems().get(0));
+        final CarryoverSummary result = new CarryoverSummary(371, List.of("音楽"), List.of(day));
+        return result;
 
     }
 
     /**
-     * toDailyTaskIssue メソッドのテスト - 正常系:本文を引き継ぐ場合
+     * テスト対象を作成する<br>
+     *
+     * @return テスト対象
      */
-    @Test
-    public void testToDailyTaskIssue_normalBody() {
+    private static CarryoverDtoConverter createTarget() {
 
-        /* 期待値の定義 */
-        final String expectedBody = "本文";
-
-        /* 準備 */
-        final GitHubIssueDto testDto = new GitHubIssueDto(371, "2026年10月06日のタスク", "open", "2026-10-06T14:23:08Z",
-            "本文");
-
-        /* テスト対象の実行 */
-        final DailyTaskIssue testResult = CarryoverDtoConverterTest.createTarget().toDailyTaskIssue(testDto);
-
-        /* 検証の準備 */
-        final String actualBody = testResult.getBody();
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedBody, actualBody, "本文が一致しません");
-
-    }
-
-    /**
-     * toDefaultMinutes メソッドのテスト - 正常系:登録済みの標準時間を返す場合
-     */
-    @Test
-    public void testToDefaultMinutes_normalFind() {
-
-        /* 期待値の定義 */
-        final Double expectedMinutes = Double.valueOf(15.0);
-
-        /* 準備 */
-        final Map<String, Double> testMinutesByName = Map.of("音楽", Double.valueOf(15.0));
-
-        /* テスト対象の実行 */
-        final DefaultMinutes testResult = CarryoverDtoConverterTest.createTarget().toDefaultMinutes(testMinutesByName);
-
-        /* 検証の準備 */
-        final Double actualMinutes = testResult.find("音楽");
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedMinutes, actualMinutes, "標準時間が一致しません");
+        final CarryoverDtoConverter result = new CarryoverDtoConverter(MessageProviderTestUtil.create());
+        return result;
 
     }
 
@@ -274,6 +214,56 @@ public class CarryoverDtoConverterTest {
     }
 
     /**
+     * toCarryoverSummaryDto メソッドのテスト - 正常系:項目ごとの集計を変換する場合
+     */
+    @Test
+    public void testToCarryoverSummaryDto_normalByItem() {
+
+        /* 期待値の定義 */
+        final int expectedCheckedCount = 1;
+
+        /* 準備 */
+        final CarryoverSummary testSummary = CarryoverDtoConverterTest.createSummary();
+
+        /* テスト対象の実行 */
+        final CarryoverSummaryDto testResult
+            = CarryoverDtoConverterTest.createTarget().toCarryoverSummaryDto(testSummary);
+
+        /* 検証の準備 */
+        final DailySummaryDto actualDay          = testResult.getDays().get(0);
+        final int             actualCheckedCount = actualDay.getByItem().get("音楽").getCheckedCount();
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedCheckedCount, actualCheckedCount, "項目ごとのチェック済み件数が一致しません");
+
+    }
+
+    /**
+     * toCarryoverSummaryDto メソッドのテスト - 正常系:持ち越し元の月ごとの集計を変換する場合
+     */
+    @Test
+    public void testToCarryoverSummaryDto_normalByOriginMonth() {
+
+        /* 期待値の定義 */
+        final int expectedCount = 1;
+
+        /* 準備 */
+        final CarryoverSummary testSummary = CarryoverDtoConverterTest.createSummary();
+
+        /* テスト対象の実行 */
+        final CarryoverSummaryDto testResult
+            = CarryoverDtoConverterTest.createTarget().toCarryoverSummaryDto(testSummary);
+
+        /* 検証の準備 */
+        final DailySummaryDto actualDay   = testResult.getDays().get(0);
+        final int             actualCount = actualDay.getByOriginMonth().get("2026-08").getCount();
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedCount, actualCount, "持ち越し元の月ごとの件数が一致しません");
+
+    }
+
+    /**
      * toCarryoverSummaryDto メソッドのテスト - 正常系:最新の Issue 番号を引き継ぐ場合
      */
     @Test
@@ -286,7 +276,8 @@ public class CarryoverDtoConverterTest {
         final CarryoverSummary testSummary = CarryoverDtoConverterTest.createSummary();
 
         /* テスト対象の実行 */
-        final CarryoverSummaryDto testResult = CarryoverDtoConverterTest.createTarget().toCarryoverSummaryDto(testSummary);
+        final CarryoverSummaryDto testResult
+            = CarryoverDtoConverterTest.createTarget().toCarryoverSummaryDto(testSummary);
 
         /* 検証の準備 */
         final int actualLatestIssue = testResult.getLatestIssue();
@@ -309,11 +300,12 @@ public class CarryoverDtoConverterTest {
         final CarryoverSummary testSummary = CarryoverDtoConverterTest.createSummary();
 
         /* テスト対象の実行 */
-        final CarryoverSummaryDto testResult = CarryoverDtoConverterTest.createTarget().toCarryoverSummaryDto(testSummary);
+        final CarryoverSummaryDto testResult
+            = CarryoverDtoConverterTest.createTarget().toCarryoverSummaryDto(testSummary);
 
         /* 検証の準備 */
-        final ItemStatDto actualTotal = testResult.getDays().get(0).getTotal();
-        final double actualMinutes = actualTotal.getMinutes();
+        final ItemStatDto actualTotal   = testResult.getDays().get(0).getTotal();
+        final double      actualMinutes = actualTotal.getMinutes();
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedMinutes, actualMinutes, "全体の残り時間が一致しません");
@@ -321,109 +313,119 @@ public class CarryoverDtoConverterTest {
     }
 
     /**
-     * toCarryoverSummaryDto メソッドのテスト - 正常系:項目ごとの集計を変換する場合
+     * toDailyTaskIssue メソッドのテスト - 正常系:本文を引き継ぐ場合
      */
     @Test
-    public void testToCarryoverSummaryDto_normalByItem() {
+    public void testToDailyTaskIssue_normalBody() {
 
         /* 期待値の定義 */
-        final int expectedCheckedCount = 1;
+        final String expectedBody = "本文";
 
         /* 準備 */
-        final CarryoverSummary testSummary = CarryoverDtoConverterTest.createSummary();
+        final GitHubIssueDto testDto = new GitHubIssueDto(371, "2026年10月06日のタスク", "open", "2026-10-06T14:23:08Z", "本文");
 
         /* テスト対象の実行 */
-        final CarryoverSummaryDto testResult = CarryoverDtoConverterTest.createTarget().toCarryoverSummaryDto(testSummary);
+        final DailyTaskIssue testResult = CarryoverDtoConverterTest.createTarget().toDailyTaskIssue(testDto);
 
         /* 検証の準備 */
-        final DailySummaryDto actualDay = testResult.getDays().get(0);
-        final int actualCheckedCount = actualDay.getByItem().get("音楽").getCheckedCount();
+        final String actualBody = testResult.getBody();
 
         /* 検証の実施 */
-        Assertions.assertEquals(expectedCheckedCount, actualCheckedCount, "項目ごとのチェック済み件数が一致しません");
+        Assertions.assertEquals(expectedBody, actualBody, "本文が一致しません");
 
     }
 
     /**
-     * toCarryoverSummaryDto メソッドのテスト - 正常系:持ち越し元の月ごとの集計を変換する場合
+     * toDailyTaskIssue メソッドのテスト - 正常系:Issue 番号を引き継ぐ場合
      */
     @Test
-    public void testToCarryoverSummaryDto_normalByOriginMonth() {
+    public void testToDailyTaskIssue_normalNumber() {
 
         /* 期待値の定義 */
-        final int expectedCount = 1;
+        final int expectedNumber = 371;
 
         /* 準備 */
-        final CarryoverSummary testSummary = CarryoverDtoConverterTest.createSummary();
+        final GitHubIssueDto testDto = new GitHubIssueDto(371, "2026年10月06日のタスク", "open", "2026-10-06T14:23:08Z", "本文");
 
         /* テスト対象の実行 */
-        final CarryoverSummaryDto testResult = CarryoverDtoConverterTest.createTarget().toCarryoverSummaryDto(testSummary);
+        final DailyTaskIssue testResult = CarryoverDtoConverterTest.createTarget().toDailyTaskIssue(testDto);
 
         /* 検証の準備 */
-        final DailySummaryDto actualDay = testResult.getDays().get(0);
-        final int actualCount = actualDay.getByOriginMonth().get("2026-08").getCount();
+        final int actualNumber = testResult.getNumber();
 
         /* 検証の実施 */
-        Assertions.assertEquals(expectedCount, actualCount, "持ち越し元の月ごとの件数が一致しません");
+        Assertions.assertEquals(expectedNumber, actualNumber, "Issue 番号が一致しません");
 
     }
 
     /**
-     * テスト対象を作成する<br>
-     *
-     * @return テスト対象
+     * toDefaultMinutes メソッドのテスト - 正常系:登録済みの標準時間を返す場合
      */
-    private static CarryoverDtoConverter createTarget() {
+    @Test
+    public void testToDefaultMinutes_normalFind() {
 
-        final CarryoverDtoConverter result = new CarryoverDtoConverter(MessageProviderTestUtil.create());
-        return result;
+        /* 期待値の定義 */
+        final Double expectedMinutes = 15.0;
+
+        /* 準備 */
+        final Map<String, Double> testMinutesByName = Map.of("音楽", 15.0);
+
+        /* テスト対象の実行 */
+        final DefaultMinutes testResult = CarryoverDtoConverterTest.createTarget().toDefaultMinutes(testMinutesByName);
+
+        /* 検証の準備 */
+        final Double actualMinutes = testResult.find("音楽");
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedMinutes, actualMinutes, "標準時間が一致しません");
 
     }
 
     /**
-     * 保存済みの解析結果を作成する<br>
-     *
-     * @param minutesSource
-     *                      残り時間の取得元の値
-     *
-     * @return 保存済みの解析結果
+     * toGitHubSettingsDto メソッドのテスト - 正常系:リポジトリ名を引き継ぐ場合
      */
-    private static CarryoverIssueDto createIssueDto(final String minutesSource) {
+    @Test
+    public void testToGitHubSettingsDto_normalRepository() {
 
-        final CarryoverItemDto item = new CarryoverItemDto("国語", "2026-06-18", false, 15.0, minutesSource, "持ち越し",
-            "- [ ] 国語2026/06/18");
-        final CarryoverIssueDto result = new CarryoverIssueDto(371, "2026年10月06日のタスク", "2026-10-06", "open",
-            "2026-10-06T14:23:08Z", List.of("持ち越し"), Integer.valueOf(1), 1, 15.0, List.of(item));
-        return result;
+        /* 期待値の定義 */
+        final String expectedRepository = "owner/repo";
+
+        /* 準備 */
+        final CarryoverSource testSource = new CarryoverSource("owner/repo", "test-token", Path.of("docs", "data"),
+            Path.of("config", "default-minutes.json"));
+
+        /* テスト対象の実行 */
+        final GitHubSettingsDto testResult = CarryoverDtoConverterTest.createTarget().toGitHubSettingsDto(testSource);
+
+        /* 検証の準備 */
+        final String actualRepository = testResult.getRepository();
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedRepository, actualRepository, "リポジトリ名が一致しません");
 
     }
 
     /**
-     * 持ち越しの解析結果を作成する<br>
-     *
-     * @return 持ち越しの解析結果
+     * toGitHubSettingsDto メソッドのテスト - 正常系:トークンを引き継ぐ場合
      */
-    private static CarryoverIssue createIssue() {
+    @Test
+    public void testToGitHubSettingsDto_normalToken() {
 
-        final CarryoverItem item = new CarryoverItem("音楽", "2026-08-18", true, 11.5, MinutesSource.PARSED, "持ち越し",
-            "- [x] 音楽2026/08/18（残り時間：11.5分）");
-        final CarryoverIssue result = new CarryoverIssue(371, "2026年10月06日のタスク", "2026-10-06", "open",
-            "2026-10-06T14:23:08Z", List.of("持ち越し"), Integer.valueOf(1), List.of(item));
-        return result;
+        /* 期待値の定義 */
+        final String expectedToken = "test-token";
 
-    }
+        /* 準備 */
+        final CarryoverSource testSource = new CarryoverSource("owner/repo", "test-token", Path.of("docs", "data"),
+            Path.of("config", "default-minutes.json"));
 
-    /**
-     * 画面用の集計を作成する<br>
-     *
-     * @return 画面用の集計
-     */
-    private static CarryoverSummary createSummary() {
+        /* テスト対象の実行 */
+        final GitHubSettingsDto testResult = CarryoverDtoConverterTest.createTarget().toGitHubSettingsDto(testSource);
 
-        final DailySummary day = new DailySummary("2026-10-06", 371, Integer.valueOf(1));
-        day.add(CarryoverDtoConverterTest.createIssue().getItems().get(0));
-        final CarryoverSummary result = new CarryoverSummary(371, List.of("音楽"), List.of(day));
-        return result;
+        /* 検証の準備 */
+        final String actualToken = testResult.getToken();
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedToken, actualToken, "トークンが一致しません");
 
     }
 

@@ -30,6 +30,29 @@ public class GitHubIssueDtoTest {
     }
 
     /**
+     * getBody メソッドのテスト - 正常系:本文を返す場合
+     */
+    @Test
+    public void testGetBody_normalValue() {
+
+        /* 期待値の定義 */
+        final String expectedBody = "本文";
+
+        /* 準備 */
+        final GitHubIssueDto testTarget = GitHubIssueDtoTest.createTarget();
+
+        /* テスト対象の実行 */
+        final String testResult = testTarget.getBody();
+
+        /* 検証の準備 */
+        final String actualBody = testResult;
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedBody, actualBody, "本文が一致しません");
+
+    }
+
+    /**
      * getNumber メソッドのテスト - 正常系:Issue 番号を返す場合
      */
     @Test
@@ -49,29 +72,6 @@ public class GitHubIssueDtoTest {
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedNumber, actualNumber, "Issue 番号が一致しません");
-
-    }
-
-    /**
-     * getTitle メソッドのテスト - 正常系:タイトルを返す場合
-     */
-    @Test
-    public void testGetTitle_normalValue() {
-
-        /* 期待値の定義 */
-        final String expectedTitle = "2026年10月06日のタスク";
-
-        /* 準備 */
-        final GitHubIssueDto testTarget = GitHubIssueDtoTest.createTarget();
-
-        /* テスト対象の実行 */
-        final String testResult = testTarget.getTitle();
-
-        /* 検証の準備 */
-        final String actualTitle = testResult;
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedTitle, actualTitle, "タイトルが一致しません");
 
     }
 
@@ -99,6 +99,29 @@ public class GitHubIssueDtoTest {
     }
 
     /**
+     * getTitle メソッドのテスト - 正常系:タイトルを返す場合
+     */
+    @Test
+    public void testGetTitle_normalValue() {
+
+        /* 期待値の定義 */
+        final String expectedTitle = "2026年10月06日のタスク";
+
+        /* 準備 */
+        final GitHubIssueDto testTarget = GitHubIssueDtoTest.createTarget();
+
+        /* テスト対象の実行 */
+        final String testResult = testTarget.getTitle();
+
+        /* 検証の準備 */
+        final String actualTitle = testResult;
+
+        /* 検証の実施 */
+        Assertions.assertEquals(expectedTitle, actualTitle, "タイトルが一致しません");
+
+    }
+
+    /**
      * getUpdatedAt メソッドのテスト - 正常系:更新日時を返す場合
      */
     @Test
@@ -118,29 +141,6 @@ public class GitHubIssueDtoTest {
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedUpdatedAt, actualUpdatedAt, "更新日時が一致しません");
-
-    }
-
-    /**
-     * getBody メソッドのテスト - 正常系:本文を返す場合
-     */
-    @Test
-    public void testGetBody_normalValue() {
-
-        /* 期待値の定義 */
-        final String expectedBody = "本文";
-
-        /* 準備 */
-        final GitHubIssueDto testTarget = GitHubIssueDtoTest.createTarget();
-
-        /* テスト対象の実行 */
-        final String testResult = testTarget.getBody();
-
-        /* 検証の準備 */
-        final String actualBody = testResult;
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedBody, actualBody, "本文が一致しません");
 
     }
 

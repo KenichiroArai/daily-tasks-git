@@ -34,8 +34,8 @@ public class DailyTasksApplicationTest {
         final String expectedPrefix = "使い方: java -jar daily-tasks-0.1.0.jar";
 
         /* 準備 */
-        final PrintStream testOriginalOut = System.out;
-        final ByteArrayOutputStream testOutput = new ByteArrayOutputStream();
+        final PrintStream           testOriginalOut = System.out;
+        final ByteArrayOutputStream testOutput      = new ByteArrayOutputStream();
 
         try {
 

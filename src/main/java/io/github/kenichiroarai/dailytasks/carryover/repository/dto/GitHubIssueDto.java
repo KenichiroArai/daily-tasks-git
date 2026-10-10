@@ -62,6 +62,18 @@ public class GitHubIssueDto {
     }
 
     /**
+     * Issue 本文を返す<br>
+     *
+     * @return Issue 本文
+     */
+    public String getBody() {
+
+        final String result = this.body;
+        return result;
+
+    }
+
+    /**
      * Issue 番号を返す<br>
      *
      * @return Issue 番号
@@ -69,18 +81,6 @@ public class GitHubIssueDto {
     public int getNumber() {
 
         final int result = this.number;
-        return result;
-
-    }
-
-    /**
-     * Issue タイトルを返す<br>
-     *
-     * @return Issue タイトル
-     */
-    public String getTitle() {
-
-        final String result = this.title;
         return result;
 
     }
@@ -98,6 +98,18 @@ public class GitHubIssueDto {
     }
 
     /**
+     * Issue タイトルを返す<br>
+     *
+     * @return Issue タイトル
+     */
+    public String getTitle() {
+
+        final String result = this.title;
+        return result;
+
+    }
+
+    /**
      * Issue の更新日時を返す<br>
      *
      * @return Issue の更新日時（ISO-8601）
@@ -105,18 +117,6 @@ public class GitHubIssueDto {
     public String getUpdatedAt() {
 
         final String result = this.updatedAt;
-        return result;
-
-    }
-
-    /**
-     * Issue 本文を返す<br>
-     *
-     * @return Issue 本文
-     */
-    public String getBody() {
-
-        final String result = this.body;
         return result;
 
     }

@@ -30,23 +30,6 @@ public enum MinutesSource {
     ;
 
     /**
-     * 保存するときの値
-     */
-    private final String value;
-
-    /**
-     * コンストラクタ<br>
-     *
-     * @param value
-     *              保存するときの値
-     */
-    private MinutesSource(final String value) {
-
-        this.value = value;
-
-    }
-
-    /**
      * 保存するときの値から残り時間の取得元を返す<br>
      *
      * @param value
@@ -72,6 +55,23 @@ public enum MinutesSource {
         }
 
         return result;
+
+    }
+
+    /**
+     * 保存するときの値
+     */
+    private final String value;
+
+    /**
+     * コンストラクタ<br>
+     *
+     * @param value
+     *              保存するときの値
+     */
+    MinutesSource(final String value) {
+
+        this.value = value;
 
     }
 
