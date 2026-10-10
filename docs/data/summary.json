@@ -1,5 +1,5 @@
 {
-  "latestIssue": 374,
+  "latestIssue": 375,
   "items": [
     "英語",
     "国語",
@@ -14966,9 +14966,9 @@
       "declaredCount": 62,
       "total": {
         "count": 62,
-        "minutes": 1280.5,
-        "checkedCount": 2,
-        "checkedMinutes": 17.0
+        "minutes": 1230.0,
+        "checkedCount": 5,
+        "checkedMinutes": 57.5
       },
       "byItem": {
         "3教科以外": {
@@ -14979,9 +14979,9 @@
         },
         "IT・技術学習": {
           "count": 6,
-          "minutes": 135.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "minutes": 124.0,
+          "checkedCount": 2,
+          "checkedMinutes": 37.0
         },
         "国語": {
           "count": 5,
@@ -14997,9 +14997,9 @@
         },
         "汎用タスク": {
           "count": 14,
-          "minutes": 553.5,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "minutes": 514.0,
+          "checkedCount": 1,
+          "checkedMinutes": 3.5
         },
         "漢字検定": {
           "count": 1,
@@ -15029,13 +15029,94 @@
         },
         "2026-09": {
           "count": 41,
-          "minutes": 949.5,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "minutes": 899.0,
+          "checkedCount": 3,
+          "checkedMinutes": 40.5
         },
         "2026-10": {
           "count": 6,
           "minutes": 131.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      }
+    },
+    {
+      "date": "2026-10-10",
+      "issue": 375,
+      "declaredCount": 58,
+      "total": {
+        "count": 58,
+        "minutes": 1174.5,
+        "checkedCount": 1,
+        "checkedMinutes": 8.0
+      },
+      "byItem": {
+        "3教科以外": {
+          "count": 2,
+          "minutes": 30.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "IT・技術学習": {
+          "count": 4,
+          "minutes": 87.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "国語": {
+          "count": 5,
+          "minutes": 70.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "本読書": {
+          "count": 3,
+          "minutes": 34.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "汎用タスク": {
+          "count": 13,
+          "minutes": 510.5,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "漢字検定": {
+          "count": 1,
+          "minutes": 15.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "英語": {
+          "count": 2,
+          "minutes": 22.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "音楽": {
+          "count": 28,
+          "minutes": 406.0,
+          "checkedCount": 1,
+          "checkedMinutes": 8.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-08": {
+          "count": 13,
+          "minutes": 170.0,
+          "checkedCount": 1,
+          "checkedMinutes": 8.0
+        },
+        "2026-09": {
+          "count": 38,
+          "minutes": 858.5,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "2026-10": {
+          "count": 7,
+          "minutes": 146.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         }
