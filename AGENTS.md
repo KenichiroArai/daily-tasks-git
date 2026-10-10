@@ -34,8 +34,8 @@ src/main/java/io/github/kenichiroarai/dailytasks/
   DailyTasksApplication.java # 起動クラス（Spring Boot を起動するだけ）
   carryover/                 # 機能パッケージ（持ち越しの収集・集計）
     presentation/            # CLI などの入出力層
-      command/               # コマンドのインタフェース
-      command/impl/          # コマンドの実装（CommandLineRunner。引数の解析、設定値の作成）
+      command/               # コマンドのインタフェース（CommandLineRunner を継承）
+      command/impl/          # コマンドの実装（run で引数の解析、設定値の作成）
       config/                # 設定ファイルの値（@ConfigurationProperties の CarryoverProperties）
       model/                 # 引数を解析したオプション（CarryoverOptions）
     application/             # ユースケースや業務ロジック層

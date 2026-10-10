@@ -1,9 +1,12 @@
 package io.github.kenichiroarai.dailytasks.carryover.presentation.command;
 
-import java.io.IOException;
+import org.springframework.boot.CommandLineRunner;
 
 /**
  * 持ち越しの収集コマンド<br>
+ * <p>
+ * Spring Boot の起動後に {@link CommandLineRunner#run(String...)} として実行される。
+ * </p>
  * <p>
  * 引数：
  * </p>
@@ -19,21 +22,6 @@ import java.io.IOException;
  *
  * @version 0.1.0
  */
-public interface CarryoverCommand {
-
-    /**
-     * コマンドを実行する<br>
-     *
-     * @param args
-     *             コマンドライン引数
-     *
-     * @return 解析して保存した Issue の件数。使い方を表示した場合は 0
-     *
-     * @throws IOException
-     *                                  取得、読み込みまたは書き込みに失敗した場合
-     * @throws IllegalArgumentException
-     *                                  不明な引数が指定された場合
-     */
-    int execute(String[] args) throws IOException;
-
+public interface CarryoverCommand extends CommandLineRunner {
+    // メソッドは CommandLineRunner から継承する
 }

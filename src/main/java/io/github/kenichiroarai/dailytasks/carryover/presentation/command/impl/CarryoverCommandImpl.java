@@ -30,7 +30,7 @@ import io.github.kenichiroarai.dailytasks.carryover.presentation.model.Carryover
  */
 @SuppressWarnings("nls")
 @Component
-public class CarryoverCommandImpl implements CarryoverCommand, CommandLineRunner {
+public class CarryoverCommandImpl implements CarryoverCommand {
 
     /**
      * メッセージのキー：使い方
@@ -140,12 +140,10 @@ public class CarryoverCommandImpl implements CarryoverCommand, CommandLineRunner
     }
 
     /**
-     * コマンドを実行する<br>
+     * Spring Boot の起動後にコマンドを実行する<br>
      *
      * @param args
      *             コマンドライン引数
-     *
-     * @return 解析して保存した Issue の件数。使い方を表示した場合は 0
      *
      * @throws IOException
      *                                  取得、読み込みまたは書き込みに失敗した場合
@@ -153,9 +151,7 @@ public class CarryoverCommandImpl implements CarryoverCommand, CommandLineRunner
      *                                  不明な引数が指定された場合
      */
     @Override
-    public int execute(final String[] args) throws IOException {
-
-        int result = 0;
+    public void run(final String... args) throws IOException {
 
         /* 引数の解析 */
         final CarryoverOptions options = this.parseArgs(args);
@@ -165,14 +161,13 @@ public class CarryoverCommandImpl implements CarryoverCommand, CommandLineRunner
 
             final String usage = this.messageProvider.get(CarryoverCommandImpl.MSG_USAGE);
             this.out.println(usage);
-            return result;
+            return;
 
         }
 
         /* 収集の実行 */
         final CarryoverSettings settings = CarryoverCommandImpl.createSettings(this.properties);
-        result = this.carryoverService.collect(settings, options.isFull());
-        return result;
+        this.carryoverService.collect(settings, options.isFull());
 
     }
 
@@ -212,24 +207,6 @@ public class CarryoverCommandImpl implements CarryoverCommand, CommandLineRunner
         }
 
         return result;
-
-    }
-
-    /**
-     * Spring Boot の起動後にコマンドを実行する<br>
-     *
-     * @param args
-     *             コマンドライン引数
-     *
-     * @throws IOException
-     *                                  取得、読み込みまたは書き込みに失敗した場合
-     * @throws IllegalArgumentException
-     *                                  不明な引数が指定された場合
-     */
-    @Override
-    public void run(final String... args) throws IOException {
-
-        this.execute(args);
 
     }
 
