@@ -3,20 +3,23 @@ package io.github.kenichiroarai.dailytasks.carryover.presentation.command.impl;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Path;
-import java.util.Properties;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSettings;
 import io.github.kenichiroarai.dailytasks.carryover.application.service.CarryoverService;
-import io.github.kenichiroarai.dailytasks.carryover.application.service.impl.CarryoverServiceImpl;
-import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageUtil;
-import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.PropertiesUtil;
+import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageProvider;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.command.CarryoverCommand;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.config.CarryoverProperties;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverOptions;
 
 /**
  * 持ち越しの収集コマンドの実装<br>
  * <p>
- * 入力の窓口として、設定ファイル（application.properties）と環境変数から設定を作り、application 層へ引き継ぐ。リポジトリのルートをカレントディレクトリとして実行する。
+ * 入力の窓口として、設定ファイル（application.properties）の値とコマンドライン引数から設定を作り、application 層へ引き継ぐ。Spring Boot
+ * の起動後に {@link CommandLineRunner} として実行される。リポジトリのルートをカレントディレクトリとして実行する。
  * </p>
  *
  * @author KenichiroArai
@@ -26,42 +29,8 @@ import io.github.kenichiroarai.dailytasks.carryover.presentation.model.Carryover
  * @version 0.1.0
  */
 @SuppressWarnings("nls")
-public class CarryoverCommandImpl implements CarryoverCommand {
-
-    /**
-     * 設定ファイルのリソース名
-     */
-    private static final String CONFIG_FILE = "application.properties";
-
-    /**
-     * 設定のキー：対象リポジトリ
-     */
-    private static final String KEY_REPOSITORY = "carryover.repository";
-
-    /**
-     * 設定のキー：GitHub API のトークンを設定する環境変数名
-     */
-    private static final String KEY_TOKEN_ENV = "carryover.tokenEnv";
-
-    /**
-     * 設定のキー：出力先のディレクトリ
-     */
-    private static final String KEY_DATA_DIR = "carryover.dataDir";
-
-    /**
-     * 設定のキー：標準時間の設定ファイル
-     */
-    private static final String KEY_DEFAULT_MINUTES_FILE = "carryover.defaultMinutesFile";
-
-    /**
-     * 設定のキー：差分モードで更新日時に関係なく解析し直す最新の Issue の件数
-     */
-    private static final String KEY_RECENT_COUNT = "carryover.recentCount";
-
-    /**
-     * メッセージのバンドル名
-     */
-    private static final String MESSAGES = "messages";
+@Component
+public class CarryoverCommandImpl implements CarryoverCommand, CommandLineRunner {
 
     /**
      * メッセージのキー：使い方
@@ -94,6 +63,16 @@ public class CarryoverCommandImpl implements CarryoverCommand {
     private final CarryoverService carryoverService;
 
     /**
+     * 設定ファイルの値
+     */
+    private final CarryoverProperties properties;
+
+    /**
+     * メッセージの取得
+     */
+    private final MessageProvider messageProvider;
+
+    /**
      * 使い方の出力先
      */
     private final PrintStream out;
@@ -101,38 +80,61 @@ public class CarryoverCommandImpl implements CarryoverCommand {
     /**
      * コンストラクタ<br>
      * <p>
-     * 設定ファイルと環境変数から設定を作り、application 層の実装を生成する。
+     * 使い方は標準出力に出す。
      * </p>
      *
-     * @param out
-     *            使い方の出力先
-     *
-     * @throws IOException
-     *                     設定ファイルまたは標準時間の読み込みに失敗した場合
+     * @param carryoverService
+     *                         持ち越しの収集・集計サービス
+     * @param properties
+     *                         設定ファイルの値
+     * @param messageProvider
+     *                         メッセージの取得
      */
-    public CarryoverCommandImpl(final PrintStream out) throws IOException {
+    @Autowired
+    public CarryoverCommandImpl(final CarryoverService carryoverService, final CarryoverProperties properties,
+        final MessageProvider messageProvider) {
 
-        final Properties config = PropertiesUtil.load(CarryoverCommandImpl.CONFIG_FILE);
-        final String tokenEnv = config.getProperty(CarryoverCommandImpl.KEY_TOKEN_ENV);
-        final String token = System.getenv(tokenEnv);
-        final CarryoverSettings settings = CarryoverCommandImpl.createSettings(config, token);
-        final CarryoverService service = new CarryoverServiceImpl(settings);
-        this(service, out);
+        this(carryoverService, properties, messageProvider, System.out);
 
     }
 
     /**
-     * サービスを指定するコンストラクタ<br>
+     * 使い方の出力先を指定するコンストラクタ<br>
      *
      * @param carryoverService
      *                         持ち越しの収集・集計サービス
+     * @param properties
+     *                         設定ファイルの値
+     * @param messageProvider
+     *                         メッセージの取得
      * @param out
      *                         使い方の出力先
      */
-    public CarryoverCommandImpl(final CarryoverService carryoverService, final PrintStream out) {
+    public CarryoverCommandImpl(final CarryoverService carryoverService, final CarryoverProperties properties,
+        final MessageProvider messageProvider, final PrintStream out) {
 
         this.carryoverService = carryoverService;
+        this.properties = properties;
+        this.messageProvider = messageProvider;
         this.out = out;
+
+    }
+
+    /**
+     * Spring Boot の起動後にコマンドを実行する<br>
+     *
+     * @param args
+     *             コマンドライン引数
+     *
+     * @throws IOException
+     *                                  取得、読み込みまたは書き込みに失敗した場合
+     * @throws IllegalArgumentException
+     *                                  不明な引数が指定された場合
+     */
+    @Override
+    public void run(final String... args) throws IOException {
+
+        this.execute(args);
 
     }
 
@@ -155,19 +157,20 @@ public class CarryoverCommandImpl implements CarryoverCommand {
         int result = 0;
 
         /* 引数の解析 */
-        final CarryoverOptions options = CarryoverCommandImpl.parseArgs(args);
+        final CarryoverOptions options = this.parseArgs(args);
 
         /* 使い方の表示 */
         if (options.isHelp()) {
 
-            final String usage = MessageUtil.get(CarryoverCommandImpl.MESSAGES, CarryoverCommandImpl.MSG_USAGE);
+            final String usage = this.messageProvider.get(CarryoverCommandImpl.MSG_USAGE);
             this.out.println(usage);
             return result;
 
         }
 
         /* 収集の実行 */
-        result = this.carryoverService.collect(options.isFull());
+        final CarryoverSettings settings = CarryoverCommandImpl.createSettings(this.properties);
+        result = this.carryoverService.collect(settings, options.isFull());
         return result;
 
     }
@@ -183,7 +186,7 @@ public class CarryoverCommandImpl implements CarryoverCommand {
      * @throws IllegalArgumentException
      *                                  不明な引数が指定された場合
      */
-    private static CarryoverOptions parseArgs(final String[] args) {
+    private CarryoverOptions parseArgs(final String[] args) {
 
         final CarryoverOptions result = new CarryoverOptions();
 
@@ -197,8 +200,7 @@ public class CarryoverCommandImpl implements CarryoverCommand {
 
                 default -> {
 
-                    final String template = MessageUtil.get(CarryoverCommandImpl.MESSAGES,
-                        CarryoverCommandImpl.MSG_UNKNOWN_ARGUMENT);
+                    final String template = this.messageProvider.get(CarryoverCommandImpl.MSG_UNKNOWN_ARGUMENT);
                     final String message = String.format(template, arg);
                     throw new IllegalArgumentException(message);
 
@@ -213,27 +215,20 @@ public class CarryoverCommandImpl implements CarryoverCommand {
     }
 
     /**
-     * application 層に引き継ぐ設定を作る<br>
+     * 設定ファイルの値から application 層に引き継ぐ設定を作る<br>
      *
-     * @param config
-     *               設定ファイルの内容
-     * @param token
-     *               GitHub API のトークン。未指定の場合は null
+     * @param properties
+     *                   設定ファイルの値
      *
      * @return 持ち越しの収集・集計の設定
      */
-    private static CarryoverSettings createSettings(final Properties config, final String token) {
+    private static CarryoverSettings createSettings(final CarryoverProperties properties) {
 
-        final String repository = config.getProperty(CarryoverCommandImpl.KEY_REPOSITORY);
-        final String dataDirValue = config.getProperty(CarryoverCommandImpl.KEY_DATA_DIR);
-        final Path dataDir = Path.of(dataDirValue);
-        final String defaultMinutesFileValue = config.getProperty(CarryoverCommandImpl.KEY_DEFAULT_MINUTES_FILE);
-        final Path defaultMinutesFile = Path.of(defaultMinutesFileValue);
-        final String recentCountValue = config.getProperty(CarryoverCommandImpl.KEY_RECENT_COUNT);
-        final int recentCount = Integer.parseInt(recentCountValue);
+        final Path dataDir = Path.of(properties.getDataDir());
+        final Path defaultMinutesFile = Path.of(properties.getDefaultMinutesFile());
 
-        final CarryoverSettings result = new CarryoverSettings(repository, token, dataDir, defaultMinutesFile,
-            recentCount);
+        final CarryoverSettings result = new CarryoverSettings(properties.getRepository(), properties.getToken(),
+            dataDir, defaultMinutesFile, properties.getRecentCount());
         return result;
 
     }

@@ -31,7 +31,7 @@ URL パラメータで初期表示を指定できます（例: `?view=monthlyIte
 
 ## 構成
 
-- 収集ツール（Java 25 / Maven）: `src/main/java/io/github/kenichiroarai/dailytasks/`
+- 収集ツール（Java 25 / Maven / Spring Boot 4 / Jackson 3）: `src/main/java/io/github/kenichiroarai/dailytasks/`
   - GitHub REST API で全 Issue を取得し、解析して `docs/data/` に JSON を出力します。
 - 画面（Next.js + TypeScript + Recharts）: [`frontend/`](frontend/)
   - 静的エクスポート（`frontend/out`）を GitHub Pages に公開します。
@@ -69,7 +69,8 @@ npm run build
 
 - 環境変数 `GITHUB_TOKEN` を設定すると GitHub API の認証に使います（未設定でも公開リポジトリなら動きます）。
 - 解析ルールや標準時間を変えたときは、全件モードで JSON を作り直してください。
-- 対象リポジトリ・出力先・標準時間の設定ファイル・毎回解析し直す最新の件数・トークンの環境変数名は [`src/main/resources/application.properties`](src/main/resources/application.properties)、使い方やログ・例外のメッセージは [`src/main/resources/messages.properties`](src/main/resources/messages.properties) で管理しています（変更後は jar を作り直してください）。
+- 対象リポジトリ・トークン（`${GITHUB_TOKEN:}`）・出力先・標準時間の設定ファイル・毎回解析し直す最新の件数は [`src/main/resources/application.properties`](src/main/resources/application.properties) の `carryover.*`、使い方やログ・例外のメッセージは [`src/main/resources/messages.properties`](src/main/resources/messages.properties) で管理しています。
+- 設定値は Spring Boot の仕組みにより環境変数で上書きできます（例: `CARRYOVER_RECENTCOUNT=20`）。コマンドライン引数は `--full` と `--help` だけを受け付けます。
 
 ## 初回のセットアップ（GitHub Pages）
 

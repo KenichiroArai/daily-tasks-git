@@ -2,6 +2,9 @@ package io.github.kenichiroarai.dailytasks;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaClass;
@@ -141,6 +144,71 @@ public class ArchitectureTest {
             .areNotAnonymousClasses().should().haveRawParameterTypes(DescribedPredicate.describe("impl のクラスを含む",
                 parameters -> parameters.stream()
                     .anyMatch(JavaClass.Predicates.resideInAPackage("..impl..")::test)));
+
+        /* テスト対象の実行 */
+        testRule.check(ArchitectureTest.classes);
+
+        /* 検証の準備 */
+
+        /* 検証の実施 */
+        // 違反があれば check が AssertionError を投げる
+
+    }
+
+    /**
+     * DI のテスト - 正常系:フィールドインジェクションを使っていない場合
+     */
+    @Test
+    public void testInjection_normalNoFieldInjection() {
+
+        /* 期待値の定義 */
+
+        /* 準備 */
+        final ArchRule testRule = ArchRuleDefinition.noFields().should().beAnnotatedWith(Autowired.class);
+
+        /* テスト対象の実行 */
+        testRule.check(ArchitectureTest.classes);
+
+        /* 検証の準備 */
+
+        /* 検証の実施 */
+        // 違反があれば check が AssertionError を投げる
+
+    }
+
+    /**
+     * 設定値のテスト - 正常系:@Value で設定値を個別に取得していない場合
+     */
+    @Test
+    public void testSettings_normalNoValueAnnotation() {
+
+        /* 期待値の定義 */
+
+        /* 準備 */
+        final ArchRule testRule = ArchRuleDefinition.noClasses().should().dependOnClassesThat()
+            .areAssignableTo(Value.class);
+
+        /* テスト対象の実行 */
+        testRule.check(ArchitectureTest.classes);
+
+        /* 検証の準備 */
+
+        /* 検証の実施 */
+        // 違反があれば check が AssertionError を投げる
+
+    }
+
+    /**
+     * 設定値のテスト - 正常系:設定ファイルを受け取るクラスが presentation 層だけにある場合
+     */
+    @Test
+    public void testSettings_normalPropertiesOnlyPresentation() {
+
+        /* 期待値の定義 */
+
+        /* 準備 */
+        final ArchRule testRule = ArchRuleDefinition.classes().that().areAnnotatedWith(ConfigurationProperties.class)
+            .should().resideInAPackage("..carryover.presentation..");
 
         /* テスト対象の実行 */
         testRule.check(ArchitectureTest.classes);

@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import io.github.kenichiroarai.dailytasks.carryover.domain.aggregator.CarryoverAggregator;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverIssue;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverItem;
@@ -25,6 +27,7 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailySummary;
  *
  * @version 0.1.0
  */
+@Component
 public class CarryoverAggregatorImpl implements CarryoverAggregator {
 
     /**

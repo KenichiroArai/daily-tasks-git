@@ -1,14 +1,14 @@
 package io.github.kenichiroarai.dailytasks;
 
-import java.io.IOException;
-
-import io.github.kenichiroarai.dailytasks.carryover.presentation.command.CarryoverCommand;
-import io.github.kenichiroarai.dailytasks.carryover.presentation.command.impl.CarryoverCommandImpl;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 /**
  * 起動クラス<br>
  * <p>
- * presentation 層のコマンドを生成して実行するだけとする。設定値や部品の組み立ては各層が順に引き継ぐ。 リポジトリのルートをカレントディレクトリとして実行する。
+ * Spring Boot を起動するだけとする。各層の部品はコンポーネントスキャンで登録し、コンストラクタインジェクションで組み立てる。presentation 層のコマンド（CommandLineRunner）が起動後に実行される。
+ * リポジトリのルートをカレントディレクトリとして実行する。
  * </p>
  *
  * @author KenichiroArai
@@ -17,32 +17,30 @@ import io.github.kenichiroarai.dailytasks.carryover.presentation.command.impl.Ca
  *
  * @version 0.1.0
  */
-public final class DailyTasksApplication {
+@SpringBootApplication
+@ConfigurationPropertiesScan
+public class DailyTasksApplication {
 
     /**
      * エントリポイント<br>
      *
      * @param args
-     *             コマンドライン引数（{@link CarryoverCommand} を参照）
-     *
-     * @throws IOException
-     *                     取得、読み込みまたは書き込みに失敗した場合
+     *             コマンドライン引数（{@code --full}、{@code --help}）
      */
-    public static void main(final String[] args) throws IOException {
+    public static void main(final String[] args) {
 
-        /* コマンドの実行 */
-        final CarryoverCommand command = new CarryoverCommandImpl(System.out);
-        command.execute(args);
+        /* Spring Boot の起動 */
+        SpringApplication.run(DailyTasksApplication.class, args);
 
     }
 
     /**
      * コンストラクタ<br>
      * <p>
-     * インスタンス化しない。
+     * Spring が設定クラスとして生成する。
      * </p>
      */
-    private DailyTasksApplication() {
+    public DailyTasksApplication() {
 
         // 処理なし
 

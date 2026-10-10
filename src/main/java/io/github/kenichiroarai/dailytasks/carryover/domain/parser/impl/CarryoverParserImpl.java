@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverIssue;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverItem;
@@ -15,7 +16,7 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailyTaskIssue;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.DefaultMinutes;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
 import io.github.kenichiroarai.dailytasks.carryover.domain.parser.CarryoverParser;
-import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageUtil;
+import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageProvider;
 
 /**
  * 日々のタスク Issue から持ち越し項目を解析する実装<br>
@@ -30,17 +31,13 @@ import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.Mess
  * @version 0.1.0
  */
 @SuppressWarnings("nls")
+@Component
 public class CarryoverParserImpl implements CarryoverParser {
 
     /**
      * ロガー
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(CarryoverParserImpl.class);
-
-    /**
-     * メッセージのバンドル名
-     */
-    private static final String MESSAGES = "messages";
 
     /**
      * メッセージのキー：タイトルから日付を取得できない
@@ -139,19 +136,19 @@ public class CarryoverParserImpl implements CarryoverParser {
     private static final Pattern TRAILING_OPEN_PARENTHESES = Pattern.compile("[（(]+$");
 
     /**
-     * 項目ごとの標準時間
+     * メッセージの取得
      */
-    private final DefaultMinutes defaultMinutes;
+    private final MessageProvider messageProvider;
 
     /**
      * コンストラクタ<br>
      *
-     * @param defaultMinutes
-     *                       項目ごとの標準時間
+     * @param messageProvider
+     *                        メッセージの取得
      */
-    public CarryoverParserImpl(final DefaultMinutes defaultMinutes) {
+    public CarryoverParserImpl(final MessageProvider messageProvider) {
 
-        this.defaultMinutes = defaultMinutes;
+        this.messageProvider = messageProvider;
 
     }
 
@@ -159,12 +156,14 @@ public class CarryoverParserImpl implements CarryoverParser {
      * Issue を解析する<br>
      *
      * @param issue
-     *              日々のタスク Issue
+     *                       日々のタスク Issue
+     * @param defaultMinutes
+     *                       時間表記がない行を補完する項目ごとの標準時間
      *
      * @return 持ち越しの解析結果
      */
     @Override
-    public CarryoverIssue parse(final DailyTaskIssue issue) {
+    public CarryoverIssue parse(final DailyTaskIssue issue, final DefaultMinutes defaultMinutes) {
 
         CarryoverIssue result = null;
 
@@ -173,8 +172,7 @@ public class CarryoverParserImpl implements CarryoverParser {
 
         if (date == null) {
 
-            final String message = MessageUtil.get(CarryoverParserImpl.MESSAGES,
-                CarryoverParserImpl.MSG_TITLE_DATE_NOT_FOUND);
+            final String message = this.messageProvider.get(CarryoverParserImpl.MSG_TITLE_DATE_NOT_FOUND);
             CarryoverParserImpl.LOGGER.warn(message, issue.getNumber(), issue.getTitle());
 
         }
@@ -219,18 +217,19 @@ public class CarryoverParserImpl implements CarryoverParser {
 
             if (!checkboxMatcher.matches()) {
 
-                CarryoverParserImpl.warnUnexpectedLine(issue.getNumber(), line);
+                this.warnUnexpectedLine(issue.getNumber(), line);
                 continue;
 
             }
 
             final boolean checked = !" ".equals(checkboxMatcher.group(1));
-            items.add(this.parseItem(issue.getNumber(), currentSection, checked, checkboxMatcher.group(2), line));
+            items.add(this.parseItem(issue.getNumber(), currentSection, checked, checkboxMatcher.group(2), line,
+                defaultMinutes));
 
         }
 
         /* 残数の検証 */
-        CarryoverParserImpl.verifyDeclaredCount(issue.getNumber(), declaredCount, items.size());
+        this.verifyDeclaredCount(issue.getNumber(), declaredCount, items.size());
 
         result = new CarryoverIssue(issue.getNumber(), issue.getTitle(), date, issue.getState(), issue.getUpdatedAt(),
             sections, declaredCount, items);
@@ -250,12 +249,14 @@ public class CarryoverParserImpl implements CarryoverParser {
      * @param content
      *                チェックボックスの後ろの内容
      * @param raw
-     *                元の行
+     *                       元の行
+     * @param defaultMinutes
+     *                       時間表記がない行を補完する項目ごとの標準時間
      *
      * @return 持ち越し項目
      */
     private CarryoverItem parseItem(final int number, final String section, final boolean checked, final String content,
-        final String raw) {
+        final String raw, final DefaultMinutes defaultMinutes) {
 
         CarryoverItem result = null;
 
@@ -274,8 +275,7 @@ public class CarryoverParserImpl implements CarryoverParser {
 
         } else {
 
-            final String message = MessageUtil.get(CarryoverParserImpl.MESSAGES,
-                CarryoverParserImpl.MSG_ORIGIN_DATE_NOT_FOUND);
+            final String message = this.messageProvider.get(CarryoverParserImpl.MSG_ORIGIN_DATE_NOT_FOUND);
             CarryoverParserImpl.LOGGER.warn(message, number, raw);
 
         }
@@ -284,7 +284,7 @@ public class CarryoverParserImpl implements CarryoverParser {
 
         if (UNKNOWN_NAME.equals(name)) {
 
-            final String message = MessageUtil.get(CarryoverParserImpl.MESSAGES, CarryoverParserImpl.MSG_NAME_NOT_FOUND);
+            final String message = this.messageProvider.get(CarryoverParserImpl.MSG_NAME_NOT_FOUND);
             CarryoverParserImpl.LOGGER.warn(message, number, raw);
 
         }
@@ -302,19 +302,17 @@ public class CarryoverParserImpl implements CarryoverParser {
 
         if (!rest.isBlank()) {
 
-            final String message = MessageUtil.get(CarryoverParserImpl.MESSAGES,
-                CarryoverParserImpl.MSG_MINUTES_NOT_PARSED);
+            final String message = this.messageProvider.get(CarryoverParserImpl.MSG_MINUTES_NOT_PARSED);
             CarryoverParserImpl.LOGGER.warn(message, number, raw);
 
         }
 
         /* 標準時間での補完 */
-        final Double defaultValue = this.defaultMinutes.find(name);
+        final Double defaultValue = defaultMinutes.find(name);
 
         if (defaultValue == null) {
 
-            final String message = MessageUtil.get(CarryoverParserImpl.MESSAGES,
-                CarryoverParserImpl.MSG_DEFAULT_MINUTES_NOT_FOUND);
+            final String message = this.messageProvider.get(CarryoverParserImpl.MSG_DEFAULT_MINUTES_NOT_FOUND);
             CarryoverParserImpl.LOGGER.warn(message, number, name);
             result = new CarryoverItem(name, originDate, checked, 0, MinutesSource.UNKNOWN, section, raw);
             return result;
@@ -503,7 +501,7 @@ public class CarryoverParserImpl implements CarryoverParser {
      * @param line
      *               行
      */
-    private static void warnUnexpectedLine(final int number, final String line) {
+    private void warnUnexpectedLine(final int number, final String line) {
 
         final String stripped = line.strip();
 
@@ -519,7 +517,7 @@ public class CarryoverParserImpl implements CarryoverParser {
 
         }
 
-        final String message = MessageUtil.get(CarryoverParserImpl.MESSAGES, CarryoverParserImpl.MSG_UNEXPECTED_LINE);
+        final String message = this.messageProvider.get(CarryoverParserImpl.MSG_UNEXPECTED_LINE);
         CarryoverParserImpl.LOGGER.warn(message, number, line);
 
     }
@@ -534,7 +532,7 @@ public class CarryoverParserImpl implements CarryoverParser {
      * @param parsedCount
      *                      解析件数
      */
-    private static void verifyDeclaredCount(final int number, final Integer declaredCount, final int parsedCount) {
+    private void verifyDeclaredCount(final int number, final Integer declaredCount, final int parsedCount) {
 
         if (declaredCount == null) {
 
@@ -548,8 +546,7 @@ public class CarryoverParserImpl implements CarryoverParser {
 
         }
 
-        final String message = MessageUtil.get(CarryoverParserImpl.MESSAGES,
-            CarryoverParserImpl.MSG_DECLARED_COUNT_MISMATCH);
+        final String message = this.messageProvider.get(CarryoverParserImpl.MSG_DECLARED_COUNT_MISMATCH);
         CarryoverParserImpl.LOGGER.warn(message, number, declaredCount, parsedCount);
 
     }

@@ -7,12 +7,13 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageUtil;
+import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageProvider;
 import io.github.kenichiroarai.dailytasks.carryover.repository.DefaultMinutesRepository;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * 項目ごとの標準時間の設定ファイル（例: config/default-minutes.json）を読み込むリポジトリの実装<br>
@@ -24,6 +25,7 @@ import io.github.kenichiroarai.dailytasks.carryover.repository.DefaultMinutesRep
  * @version 0.1.0
  */
 @SuppressWarnings("nls")
+@Repository
 public class DefaultMinutesRepositoryImpl implements DefaultMinutesRepository {
 
     /**
@@ -32,34 +34,40 @@ public class DefaultMinutesRepositoryImpl implements DefaultMinutesRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultMinutesRepositoryImpl.class);
 
     /**
-     * メッセージのバンドル名
-     */
-    private static final String MESSAGES = "messages";
-
-    /**
      * メッセージのキー：設定ファイルがない
      */
     private static final String MSG_FILE_NOT_FOUND = "carryover.defaultMinutes.fileNotFound";
 
     /**
-     * 設定ファイルのパス
+     * JSON の変換
      */
-    private final Path configFile;
+    private final JsonMapper jsonMapper;
+
+    /**
+     * メッセージの取得
+     */
+    private final MessageProvider messageProvider;
 
     /**
      * コンストラクタ<br>
      *
-     * @param configFile
-     *                   設定ファイルのパス
+     * @param jsonMapper
+     *                        JSON の変換
+     * @param messageProvider
+     *                        メッセージの取得
      */
-    public DefaultMinutesRepositoryImpl(final Path configFile) {
+    public DefaultMinutesRepositoryImpl(final JsonMapper jsonMapper, final MessageProvider messageProvider) {
 
-        this.configFile = configFile;
+        this.jsonMapper = jsonMapper;
+        this.messageProvider = messageProvider;
 
     }
 
     /**
      * 項目ごとの標準時間を読み込む<br>
+     *
+     * @param configFile
+     *                   設定ファイルのパス（例: config/default-minutes.json）
      *
      * @return 項目名と標準時間（分）の対応。設定ファイルがない場合は空
      *
@@ -67,22 +75,30 @@ public class DefaultMinutesRepositoryImpl implements DefaultMinutesRepository {
      *                     読み込みに失敗した場合
      */
     @Override
-    public Map<String, Double> load() throws IOException {
+    public Map<String, Double> load(final Path configFile) throws IOException {
 
         Map<String, Double> result = Map.of();
 
-        if (!Files.isRegularFile(this.configFile)) {
+        if (!Files.isRegularFile(configFile)) {
 
-            final String message = MessageUtil.get(DefaultMinutesRepositoryImpl.MESSAGES,
-                DefaultMinutesRepositoryImpl.MSG_FILE_NOT_FOUND);
-            DefaultMinutesRepositoryImpl.LOGGER.warn(message, this.configFile);
+            final String message = this.messageProvider.get(DefaultMinutesRepositoryImpl.MSG_FILE_NOT_FOUND);
+            DefaultMinutesRepositoryImpl.LOGGER.warn(message, configFile);
             return result;
 
         }
 
-        result = new ObjectMapper().readValue(this.configFile.toFile(), new TypeReference<Map<String, Double>>() {
-            // 型情報の保持のみ
-        });
+        try {
+
+            result = this.jsonMapper.readValue(configFile.toFile(), new TypeReference<Map<String, Double>>() {
+                // 型情報の保持のみ
+            });
+
+        } catch (final JacksonException e) {
+
+            throw new IOException(e);
+
+        }
+
         return result;
 
     }

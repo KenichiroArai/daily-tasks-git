@@ -4,6 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverIssue;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverItem;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSource;
@@ -13,6 +15,7 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailyTaskIssue;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.DefaultMinutes;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.ItemStat;
 import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
+import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageProvider;
 import io.github.kenichiroarai.dailytasks.carryover.repository.dto.CarryoverIssueDto;
 import io.github.kenichiroarai.dailytasks.carryover.repository.dto.CarryoverItemDto;
 import io.github.kenichiroarai.dailytasks.carryover.repository.dto.CarryoverSummaryDto;
@@ -33,17 +36,28 @@ import io.github.kenichiroarai.dailytasks.carryover.repository.dto.ItemStatDto;
  *
  * @version 0.1.0
  */
-public final class CarryoverDtoConverter {
+@Component
+public class CarryoverDtoConverter {
+
+    /**
+     * メッセージのキー：不明な残り時間の取得元
+     */
+    private static final String MSG_UNKNOWN_MINUTES_SOURCE = "carryover.minutesSource.unknownValue";
+
+    /**
+     * メッセージの取得
+     */
+    private final MessageProvider messageProvider;
 
     /**
      * コンストラクタ<br>
-     * <p>
-     * インスタンス化しない。
-     * </p>
+     *
+     * @param messageProvider
+     *                        メッセージの取得
      */
-    private CarryoverDtoConverter() {
+    public CarryoverDtoConverter(final MessageProvider messageProvider) {
 
-        // 処理なし
+        this.messageProvider = messageProvider;
 
     }
 
@@ -55,7 +69,7 @@ public final class CarryoverDtoConverter {
      *
      * @return GitHub API の接続設定
      */
-    public static GitHubSettingsDto toGitHubSettingsDto(final CarryoverSource source) {
+    public GitHubSettingsDto toGitHubSettingsDto(final CarryoverSource source) {
 
         final GitHubSettingsDto result = new GitHubSettingsDto(source.getRepository(), source.getToken());
         return result;
@@ -70,7 +84,7 @@ public final class CarryoverDtoConverter {
      *
      * @return 日々のタスク Issue
      */
-    public static DailyTaskIssue toDailyTaskIssue(final GitHubIssueDto dto) {
+    public DailyTaskIssue toDailyTaskIssue(final GitHubIssueDto dto) {
 
         final DailyTaskIssue result = new DailyTaskIssue(dto.getNumber(), dto.getTitle(), dto.getState(),
             dto.getUpdatedAt(), dto.getBody());
@@ -86,7 +100,7 @@ public final class CarryoverDtoConverter {
      *
      * @return 項目ごとの標準時間
      */
-    public static DefaultMinutes toDefaultMinutes(final Map<String, Double> minutesByName) {
+    public DefaultMinutes toDefaultMinutes(final Map<String, Double> minutesByName) {
 
         final DefaultMinutes result = new DefaultMinutes(minutesByName);
         return result;
@@ -104,9 +118,9 @@ public final class CarryoverDtoConverter {
      * @throws IllegalArgumentException
      *                                  残り時間の取得元が不明な場合
      */
-    public static CarryoverIssue toCarryoverIssue(final CarryoverIssueDto dto) {
+    public CarryoverIssue toCarryoverIssue(final CarryoverIssueDto dto) {
 
-        final List<CarryoverItem> items = dto.getItems().stream().map(CarryoverDtoConverter::toCarryoverItem).toList();
+        final List<CarryoverItem> items = dto.getItems().stream().map(this::toCarryoverItem).toList();
         final CarryoverIssue result = new CarryoverIssue(dto.getNumber(), dto.getTitle(), dto.getDate(), dto.getState(),
             dto.getUpdatedAt(), dto.getSections(), dto.getDeclaredCount(), items);
         return result;
@@ -121,7 +135,7 @@ public final class CarryoverDtoConverter {
      *
      * @return 保存用の DTO
      */
-    public static CarryoverIssueDto toCarryoverIssueDto(final CarryoverIssue issue) {
+    public CarryoverIssueDto toCarryoverIssueDto(final CarryoverIssue issue) {
 
         final List<CarryoverItemDto> items = issue.getItems().stream().map(CarryoverDtoConverter::toCarryoverItemDto)
             .toList();
@@ -140,7 +154,7 @@ public final class CarryoverDtoConverter {
      *
      * @return 保存用の DTO
      */
-    public static CarryoverSummaryDto toCarryoverSummaryDto(final CarryoverSummary summary) {
+    public CarryoverSummaryDto toCarryoverSummaryDto(final CarryoverSummary summary) {
 
         final List<DailySummaryDto> days = summary.getDays().stream().map(CarryoverDtoConverter::toDailySummaryDto)
             .toList();
@@ -160,10 +174,22 @@ public final class CarryoverDtoConverter {
      * @throws IllegalArgumentException
      *                                  残り時間の取得元が不明な場合
      */
-    private static CarryoverItem toCarryoverItem(final CarryoverItemDto dto) {
+    private CarryoverItem toCarryoverItem(final CarryoverItemDto dto) {
 
-        final CarryoverItem result = new CarryoverItem(dto.getName(), dto.getOriginDate(), dto.isChecked(),
-            dto.getMinutes(), MinutesSource.fromValue(dto.getMinutesSource()), dto.getSection(), dto.getRaw());
+        CarryoverItem result = null;
+
+        final MinutesSource minutesSource = MinutesSource.fromValue(dto.getMinutesSource());
+
+        if (minutesSource == null) {
+
+            final String template = this.messageProvider.get(CarryoverDtoConverter.MSG_UNKNOWN_MINUTES_SOURCE);
+            final String message = String.format(template, dto.getMinutesSource());
+            throw new IllegalArgumentException(message);
+
+        }
+
+        result = new CarryoverItem(dto.getName(), dto.getOriginDate(), dto.isChecked(), dto.getMinutes(), minutesSource,
+            dto.getSection(), dto.getRaw());
         return result;
 
     }

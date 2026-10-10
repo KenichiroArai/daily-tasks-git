@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import io.github.kenichiroarai.dailytasks.carryover.repository.dto.GitHubIssueDto;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.GitHubSettingsDto;
 
 /**
  * GitHub の Issue を取得するリポジトリ<br>
@@ -22,11 +23,14 @@ public interface GitHubIssueRepository {
      * プルリクエストは除外する。
      * </p>
      *
+     * @param settings
+     *                 GitHub API の接続設定
+     *
      * @return Issue（作成順）
      *
      * @throws IOException
      *                     通信に失敗した場合、または応答が不正な場合
      */
-    List<GitHubIssueDto> fetchAllIssues() throws IOException;
+    List<GitHubIssueDto> fetchAllIssues(GitHubSettingsDto settings) throws IOException;
 
 }

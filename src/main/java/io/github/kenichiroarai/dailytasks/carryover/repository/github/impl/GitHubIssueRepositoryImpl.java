@@ -13,14 +13,16 @@ import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageUtil;
+import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageProvider;
 import io.github.kenichiroarai.dailytasks.carryover.repository.dto.GitHubIssueDto;
 import io.github.kenichiroarai.dailytasks.carryover.repository.dto.GitHubSettingsDto;
 import io.github.kenichiroarai.dailytasks.carryover.repository.github.GitHubIssueRepository;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * GitHub REST API で Issue を取得するリポジトリの実装<br>
@@ -35,17 +37,13 @@ import io.github.kenichiroarai.dailytasks.carryover.repository.github.GitHubIssu
  * @version 0.1.0
  */
 @SuppressWarnings("nls")
+@Repository
 public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
 
     /**
      * ロガー
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(GitHubIssueRepositoryImpl.class);
-
-    /**
-     * メッセージのバンドル名
-     */
-    private static final String MESSAGES = "messages";
 
     /**
      * メッセージのキー：Issue の取得件数
@@ -98,24 +96,27 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
     private final String apiBaseUrl;
 
     /**
-     * GitHub API の接続設定
-     */
-    private final GitHubSettingsDto settings;
-
-    /**
      * JSON の変換
      */
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
+
+    /**
+     * メッセージの取得
+     */
+    private final MessageProvider messageProvider;
 
     /**
      * コンストラクタ<br>
      *
-     * @param settings
-     *                 GitHub API の接続設定
+     * @param jsonMapper
+     *                        JSON の変換
+     * @param messageProvider
+     *                        メッセージの取得
      */
-    public GitHubIssueRepositoryImpl(final GitHubSettingsDto settings) {
+    @Autowired
+    public GitHubIssueRepositoryImpl(final JsonMapper jsonMapper, final MessageProvider messageProvider) {
 
-        this(HttpClient::newHttpClient, GitHubIssueRepositoryImpl.API_BASE_URL, settings);
+        this(HttpClient::newHttpClient, GitHubIssueRepositoryImpl.API_BASE_URL, jsonMapper, messageProvider);
 
     }
 
@@ -126,16 +127,18 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
      *                           HTTP クライアントの生成
      * @param apiBaseUrl
      *                           API のベース URL（例: https://api.github.com）
-     * @param settings
-     *                           GitHub API の接続設定
+     * @param jsonMapper
+     *                           JSON の変換
+     * @param messageProvider
+     *                           メッセージの取得
      */
     public GitHubIssueRepositoryImpl(final Supplier<HttpClient> httpClientSupplier, final String apiBaseUrl,
-        final GitHubSettingsDto settings) {
+        final JsonMapper jsonMapper, final MessageProvider messageProvider) {
 
         this.httpClientSupplier = httpClientSupplier;
         this.apiBaseUrl = apiBaseUrl;
-        this.settings = settings;
-        this.objectMapper = new ObjectMapper();
+        this.jsonMapper = jsonMapper;
+        this.messageProvider = messageProvider;
 
     }
 
@@ -145,13 +148,16 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
      * プルリクエストは除外する。
      * </p>
      *
+     * @param settings
+     *                 GitHub API の接続設定
+     *
      * @return Issue（作成順）
      *
      * @throws IOException
      *                     通信に失敗した場合、または応答が不正な場合
      */
     @Override
-    public List<GitHubIssueDto> fetchAllIssues() throws IOException {
+    public List<GitHubIssueDto> fetchAllIssues(final GitHubSettingsDto settings) throws IOException {
 
         final List<GitHubIssueDto> result = new ArrayList<>();
 
@@ -163,7 +169,7 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
             do {
 
                 /* 1 ページ分の取得 */
-                final JsonNode issues = this.fetchPage(httpClient, page);
+                final JsonNode issues = this.fetchPage(httpClient, settings, page);
                 pageSize = issues.size();
 
                 for (final JsonNode node : issues) {
@@ -185,7 +191,7 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
 
         }
 
-        final String message = MessageUtil.get(GitHubIssueRepositoryImpl.MESSAGES, GitHubIssueRepositoryImpl.MSG_FETCHED);
+        final String message = this.messageProvider.get(GitHubIssueRepositoryImpl.MSG_FETCHED);
         GitHubIssueRepositoryImpl.LOGGER.info(message, result.size(), page - 1);
         return result;
 
@@ -196,6 +202,8 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
      *
      * @param httpClient
      *                   HTTP クライアント
+     * @param settings
+     *                   GitHub API の接続設定
      * @param page
      *                   ページ番号（1 始まり）
      *
@@ -204,42 +212,70 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
      * @throws IOException
      *                     通信に失敗した場合、または応答が不正な場合
      */
-    private JsonNode fetchPage(final HttpClient httpClient, final int page) throws IOException {
+    private JsonNode fetchPage(final HttpClient httpClient, final GitHubSettingsDto settings, final int page)
+        throws IOException {
 
         JsonNode result = null;
 
         /* リクエストの作成 */
         final URI uri = URI.create(String.format("%s/repos/%s/issues?state=all&sort=created&direction=asc&per_page=%d&page=%d",
-            this.apiBaseUrl, this.settings.getRepository(), GitHubIssueRepositoryImpl.PER_PAGE, page));
+            this.apiBaseUrl, settings.getRepository(), GitHubIssueRepositoryImpl.PER_PAGE, page));
         final HttpRequest.Builder builder = HttpRequest.newBuilder(uri).timeout(GitHubIssueRepositoryImpl.TIMEOUT)
             .header("Accept", "application/vnd.github+json").header("X-GitHub-Api-Version", "2022-11-28").GET();
 
-        if (this.hasToken()) {
+        if (GitHubIssueRepositoryImpl.hasToken(settings)) {
 
-            builder.header("Authorization", "Bearer " + this.settings.getToken());
+            builder.header("Authorization", "Bearer " + settings.getToken());
 
         }
 
         /* 送信と応答の検証 */
-        final HttpResponse<String> response = GitHubIssueRepositoryImpl.send(httpClient, builder.build());
+        final HttpResponse<String> response = this.send(httpClient, builder.build());
 
         if (response.statusCode() != GitHubIssueRepositoryImpl.STATUS_OK) {
 
-            final String template = MessageUtil.get(GitHubIssueRepositoryImpl.MESSAGES,
-                GitHubIssueRepositoryImpl.MSG_CALL_FAILED);
+            final String template = this.messageProvider.get(GitHubIssueRepositoryImpl.MSG_CALL_FAILED);
             final String message = String.format(template, response.statusCode(), uri);
             throw new IOException(message);
 
         }
 
-        result = this.objectMapper.readTree(response.body());
+        result = this.readTree(response.body());
 
         if (!result.isArray()) {
 
-            final String template = MessageUtil.get(GitHubIssueRepositoryImpl.MESSAGES,
-                GitHubIssueRepositoryImpl.MSG_NOT_ARRAY);
+            final String template = this.messageProvider.get(GitHubIssueRepositoryImpl.MSG_NOT_ARRAY);
             final String message = String.format(template, uri);
             throw new IOException(message);
+
+        }
+
+        return result;
+
+    }
+
+    /**
+     * 応答の本文を JSON として読み込む<br>
+     *
+     * @param body
+     *             応答の本文
+     *
+     * @return JSON
+     *
+     * @throws IOException
+     *                     JSON として読み込めない場合
+     */
+    private JsonNode readTree(final String body) throws IOException {
+
+        JsonNode result = null;
+
+        try {
+
+            result = this.jsonMapper.readTree(body);
+
+        } catch (final JacksonException e) {
+
+            throw new IOException(e);
 
         }
 
@@ -260,8 +296,7 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
      * @throws IOException
      *                     通信に失敗した場合、または中断された場合
      */
-    private static HttpResponse<String> send(final HttpClient httpClient, final HttpRequest request)
-        throws IOException {
+    private HttpResponse<String> send(final HttpClient httpClient, final HttpRequest request) throws IOException {
 
         HttpResponse<String> result = null;
 
@@ -272,8 +307,7 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
         } catch (final InterruptedException e) {
 
             Thread.currentThread().interrupt();
-            final String message = MessageUtil.get(GitHubIssueRepositoryImpl.MESSAGES,
-                GitHubIssueRepositoryImpl.MSG_INTERRUPTED);
+            final String message = this.messageProvider.get(GitHubIssueRepositoryImpl.MSG_INTERRUPTED);
             throw new IOException(message, e);
 
         }
@@ -285,12 +319,15 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
     /**
      * トークンが指定されているかを返す<br>
      *
+     * @param settings
+     *                 GitHub API の接続設定
+     *
      * @return true：指定されている、false：指定されていない
      */
-    private boolean hasToken() {
+    private static boolean hasToken(final GitHubSettingsDto settings) {
 
         boolean result = false;
-        final String token = this.settings.getToken();
+        final String token = settings.getToken();
 
         if (token == null) {
 
@@ -348,7 +385,7 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
 
         }
 
-        result = value.asText();
+        result = value.asString();
         return result;
 
     }

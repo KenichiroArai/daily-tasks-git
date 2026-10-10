@@ -17,8 +17,9 @@ Cursor / Codex / Claude Code など複数ツールで共通利用する。
 ## 技術スタック
 
 - 言語: Java 25（Temurin）
-- ビルド / パッケージ管理: Maven（maven-shade-plugin で実行可能 jar を作成）
-- ライブラリ: Jackson（JSON）、SLF4J + Logback（ログ）
+- フレームワーク: Spring Boot 4.x（`spring-boot-starter-parent`。DI・設定ファイルのバインド・メッセージ・ログ。Web サーバーは起動しない CLI アプリ）
+- ビルド / パッケージ管理: Maven（spring-boot-maven-plugin で実行可能 jar を作成）
+- ライブラリ: Jackson 3（JSON。パッケージは `tools.jackson.*`、アノテーションは `com.fasterxml.jackson.annotation`）、SLF4J + Logback（ログ）
 - HTTP: 標準の `java.net.http.HttpClient`（GitHub REST API）
 - フロントエンド: Next.js（App Router、`output: 'export'` の静的エクスポート）+ TypeScript + React + Recharts、zod（JSON の検証）、CSS Modules。Node.js 20.9 以降（CI は 22）
 - 公開: GitHub Pages（GitHub Actions でデプロイ）
@@ -30,11 +31,12 @@ Cursor / Codex / Claude Code など複数ツールで共通利用する。
 ```text
 pom.xml
 src/main/java/io/github/kenichiroarai/dailytasks/
-  DailyTasksApplication.java # 起動クラス（presentation のコマンドを生成して実行するだけ）
+  DailyTasksApplication.java # 起動クラス（Spring Boot を起動するだけ）
   carryover/                 # 機能パッケージ（持ち越しの収集・集計）
     presentation/            # CLI などの入出力層
       command/               # コマンドのインタフェース
-      command/impl/          # コマンドの実装（引数の解析、設定値の作成）
+      command/impl/          # コマンドの実装（CommandLineRunner。引数の解析、設定値の作成）
+      config/                # 設定ファイルの値（@ConfigurationProperties の CarryoverProperties）
       model/                 # 引数を解析したオプション（CarryoverOptions）
     application/             # ユースケースや業務ロジック層
       model/                 # application が受け取る設定（CarryoverSettings）
@@ -50,18 +52,19 @@ src/main/java/io/github/kenichiroarai/dailytasks/
       aggregator/impl/       # 日別の集計の実装
       converter/             # repository の DTO と domain のモデルの変換
     infrastructure/          # 業務を知らない汎用ユーティリティ
-      resource/              # クラスパスのプロパティファイル・メッセージの読み込み（PropertiesUtil、MessageUtil）
+      resource/              # メッセージの取得のインタフェース（MessageProvider）
+      resource/impl/         # メッセージの取得の実装（Spring の MessageSource を使う MessageProviderImpl）
     repository/              # データアクセス層（Dao）。JSON ファイルの読み書きのインタフェース
       impl/                  # JSON ファイルの読み書きの実装
       dto/                   # repository が入出力に使う DTO（JSON・API 応答の形、設定）
       github/                # GitHub REST API からの Issue 取得のインタフェース
       github/impl/           # GitHub REST API からの Issue 取得の実装
 src/main/resources/
-  application.properties     # 設定値（対象リポジトリ、出力先、標準時間のファイル、最新の件数、トークンの環境変数名）
+  application.properties     # 設定値（carryover.*: 対象リポジトリ、トークン、出力先、標準時間のファイル、最新の件数。spring.*: Spring Boot の設定）
   messages.properties        # 文字列（使い方、ログ・例外のメッセージ）
-  logback.xml
+  logback-spring.xml
 src/test/java/io/github/kenichiroarai/dailytasks/  # main と同じ構成
-  testutil/                  # テスト用のユーティリティ（ログ取得、リフレクションなど）
+  testutil/                  # テスト用のユーティリティ（ログ取得、リフレクション、メッセージの取得の生成など）
 src/test/resources/          # テスト用のリソース
 config/
   default-minutes.json       # 時間表記なしの行を補完する項目ごとの標準時間
@@ -88,7 +91,7 @@ frontend/                    # 画面（Next.js + TypeScript）。詳細は fron
 | `presentation/` | CLI などの入出力層（command など） |
 | `application/` | ユースケースや業務ロジック層（service など） |
 | `domain/` | 共通ロジック、ドメインモデル層（model / parser など） |
-| `infrastructure/` | 業務やドメインを知らない、何にも依存しない汎用のユーティリティ（文字列・日付の汎用処理など） |
+| `infrastructure/` | 業務やドメインを知らない、他の層に依存しない汎用のユーティリティ（メッセージの取得など） |
 | `repository/` | JSON ファイル・GitHub API などのデータアクセス層（Dao） |
 
 - 新しい機能は `carryover/` と同じ構成で追加する
@@ -119,9 +122,19 @@ flowchart TD
 ### 公開するものと実装
 
 - 各層は、上の層に公開するもの（インタフェースと受け渡し用のデータ型）を層の直下のパッケージ（`service/`、`parser/`、`repository/` など）に置き、実装は `impl/` に置く
-- 上の層は `impl/` のクラスを型（フィールド・引数・戻り値・変数の型）として使わない。参照してよいのは、すぐ下の層の実装を生成するときだけ
-- 生成も同じ流れにする。各層は「すぐ下の層の実装」だけを生成する（エントリポイント → `CarryoverCommandImpl` → `CarryoverServiceImpl` → domain の実装 → repository の実装）
-- テストで差し替えられるよう、実装には「すぐ下の層のインタフェースを受け取るコンストラクタ」も用意する
+- 上の層は `impl/` のクラスを型（フィールド・引数・戻り値・変数の型）として使わない。テストで実装を組み立てるときだけ参照してよい
+
+### DI（依存性の注入）
+
+- 実装クラスは Spring の Bean として登録し、生成と組み立ては Spring に任せる。自分で `new` して下の層の実装を生成しない
+  - presentation のコマンド・infrastructure の実装・domain のパーサー／集計／変換: `@Component`
+  - application と domain のサービス: `@Service`
+  - repository の実装: `@Repository`
+- 注入はコンストラクタインジェクションだけにする。フィールドインジェクション（フィールドへの `@Autowired`）は使わない
+- 受け取るのは「すぐ下の層のインタフェース」（と infrastructure のインタフェース、`JsonMapper` などのフレームワークの部品）とする
+- コンストラクタが 1 つなら `@Autowired` は付けない。テスト用のコンストラクタ（出力先や `HttpClient` の差し替えなど）を別に持つ場合だけ、本番用のコンストラクタに `@Autowired` を付ける
+- Bean はステートレス（シングルトンで状態を持たない）にする。設定値はフィールドに持たず、メソッドの引数で渡す
+- コマンドは `CommandLineRunner` として Spring Boot の起動後に実行する。起動クラスは `SpringApplication.run` を呼ぶだけとする
 
 ### データの受け渡しと変換
 
@@ -134,7 +147,10 @@ flowchart TD
 ### 設定値の引き継ぎ
 
 - 設定値も業務データと同じく、上の層から下の層へ引き継ぎ、境界ごとに下の層の型に変換して渡す。どこからでも参照できる共有の設定（infrastructure の設定クラスなど）は作らない
-- 値の出どころは入力の窓口である presentation（コマンドライン引数・環境変数 `GITHUB_TOKEN`・設定ファイル `src/main/resources/application.properties`）とする。設定ファイルは presentation だけが読み込む
+- 値の出どころは入力の窓口である presentation（コマンドライン引数・設定ファイル `src/main/resources/application.properties`）とする。設定ファイルは presentation だけが読み込む
+  - 設定ファイルの `carryover.*` は `presentation/config/CarryoverProperties`（`@ConfigurationProperties`、コンストラクタでバインド）で受け取る。`@ConfigurationProperties` のクラスは presentation にだけ置く
+  - トークンは `carryover.token=${GITHUB_TOKEN:}` として環境変数 `GITHUB_TOKEN` から設定する
+  - `@Value` で設定値を個別に取得しない。`Environment` を各層から参照しない
   - presentation → application: `application/model/CarryoverSettings`
   - application → domain: `domain/model/CarryoverSource`
   - domain → repository: `repository/dto/GitHubSettingsDto`、ファイルのパス（`Path`）
@@ -143,13 +159,14 @@ flowchart TD
 
 ### 文字列（メッセージ）の管理
 
-- 使い方、ログ・例外のメッセージは `src/main/resources/messages.properties` に置き、各クラスはバンドル名とキーを定数で持って `infrastructure/resource/MessageUtil` で取得する
+- 使い方、ログ・例外のメッセージは `src/main/resources/messages.properties` に置き、各クラスはキーを定数で持って、コンストラクタで注入した `infrastructure/resource/MessageProvider` で取得する
+- `MessageProvider` は Spring の `MessageSource`（`spring.messages.*` で設定）を引数なしで使うため、`{}` や `%s` はそのまま返る
 - ログは SLF4J の `{}`、例外は `String.format` の `%s` / `%d` を埋め込み位置に使う。取得したメッセージはいったん変数に入れてから渡す
 - 解析ルールそのものの文字列（対象セクション名、正規表現など）は messages.properties に置かず、それを使う実装の定数にする
 
 ### ルールの検査
 
-- 層間のルールは `ArchitectureTest`（ArchUnit）で検査する。違反があると `mvn test` は失敗する
+- 層間のルール、フィールドインジェクションの禁止、`@Value` の禁止、`@ConfigurationProperties` を presentation にだけ置くことは `ArchitectureTest`（ArchUnit）で検査する。違反があると `mvn test` は失敗する
 
 ## フロントエンド
 
@@ -540,6 +557,7 @@ public class SampleClass {
 
 - [ ] パッケージ構成ルール（機能パッケージ + 5 層）の順守
 - [ ] 層間のルール（すぐ下の層だけを参照、飛び越し・逆向き参照なし、`impl/` を型として使わない、データ・設定値は境界で変換）の順守（`ArchitectureTest` が通ること）
+- [ ] DI のルール（Bean として登録、コンストラクタインジェクション、ステートレス、設定値はメソッドの引数で渡す）の順守
 - [ ] JSON 形式の後方互換の確認（変更時は全件モードで再生成）
 - [ ] テストの追加 / 更新（命名・実装順序・検証方法を含む）
 - [ ] `mvn test` で JaCoCo カバレッジ 100% を維持
@@ -555,7 +573,8 @@ public class SampleClass {
 - 機能パッケージの外（`io.github.kenichiroarai.dailytasks` 直下など。起動クラスを除く）に業務クラスを置くこと
 - 層を飛び越して参照すること（例: application → repository、presentation → domain、エントリポイント → application）
 - 下の層から上の層を参照すること（例: repository → domain、domain → application）
-- 上の層で下の層の `impl/` のクラスを型として使うこと（生成するときだけ参照してよい）
+- 上の層で下の層の `impl/` のクラスを型として使うこと（テストで組み立てるときだけ参照してよい）
+- フィールドインジェクション（フィールドへの `@Autowired`）、`@Value` での設定値の個別取得、Bean のフィールドに設定値を持つこと
 - infrastructure に機能固有の値や業務の判断を置くこと、infrastructure から他の層を参照すること
 - kmg-core / kmg-fund などの社内基盤ライブラリに依存すること
 - シークレット（`GITHUB_TOKEN` など）をコード・ログ・JSON に出すこと

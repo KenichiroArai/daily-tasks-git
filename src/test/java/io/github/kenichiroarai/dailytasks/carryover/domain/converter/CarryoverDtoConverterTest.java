@@ -22,6 +22,7 @@ import io.github.kenichiroarai.dailytasks.carryover.repository.dto.DailySummaryD
 import io.github.kenichiroarai.dailytasks.carryover.repository.dto.GitHubIssueDto;
 import io.github.kenichiroarai.dailytasks.carryover.repository.dto.GitHubSettingsDto;
 import io.github.kenichiroarai.dailytasks.carryover.repository.dto.ItemStatDto;
+import io.github.kenichiroarai.dailytasks.testutil.MessageProviderTestUtil;
 
 /**
  * {@link CarryoverDtoConverter} のテスト<br>
@@ -51,7 +52,7 @@ public class CarryoverDtoConverterTest {
             Path.of("config", "default-minutes.json"));
 
         /* テスト対象の実行 */
-        final GitHubSettingsDto testResult = CarryoverDtoConverter.toGitHubSettingsDto(testSource);
+        final GitHubSettingsDto testResult = CarryoverDtoConverterTest.createTarget().toGitHubSettingsDto(testSource);
 
         /* 検証の準備 */
         final String actualRepository = testResult.getRepository();
@@ -75,7 +76,7 @@ public class CarryoverDtoConverterTest {
             Path.of("config", "default-minutes.json"));
 
         /* テスト対象の実行 */
-        final GitHubSettingsDto testResult = CarryoverDtoConverter.toGitHubSettingsDto(testSource);
+        final GitHubSettingsDto testResult = CarryoverDtoConverterTest.createTarget().toGitHubSettingsDto(testSource);
 
         /* 検証の準備 */
         final String actualToken = testResult.getToken();
@@ -99,7 +100,7 @@ public class CarryoverDtoConverterTest {
             "本文");
 
         /* テスト対象の実行 */
-        final DailyTaskIssue testResult = CarryoverDtoConverter.toDailyTaskIssue(testDto);
+        final DailyTaskIssue testResult = CarryoverDtoConverterTest.createTarget().toDailyTaskIssue(testDto);
 
         /* 検証の準備 */
         final int actualNumber = testResult.getNumber();
@@ -123,7 +124,7 @@ public class CarryoverDtoConverterTest {
             "本文");
 
         /* テスト対象の実行 */
-        final DailyTaskIssue testResult = CarryoverDtoConverter.toDailyTaskIssue(testDto);
+        final DailyTaskIssue testResult = CarryoverDtoConverterTest.createTarget().toDailyTaskIssue(testDto);
 
         /* 検証の準備 */
         final String actualBody = testResult.getBody();
@@ -146,7 +147,7 @@ public class CarryoverDtoConverterTest {
         final Map<String, Double> testMinutesByName = Map.of("音楽", Double.valueOf(15.0));
 
         /* テスト対象の実行 */
-        final DefaultMinutes testResult = CarryoverDtoConverter.toDefaultMinutes(testMinutesByName);
+        final DefaultMinutes testResult = CarryoverDtoConverterTest.createTarget().toDefaultMinutes(testMinutesByName);
 
         /* 検証の準備 */
         final Double actualMinutes = testResult.find("音楽");
@@ -169,7 +170,7 @@ public class CarryoverDtoConverterTest {
         final CarryoverIssueDto testDto = CarryoverDtoConverterTest.createIssueDto("default");
 
         /* テスト対象の実行 */
-        final CarryoverIssue testResult = CarryoverDtoConverter.toCarryoverIssue(testDto);
+        final CarryoverIssue testResult = CarryoverDtoConverterTest.createTarget().toCarryoverIssue(testDto);
 
         /* 検証の準備 */
         final String actualUpdatedAt = testResult.getUpdatedAt();
@@ -192,7 +193,7 @@ public class CarryoverDtoConverterTest {
         final CarryoverIssueDto testDto = CarryoverDtoConverterTest.createIssueDto("default");
 
         /* テスト対象の実行 */
-        final CarryoverIssue testResult = CarryoverDtoConverter.toCarryoverIssue(testDto);
+        final CarryoverIssue testResult = CarryoverDtoConverterTest.createTarget().toCarryoverIssue(testDto);
 
         /* 検証の準備 */
         final MinutesSource actualMinutesSource = testResult.getItems().get(0).getMinutesSource();
@@ -216,7 +217,7 @@ public class CarryoverDtoConverterTest {
 
         /* テスト対象の実行 */
         final IllegalArgumentException testException = Assertions.assertThrows(IllegalArgumentException.class,
-            () -> CarryoverDtoConverter.toCarryoverIssue(testDto));
+            () -> CarryoverDtoConverterTest.createTarget().toCarryoverIssue(testDto));
 
         /* 検証の準備 */
         final String actualMessage = testException.getMessage();
@@ -239,7 +240,7 @@ public class CarryoverDtoConverterTest {
         final CarryoverIssue testIssue = CarryoverDtoConverterTest.createIssue();
 
         /* テスト対象の実行 */
-        final CarryoverIssueDto testResult = CarryoverDtoConverter.toCarryoverIssueDto(testIssue);
+        final CarryoverIssueDto testResult = CarryoverDtoConverterTest.createTarget().toCarryoverIssueDto(testIssue);
 
         /* 検証の準備 */
         final int actualCount = testResult.getCount();
@@ -262,7 +263,7 @@ public class CarryoverDtoConverterTest {
         final CarryoverIssue testIssue = CarryoverDtoConverterTest.createIssue();
 
         /* テスト対象の実行 */
-        final CarryoverIssueDto testResult = CarryoverDtoConverter.toCarryoverIssueDto(testIssue);
+        final CarryoverIssueDto testResult = CarryoverDtoConverterTest.createTarget().toCarryoverIssueDto(testIssue);
 
         /* 検証の準備 */
         final String actualMinutesSource = testResult.getItems().get(0).getMinutesSource();
@@ -285,7 +286,7 @@ public class CarryoverDtoConverterTest {
         final CarryoverSummary testSummary = CarryoverDtoConverterTest.createSummary();
 
         /* テスト対象の実行 */
-        final CarryoverSummaryDto testResult = CarryoverDtoConverter.toCarryoverSummaryDto(testSummary);
+        final CarryoverSummaryDto testResult = CarryoverDtoConverterTest.createTarget().toCarryoverSummaryDto(testSummary);
 
         /* 検証の準備 */
         final int actualLatestIssue = testResult.getLatestIssue();
@@ -308,7 +309,7 @@ public class CarryoverDtoConverterTest {
         final CarryoverSummary testSummary = CarryoverDtoConverterTest.createSummary();
 
         /* テスト対象の実行 */
-        final CarryoverSummaryDto testResult = CarryoverDtoConverter.toCarryoverSummaryDto(testSummary);
+        final CarryoverSummaryDto testResult = CarryoverDtoConverterTest.createTarget().toCarryoverSummaryDto(testSummary);
 
         /* 検証の準備 */
         final ItemStatDto actualTotal = testResult.getDays().get(0).getTotal();
@@ -332,7 +333,7 @@ public class CarryoverDtoConverterTest {
         final CarryoverSummary testSummary = CarryoverDtoConverterTest.createSummary();
 
         /* テスト対象の実行 */
-        final CarryoverSummaryDto testResult = CarryoverDtoConverter.toCarryoverSummaryDto(testSummary);
+        final CarryoverSummaryDto testResult = CarryoverDtoConverterTest.createTarget().toCarryoverSummaryDto(testSummary);
 
         /* 検証の準備 */
         final DailySummaryDto actualDay = testResult.getDays().get(0);
@@ -356,7 +357,7 @@ public class CarryoverDtoConverterTest {
         final CarryoverSummary testSummary = CarryoverDtoConverterTest.createSummary();
 
         /* テスト対象の実行 */
-        final CarryoverSummaryDto testResult = CarryoverDtoConverter.toCarryoverSummaryDto(testSummary);
+        final CarryoverSummaryDto testResult = CarryoverDtoConverterTest.createTarget().toCarryoverSummaryDto(testSummary);
 
         /* 検証の準備 */
         final DailySummaryDto actualDay = testResult.getDays().get(0);
@@ -364,6 +365,18 @@ public class CarryoverDtoConverterTest {
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedCount, actualCount, "持ち越し元の月ごとの件数が一致しません");
+
+    }
+
+    /**
+     * テスト対象を作成する<br>
+     *
+     * @return テスト対象
+     */
+    private static CarryoverDtoConverter createTarget() {
+
+        final CarryoverDtoConverter result = new CarryoverDtoConverter(MessageProviderTestUtil.create());
+        return result;
 
     }
 

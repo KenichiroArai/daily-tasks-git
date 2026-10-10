@@ -1,7 +1,6 @@
 package io.github.kenichiroarai.dailytasks;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 
@@ -26,13 +25,10 @@ import org.junit.jupiter.api.Test;
 public class DailyTasksApplicationTest {
 
     /**
-     * main メソッドのテスト - 正常系:--help の場合は使い方を表示する
-     *
-     * @throws IOException
-     *                     入出力エラーが発生した場合
+     * main メソッドのテスト - 正常系:--help の場合は Spring Boot を起動して使い方を表示する
      */
     @Test
-    public void testMain_normalHelp() throws IOException {
+    public void testMain_normalHelp() {
 
         /* 期待値の定義 */
         final String expectedPrefix = "使い方: java -jar daily-tasks-0.1.0.jar";
