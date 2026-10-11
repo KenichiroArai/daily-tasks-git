@@ -15047,7 +15047,7 @@
       "declaredCount": 58,
       "total": {
         "count": 58,
-        "minutes": 1174.5,
+        "minutes": 1164.5,
         "checkedCount": 1,
         "checkedMinutes": 8.0
       },
@@ -15084,7 +15084,7 @@
         },
         "漢字検定": {
           "count": 1,
-          "minutes": 15.0,
+          "minutes": 5.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
@@ -15110,7 +15110,7 @@
         },
         "2026-09": {
           "count": 38,
-          "minutes": 858.5,
+          "minutes": 848.5,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },

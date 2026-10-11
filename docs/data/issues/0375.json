@@ -3,13 +3,13 @@
   "title": "2026年10月10日のタスク",
   "date": "2026-10-10",
   "state": "open",
-  "updatedAt": "2026-10-10T12:42:28Z",
+  "updatedAt": "2026-10-10T15:31:53Z",
   "sections": [
     "持ち越し"
   ],
   "declaredCount": 58,
   "count": 58,
-  "minutes": 1174.5,
+  "minutes": 1164.5,
   "items": [
     {
       "name": "国語",
@@ -249,10 +249,10 @@
       "name": "漢字検定",
       "originDate": "2026-09-15",
       "checked": false,
-      "minutes": 15.0,
+      "minutes": 5.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 漢字検定2026/09/15（残り時間：15分）"
+      "raw": "- [ ] 漢字検定2026/09/15（残り時間：5分）"
     },
     {
       "name": "汎用タスク",
