@@ -40,9 +40,7 @@ public class DefaultMinutesRepositoryImplTest {
 
     }
 
-    /**
-     * テスト用の一時ディレクトリ
-     */
+    /** テスト用の一時ディレクトリ */
     @TempDir
     Path tempDir;
 

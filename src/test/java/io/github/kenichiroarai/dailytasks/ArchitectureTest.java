@@ -32,14 +32,10 @@ import com.tngtech.archunit.library.Architectures;
 })
 public class ArchitectureTest {
 
-    /**
-     * ルートパッケージ
-     */
+    /** ルートパッケージ */
     private static final String ROOT_PACKAGE = "io.github.kenichiroarai.dailytasks";
 
-    /**
-     * 検査対象のクラス
-     */
+    /** 検査対象のクラス */
     private static JavaClasses classes;
 
     /**

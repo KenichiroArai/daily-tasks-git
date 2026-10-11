@@ -31,9 +31,7 @@ import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 })
 public class CarryoverParserImplTest {
 
-    /**
-     * テスト用の標準時間
-     */
+    /** テスト用の標準時間 */
     private static final DefaultMinutes DEFAULT_MINUTES
         = new DefaultMinutes(Map.of("国語", (double) 15, "マラソン日記", (double) 0));
 

@@ -19,15 +19,11 @@ import org.junit.jupiter.api.Test;
 })
 public class CarryoverIssueTest {
 
-    /**
-     * テスト用の持ち越し項目（未チェック、15分）
-     */
+    /** テスト用の持ち越し項目（未チェック、15分） */
     private static final CarryoverItem ITEM1 = new CarryoverItem("国語", "2026-06-18", false, 15, MinutesSource.PARSED,
         "持ち越し", "- [ ] 国語2026/06/18（残り時間：15分）");
 
-    /**
-     * テスト用の持ち越し項目（チェック済み、8.5分）
-     */
+    /** テスト用の持ち越し項目（チェック済み、8.5分） */
     private static final CarryoverItem ITEM2 = new CarryoverItem("音楽", "2026-08-18", true, 8.5, MinutesSource.PARSED,
         "持ち越し", "- [x] 音楽2026/08/18（残り時間：8.5分）");
 

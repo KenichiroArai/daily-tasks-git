@@ -22,9 +22,7 @@ import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.Mess
 @Component
 public class MessageProviderImpl implements MessageProvider {
 
-    /**
-     * メッセージの取得元
-     */
+    /** メッセージの取得元 */
     private final MessageSource messageSource;
 
     /**

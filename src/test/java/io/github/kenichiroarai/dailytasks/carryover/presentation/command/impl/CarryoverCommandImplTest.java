@@ -46,14 +46,10 @@ public class CarryoverCommandImplTest {
      */
     private static final class StubCarryoverService implements CarryoverService {
 
-        /**
-         * 呼び出し時のモード
-         */
+        /** 呼び出し時のモード */
         private final List<Boolean> calls = new ArrayList<>();
 
-        /**
-         * 呼び出し時の設定
-         */
+        /** 呼び出し時の設定 */
         private final List<CarryoverSettings> settingsList = new ArrayList<>();
 
         /**
@@ -102,9 +98,7 @@ public class CarryoverCommandImplTest {
 
     }
 
-    /**
-     * テスト用の設定ファイルの値
-     */
+    /** テスト用の設定ファイルの値 */
     private static final CarryoverProperties PROPERTIES
         = new CarryoverProperties("owner/repo", "test-token", "out/data", "conf/minutes.json", 7);
 

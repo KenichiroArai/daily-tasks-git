@@ -20,14 +20,10 @@ import ch.qos.logback.core.read.ListAppender;
  */
 public final class LogCapture implements AutoCloseable {
 
-    /**
-     * 対象のロガー
-     */
+    /** 対象のロガー */
     private final Logger logger;
 
-    /**
-     * ログの取得先
-     */
+    /** ログの取得先 */
     private final ListAppender<ILoggingEvent> listAppender;
 
     /**

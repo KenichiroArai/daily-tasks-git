@@ -34,104 +34,64 @@ import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.Mess
 @Component
 public class CarryoverParserImpl implements CarryoverParser {
 
-    /**
-     * ロガー
-     */
+    /** ロガー */
     private static final Logger LOGGER = LoggerFactory.getLogger(CarryoverParserImpl.class);
 
-    /**
-     * メッセージのキー：タイトルから日付を取得できない
-     */
+    /** メッセージのキー：タイトルから日付を取得できない */
     private static final String MSG_TITLE_DATE_NOT_FOUND = "carryover.parser.titleDateNotFound";
 
-    /**
-     * メッセージのキー：持ち越し元の日付がない
-     */
+    /** メッセージのキー：持ち越し元の日付がない */
     private static final String MSG_ORIGIN_DATE_NOT_FOUND = "carryover.parser.originDateNotFound";
 
-    /**
-     * メッセージのキー：項目名を取得できない
-     */
+    /** メッセージのキー：項目名を取得できない */
     private static final String MSG_NAME_NOT_FOUND = "carryover.parser.nameNotFound";
 
-    /**
-     * メッセージのキー：時間表記を解釈できない
-     */
+    /** メッセージのキー：時間表記を解釈できない */
     private static final String MSG_MINUTES_NOT_PARSED = "carryover.parser.minutesNotParsed";
 
-    /**
-     * メッセージのキー：標準時間が未登録
-     */
+    /** メッセージのキー：標準時間が未登録 */
     private static final String MSG_DEFAULT_MINUTES_NOT_FOUND = "carryover.parser.defaultMinutesNotFound";
 
-    /**
-     * メッセージのキー：想定外の行
-     */
+    /** メッセージのキー：想定外の行 */
     private static final String MSG_UNEXPECTED_LINE = "carryover.parser.unexpectedLine";
 
-    /**
-     * メッセージのキー：残数と解析件数の食い違い
-     */
+    /** メッセージのキー：残数と解析件数の食い違い */
     private static final String MSG_DECLARED_COUNT_MISMATCH = "carryover.parser.declaredCountMismatch";
 
-    /**
-     * 対象セクション名
-     */
+    /** 対象セクション名 */
     private static final Set<String> TARGET_SECTIONS = Set.of("負債", "繰り越し", "持ち越し");
 
-    /**
-     * 項目名が空の場合の名前
-     */
+    /** 項目名が空の場合の名前 */
     private static final String UNKNOWN_NAME = "不明";
 
-    /**
-     * タイトルの日付（YYYY年MM月DD日）
-     */
+    /** タイトルの日付（YYYY年MM月DD日） */
     private static final Pattern TITLE_DATE = Pattern.compile("(\\d{4})年(\\d{1,2})月(\\d{1,2})日");
 
-    /**
-     * 見出し（## 見出し）
-     */
+    /** 見出し（## 見出し） */
     private static final Pattern HEADING = Pattern.compile("^##(?!#)\\s*(.*?)\\s*$");
 
-    /**
-     * 残数（残：N）
-     */
+    /** 残数（残：N） */
     private static final Pattern DECLARED_COUNT = Pattern.compile("^\\s*残\\s*[：:]\\s*(\\d+)\\s*$");
 
-    /**
-     * チェックボックスの行（- [ ] 内容 / - [x] 内容）
-     */
+    /** チェックボックスの行（- [ ] 内容 / - [x] 内容） */
     private static final Pattern CHECKBOX = Pattern.compile("^\\s*[-*]\\s*\\[([ xX])\\]\\s*(.*?)\\s*$");
 
-    /**
-     * 持ち越し元の日付を含む内容（項目名YYYY/MM/DD残り）
-     */
+    /** 持ち越し元の日付を含む内容（項目名YYYY/MM/DD残り） */
     private static final Pattern DATED_CONTENT = Pattern.compile("^(.*?)(\\d{4})/(\\d{1,2})/(\\d{1,2})(.*)$");
 
-    /**
-     * 括弧内の時間表記
-     */
+    /** 括弧内の時間表記 */
     private static final Pattern PARENTHESES = Pattern.compile("[（(]([^）)]*)[）)]");
 
-    /**
-     * 残り時間の表記（残り時間：N分 / 残りN分 / 先行分残りN分）
-     */
+    /** 残り時間の表記（残り時間：N分 / 残りN分 / 先行分残りN分） */
     private static final Pattern REMAINING_MINUTES = Pattern.compile("残り(?:時間)?\\s*[：:]?\\s*(\\d+(?:\\.\\d+)?)\\s*分");
 
-    /**
-     * 時間だけの表記（N分）
-     */
+    /** 時間だけの表記（N分） */
     private static final Pattern SIMPLE_MINUTES = Pattern.compile("^\\s*(\\d+(?:\\.\\d+)?)\\s*分\\s*$");
 
-    /**
-     * 項目名の末尾の括弧書き
-     */
+    /** 項目名の末尾の括弧書き */
     private static final Pattern TRAILING_PARENTHESES = Pattern.compile("[（(][^（()）]*[）)]$");
 
-    /**
-     * 項目名の末尾の開き括弧
-     */
+    /** 項目名の末尾の開き括弧 */
     private static final Pattern TRAILING_OPEN_PARENTHESES = Pattern.compile("[（(]+$");
 
     /**
@@ -319,9 +279,7 @@ public class CarryoverParserImpl implements CarryoverParser {
 
     }
 
-    /**
-     * メッセージの取得
-     */
+    /** メッセージの取得 */
     private final MessageProvider messageProvider;
 
     /**

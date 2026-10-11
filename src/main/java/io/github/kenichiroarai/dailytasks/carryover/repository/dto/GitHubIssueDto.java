@@ -11,29 +11,19 @@ package io.github.kenichiroarai.dailytasks.carryover.repository.dto;
  */
 public class GitHubIssueDto {
 
-    /**
-     * Issue 番号
-     */
+    /** Issue 番号 */
     private final int number;
 
-    /**
-     * Issue タイトル
-     */
+    /** Issue タイトル */
     private final String title;
 
-    /**
-     * Issue の状態（open / closed）
-     */
+    /** Issue の状態（open / closed） */
     private final String state;
 
-    /**
-     * Issue の更新日時（ISO-8601）
-     */
+    /** Issue の更新日時（ISO-8601） */
     private final String updatedAt;
 
-    /**
-     * Issue 本文
-     */
+    /** Issue 本文 */
     private final String body;
 
     /**

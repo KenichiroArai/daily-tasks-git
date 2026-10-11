@@ -21,19 +21,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class CarryoverSummaryDto {
 
-    /**
-     * 集計に含めた最新の Issue 番号。Issue がない場合は 0
-     */
+    /** 集計に含めた最新の Issue 番号。Issue がない場合は 0 */
     private final int latestIssue;
 
-    /**
-     * 項目名（延べ件数の多い順）
-     */
+    /** 項目名（延べ件数の多い順） */
     private final List<String> items;
 
-    /**
-     * 日別の集計（日付順）
-     */
+    /** 日別の集計（日付順） */
     private final List<DailySummaryDto> days;
 
     /**

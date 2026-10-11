@@ -12,19 +12,13 @@ package io.github.kenichiroarai.dailytasks.carryover.domain.model;
 @SuppressWarnings("nls")
 public enum MinutesSource {
 
-    /**
-     * Issue 本文の時間表記から取得
-     */
+    /** Issue 本文の時間表記から取得 */
     PARSED("parsed"),
 
-    /**
-     * 項目ごとの標準時間で補完
-     */
+    /** 項目ごとの標準時間で補完 */
     DEFAULT("default"),
 
-    /**
-     * 標準時間が未登録のため 0 分で補完
-     */
+    /** 標準時間が未登録のため 0 分で補完 */
     UNKNOWN("unknown"),
 
     ;
@@ -58,9 +52,7 @@ public enum MinutesSource {
 
     }
 
-    /**
-     * 保存するときの値
-     */
+    /** 保存するときの値 */
     private final String value;
 
     /**

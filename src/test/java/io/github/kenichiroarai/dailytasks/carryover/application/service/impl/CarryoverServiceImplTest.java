@@ -55,29 +55,19 @@ public class CarryoverServiceImplTest {
      */
     private static final class StubCarryoverIssueService implements CarryoverIssueService {
 
-        /**
-         * 取得する Issue
-         */
+        /** 取得する Issue */
         private final List<DailyTaskIssue> remoteIssues;
 
-        /**
-         * 保存済みの解析結果
-         */
+        /** 保存済みの解析結果 */
         private final Map<Integer, CarryoverIssue> storedIssues = new TreeMap<>();
 
-        /**
-         * 保存した Issue 番号
-         */
+        /** 保存した Issue 番号 */
         private final List<Integer> savedNumbers = new ArrayList<>();
 
-        /**
-         * 保存した集計
-         */
+        /** 保存した集計 */
         private CarryoverSummary savedSummary;
 
-        /**
-         * 受け取ったデータの取得元と保存先
-         */
+        /** 受け取ったデータの取得元と保存先 */
         private final List<CarryoverSource> sources = new ArrayList<>();
 
         /**
@@ -225,31 +215,21 @@ public class CarryoverServiceImplTest {
 
     }
 
-    /**
-     * テスト用の Issue #1（時間表記なし、更新日時 u1）
-     */
+    /** テスト用の Issue #1（時間表記なし、更新日時 u1） */
     private static final DailyTaskIssue ISSUE1
         = new DailyTaskIssue(1, "2026年03月24日のタスク", "closed", "u1", "## 負債\n- [ ] 国語2026/03/20");
 
-    /**
-     * テスト用の Issue #2（時間表記あり、更新日時 u2）
-     */
+    /** テスト用の Issue #2（時間表記あり、更新日時 u2） */
     private static final DailyTaskIssue ISSUE2
         = new DailyTaskIssue(2, "2026年03月25日のタスク", "open", "u2", "## 負債\n- [ ] 英語2026/03/20（残り時間：10分）");
 
-    /**
-     * テスト用の標準時間
-     */
+    /** テスト用の標準時間 */
     private static final DefaultMinutes DEFAULT_MINUTES = new DefaultMinutes(Map.of("国語", (double) 15));
 
-    /**
-     * テスト用の Issue 本文の解析
-     */
+    /** テスト用の Issue 本文の解析 */
     private static final CarryoverParser PARSER = new CarryoverParserImpl(MessageProviderTestUtil.create());
 
-    /**
-     * テスト用の持ち越しの収集・集計の設定
-     */
+    /** テスト用の持ち越しの収集・集計の設定 */
     private static final CarryoverSettings SETTINGS = new CarryoverSettings("owner/repo", "test-token",
         Path.of("docs", "data"), Path.of("config", "default-minutes.json"), 10);
 

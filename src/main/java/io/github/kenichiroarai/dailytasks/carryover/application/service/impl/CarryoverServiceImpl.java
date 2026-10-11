@@ -39,29 +39,19 @@ import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.Mess
 @Service
 public class CarryoverServiceImpl implements CarryoverService {
 
-    /**
-     * ロガー
-     */
+    /** ロガー */
     private static final Logger LOGGER = LoggerFactory.getLogger(CarryoverServiceImpl.class);
 
-    /**
-     * メッセージのキー：収集の結果
-     */
+    /** メッセージのキー：収集の結果 */
     private static final String MSG_COLLECT_RESULT = "carryover.service.collectResult";
 
-    /**
-     * メッセージのキー：残り時間の取得元ごとの行数
-     */
+    /** メッセージのキー：残り時間の取得元ごとの行数 */
     private static final String MSG_MINUTES_SOURCE_RESULT = "carryover.service.minutesSourceResult";
 
-    /**
-     * メッセージのキー：全件モードの名前
-     */
+    /** メッセージのキー：全件モードの名前 */
     private static final String MSG_MODE_FULL = "carryover.service.modeFull";
 
-    /**
-     * メッセージのキー：差分モードの名前
-     */
+    /** メッセージのキー：差分モードの名前 */
     private static final String MSG_MODE_DIFF = "carryover.service.modeDiff";
 
     /**
@@ -158,24 +148,16 @@ public class CarryoverServiceImpl implements CarryoverService {
 
     }
 
-    /**
-     * 持ち越しのデータの取得・保存
-     */
+    /** 持ち越しのデータの取得・保存 */
     private final CarryoverIssueService carryoverIssueService;
 
-    /**
-     * Issue 本文の解析
-     */
+    /** Issue 本文の解析 */
     private final CarryoverParser carryoverParser;
 
-    /**
-     * 日別の集計
-     */
+    /** 日別の集計 */
     private final CarryoverAggregator carryoverAggregator;
 
-    /**
-     * メッセージの取得
-     */
+    /** メッセージの取得 */
     private final MessageProvider messageProvider;
 
     /**

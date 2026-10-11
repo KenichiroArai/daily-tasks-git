@@ -48,19 +48,13 @@ public class StubHttpClient extends HttpClient {
      */
     private static final class StubHttpResponse implements HttpResponse<String> {
 
-        /**
-         * リクエスト
-         */
+        /** リクエスト */
         private final HttpRequest request;
 
-        /**
-         * ステータスコード
-         */
+        /** ステータスコード */
         private final int statusCode;
 
-        /**
-         * 本文
-         */
+        /** 本文 */
         private final String body;
 
         /**
@@ -187,19 +181,13 @@ public class StubHttpClient extends HttpClient {
 
     }
 
-    /**
-     * 返す応答（ステータスコードと本文）
-     */
+    /** 返す応答（ステータスコードと本文） */
     private final Deque<Object[]> responses = new ArrayDeque<>();
 
-    /**
-     * 送信されたリクエスト
-     */
+    /** 送信されたリクエスト */
     private final List<HttpRequest> requests = new ArrayList<>();
 
-    /**
-     * send で投げる中断例外。null の場合は投げない
-     */
+    /** send で投げる中断例外。null の場合は投げない */
     private InterruptedException interruptedException;
 
     /**

@@ -51,24 +51,16 @@ public class CarryoverIssueServiceImplTest {
      */
     private static final class StubCarryoverDataRepository implements CarryoverDataRepository {
 
-        /**
-         * 読み込み結果として返す解析結果
-         */
+        /** 読み込み結果として返す解析結果 */
         private final Map<Integer, CarryoverIssueDto> issues;
 
-        /**
-         * 保存された解析結果
-         */
+        /** 保存された解析結果 */
         private final List<CarryoverIssueDto> savedIssues = new ArrayList<>();
 
-        /**
-         * 保存された集計
-         */
+        /** 保存された集計 */
         private CarryoverSummaryDto savedSummary;
 
-        /**
-         * 最後に受け取った出力先のディレクトリ
-         */
+        /** 最後に受け取った出力先のディレクトリ */
         private Path dataDir;
 
         /**
@@ -181,14 +173,10 @@ public class CarryoverIssueServiceImplTest {
      */
     private static final class StubDefaultMinutesRepository implements DefaultMinutesRepository {
 
-        /**
-         * 返す標準時間
-         */
+        /** 返す標準時間 */
         private final Map<String, Double> minutesByName;
 
-        /**
-         * 受け取った設定ファイルのパス
-         */
+        /** 受け取った設定ファイルのパス */
         private Path configFile;
 
         /**
@@ -245,14 +233,10 @@ public class CarryoverIssueServiceImplTest {
      */
     private static final class StubGitHubIssueRepository implements GitHubIssueRepository {
 
-        /**
-         * 返す Issue
-         */
+        /** 返す Issue */
         private final List<GitHubIssueDto> issues;
 
-        /**
-         * 受け取った接続設定
-         */
+        /** 受け取った接続設定 */
         private GitHubSettingsDto settings;
 
         /**

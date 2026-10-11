@@ -36,29 +36,19 @@ import tools.jackson.databind.json.JsonMapper;
 @Repository
 public class CarryoverDataRepositoryImpl implements CarryoverDataRepository {
 
-    /**
-     * Issue ごとの JSON を置くディレクトリ名
-     */
+    /** Issue ごとの JSON を置くディレクトリ名 */
     private static final String ISSUES_DIR = "issues";
 
-    /**
-     * 画面用の集計の JSON ファイル名
-     */
+    /** 画面用の集計の JSON ファイル名 */
     private static final String SUMMARY_FILE = "summary.json";
 
-    /**
-     * JSON ファイルの拡張子
-     */
+    /** JSON ファイルの拡張子 */
     private static final String JSON_EXTENSION = ".json";
 
-    /**
-     * JSON の変換
-     */
+    /** JSON の変換 */
     private final JsonMapper jsonMapper;
 
-    /**
-     * JSON の出力
-     */
+    /** JSON の出力 */
     private final ObjectWriter objectWriter;
 
     /**

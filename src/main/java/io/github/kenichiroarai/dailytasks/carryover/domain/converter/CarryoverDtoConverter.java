@@ -42,9 +42,7 @@ import io.github.kenichiroarai.dailytasks.carryover.repository.dto.ItemStatDto;
 })
 public class CarryoverDtoConverter {
 
-    /**
-     * メッセージのキー：不明な残り時間の取得元
-     */
+    /** メッセージのキー：不明な残り時間の取得元 */
     private static final String MSG_UNKNOWN_MINUTES_SOURCE = "carryover.minutesSource.unknownValue";
 
     /**
@@ -118,9 +116,7 @@ public class CarryoverDtoConverter {
 
     }
 
-    /**
-     * メッセージの取得
-     */
+    /** メッセージの取得 */
     private final MessageProvider messageProvider;
 
     /**

@@ -452,9 +452,7 @@ public void testMethod() {
  */
 public class SampleClass {
 
-    /**
-     * フィールドの説明をここに書きます。
-     */
+    /** フィールドの説明をここに書きます。 */
     private String field;
 
     /**
@@ -495,6 +493,7 @@ public class SampleClass {
 ### 記述ガイドライン
 
 - 最初の文は要約文として簡潔に書く
+- フィールド（インスタンス変数・クラス変数・enum 定数）の Javadoc は `/** 説明 */` の 1 行で書く
 - 完全な文章で、技術的に正確に記述する
 - 必要な情報を漏れなく記載し、HTML タグを適切に使う
 

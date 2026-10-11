@@ -14,44 +14,28 @@ import java.util.List;
 @SuppressWarnings("nls")
 public class CarryoverIssue {
 
-    /**
-     * Issue 番号
-     */
+    /** Issue 番号 */
     private final int number;
 
-    /**
-     * Issue タイトル
-     */
+    /** Issue タイトル */
     private final String title;
 
-    /**
-     * その日の日付（yyyy-MM-dd）。タイトルから取得できない場合は null
-     */
+    /** その日の日付（yyyy-MM-dd）。タイトルから取得できない場合は null */
     private final String date;
 
-    /**
-     * Issue の状態（open / closed）
-     */
+    /** Issue の状態（open / closed） */
     private final String state;
 
-    /**
-     * Issue の更新日時（ISO-8601）
-     */
+    /** Issue の更新日時（ISO-8601） */
     private final String updatedAt;
 
-    /**
-     * 本文にあった対象セクション名
-     */
+    /** 本文にあった対象セクション名 */
     private final List<String> sections;
 
-    /**
-     * 本文の「残：N」の値。記載がない場合は null
-     */
+    /** 本文の「残：N」の値。記載がない場合は null */
     private final Integer declaredCount;
 
-    /**
-     * 持ち越し項目
-     */
+    /** 持ち越し項目 */
     private final List<CarryoverItem> items;
 
     /**

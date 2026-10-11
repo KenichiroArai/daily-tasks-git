@@ -19,9 +19,7 @@ import org.junit.jupiter.api.Test;
 })
 public class CarryoverSummaryTest {
 
-    /**
-     * テスト用の日別の集計
-     */
+    /** テスト用の日別の集計 */
     private static final DailySummary DAY = new DailySummary("2026-10-06", 371, null);
 
     /**

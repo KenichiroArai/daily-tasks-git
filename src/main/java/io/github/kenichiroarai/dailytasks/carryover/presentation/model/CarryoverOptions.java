@@ -14,14 +14,10 @@ package io.github.kenichiroarai.dailytasks.carryover.presentation.model;
  */
 public class CarryoverOptions {
 
-    /**
-     * 全件モードか
-     */
+    /** 全件モードか */
     private boolean full;
 
-    /**
-     * 使い方を表示するか
-     */
+    /** 使い方を表示するか */
     private boolean help;
 
     /**

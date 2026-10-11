@@ -14,34 +14,22 @@ import java.util.TreeMap;
  */
 public class DailySummary {
 
-    /**
-     * その日の日付（yyyy-MM-dd）
-     */
+    /** その日の日付（yyyy-MM-dd） */
     private final String date;
 
-    /**
-     * Issue 番号
-     */
+    /** Issue 番号 */
     private final int issue;
 
-    /**
-     * 本文の「残：N」の値。記載がない場合は null
-     */
+    /** 本文の「残：N」の値。記載がない場合は null */
     private final Integer declaredCount;
 
-    /**
-     * 全体の集計
-     */
+    /** 全体の集計 */
     private final ItemStat total;
 
-    /**
-     * 項目ごとの集計
-     */
+    /** 項目ごとの集計 */
     private final Map<String, ItemStat> byItem;
 
-    /**
-     * 持ち越し元の月（yyyy-MM）ごとの集計
-     */
+    /** 持ち越し元の月（yyyy-MM）ごとの集計 */
     private final Map<String, ItemStat> byOriginMonth;
 
     /**

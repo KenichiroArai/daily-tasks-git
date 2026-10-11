@@ -28,14 +28,10 @@ import tools.jackson.databind.json.JsonMapper;
 @Repository
 public class DefaultMinutesRepositoryImpl implements DefaultMinutesRepository {
 
-    /**
-     * ロガー
-     */
+    /** ロガー */
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultMinutesRepositoryImpl.class);
 
-    /**
-     * メッセージのキー：設定ファイルがない
-     */
+    /** メッセージのキー：設定ファイルがない */
     private static final String MSG_FILE_NOT_FOUND = "carryover.defaultMinutes.fileNotFound";
 
     /**
@@ -48,14 +44,10 @@ public class DefaultMinutesRepositoryImpl implements DefaultMinutesRepository {
         // 型情報の保持のみ
     };
 
-    /**
-     * JSON の変換
-     */
+    /** JSON の変換 */
     private final JsonMapper jsonMapper;
 
-    /**
-     * メッセージの取得
-     */
+    /** メッセージの取得 */
     private final MessageProvider messageProvider;
 
     /**

@@ -32,29 +32,19 @@ import io.github.kenichiroarai.dailytasks.carryover.presentation.model.Carryover
 @Component
 public class CarryoverCommandImpl implements CarryoverCommand {
 
-    /**
-     * メッセージのキー：使い方
-     */
+    /** メッセージのキー：使い方 */
     private static final String MSG_USAGE = "carryover.command.usage";
 
-    /**
-     * メッセージのキー：不明な引数
-     */
+    /** メッセージのキー：不明な引数 */
     private static final String MSG_UNKNOWN_ARGUMENT = "carryover.command.unknownArgument";
 
-    /**
-     * 引数：全件モード
-     */
+    /** 引数：全件モード */
     private static final String ARG_FULL = "--full";
 
-    /**
-     * 引数：使い方の表示
-     */
+    /** 引数：使い方の表示 */
     private static final String ARG_HELP = "--help";
 
-    /**
-     * 引数：使い方の表示（短縮形）
-     */
+    /** 引数：使い方の表示（短縮形） */
     private static final String ARG_SHORT_HELP = "-h";
 
     /**
@@ -76,24 +66,16 @@ public class CarryoverCommandImpl implements CarryoverCommand {
 
     }
 
-    /**
-     * 持ち越しの収集・集計サービス
-     */
+    /** 持ち越しの収集・集計サービス */
     private final CarryoverService carryoverService;
 
-    /**
-     * 設定ファイルの値
-     */
+    /** 設定ファイルの値 */
     private final CarryoverProperties properties;
 
-    /**
-     * メッセージの取得
-     */
+    /** メッセージの取得 */
     private final MessageProvider messageProvider;
 
-    /**
-     * 使い方の出力先
-     */
+    /** 使い方の出力先 */
     private final PrintStream out;
 
     /**

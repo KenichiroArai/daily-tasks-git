@@ -16,9 +16,7 @@ import java.util.Map;
  */
 public class DefaultMinutes {
 
-    /**
-     * 項目名と標準時間（分）の対応
-     */
+    /** 項目名と標準時間（分）の対応 */
     private final Map<String, Double> minutesByName;
 
     /**

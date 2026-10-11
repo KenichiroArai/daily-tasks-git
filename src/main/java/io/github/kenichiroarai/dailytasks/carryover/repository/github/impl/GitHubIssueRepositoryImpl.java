@@ -40,49 +40,31 @@ import tools.jackson.databind.json.JsonMapper;
 @Repository
 public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
 
-    /**
-     * ロガー
-     */
+    /** ロガー */
     private static final Logger LOGGER = LoggerFactory.getLogger(GitHubIssueRepositoryImpl.class);
 
-    /**
-     * メッセージのキー：Issue の取得件数
-     */
+    /** メッセージのキー：Issue の取得件数 */
     private static final String MSG_FETCHED = "carryover.github.fetched";
 
-    /**
-     * メッセージのキー：API の呼び出しの失敗
-     */
+    /** メッセージのキー：API の呼び出しの失敗 */
     private static final String MSG_CALL_FAILED = "carryover.github.callFailed";
 
-    /**
-     * メッセージのキー：応答が配列ではない
-     */
+    /** メッセージのキー：応答が配列ではない */
     private static final String MSG_NOT_ARRAY = "carryover.github.notArray";
 
-    /**
-     * メッセージのキー：API の呼び出しの中断
-     */
+    /** メッセージのキー：API の呼び出しの中断 */
     private static final String MSG_INTERRUPTED = "carryover.github.interrupted";
 
-    /**
-     * GitHub API のベース URL
-     */
+    /** GitHub API のベース URL */
     private static final String API_BASE_URL = "https://api.github.com";
 
-    /**
-     * 1 ページあたりの取得件数（GitHub API の上限）
-     */
+    /** 1 ページあたりの取得件数（GitHub API の上限） */
     private static final int PER_PAGE = 100;
 
-    /**
-     * 正常応答のステータスコード
-     */
+    /** 正常応答のステータスコード */
     private static final int STATUS_OK = 200;
 
-    /**
-     * リクエストのタイムアウト
-     */
+    /** リクエストのタイムアウト */
     private static final Duration TIMEOUT = Duration.ofSeconds(30);
 
     /**
@@ -159,24 +141,16 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
 
     }
 
-    /**
-     * HTTP クライアントの生成
-     */
+    /** HTTP クライアントの生成 */
     private final Supplier<HttpClient> httpClientSupplier;
 
-    /**
-     * API のベース URL（例: https://api.github.com）
-     */
+    /** API のベース URL（例: https://api.github.com） */
     private final String apiBaseUrl;
 
-    /**
-     * JSON の変換
-     */
+    /** JSON の変換 */
     private final JsonMapper jsonMapper;
 
-    /**
-     * メッセージの取得
-     */
+    /** メッセージの取得 */
     private final MessageProvider messageProvider;
 
     /**

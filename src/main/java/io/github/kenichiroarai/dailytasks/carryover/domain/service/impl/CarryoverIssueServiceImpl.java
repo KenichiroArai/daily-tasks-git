@@ -36,24 +36,16 @@ import io.github.kenichiroarai.dailytasks.carryover.repository.github.GitHubIssu
 @Service
 public class CarryoverIssueServiceImpl implements CarryoverIssueService {
 
-    /**
-     * GitHub の Issue の取得
-     */
+    /** GitHub の Issue の取得 */
     private final GitHubIssueRepository gitHubIssueRepository;
 
-    /**
-     * JSON ファイルの読み書き
-     */
+    /** JSON ファイルの読み書き */
     private final CarryoverDataRepository carryoverDataRepository;
 
-    /**
-     * 標準時間の設定の読み込み
-     */
+    /** 標準時間の設定の読み込み */
     private final DefaultMinutesRepository defaultMinutesRepository;
 
-    /**
-     * DTO とモデルの変換
-     */
+    /** DTO とモデルの変換 */
     private final CarryoverDtoConverter converter;
 
     /**

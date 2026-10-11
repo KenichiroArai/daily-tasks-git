@@ -15,14 +15,10 @@ package io.github.kenichiroarai.dailytasks.carryover.repository.dto;
 @SuppressWarnings("nls")
 public class GitHubSettingsDto {
 
-    /**
-     * 対象リポジトリ（owner/name）
-     */
+    /** 対象リポジトリ（owner/name） */
     private final String repository;
 
-    /**
-     * API トークン。未指定の場合は null
-     */
+    /** API トークン。未指定の場合は null */
     private final String token;
 
     /**

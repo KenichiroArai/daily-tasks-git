@@ -17,24 +17,16 @@ import java.nio.file.Path;
 @SuppressWarnings("nls")
 public class CarryoverSource {
 
-    /**
-     * Issue を取得するリポジトリ（owner/name）
-     */
+    /** Issue を取得するリポジトリ（owner/name） */
     private final String repository;
 
-    /**
-     * GitHub API のトークン。未指定の場合は null
-     */
+    /** GitHub API のトークン。未指定の場合は null */
     private final String token;
 
-    /**
-     * 解析結果と集計の保存先のディレクトリ（例: docs/data）
-     */
+    /** 解析結果と集計の保存先のディレクトリ（例: docs/data） */
     private final Path dataDir;
 
-    /**
-     * 標準時間の設定ファイル（例: config/default-minutes.json）
-     */
+    /** 標準時間の設定ファイル（例: config/default-minutes.json） */
     private final Path defaultMinutesFile;
 
     /**

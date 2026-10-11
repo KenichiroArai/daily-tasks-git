@@ -14,24 +14,16 @@ package io.github.kenichiroarai.dailytasks.carryover.domain.model;
  */
 public class ItemStat {
 
-    /**
-     * 件数
-     */
+    /** 件数 */
     private int count;
 
-    /**
-     * 残り時間（分）
-     */
+    /** 残り時間（分） */
     private double minutes;
 
-    /**
-     * チェック済みの件数
-     */
+    /** チェック済みの件数 */
     private int checkedCount;
 
-    /**
-     * チェック済みの残り時間（分）
-     */
+    /** チェック済みの残り時間（分） */
     private double checkedMinutes;
 
     /**
