@@ -92,8 +92,8 @@ public class CarryoverAggregatorImplTest {
 
         /* 検証の準備 */
         final List<String>  actualDates       = testResult.getDays().stream().map(DailySummary::getDate).toList();
-        final List<Integer> actualCounts      = testResult.getDays().stream()
-            .map(day -> day.getTotal().getCount()).toList();
+        final List<Integer> actualCounts      = testResult.getDays().stream().map(day -> day.getTotal().getCount())
+            .toList();
         final List<String>  actualItems       = testResult.getItems();
         final int           actualLatestIssue = testResult.getLatestIssue();
 

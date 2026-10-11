@@ -129,8 +129,8 @@ public class GitHubIssueRepositoryImplTest {
 
         final boolean result
             = ReflectionTestUtil.<Boolean>invokeStatic(GitHubIssueRepositoryImpl.class, "hasToken", new Class<?>[] {
-            GitHubSettingsDto.class
-        }, settings);
+                GitHubSettingsDto.class
+            }, settings);
         return result;
 
     }

@@ -32,8 +32,8 @@ public class DailySummaryDtoTest {
         final Map<String, ItemStatDto> byItem = new LinkedHashMap<>();
         byItem.put("英語", new ItemStatDto(1, 30, 0, 0));
         byItem.put("国語", new ItemStatDto(1, 15, 1, 15));
-        final DailySummaryDto result = new DailySummaryDto("2026-03-24", 175, 2,
-            new ItemStatDto(2, 45, 1, 15), byItem, Map.of("2026-03", new ItemStatDto(2, 45, 1, 15)));
+        final DailySummaryDto result = new DailySummaryDto("2026-03-24", 175, 2, new ItemStatDto(2, 45, 1, 15), byItem,
+            Map.of("2026-03", new ItemStatDto(2, 45, 1, 15)));
         return result;
 
     }

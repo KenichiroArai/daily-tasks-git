@@ -408,8 +408,7 @@ public class CarryoverIssueServiceImplTest {
         final Path   expectedConfigFile = Path.of("config", "default-minutes.json");
 
         /* 準備 */
-        final StubDefaultMinutesRepository testDefaultMinutes = new StubDefaultMinutesRepository(
-            Map.of("音楽", 15.0));
+        final StubDefaultMinutesRepository testDefaultMinutes = new StubDefaultMinutesRepository(Map.of("音楽", 15.0));
         final CarryoverIssueServiceImpl    testTarget         = CarryoverIssueServiceImplTest.createTarget(
             new StubGitHubIssueRepository(List.of()), new StubCarryoverDataRepository(Map.of()), testDefaultMinutes);
 

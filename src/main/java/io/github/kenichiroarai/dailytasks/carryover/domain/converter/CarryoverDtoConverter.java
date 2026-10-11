@@ -37,6 +37,9 @@ import io.github.kenichiroarai.dailytasks.carryover.repository.dto.ItemStatDto;
  * @version 0.1.0
  */
 @Component
+@SuppressWarnings({
+    "static-method", "nls"
+})
 public class CarryoverDtoConverter {
 
     /**

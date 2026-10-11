@@ -271,8 +271,8 @@ public class CarryoverServiceImplTest {
 
         final long result
             = ReflectionTestUtil.<Long>invokeStatic(CarryoverServiceImpl.class, "countBySource", new Class<?>[] {
-            Map.class, MinutesSource.class
-        }, issues, source);
+                Map.class, MinutesSource.class
+            }, issues, source);
         return result;
 
     }
@@ -336,8 +336,8 @@ public class CarryoverServiceImplTest {
 
         final boolean result
             = ReflectionTestUtil.<Boolean>invokeStatic(CarryoverServiceImpl.class, "needsUpdate", new Class<?>[] {
-            boolean.class, CarryoverIssue.class, DailyTaskIssue.class, int.class
-        }, Boolean.valueOf(full), stored, remoteIssue, Integer.valueOf(recentFrom));
+                boolean.class, CarryoverIssue.class, DailyTaskIssue.class, int.class
+            }, Boolean.valueOf(full), stored, remoteIssue, Integer.valueOf(recentFrom));
         return result;
 
     }
@@ -375,8 +375,8 @@ public class CarryoverServiceImplTest {
 
         final int result
             = ReflectionTestUtil.<Integer>invokeStatic(CarryoverServiceImpl.class, "recentFrom", new Class<?>[] {
-            List.class, int.class
-        }, issues, Integer.valueOf(count));
+                List.class, int.class
+            }, issues, Integer.valueOf(count));
         return result;
 
     }
@@ -572,8 +572,8 @@ public class CarryoverServiceImplTest {
 
         /* 準備 */
         final Map<Integer, CarryoverIssue> testIssues
-            = Map.of(1, CarryoverServiceImplTest.parse(CarryoverServiceImplTest.ISSUE1),
-                2, CarryoverServiceImplTest.parse(CarryoverServiceImplTest.ISSUE2));
+            = Map.of(1, CarryoverServiceImplTest.parse(CarryoverServiceImplTest.ISSUE1), 2,
+                CarryoverServiceImplTest.parse(CarryoverServiceImplTest.ISSUE2));
 
         /* テスト対象の実行 */
         final long testResult = CarryoverServiceImplTest.countBySource(testIssues, MinutesSource.PARSED);

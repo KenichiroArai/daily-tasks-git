@@ -31,7 +31,9 @@ import tools.jackson.databind.json.JsonMapper;
  *
  * @version 0.1.0
  */
-@SuppressWarnings("nls")
+@SuppressWarnings({
+    "nls", "static-method"
+})
 public class CarryoverDataRepositoryImplTest {
 
     /**

@@ -43,9 +43,8 @@ public class CarryoverIssueTest {
      */
     private static CarryoverIssue createIssue(final String state, final List<String> sections) {
 
-        final CarryoverIssue result
-            = new CarryoverIssue(371, "2026年10月06日のタスク", "2026-10-06", state, "2026-10-06T14:23:08Z", sections,
-                2, List.of(CarryoverIssueTest.ITEM1, CarryoverIssueTest.ITEM2));
+        final CarryoverIssue result = new CarryoverIssue(371, "2026年10月06日のタスク", "2026-10-06", state,
+            "2026-10-06T14:23:08Z", sections, 2, List.of(CarryoverIssueTest.ITEM1, CarryoverIssueTest.ITEM2));
         return result;
 
     }

@@ -356,8 +356,8 @@ public class StubHttpClient extends HttpClient {
         }
 
         final Object[]        response = this.responses.removeFirst();
-        final HttpResponse<T> result   = (HttpResponse<T>) new StubHttpResponse(request,
-            ((Integer) response[0]), (String) response[1]);
+        final HttpResponse<T> result   = (HttpResponse<T>) new StubHttpResponse(request, ((Integer) response[0]),
+            (String) response[1]);
         return result;
 
     }

@@ -478,8 +478,7 @@ public class CarryoverParserImpl implements CarryoverParser {
 
         if (parsedMinutes != null) {
 
-            result = new CarryoverItem(name, originDate, checked, parsedMinutes, MinutesSource.PARSED,
-                section, raw);
+            result = new CarryoverItem(name, originDate, checked, parsedMinutes, MinutesSource.PARSED, section, raw);
             return result;
 
         }
@@ -503,8 +502,7 @@ public class CarryoverParserImpl implements CarryoverParser {
 
         }
 
-        result = new CarryoverItem(name, originDate, checked, defaultValue, MinutesSource.DEFAULT,
-            section, raw);
+        result = new CarryoverItem(name, originDate, checked, defaultValue, MinutesSource.DEFAULT, section, raw);
         return result;
 
     }

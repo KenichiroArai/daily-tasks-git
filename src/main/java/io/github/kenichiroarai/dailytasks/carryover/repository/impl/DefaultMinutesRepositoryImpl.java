@@ -99,8 +99,7 @@ public class DefaultMinutesRepositoryImpl implements DefaultMinutesRepository {
 
         try {
 
-            result = this.jsonMapper.readValue(configFile.toFile(),
-                DefaultMinutesRepositoryImpl.DEFAULT_MINUTES_TYPE);
+            result = this.jsonMapper.readValue(configFile.toFile(), DefaultMinutesRepositoryImpl.DEFAULT_MINUTES_TYPE);
 
         } catch (final JacksonException e) {
 

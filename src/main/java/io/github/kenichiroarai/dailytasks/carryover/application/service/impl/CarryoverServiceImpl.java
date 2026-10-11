@@ -35,6 +35,7 @@ import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.Mess
  *
  * @version 0.1.0
  */
+@SuppressWarnings("nls")
 @Service
 public class CarryoverServiceImpl implements CarryoverService {
 
@@ -135,9 +136,8 @@ public class CarryoverServiceImpl implements CarryoverService {
      */
     private static int recentFrom(final List<DailyTaskIssue> issues, final int count) {
 
-        final int result
-            = issues.stream().map(issue -> issue.getNumber()).sorted(Comparator.reverseOrder())
-            .limit(count).min(Comparator.naturalOrder()).orElse(0);
+        final int result = issues.stream().map(DailyTaskIssue::getNumber).sorted(Comparator.reverseOrder()).limit(count)
+            .min(Comparator.naturalOrder()).orElse(0);
         return result;
 
     }

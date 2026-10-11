@@ -187,6 +187,7 @@ public class CarryoverCommandImplTest {
      * @throws Exception
      *                   例外が発生した場合
      */
+    @SuppressWarnings("resource")
     @Test
     public void testCarryoverCommandImpl_normalSystemOut() throws Exception {
 
