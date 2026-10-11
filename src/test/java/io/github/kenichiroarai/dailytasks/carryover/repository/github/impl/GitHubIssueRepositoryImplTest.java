@@ -13,8 +13,8 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.GitHubIssueDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.GitHubSettingsDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.GitHubIssueDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.GitHubSettingsDto;
 import io.github.kenichiroarai.dailytasks.testutil.LogAssertions;
 import io.github.kenichiroarai.dailytasks.testutil.LogCapture;
 import io.github.kenichiroarai.dailytasks.testutil.MessageProviderTestUtil;

@@ -1,7 +1,7 @@
 /**
- * 持ち越し機能の解析のインタフェース<br>
+ * 持ち越し機能の解析<br>
  * <p>
- * 実装は impl パッケージに置く。
+ * application 層の解析の実装を impl パッケージに置く。
  * </p>
  *
  * @author KenichiroArai

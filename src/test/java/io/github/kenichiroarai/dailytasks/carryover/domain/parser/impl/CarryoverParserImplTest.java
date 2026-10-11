@@ -7,11 +7,11 @@ import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverItem;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailyTaskIssue;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DefaultMinutes;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItem;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssue;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutes;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.MinutesSource;
 import io.github.kenichiroarai.dailytasks.testutil.LogAssertions;
 import io.github.kenichiroarai.dailytasks.testutil.LogCapture;
 import io.github.kenichiroarai.dailytasks.testutil.MessageProviderTestUtil;

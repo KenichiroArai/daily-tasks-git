@@ -5,11 +5,11 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverItem;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSummary;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailySummary;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItem;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummary;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailySummary;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.MinutesSource;
 
 /**
  * {@link CarryoverAggregatorImpl} のテスト<br>

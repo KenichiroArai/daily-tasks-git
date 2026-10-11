@@ -7,24 +7,24 @@ import java.util.TreeMap;
 
 import org.springframework.stereotype.Service;
 
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummary;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssue;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutes;
+import io.github.kenichiroarai.dailytasks.carryover.application.service.CarryoverIssueService;
 import io.github.kenichiroarai.dailytasks.carryover.domain.converter.CarryoverDtoConverter;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSource;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSummary;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailyTaskIssue;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DefaultMinutes;
-import io.github.kenichiroarai.dailytasks.carryover.domain.service.CarryoverIssueService;
-import io.github.kenichiroarai.dailytasks.carryover.repository.CarryoverDataRepository;
-import io.github.kenichiroarai.dailytasks.carryover.repository.DefaultMinutesRepository;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.CarryoverIssueDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.GitHubSettingsDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.github.GitHubIssueRepository;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverIssueDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.GitHubSettingsDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.repository.CarryoverDataRepository;
+import io.github.kenichiroarai.dailytasks.carryover.domain.repository.DefaultMinutesRepository;
+import io.github.kenichiroarai.dailytasks.carryover.domain.repository.GitHubIssueRepository;
 
 /**
  * 持ち越しのデータの取得・保存サービスの実装<br>
  * <p>
- * repository 層の DTO と domain 層のモデルを {@link CarryoverDtoConverter} で変換する。データの取得元と保存先は、repository 層の型（接続設定の
- * DTO・パス）に変換して渡す。
+ * application 層のデータの取得・保存サービスを実装する。application 層のモデルと domain 層の DTO を {@link CarryoverDtoConverter}
+ * で変換し、domain 層のリポジトリ（実装は repository 層）に渡す。データの取得元と保存先は、domain 層の型（接続設定の DTO・パス）に変換して渡す。
  * </p>
  *
  * @author KenichiroArai

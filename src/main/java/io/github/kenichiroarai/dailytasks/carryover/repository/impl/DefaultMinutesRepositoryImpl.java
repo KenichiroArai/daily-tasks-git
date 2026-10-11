@@ -9,8 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import io.github.kenichiroarai.dailytasks.carryover.domain.repository.DefaultMinutesRepository;
 import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageProvider;
-import io.github.kenichiroarai.dailytasks.carryover.repository.DefaultMinutesRepository;
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.json.JsonMapper;

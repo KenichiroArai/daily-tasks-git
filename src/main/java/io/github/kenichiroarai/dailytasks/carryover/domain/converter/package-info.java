@@ -1,7 +1,7 @@
 /**
- * 持ち越し機能の DTO とモデルの変換<br>
+ * 持ち越し機能のモデルと DTO の変換<br>
  * <p>
- * repository 層の DTO と domain 層のモデルを相互に変換する。
+ * application 層のモデルと domain 層の DTO を相互に変換する。
  * </p>
  *
  * @author KenichiroArai

@@ -1,7 +1,7 @@
 /**
- * 持ち越し機能のサービスのインタフェース<br>
+ * 持ち越し機能のサービス<br>
  * <p>
- * 実装は impl パッケージに置く。
+ * domain 層に求めるデータの取得・保存サービス（実装は domain 層）を置く。presentation 層のサービスの実装を impl パッケージに置く。
  * </p>
  *
  * @author KenichiroArai

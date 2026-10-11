@@ -8,22 +8,22 @@ import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItem;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummary;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssue;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutes;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.MinutesSource;
 import io.github.kenichiroarai.dailytasks.carryover.domain.converter.CarryoverDtoConverter;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverItem;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSource;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSummary;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailyTaskIssue;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DefaultMinutes;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
-import io.github.kenichiroarai.dailytasks.carryover.repository.CarryoverDataRepository;
-import io.github.kenichiroarai.dailytasks.carryover.repository.DefaultMinutesRepository;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.CarryoverIssueDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.CarryoverItemDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.CarryoverSummaryDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.GitHubIssueDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.GitHubSettingsDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.github.GitHubIssueRepository;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverIssueDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverItemDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverSummaryDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.GitHubIssueDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.GitHubSettingsDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.repository.CarryoverDataRepository;
+import io.github.kenichiroarai.dailytasks.carryover.domain.repository.DefaultMinutesRepository;
+import io.github.kenichiroarai.dailytasks.carryover.domain.repository.GitHubIssueRepository;
 import io.github.kenichiroarai.dailytasks.testutil.MessageProviderTestUtil;
 
 /**

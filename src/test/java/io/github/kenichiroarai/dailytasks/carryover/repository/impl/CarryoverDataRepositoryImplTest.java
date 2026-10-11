@@ -13,11 +13,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.CarryoverIssueDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.CarryoverItemDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.CarryoverSummaryDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.DailySummaryDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.ItemStatDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverIssueDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverItemDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverSummaryDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.DailySummaryDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.ItemStatDto;
+import io.github.kenichiroarai.dailytasks.carryover.repository.converter.CarryoverJsonConverter;
 import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.json.JsonMapper;
@@ -91,7 +92,8 @@ public class CarryoverDataRepositoryImplTest {
      */
     private static CarryoverDataRepositoryImpl createTarget() {
 
-        final CarryoverDataRepositoryImpl result = new CarryoverDataRepositoryImpl(new JsonMapper());
+        final CarryoverDataRepositoryImpl result
+            = new CarryoverDataRepositoryImpl(new JsonMapper(), new CarryoverJsonConverter());
         return result;
 
     }

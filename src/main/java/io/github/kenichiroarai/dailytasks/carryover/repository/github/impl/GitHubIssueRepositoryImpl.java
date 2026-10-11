@@ -16,10 +16,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.GitHubIssueDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.GitHubSettingsDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.repository.GitHubIssueRepository;
 import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageProvider;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.GitHubIssueDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.GitHubSettingsDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.github.GitHubIssueRepository;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
@@ -27,7 +27,7 @@ import tools.jackson.databind.json.JsonMapper;
 /**
  * GitHub REST API で Issue を取得するリポジトリの実装<br>
  * <p>
- * HTTP クライアントは取得のたびに生成して閉じる。トークンはログに出力しない。
+ * domain 層のリポジトリを実装し、API の応答を domain 層の DTO に変換して返す。HTTP クライアントは取得のたびに生成して閉じる。トークンはログに出力しない。
  * </p>
  *
  * @author KenichiroArai

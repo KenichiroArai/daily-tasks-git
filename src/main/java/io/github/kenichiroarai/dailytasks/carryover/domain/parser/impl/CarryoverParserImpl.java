@@ -10,12 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverItem;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailyTaskIssue;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DefaultMinutes;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
-import io.github.kenichiroarai.dailytasks.carryover.domain.parser.CarryoverParser;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItem;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssue;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutes;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.MinutesSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.parser.CarryoverParser;
 import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageProvider;
 
 /**

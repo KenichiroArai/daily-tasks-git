@@ -1,7 +1,7 @@
 /**
- * 持ち越し機能の application 層が受け取る設定<br>
+ * 持ち越し機能の業務モデル<br>
  * <p>
- * presentation 層から引き継ぎ、domain 層の型に変換して渡す。
+ * Issue、持ち越し項目、日別集計、標準時間と、domain 層に引き継ぐ設定を持つ。application 層と domain 層の受け渡しに使う。
  * </p>
  *
  * @author KenichiroArai

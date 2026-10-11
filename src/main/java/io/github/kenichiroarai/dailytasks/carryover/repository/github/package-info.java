@@ -1,7 +1,7 @@
 /**
- * 持ち越し機能の GitHub API のデータアクセスのインタフェース<br>
+ * 持ち越し機能の GitHub API のデータアクセス<br>
  * <p>
- * 実装は impl パッケージに置く。
+ * domain 層の GitHub の Issue の取得の実装を impl パッケージに置く。
  * </p>
  *
  * @author KenichiroArai

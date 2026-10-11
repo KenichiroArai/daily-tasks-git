@@ -9,11 +9,11 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import io.github.kenichiroarai.dailytasks.carryover.domain.aggregator.CarryoverAggregator;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverItem;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSummary;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailySummary;
+import io.github.kenichiroarai.dailytasks.carryover.application.aggregator.CarryoverAggregator;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItem;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummary;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailySummary;
 
 /**
  * 持ち越しの解析結果を日別に集計する実装<br>

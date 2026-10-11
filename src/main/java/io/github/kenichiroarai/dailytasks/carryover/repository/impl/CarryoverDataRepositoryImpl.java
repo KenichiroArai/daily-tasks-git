@@ -10,9 +10,11 @@ import java.util.stream.Stream;
 
 import org.springframework.stereotype.Repository;
 
-import io.github.kenichiroarai.dailytasks.carryover.repository.CarryoverDataRepository;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.CarryoverIssueDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.CarryoverSummaryDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverIssueDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverSummaryDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.repository.CarryoverDataRepository;
+import io.github.kenichiroarai.dailytasks.carryover.repository.converter.CarryoverJsonConverter;
+import io.github.kenichiroarai.dailytasks.carryover.repository.json.CarryoverIssueJson;
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.util.DefaultIndenter;
 import tools.jackson.core.util.DefaultPrettyPrinter;
@@ -23,7 +25,8 @@ import tools.jackson.databind.json.JsonMapper;
 /**
  * 持ち越しの JSON ファイル（Issue ごとの解析結果と画面用の集計）を読み書きするリポジトリの実装<br>
  * <p>
- * 出力は OS に関係なく改行を LF に統一し、差分が安定するようにする。
+ * domain 層のリポジトリを実装する。受け取った DTO は {@link CarryoverJsonConverter} で JSON の形の型に変換して読み書きする。出力は OS
+ * に関係なく改行を LF に統一し、差分が安定するようにする。
  * </p>
  *
  * @author KenichiroArai
@@ -51,15 +54,21 @@ public class CarryoverDataRepositoryImpl implements CarryoverDataRepository {
     /** JSON の出力 */
     private final ObjectWriter objectWriter;
 
+    /** DTO と JSON の形の変換 */
+    private final CarryoverJsonConverter converter;
+
     /**
      * コンストラクタ<br>
      *
      * @param jsonMapper
      *                   JSON の変換
+     * @param converter
+     *                   DTO と JSON の形の変換
      */
-    public CarryoverDataRepositoryImpl(final JsonMapper jsonMapper) {
+    public CarryoverDataRepositoryImpl(final JsonMapper jsonMapper, final CarryoverJsonConverter converter) {
 
         this.jsonMapper = jsonMapper;
+        this.converter = converter;
 
         /* 改行を LF に統一した整形出力 */
         final DefaultIndenter      indenter = new DefaultIndenter("  ", "\n");
@@ -99,7 +108,7 @@ public class CarryoverDataRepositoryImpl implements CarryoverDataRepository {
                 .filter(p -> p.getFileName().toString().endsWith(CarryoverDataRepositoryImpl.JSON_EXTENSION))
                 .toList()) {
 
-                final CarryoverIssueDto issue = this.readIssue(path);
+                final CarryoverIssueDto issue = this.converter.toCarryoverIssueDto(this.readIssue(path));
                 result.put(issue.getNumber(), issue);
 
             }
@@ -121,13 +130,13 @@ public class CarryoverDataRepositoryImpl implements CarryoverDataRepository {
      * @throws IOException
      *                     読み込みまたは JSON の変換に失敗した場合
      */
-    private CarryoverIssueDto readIssue(final Path path) throws IOException {
+    private CarryoverIssueJson readIssue(final Path path) throws IOException {
 
-        CarryoverIssueDto result = null;
+        CarryoverIssueJson result = null;
 
         try {
 
-            result = this.jsonMapper.readValue(path.toFile(), CarryoverIssueDto.class);
+            result = this.jsonMapper.readValue(path.toFile(), CarryoverIssueJson.class);
 
         } catch (final JacksonException e) {
 
@@ -158,7 +167,7 @@ public class CarryoverDataRepositoryImpl implements CarryoverDataRepository {
 
         final Path path = dataDir.resolve(CarryoverDataRepositoryImpl.ISSUES_DIR)
             .resolve(String.format("%04d%s", issue.getNumber(), CarryoverDataRepositoryImpl.JSON_EXTENSION));
-        this.write(path, issue);
+        this.write(path, this.converter.toCarryoverIssueJson(issue));
 
     }
 
@@ -177,7 +186,7 @@ public class CarryoverDataRepositoryImpl implements CarryoverDataRepository {
     public void saveSummary(final Path dataDir, final CarryoverSummaryDto summary) throws IOException {
 
         final Path path = dataDir.resolve(CarryoverDataRepositoryImpl.SUMMARY_FILE);
-        this.write(path, summary);
+        this.write(path, this.converter.toCarryoverSummaryJson(summary));
 
     }
 

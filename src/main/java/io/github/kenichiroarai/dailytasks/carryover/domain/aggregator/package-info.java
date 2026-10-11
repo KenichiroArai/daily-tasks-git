@@ -1,7 +1,7 @@
 /**
- * 持ち越し機能の集計のインタフェース<br>
+ * 持ち越し機能の集計<br>
  * <p>
- * 実装は impl パッケージに置く。
+ * application 層の集計の実装を impl パッケージに置く。
  * </p>
  *
  * @author KenichiroArai

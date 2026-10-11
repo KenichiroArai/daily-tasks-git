@@ -1,7 +1,7 @@
 /**
  * 持ち越し機能のデータの取得・保存サービスの実装<br>
  * <p>
- * repository 層のインタフェースを使い、DTO とモデルを変換する。
+ * application 層のサービスを実装し、domain 層のリポジトリを使って、モデルと DTO を変換する。
  * </p>
  *
  * @author KenichiroArai

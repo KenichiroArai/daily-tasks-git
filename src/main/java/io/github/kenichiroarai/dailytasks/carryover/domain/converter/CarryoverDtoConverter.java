@@ -6,28 +6,28 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverItem;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSource;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSummary;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailySummary;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailyTaskIssue;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DefaultMinutes;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.ItemStat;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItem;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummary;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailySummary;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssue;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutes;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.ItemStat;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.MinutesSource;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverIssueDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverItemDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverSummaryDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.DailySummaryDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.GitHubIssueDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.GitHubSettingsDto;
+import io.github.kenichiroarai.dailytasks.carryover.domain.dto.ItemStatDto;
 import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageProvider;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.CarryoverIssueDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.CarryoverItemDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.CarryoverSummaryDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.DailySummaryDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.GitHubIssueDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.GitHubSettingsDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.ItemStatDto;
 
 /**
- * repository 層の DTO と domain 層のモデルを相互に変換する<br>
+ * application 層のモデルと domain 層の DTO を相互に変換する<br>
  * <p>
- * repository 層はモデルを知らないため、変換は両方を知る domain 層で行う。
+ * domain 層は repository 層を参照しないため、application 層のモデルを自層の DTO に変換してから repository 層に渡す。
  * </p>
  *
  * @author KenichiroArai

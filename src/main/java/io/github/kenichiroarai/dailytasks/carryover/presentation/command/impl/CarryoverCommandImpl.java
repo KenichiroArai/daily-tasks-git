@@ -8,17 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSettings;
-import io.github.kenichiroarai.dailytasks.carryover.application.service.CarryoverService;
 import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageProvider;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.command.CarryoverCommand;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.config.CarryoverProperties;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverOptions;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverSettings;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.service.CarryoverService;
 
 /**
  * 持ち越しの収集コマンドの実装<br>
  * <p>
- * 入力の窓口として、設定ファイル（application.properties）の値とコマンドライン引数から設定を作り、application 層へ引き継ぐ。Spring Boot の起動後に
+ * 入力の窓口として、設定ファイル（application.properties）の値とコマンドライン引数から presentation 層の設定を作り、presentation
+ * 層のサービス（application 層が実装する）へ引き継ぐ。Spring Boot の起動後に
  * {@link CommandLineRunner} として実行される。リポジトリのルートをカレントディレクトリとして実行する。
  * </p>
  *
@@ -48,7 +49,7 @@ public class CarryoverCommandImpl implements CarryoverCommand {
     private static final String ARG_SHORT_HELP = "-h";
 
     /**
-     * 設定ファイルの値から application 層に引き継ぐ設定を作る<br>
+     * 設定ファイルの値から presentation 層のサービスに引き継ぐ設定を作る<br>
      *
      * @param properties
      *                   設定ファイルの値

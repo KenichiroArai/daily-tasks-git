@@ -11,10 +11,10 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSettings;
-import io.github.kenichiroarai.dailytasks.carryover.application.service.CarryoverService;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.config.CarryoverProperties;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverOptions;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverSettings;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.service.CarryoverService;
 import io.github.kenichiroarai.dailytasks.testutil.MessageProviderTestUtil;
 import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 

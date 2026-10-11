@@ -11,17 +11,17 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSettings;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummary;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssue;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutes;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.MinutesSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.parser.CarryoverParser;
+import io.github.kenichiroarai.dailytasks.carryover.application.service.CarryoverIssueService;
 import io.github.kenichiroarai.dailytasks.carryover.domain.aggregator.impl.CarryoverAggregatorImpl;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSource;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSummary;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailyTaskIssue;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DefaultMinutes;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
-import io.github.kenichiroarai.dailytasks.carryover.domain.parser.CarryoverParser;
 import io.github.kenichiroarai.dailytasks.carryover.domain.parser.impl.CarryoverParserImpl;
-import io.github.kenichiroarai.dailytasks.carryover.domain.service.CarryoverIssueService;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverSettings;
 import io.github.kenichiroarai.dailytasks.testutil.LogAssertions;
 import io.github.kenichiroarai.dailytasks.testutil.LogCapture;
 import io.github.kenichiroarai.dailytasks.testutil.MessageProviderTestUtil;
@@ -504,7 +504,7 @@ public class CarryoverServiceImplTest {
     }
 
     /**
-     * collect メソッドのテスト - 正常系:設定を domain 層のデータの取得元に変換して渡す場合
+     * collect メソッドのテスト - 正常系:設定を application 層のデータの取得元に変換して渡す場合
      *
      * @throws IOException
      *                     入出力エラーが発生した場合
@@ -775,7 +775,7 @@ public class CarryoverServiceImplTest {
     }
 
     /**
-     * toSource メソッドのテスト - 正常系:設定を domain 層の取得元に引き継ぐ場合
+     * toSource メソッドのテスト - 正常系:設定を application 層の取得元に引き継ぐ場合
      *
      * @throws Exception
      *                   例外が発生した場合

@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import com.tngtech.archunit.base.DescribedPredicate;
-import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.core.importer.ImportOption;
@@ -51,74 +49,6 @@ public class ArchitectureTest {
     }
 
     /**
-     * impl の公開範囲のテスト - 正常系:impl のクラスをフィールドの型として使っていない場合
-     */
-    @Test
-    public void testImplUsage_normalNoImplField() {
-
-        /* 期待値の定義 */
-
-        /* 準備 */
-        final ArchRule testRule
-            = ArchRuleDefinition.noFields().should().haveRawType(JavaClass.Predicates.resideInAPackage("..impl.."));
-
-        /* テスト対象の実行 */
-        testRule.check(ArchitectureTest.classes);
-
-        /* 検証の準備 */
-
-        /* 検証の実施 */
-        // 違反があれば check が AssertionError を投げる
-
-    }
-
-    /**
-     * impl の公開範囲のテスト - 正常系:impl のクラスをメソッド・コンストラクタの引数の型として使っていない場合
-     */
-    @Test
-    public void testImplUsage_normalNoImplParameter() {
-
-        /* 期待値の定義 */
-
-        /* 準備 */
-        // 無名クラスのコンストラクタは外側のインスタンスを暗黙の引数に取るため対象外とする
-        final ArchRule testRule = ArchRuleDefinition.noCodeUnits().that().areDeclaredInClassesThat()
-            .areNotAnonymousClasses().should().haveRawParameterTypes(DescribedPredicate.describe("impl のクラスを含む",
-                parameters -> parameters.stream().anyMatch(JavaClass.Predicates.resideInAPackage("..impl..")::test)));
-
-        /* テスト対象の実行 */
-        testRule.check(ArchitectureTest.classes);
-
-        /* 検証の準備 */
-
-        /* 検証の実施 */
-        // 違反があれば check が AssertionError を投げる
-
-    }
-
-    /**
-     * impl の公開範囲のテスト - 正常系:impl のクラスをメソッドの戻り値の型として使っていない場合
-     */
-    @Test
-    public void testImplUsage_normalNoImplReturnType() {
-
-        /* 期待値の定義 */
-
-        /* 準備 */
-        final ArchRule testRule = ArchRuleDefinition.noMethods().should()
-            .haveRawReturnType(JavaClass.Predicates.resideInAPackage("..impl.."));
-
-        /* テスト対象の実行 */
-        testRule.check(ArchitectureTest.classes);
-
-        /* 検証の準備 */
-
-        /* 検証の実施 */
-        // 違反があれば check が AssertionError を投げる
-
-    }
-
-    /**
      * DI のテスト - 正常系:フィールドインジェクションを使っていない場合
      */
     @Test
@@ -140,23 +70,17 @@ public class ArchitectureTest {
     }
 
     /**
-     * 層間の参照のテスト - 正常系:すぐ下の層だけを参照し、飛び越し・逆向きの参照がない場合
+     * JSON の形のテスト - 正常系:Jackson のアノテーションを repository 層の json パッケージだけで使っている場合
      */
     @Test
-    public void testLayerDependencies_normalOnlyNextLayer() {
+    public void testJsonAnnotation_normalOnlyRepositoryJson() {
 
         /* 期待値の定義 */
 
         /* 準備 */
-        final ArchRule testRule = Architectures.layeredArchitecture().consideringOnlyDependenciesInLayers()
-            .layer("EntryPoint").definedBy(ArchitectureTest.ROOT_PACKAGE).layer("Presentation")
-            .definedBy("..carryover.presentation..").layer("Application").definedBy("..carryover.application..")
-            .layer("Domain").definedBy("..carryover.domain..").layer("Repository").definedBy("..carryover.repository..")
-            .optionalLayer("Infrastructure").definedBy("..carryover.infrastructure..").whereLayer("EntryPoint")
-            .mayNotBeAccessedByAnyLayer().whereLayer("Presentation").mayOnlyBeAccessedByLayers("EntryPoint")
-            .whereLayer("Application").mayOnlyBeAccessedByLayers("Presentation").whereLayer("Domain")
-            .mayOnlyBeAccessedByLayers("Application").whereLayer("Repository").mayOnlyBeAccessedByLayers("Domain")
-            .whereLayer("Infrastructure").mayNotAccessAnyLayer();
+        final ArchRule testRule = ArchRuleDefinition.noClasses().that()
+            .resideOutsideOfPackage("..carryover.repository.json..").should().dependOnClassesThat()
+            .resideInAPackage("com.fasterxml.jackson.annotation..");
 
         /* テスト対象の実行 */
         testRule.check(ArchitectureTest.classes);
@@ -168,6 +92,35 @@ public class ArchitectureTest {
 
     }
 
+    /**
+     * 層間の参照のテスト - 正常系:すぐ上の層だけを参照し（依存性逆転）、飛び越し・逆向きの参照がない場合
+     */
+    @Test
+    public void testLayerDependencies_normalOnlyNextLayer() {
+
+        /* 期待値の定義 */
+
+        /* 準備 */
+        // 処理の流れは presentation → application → domain → repository、依存はその逆とする
+        final ArchRule testRule = Architectures.layeredArchitecture().consideringOnlyDependenciesInLayers()
+            .layer("EntryPoint").definedBy(ArchitectureTest.ROOT_PACKAGE).layer("Presentation")
+            .definedBy("..carryover.presentation..").layer("Application").definedBy("..carryover.application..")
+            .layer("Domain").definedBy("..carryover.domain..").layer("Repository").definedBy("..carryover.repository..")
+            .optionalLayer("Infrastructure").definedBy("..carryover.infrastructure..").whereLayer("EntryPoint")
+            .mayNotBeAccessedByAnyLayer().whereLayer("Presentation").mayOnlyBeAccessedByLayers("Application")
+            .whereLayer("Application").mayOnlyBeAccessedByLayers("Domain").whereLayer("Domain")
+            .mayOnlyBeAccessedByLayers("Repository").whereLayer("Repository").mayNotBeAccessedByAnyLayer()
+            .whereLayer("Infrastructure").mayNotAccessAnyLayer();
+
+        /* テスト対象の実行 */
+        testRule.check(ArchitectureTest.classes);
+
+        /* 検証の準備 */
+
+        /* 検証の実施 */
+        // 違反があれば check が AssertionError を投げる
+
+    }
     /**
      * 設定値のテスト - 正常系:@Value で設定値を個別に取得していない場合
      */

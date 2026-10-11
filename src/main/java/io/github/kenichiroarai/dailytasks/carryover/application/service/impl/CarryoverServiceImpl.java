@@ -10,23 +10,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSettings;
-import io.github.kenichiroarai.dailytasks.carryover.application.service.CarryoverService;
-import io.github.kenichiroarai.dailytasks.carryover.domain.aggregator.CarryoverAggregator;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSource;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.CarryoverSummary;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DailyTaskIssue;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.DefaultMinutes;
-import io.github.kenichiroarai.dailytasks.carryover.domain.model.MinutesSource;
-import io.github.kenichiroarai.dailytasks.carryover.domain.parser.CarryoverParser;
-import io.github.kenichiroarai.dailytasks.carryover.domain.service.CarryoverIssueService;
+import io.github.kenichiroarai.dailytasks.carryover.application.aggregator.CarryoverAggregator;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummary;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssue;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutes;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.MinutesSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.parser.CarryoverParser;
+import io.github.kenichiroarai.dailytasks.carryover.application.service.CarryoverIssueService;
 import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageProvider;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverSettings;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.service.CarryoverService;
 
 /**
  * 持ち越しの収集・集計サービスの実装<br>
  * <p>
- * domain 層のインタフェースだけを使って、取得・解析・保存・集計の流れを組み立てる。設定は呼び出しごとに受け取り、domain 層のデータの取得元に変換して渡す。
+ * presentation 層のサービスを実装する。application 層のインタフェース（実装は domain 層）だけを使って、取得・解析・保存・集計の流れを組み立てる。
+ * 設定は呼び出しごとに受け取り、application 層のデータの取得元に変換して渡す。
  * </p>
  *
  * @author KenichiroArai
@@ -133,7 +134,7 @@ public class CarryoverServiceImpl implements CarryoverService {
     }
 
     /**
-     * application 層の設定を domain 層のデータの取得元に変換する<br>
+     * presentation 層から引き継いだ設定を application 層のデータの取得元に変換する<br>
      *
      * @param settings
      *                 持ち越しの収集・集計の設定
