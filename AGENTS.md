@@ -35,8 +35,8 @@ src/main/java/io/github/kenichiroarai/dailytasks/
   carryover/                 # 機能パッケージ（持ち越しの収集・集計）
     presentation/            # CLI などの入出力層
       command/               # コマンドのインタフェース（CommandLineRunner を継承）
-      command/impl/          # コマンドの実装（run で引数の解析、設定値の作成）
-      model/                 # 設定ファイルの値（@ConfigurationProperties の CarryoverPropertiesModel）、引数を解析したオプション（CarryoverOptionsModel）、application に引き継ぐ設定（CarryoverSettingsModel）
+      command/impl/          # コマンドの実装（run で引数の解析、設定の引き継ぎ）
+      model/                 # 設定ファイルの値で application にもそのまま引き継ぐ設定（@ConfigurationProperties の CarryoverPropertiesModel）、引数を解析したオプション（CarryoverOptionsModel）
       service/               # application に求めるサービス（CarryoverService。実装は application）
     application/             # ユースケースや業務ロジック層
       service/impl/          # presentation のサービスの実装（収集・解析・集計の流れ）
@@ -103,7 +103,7 @@ frontend/                    # 画面（Next.js + TypeScript）。詳細は fron
 
 | 種類 | パッケージ | 名前 | 置く層 | 内容 |
 | --- | --- | --- | --- | --- |
-| モデル | `model/` | `XxxModel` | repository 以外（presentation、application） | 層の中や層の間で受け渡すデータ。設定ファイルの値もモデルとする（例: `CarryoverPropertiesModel`、`CarryoverSettingsModel`、`CarryoverIssueModel`） |
+| モデル | `model/` | `XxxModel` | repository 以外（presentation、application） | 層の中や層の間で受け渡すデータ。設定ファイルの値もモデルとする（例: `CarryoverPropertiesModel`、`CarryoverIssueModel`） |
 | DTO | `dto/` | `XxxDto`（JSON の形は `XxxJsonDto`） | repository とやり取りするもの（domain の `dto/`）と repository の内部（repository の `dto/`） | repository との受け渡しやファイルの形のデータ（例: `CarryoverIssueDto`、`CarryoverIssueJsonDto`） |
 | 列挙型 | `types/` | `XxxTypes` | 各層 | 値の種類を表す列挙型（例: `MinutesSourceTypes`） |
 
@@ -175,7 +175,7 @@ flowchart LR
 ### 公開するものと実装
 
 - 呼ぶ側の層は、下の層に求めるインタフェースと受け渡しの型を、自層の種類ごとのパッケージに置く（モデルは `model/`、サービスは `service/`、ロジックは `logic/` など）
-  - presentation: application に求めるサービス（`service/CarryoverService`）と設定（`model/CarryoverSettingsModel`）
+  - presentation: application に求めるサービス（`service/CarryoverService`）と設定（`model/CarryoverPropertiesModel`）
   - application: domain に求めるロジック（データの取得・保存 `logic/CarryoverIssueLogic`、解析 `logic/CarryoverParseLogic`、集計 `logic/CarryoverAggregateLogic`）と業務モデル（`model/`）
   - domain: repository に求める外部 API（`repository/api/GitHubIssueApi`）と DAO（`repository/dao/CarryoverDataDao`、`repository/dao/DefaultMinutesDao`）と DTO（`dto/`）
 - 呼ばれる側の層は、すぐ上の層のインタフェースを `impl/` で実装する（例: `application/service/impl/CarryoverServiceImpl` は `presentation/service/CarryoverService` を実装する）
@@ -197,7 +197,7 @@ flowchart LR
 ### データの受け渡しと変換
 
 - 境界で受け渡すデータ型は、呼ぶ側の層が持つもの（`model/`、`dto/`）を使う。変換は呼ぶ側の層で、自層の型に行ってから渡す。呼ばれる側の層は、受け取った型を必要に応じて自層の内部の型に変換する
-  - presentation は設定ファイルとコマンドライン引数の値を `presentation/model/CarryoverSettingsModel` に変換し、application からは件数などの結果だけを受け取る
+  - presentation は設定ファイルの値（`presentation/model/CarryoverPropertiesModel`）とコマンドライン引数の値を application に渡し、application からは件数などの結果だけを受け取る
   - application は業務モデル（`application/model/`）を使って処理の流れを組み立てる。domain はこのモデルを使って解析・集計する
   - domain は application のモデルと自層の DTO（`domain/dto/`）を相互に変換し（`domain/logic/CarryoverDtoConvertLogic`）、DTO で repository とやり取りする
   - repository は domain の DTO を入出力に使い、JSON の形の型（`repository/dto/json/`）との変換を自層で行う（`repository/logic/CarryoverJsonConvertLogic`）
@@ -209,9 +209,10 @@ flowchart LR
 - 設定値も業務データと同じく、上の層から下の層へ引き継ぎ、境界ごとに呼ぶ側の層の型に変換して渡す。どこからでも参照できる共有の設定（infrastructure の設定クラスなど）は作らない
 - 値の出どころは入力の窓口である presentation（コマンドライン引数・設定ファイル `src/main/resources/application.properties`）とする。設定ファイルは presentation だけが読み込む
   - 設定ファイルの `carryover.*` は `presentation/model/CarryoverPropertiesModel`（`@ConfigurationProperties`、コンストラクタでバインド）で受け取る。`@ConfigurationProperties` のクラスは presentation にだけ置く
+  - 型の変換（文字列から `Path` など）は設定のクラスのコンストラクタで 1 回だけ行い、オリジナルの値と変換後の値をコメントで分けてフィールドに持つ。ゲッターは変換後の型で値を返すだけにする
   - トークンは `carryover.token=${GITHUB_TOKEN:}` として環境変数 `GITHUB_TOKEN` から設定する
   - `@Value` で設定値を個別に取得しない。`Environment` を各層から参照しない
-  - presentation → application: `presentation/model/CarryoverSettingsModel`
+  - presentation → application: `presentation/model/CarryoverPropertiesModel`
   - application → domain: `application/model/CarryoverSourceModel`
   - domain → repository: `domain/dto/GitHubSettingsDto`、ファイルのパス（`Path`）
 - GitHub API のベース URL のような、業務の設定ではない技術的な固定値は、それを使う外部 API や DAO の実装の定数にする

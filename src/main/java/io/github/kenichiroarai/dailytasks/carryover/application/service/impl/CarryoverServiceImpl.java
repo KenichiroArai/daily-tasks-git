@@ -20,7 +20,7 @@ import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskI
 import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutesModel;
 import io.github.kenichiroarai.dailytasks.carryover.application.types.MinutesSourceTypes;
 import io.github.kenichiroarai.dailytasks.carryover.infrastructure.logic.MessageLogic;
-import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverSettingsModel;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverPropertiesModel;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.service.CarryoverService;
 
 /**
@@ -136,15 +136,15 @@ public class CarryoverServiceImpl implements CarryoverService {
     /**
      * presentation 層から引き継いだ設定を application 層のデータの取得元に変換する<br>
      *
-     * @param settings
-     *                 持ち越しの収集・集計の設定
+     * @param properties
+     *                   持ち越しの収集の設定
      *
      * @return データの取得元と保存先
      */
-    private static CarryoverSourceModel toSource(final CarryoverSettingsModel settings) {
+    private static CarryoverSourceModel toSource(final CarryoverPropertiesModel properties) {
 
-        final CarryoverSourceModel result = new CarryoverSourceModel(settings.getRepository(), settings.getToken(),
-            settings.getDataDir(), settings.getDefaultMinutesFile());
+        final CarryoverSourceModel result = new CarryoverSourceModel(properties.getRepository(), properties.getToken(),
+            properties.getDataDir(), properties.getDefaultMinutesFile());
         return result;
 
     }
@@ -190,10 +190,10 @@ public class CarryoverServiceImpl implements CarryoverService {
      * 差分モードでは、Issue 番号が大きい順の最新の指定件数（設定の recentCount）を除き、保存済みの JSON と更新日時が同じ Issue は解析しない。
      * </p>
      *
-     * @param settings
-     *                 持ち越しの収集・集計の設定
+     * @param properties
+     *                   持ち越しの収集の設定
      * @param full
-     *                 true：全件モード（すべての Issue を解析し直す）、false：差分モード
+     *                   true：全件モード（すべての Issue を解析し直す）、false：差分モード
      *
      * @return 解析して保存した Issue の件数
      *
@@ -201,12 +201,12 @@ public class CarryoverServiceImpl implements CarryoverService {
      *                     取得、読み込みまたは書き込みに失敗した場合
      */
     @Override
-    public int collect(final CarryoverSettingsModel settings, final boolean full) throws IOException {
+    public int collect(final CarryoverPropertiesModel properties, final boolean full) throws IOException {
 
         int result = 0;
 
         /* 設定の変換と標準時間の読み込み */
-        final CarryoverSourceModel source         = CarryoverServiceImpl.toSource(settings);
+        final CarryoverSourceModel source         = CarryoverServiceImpl.toSource(properties);
         final DefaultMinutesModel  defaultMinutes = this.carryoverIssueLogic.loadDefaultMinutes(source);
 
         /* 保存済みの解析結果の読み込み */
@@ -216,7 +216,7 @@ public class CarryoverServiceImpl implements CarryoverService {
         /* Issue の取得と解析 */
         final List<DailyTaskIssueModel> remoteIssues = this.carryoverIssueLogic.fetchAllIssues(source);
         final int                       recentFrom   = CarryoverServiceImpl.recentFrom(remoteIssues,
-            settings.getRecentCount());
+            properties.getRecentCount());
 
         for (final DailyTaskIssueModel remoteIssue : remoteIssues) {
 

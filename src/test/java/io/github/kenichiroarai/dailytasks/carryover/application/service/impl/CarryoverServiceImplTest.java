@@ -21,7 +21,7 @@ import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMin
 import io.github.kenichiroarai.dailytasks.carryover.application.types.MinutesSourceTypes;
 import io.github.kenichiroarai.dailytasks.carryover.domain.logic.impl.CarryoverAggregateLogicImpl;
 import io.github.kenichiroarai.dailytasks.carryover.domain.logic.impl.CarryoverParseLogicImpl;
-import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverSettingsModel;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverPropertiesModel;
 import io.github.kenichiroarai.dailytasks.testutil.LogAssertions;
 import io.github.kenichiroarai.dailytasks.testutil.LogCapture;
 import io.github.kenichiroarai.dailytasks.testutil.MessageLogicTestUtil;
@@ -229,9 +229,9 @@ public class CarryoverServiceImplTest {
     /** テスト用の Issue 本文の解析 */
     private static final CarryoverParseLogic PARSE_LOGIC = new CarryoverParseLogicImpl(MessageLogicTestUtil.create());
 
-    /** テスト用の持ち越しの収集・集計の設定 */
-    private static final CarryoverSettingsModel SETTINGS = new CarryoverSettingsModel("owner/repo", "test-token",
-        Path.of("docs", "data"), Path.of("config", "default-minutes.json"), 10);
+    /** テスト用の持ち越しの収集の設定 */
+    private static final CarryoverPropertiesModel PROPERTIES
+        = new CarryoverPropertiesModel("owner/repo", "test-token", "docs/data", "config/default-minutes.json", 10);
 
     /**
      * private の countBySource メソッドを呼び出す<br>
@@ -364,20 +364,20 @@ public class CarryoverServiceImplTest {
     /**
      * private の toSource メソッドを呼び出す<br>
      *
-     * @param settings
-     *                 持ち越しの収集・集計の設定
+     * @param properties
+     *                   持ち越しの収集の設定
      *
      * @return データの取得元と保存先
      *
      * @throws Exception
      *                   例外が発生した場合
      */
-    private static CarryoverSourceModel toSource(final CarryoverSettingsModel settings) throws Exception {
+    private static CarryoverSourceModel toSource(final CarryoverPropertiesModel properties) throws Exception {
 
         final CarryoverSourceModel result
             = ReflectionTestUtil.invokeStatic(CarryoverServiceImpl.class, "toSource", new Class<?>[] {
-                CarryoverSettingsModel.class
-            }, settings);
+                CarryoverPropertiesModel.class
+            }, properties);
         return result;
 
     }
@@ -407,7 +407,7 @@ public class CarryoverServiceImplTest {
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverServiceImpl.class)) {
 
-            final int testResult = testTarget.collect(CarryoverServiceImplTest.SETTINGS, false);
+            final int testResult = testTarget.collect(CarryoverServiceImplTest.PROPERTIES, false);
 
             /* 検証の準備 */
             final String[] actualMsgs  = testLog.getMessages();
@@ -445,7 +445,7 @@ public class CarryoverServiceImplTest {
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverServiceImpl.class)) {
 
-            final int testResult = testTarget.collect(CarryoverServiceImplTest.SETTINGS, false);
+            final int testResult = testTarget.collect(CarryoverServiceImplTest.PROPERTIES, false);
 
             /* 検証の準備 */
             final String[] actualMsgs  = testLog.getMessages();
@@ -485,7 +485,7 @@ public class CarryoverServiceImplTest {
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverServiceImpl.class)) {
 
-            final int testResult = testTarget.collect(CarryoverServiceImplTest.SETTINGS, true);
+            final int testResult = testTarget.collect(CarryoverServiceImplTest.PROPERTIES, true);
 
             /* 検証の準備 */
             final String[]      actualMsgs         = testLog.getMessages();
@@ -523,7 +523,7 @@ public class CarryoverServiceImplTest {
         final CarryoverServiceImpl    testTarget     = CarryoverServiceImplTest.createTarget(testIssueLogic);
 
         /* テスト対象の実行 */
-        testTarget.collect(CarryoverServiceImplTest.SETTINGS, true);
+        testTarget.collect(CarryoverServiceImplTest.PROPERTIES, true);
 
         /* 検証の準備 */
         final List<CarryoverSourceModel> actualSources     = testIssueLogic.getSources();
@@ -790,11 +790,11 @@ public class CarryoverServiceImplTest {
         final Path   expectedDefaultMinutesFile = Path.of("config", "default-minutes.json");
 
         /* 準備 */
-        final CarryoverSettingsModel testSettings
-            = new CarryoverSettingsModel(expectedRepository, expectedToken, expectedDataDir, expectedDefaultMinutesFile, 10);
+        final CarryoverPropertiesModel testProperties
+            = new CarryoverPropertiesModel(expectedRepository, expectedToken, "docs/data", "config/default-minutes.json", 10);
 
         /* テスト対象の実行 */
-        final CarryoverSourceModel testResult = CarryoverServiceImplTest.toSource(testSettings);
+        final CarryoverSourceModel testResult = CarryoverServiceImplTest.toSource(testProperties);
 
         /* 検証の準備 */
         final String actualRepository         = testResult.getRepository();

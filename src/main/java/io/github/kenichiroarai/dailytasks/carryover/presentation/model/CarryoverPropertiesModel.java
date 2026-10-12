@@ -1,12 +1,15 @@
 package io.github.kenichiroarai.dailytasks.carryover.presentation.model;
 
+import java.nio.file.Path;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * 持ち越しの収集の設定ファイルの値<br>
+ * 持ち越しの収集の設定<br>
  * <p>
  * application.properties の {@code carryover.*} を Spring Boot がコンストラクタで設定する。設定ファイルの値を受け取るのは presentation
- * 層のこのクラスだけとし、下の層へは境界ごとに下の層の型に変換して引き継ぐ。トークンはログに出さないよう、{@link #toString()} に含めない。
+ * 層のこのクラスだけとし、presentation 層が application 層に引き継ぐ設定としてもそのまま使う。パスはコンストラクタで 1 回だけ変換して保持する。トークンはログに出さないよう、{@link #toString()}
+ * に含めない。
  * </p>
  *
  * @author KenichiroArai
@@ -18,6 +21,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @SuppressWarnings("nls")
 @ConfigurationProperties(prefix = "carryover")
 public class CarryoverPropertiesModel {
+
+    /* オリジナル */
 
     /** 対象リポジトリ（owner/name） */
     private final String repository;
@@ -33,6 +38,14 @@ public class CarryoverPropertiesModel {
 
     /** 差分モードで更新日時に関係なく解析し直す最新の Issue の件数 */
     private final int recentCount;
+
+    /* 変換後 */
+
+    /** 出力先のディレクトリのパス */
+    private final Path dataDirPath;
+
+    /** 標準時間の設定ファイルのパス */
+    private final Path defaultMinutesFilePath;
 
     /**
      * コンストラクタ<br>
@@ -51,11 +64,16 @@ public class CarryoverPropertiesModel {
     public CarryoverPropertiesModel(final String repository, final String token, final String dataDir,
         final String defaultMinutesFile, final int recentCount) {
 
+        /* オリジナル */
         this.repository = repository;
         this.token = token;
         this.dataDir = dataDir;
         this.defaultMinutesFile = defaultMinutesFile;
         this.recentCount = recentCount;
+
+        /* 変換後 */
+        this.dataDirPath = Path.of(dataDir);
+        this.defaultMinutesFilePath = Path.of(defaultMinutesFile);
 
     }
 
@@ -64,9 +82,9 @@ public class CarryoverPropertiesModel {
      *
      * @return 出力先のディレクトリ
      */
-    public String getDataDir() {
+    public Path getDataDir() {
 
-        final String result = this.dataDir;
+        final Path result = this.dataDirPath;
         return result;
 
     }
@@ -76,9 +94,9 @@ public class CarryoverPropertiesModel {
      *
      * @return 標準時間の設定ファイル
      */
-    public String getDefaultMinutesFile() {
+    public Path getDefaultMinutesFile() {
 
-        final String result = this.defaultMinutesFile;
+        final Path result = this.defaultMinutesFilePath;
         return result;
 
     }

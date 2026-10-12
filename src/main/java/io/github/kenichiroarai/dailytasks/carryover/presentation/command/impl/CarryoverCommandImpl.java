@@ -2,8 +2,6 @@ package io.github.kenichiroarai.dailytasks.carryover.presentation.command.impl;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.file.Path;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -12,14 +10,13 @@ import io.github.kenichiroarai.dailytasks.carryover.infrastructure.logic.Message
 import io.github.kenichiroarai.dailytasks.carryover.presentation.command.CarryoverCommand;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverOptionsModel;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverPropertiesModel;
-import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverSettingsModel;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.service.CarryoverService;
 
 /**
  * 持ち越しの収集コマンドの実装<br>
  * <p>
- * 入力の窓口として、設定ファイル（application.properties）の値とコマンドライン引数から presentation 層の設定を作り、presentation
- * 層のサービス（application 層が実装する）へ引き継ぐ。Spring Boot の起動後に
+ * 入力の窓口として、設定ファイル（application.properties）の値とコマンドライン引数を presentation 層のサービス（application
+ * 層が実装する）へ引き継ぐ。Spring Boot の起動後に
  * {@link CommandLineRunner} として実行される。リポジトリのルートをカレントディレクトリとして実行する。
  * </p>
  *
@@ -47,25 +44,6 @@ public class CarryoverCommandImpl implements CarryoverCommand {
 
     /** 引数：使い方の表示（短縮形） */
     private static final String ARG_SHORT_HELP = "-h";
-
-    /**
-     * 設定ファイルの値から presentation 層のサービスに引き継ぐ設定を作る<br>
-     *
-     * @param properties
-     *                   設定ファイルの値
-     *
-     * @return 持ち越しの収集・集計の設定
-     */
-    private static CarryoverSettingsModel createSettings(final CarryoverPropertiesModel properties) {
-
-        final Path dataDir            = Path.of(properties.getDataDir());
-        final Path defaultMinutesFile = Path.of(properties.getDefaultMinutesFile());
-
-        final CarryoverSettingsModel result = new CarryoverSettingsModel(properties.getRepository(), properties.getToken(),
-            dataDir, defaultMinutesFile, properties.getRecentCount());
-        return result;
-
-    }
 
     /** 持ち越しの収集・集計サービス */
     private final CarryoverService carryoverService;
@@ -188,8 +166,7 @@ public class CarryoverCommandImpl implements CarryoverCommand {
         }
 
         /* 収集の実行 */
-        final CarryoverSettingsModel settings = CarryoverCommandImpl.createSettings(this.properties);
-        this.carryoverService.collect(settings, options.isFull());
+        this.carryoverService.collect(this.properties, options.isFull());
 
     }
 

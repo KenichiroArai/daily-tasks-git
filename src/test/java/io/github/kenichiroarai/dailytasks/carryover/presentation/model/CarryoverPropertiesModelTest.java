@@ -1,5 +1,7 @@
 package io.github.kenichiroarai.dailytasks.carryover.presentation.model;
 
+import java.nio.file.Path;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -31,22 +33,22 @@ public class CarryoverPropertiesModelTest {
     }
 
     /**
-     * getDataDir メソッドのテスト - 正常系:コンストラクタで設定した値を返す
+     * getDataDir メソッドのテスト - 正常系:コンストラクタで設定した値をパスで返す
      */
     @Test
     public void testGetDataDir_normalValue() {
 
         /* 期待値の定義 */
-        final String expectedDataDir = "docs/data";
+        final Path expectedDataDir = Path.of("docs", "data");
 
         /* 準備 */
         final CarryoverPropertiesModel testTarget = CarryoverPropertiesModelTest.createTarget();
 
         /* テスト対象の実行 */
-        final String testResult = testTarget.getDataDir();
+        final Path testResult = testTarget.getDataDir();
 
         /* 検証の準備 */
-        final String actualDataDir = testResult;
+        final Path actualDataDir = testResult;
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedDataDir, actualDataDir, "出力先が一致しません");
@@ -54,22 +56,22 @@ public class CarryoverPropertiesModelTest {
     }
 
     /**
-     * getDefaultMinutesFile メソッドのテスト - 正常系:コンストラクタで設定した値を返す
+     * getDefaultMinutesFile メソッドのテスト - 正常系:コンストラクタで設定した値をパスで返す
      */
     @Test
     public void testGetDefaultMinutesFile_normalValue() {
 
         /* 期待値の定義 */
-        final String expectedDefaultMinutesFile = "config/default-minutes.json";
+        final Path expectedDefaultMinutesFile = Path.of("config", "default-minutes.json");
 
         /* 準備 */
         final CarryoverPropertiesModel testTarget = CarryoverPropertiesModelTest.createTarget();
 
         /* テスト対象の実行 */
-        final String testResult = testTarget.getDefaultMinutesFile();
+        final Path testResult = testTarget.getDefaultMinutesFile();
 
         /* 検証の準備 */
-        final String actualDefaultMinutesFile = testResult;
+        final Path actualDefaultMinutesFile = testResult;
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedDefaultMinutesFile, actualDefaultMinutesFile, "標準時間の設定ファイルが一致しません");

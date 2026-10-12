@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverOptionsModel;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverPropertiesModel;
-import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverSettingsModel;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.service.CarryoverService;
 import io.github.kenichiroarai.dailytasks.testutil.MessageLogicTestUtil;
 import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
@@ -50,22 +48,22 @@ public class CarryoverCommandImplTest {
         private final List<Boolean> calls = new ArrayList<>();
 
         /** 呼び出し時の設定 */
-        private final List<CarryoverSettingsModel> settingsList = new ArrayList<>();
+        private final List<CarryoverPropertiesModel> propertiesList = new ArrayList<>();
 
         /**
          * 呼び出し時のモードと設定を記録し、3 を返す<br>
          *
-         * @param settings
-         *                 持ち越しの収集・集計の設定
+         * @param properties
+         *                   持ち越しの収集の設定
          * @param full
-         *                 全件モードか
+         *                   全件モードか
          *
          * @return 3
          */
         @Override
-        public int collect(final CarryoverSettingsModel settings, final boolean full) {
+        public int collect(final CarryoverPropertiesModel properties, final boolean full) {
 
-            this.settingsList.add(settings);
+            this.propertiesList.add(properties);
             this.calls.add(full);
             final int result = 3;
             return result;
@@ -89,9 +87,9 @@ public class CarryoverCommandImplTest {
          *
          * @return 呼び出し時の設定
          */
-        private List<CarryoverSettingsModel> getSettingsList() {
+        private List<CarryoverPropertiesModel> getPropertiesList() {
 
-            final List<CarryoverSettingsModel> result = this.settingsList;
+            final List<CarryoverPropertiesModel> result = this.propertiesList;
             return result;
 
         }
@@ -101,27 +99,6 @@ public class CarryoverCommandImplTest {
     /** テスト用の設定ファイルの値 */
     private static final CarryoverPropertiesModel PROPERTIES
         = new CarryoverPropertiesModel("owner/repo", "test-token", "out/data", "conf/minutes.json", 7);
-
-    /**
-     * private の createSettings メソッドを呼び出す<br>
-     *
-     * @param properties
-     *                   設定ファイルの値
-     *
-     * @return 持ち越しの収集・集計の設定
-     *
-     * @throws Exception
-     *                   例外が発生した場合
-     */
-    private static CarryoverSettingsModel createSettings(final CarryoverPropertiesModel properties) throws Exception {
-
-        final CarryoverSettingsModel result
-            = ReflectionTestUtil.invokeStatic(CarryoverCommandImpl.class, "createSettings", new Class<?>[] {
-                CarryoverPropertiesModel.class
-            }, properties);
-        return result;
-
-    }
 
     /**
      * テスト対象を作成する<br>
@@ -202,44 +179,6 @@ public class CarryoverCommandImplTest {
         /* 検証の実施 */
         Assertions.assertEquals(testService, actualService, "サービスが一致しません");
         Assertions.assertEquals(expectedOut, actualOut, "出力先が一致しません");
-
-    }
-
-    /**
-     * createSettings メソッドのテスト - 正常系:設定ファイルの値から設定を作る場合
-     *
-     * @throws Exception
-     *                   例外が発生した場合
-     */
-    @Test
-    public void testCreateSettings_normalProperties() throws Exception {
-
-        /* 期待値の定義 */
-        final String expectedRepository         = "owner/repo";
-        final String expectedToken              = "test-token";
-        final Path   expectedDataDir            = Path.of("out", "data");
-        final Path   expectedDefaultMinutesFile = Path.of("conf", "minutes.json");
-        final int    expectedRecentCount        = 7;
-
-        /* 準備 */
-        final CarryoverPropertiesModel testProperties = CarryoverCommandImplTest.PROPERTIES;
-
-        /* テスト対象の実行 */
-        final CarryoverSettingsModel testResult = CarryoverCommandImplTest.createSettings(testProperties);
-
-        /* 検証の準備 */
-        final String actualRepository         = testResult.getRepository();
-        final String actualToken              = testResult.getToken();
-        final Path   actualDataDir            = testResult.getDataDir();
-        final Path   actualDefaultMinutesFile = testResult.getDefaultMinutesFile();
-        final int    actualRecentCount        = testResult.getRecentCount();
-
-        /* 検証の実施 */
-        Assertions.assertEquals(expectedRepository, actualRepository, "リポジトリが一致しません");
-        Assertions.assertEquals(expectedToken, actualToken, "トークンが一致しません");
-        Assertions.assertEquals(expectedDataDir, actualDataDir, "出力先が一致しません");
-        Assertions.assertEquals(expectedDefaultMinutesFile, actualDefaultMinutesFile, "標準時間の設定ファイルが一致しません");
-        Assertions.assertEquals(expectedRecentCount, actualRecentCount, "最新の Issue の件数が一致しません");
 
     }
 
@@ -378,8 +317,8 @@ public class CarryoverCommandImplTest {
     public void testRun_normalDiff() throws IOException {
 
         /* 期待値の定義 */
-        final List<Boolean> expectedCalls      = List.of(Boolean.FALSE);
-        final String        expectedRepository = "owner/repo";
+        final List<Boolean>            expectedCalls      = List.of(Boolean.FALSE);
+        final CarryoverPropertiesModel expectedProperties = CarryoverCommandImplTest.PROPERTIES;
 
         /* 準備 */
         final StubCarryoverService testService = new StubCarryoverService();
@@ -389,12 +328,12 @@ public class CarryoverCommandImplTest {
         testTarget.run();
 
         /* 検証の準備 */
-        final List<Boolean> actualCalls      = testService.getCalls();
-        final String        actualRepository = testService.getSettingsList().get(0).getRepository();
+        final List<Boolean>            actualCalls      = testService.getCalls();
+        final CarryoverPropertiesModel actualProperties = testService.getPropertiesList().get(0);
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedCalls, actualCalls, "呼び出し時のモードが一致しません");
-        Assertions.assertEquals(expectedRepository, actualRepository, "引き継いだ設定のリポジトリが一致しません");
+        Assertions.assertEquals(expectedProperties, actualProperties, "引き継いだ設定が一致しません");
 
     }
 
