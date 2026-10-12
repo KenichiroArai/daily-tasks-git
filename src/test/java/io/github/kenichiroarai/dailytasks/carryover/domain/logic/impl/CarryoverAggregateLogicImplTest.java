@@ -9,7 +9,7 @@ import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverI
 import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItem;
 import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummary;
 import io.github.kenichiroarai.dailytasks.carryover.application.model.DailySummary;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.MinutesSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.types.MinutesSource;
 
 /**
  * {@link CarryoverAggregateLogicImpl} のテスト<br>

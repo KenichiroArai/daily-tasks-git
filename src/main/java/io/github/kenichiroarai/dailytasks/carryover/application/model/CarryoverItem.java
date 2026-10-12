@@ -1,5 +1,7 @@
 package io.github.kenichiroarai.dailytasks.carryover.application.model;
 
+import io.github.kenichiroarai.dailytasks.carryover.application.types.MinutesSource;
+
 /**
  * 持ち越し項目<br>
  * <p>

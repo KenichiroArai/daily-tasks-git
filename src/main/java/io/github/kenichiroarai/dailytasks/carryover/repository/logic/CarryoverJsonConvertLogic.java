@@ -11,11 +11,11 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverItemDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverSummaryDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.DailySummaryDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.ItemStatDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.json.CarryoverIssueJson;
-import io.github.kenichiroarai.dailytasks.carryover.repository.json.CarryoverItemJson;
-import io.github.kenichiroarai.dailytasks.carryover.repository.json.CarryoverSummaryJson;
-import io.github.kenichiroarai.dailytasks.carryover.repository.json.DailySummaryJson;
-import io.github.kenichiroarai.dailytasks.carryover.repository.json.ItemStatJson;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.CarryoverIssueJson;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.CarryoverItemJson;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.CarryoverSummaryJson;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.DailySummaryJson;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.ItemStatJson;
 
 /**
  * domain 層の DTO と JSON の形の型を相互に変換する<br>

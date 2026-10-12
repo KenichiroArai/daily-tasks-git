@@ -14,7 +14,7 @@ import io.github.kenichiroarai.dailytasks.carryover.application.model.DailySumma
 import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssue;
 import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutes;
 import io.github.kenichiroarai.dailytasks.carryover.application.model.ItemStat;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.MinutesSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.types.MinutesSource;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverIssueDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverItemDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverSummaryDto;

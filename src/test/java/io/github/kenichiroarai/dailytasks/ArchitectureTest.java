@@ -70,7 +70,7 @@ public class ArchitectureTest {
     }
 
     /**
-     * JSON の形のテスト - 正常系:Jackson のアノテーションを repository 層の json パッケージだけで使っている場合
+     * JSON の形のテスト - 正常系:Jackson のアノテーションを repository 層の dto.json パッケージだけで使っている場合
      */
     @Test
     public void testJsonAnnotation_normalOnlyRepositoryJson() {
@@ -79,7 +79,7 @@ public class ArchitectureTest {
 
         /* 準備 */
         final ArchRule testRule = ArchRuleDefinition.noClasses().that()
-            .resideOutsideOfPackage("..carryover.repository.json..").should().dependOnClassesThat()
+            .resideOutsideOfPackage("..carryover.repository.dto.json..").should().dependOnClassesThat()
             .resideInAPackage("com.fasterxml.jackson.annotation..");
 
         /* テスト対象の実行 */

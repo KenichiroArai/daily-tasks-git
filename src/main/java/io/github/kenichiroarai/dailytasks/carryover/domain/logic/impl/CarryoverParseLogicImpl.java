@@ -15,7 +15,7 @@ import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverI
 import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItem;
 import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssue;
 import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutes;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.MinutesSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.types.MinutesSource;
 import io.github.kenichiroarai.dailytasks.carryover.infrastructure.logic.MessageLogic;
 
 /**

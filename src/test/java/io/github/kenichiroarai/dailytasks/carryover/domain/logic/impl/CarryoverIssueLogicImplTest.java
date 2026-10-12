@@ -14,16 +14,16 @@ import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverS
 import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummary;
 import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssue;
 import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutes;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.MinutesSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.types.MinutesSource;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverIssueDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverItemDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverSummaryDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.GitHubIssueDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.GitHubSettingsDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.logic.CarryoverDtoConvertLogic;
-import io.github.kenichiroarai.dailytasks.carryover.domain.repository.CarryoverDataRepository;
-import io.github.kenichiroarai.dailytasks.carryover.domain.repository.DefaultMinutesRepository;
-import io.github.kenichiroarai.dailytasks.carryover.domain.repository.GitHubIssueRepository;
+import io.github.kenichiroarai.dailytasks.carryover.domain.repository.api.GitHubIssueApi;
+import io.github.kenichiroarai.dailytasks.carryover.domain.repository.dao.CarryoverDataDao;
+import io.github.kenichiroarai.dailytasks.carryover.domain.repository.dao.DefaultMinutesDao;
 import io.github.kenichiroarai.dailytasks.testutil.MessageLogicTestUtil;
 
 /**
@@ -49,7 +49,7 @@ public class CarryoverIssueLogicImplTest {
      *
      * @version 0.1.0
      */
-    private static final class StubCarryoverDataRepository implements CarryoverDataRepository {
+    private static final class StubCarryoverDataDao implements CarryoverDataDao {
 
         /** 読み込み結果として返す解析結果 */
         private final Map<Integer, CarryoverIssueDto> issues;
@@ -69,7 +69,7 @@ public class CarryoverIssueLogicImplTest {
          * @param issues
          *               読み込み結果として返す解析結果
          */
-        private StubCarryoverDataRepository(final Map<Integer, CarryoverIssueDto> issues) {
+        private StubCarryoverDataDao(final Map<Integer, CarryoverIssueDto> issues) {
 
             this.issues = issues;
 
@@ -171,7 +171,7 @@ public class CarryoverIssueLogicImplTest {
      *
      * @version 0.1.0
      */
-    private static final class StubDefaultMinutesRepository implements DefaultMinutesRepository {
+    private static final class StubDefaultMinutesDao implements DefaultMinutesDao {
 
         /** 返す標準時間 */
         private final Map<String, Double> minutesByName;
@@ -185,7 +185,7 @@ public class CarryoverIssueLogicImplTest {
          * @param minutesByName
          *                      返す標準時間
          */
-        private StubDefaultMinutesRepository(final Map<String, Double> minutesByName) {
+        private StubDefaultMinutesDao(final Map<String, Double> minutesByName) {
 
             this.minutesByName = minutesByName;
 
@@ -231,7 +231,7 @@ public class CarryoverIssueLogicImplTest {
      *
      * @version 0.1.0
      */
-    private static final class StubGitHubIssueRepository implements GitHubIssueRepository {
+    private static final class StubGitHubIssueApi implements GitHubIssueApi {
 
         /** 返す Issue */
         private final List<GitHubIssueDto> issues;
@@ -245,7 +245,7 @@ public class CarryoverIssueLogicImplTest {
          * @param issues
          *               返す Issue
          */
-        private StubGitHubIssueRepository(final List<GitHubIssueDto> issues) {
+        private StubGitHubIssueApi(final List<GitHubIssueDto> issues) {
 
             this.issues = issues;
 
@@ -298,21 +298,21 @@ public class CarryoverIssueLogicImplTest {
     /**
      * テスト対象を作成する<br>
      *
-     * @param gitHubIssueRepository
-     *                                 GitHub の Issue の取得
-     * @param carryoverDataRepository
-     *                                 JSON ファイルの読み書き
-     * @param defaultMinutesRepository
-     *                                 標準時間の設定の読み込み
+     * @param gitHubIssueApi
+     *                          GitHub の Issue の取得
+     * @param carryoverDataDao
+     *                          JSON ファイルの読み書き
+     * @param defaultMinutesDao
+     *                          標準時間の設定の読み込み
      *
      * @return テスト対象
      */
-    private static CarryoverIssueLogicImpl createTarget(final GitHubIssueRepository gitHubIssueRepository,
-        final CarryoverDataRepository carryoverDataRepository,
-        final DefaultMinutesRepository defaultMinutesRepository) {
+    private static CarryoverIssueLogicImpl createTarget(final GitHubIssueApi gitHubIssueApi,
+        final CarryoverDataDao carryoverDataDao,
+        final DefaultMinutesDao defaultMinutesDao) {
 
         final CarryoverIssueLogicImpl result
-            = new CarryoverIssueLogicImpl(gitHubIssueRepository, carryoverDataRepository, defaultMinutesRepository,
+            = new CarryoverIssueLogicImpl(gitHubIssueApi, carryoverDataDao, defaultMinutesDao,
                 new CarryoverDtoConvertLogic(MessageLogicTestUtil.create()));
         return result;
 
@@ -331,10 +331,10 @@ public class CarryoverIssueLogicImplTest {
         final String expectedTitle = "2026年10月06日のタスク";
 
         /* 準備 */
-        final StubGitHubIssueRepository testGitHub = new StubGitHubIssueRepository(
+        final StubGitHubIssueApi testGitHub = new StubGitHubIssueApi(
             List.of(new GitHubIssueDto(371, "2026年10月06日のタスク", "open", "2026-10-06T14:23:08Z", "本文")));
         final CarryoverIssueLogicImpl testTarget = CarryoverIssueLogicImplTest.createTarget(testGitHub,
-            new StubCarryoverDataRepository(Map.of()), new StubDefaultMinutesRepository(Map.of()));
+            new StubCarryoverDataDao(Map.of()), new StubDefaultMinutesDao(Map.of()));
 
         /* テスト対象の実行 */
         final List<DailyTaskIssue> testResult = testTarget.fetchAllIssues(CarryoverIssueLogicImplTest.createSource());
@@ -361,9 +361,9 @@ public class CarryoverIssueLogicImplTest {
         final String expectedToken      = "test-token";
 
         /* 準備 */
-        final StubGitHubIssueRepository testGitHub = new StubGitHubIssueRepository(List.of());
+        final StubGitHubIssueApi testGitHub = new StubGitHubIssueApi(List.of());
         final CarryoverIssueLogicImpl testTarget = CarryoverIssueLogicImplTest.createTarget(testGitHub,
-            new StubCarryoverDataRepository(Map.of()), new StubDefaultMinutesRepository(Map.of()));
+            new StubCarryoverDataDao(Map.of()), new StubDefaultMinutesDao(Map.of()));
 
         /* テスト対象の実行 */
         testTarget.fetchAllIssues(CarryoverIssueLogicImplTest.createSource());
@@ -392,9 +392,9 @@ public class CarryoverIssueLogicImplTest {
         final Path   expectedConfigFile = Path.of("config", "default-minutes.json");
 
         /* 準備 */
-        final StubDefaultMinutesRepository testDefaultMinutes = new StubDefaultMinutesRepository(Map.of("音楽", 15.0));
-        final CarryoverIssueLogicImpl    testTarget         = CarryoverIssueLogicImplTest.createTarget(
-            new StubGitHubIssueRepository(List.of()), new StubCarryoverDataRepository(Map.of()), testDefaultMinutes);
+        final StubDefaultMinutesDao   testDefaultMinutes = new StubDefaultMinutesDao(Map.of("音楽", 15.0));
+        final CarryoverIssueLogicImpl testTarget         = CarryoverIssueLogicImplTest.createTarget(
+            new StubGitHubIssueApi(List.of()), new StubCarryoverDataDao(Map.of()), testDefaultMinutes);
 
         /* テスト対象の実行 */
         final DefaultMinutes testResult = testTarget.loadDefaultMinutes(CarryoverIssueLogicImplTest.createSource());
@@ -427,9 +427,9 @@ public class CarryoverIssueLogicImplTest {
             "持ち越し", "- [ ] 国語2026/06/18");
         final CarryoverIssueDto           testDto    = new CarryoverIssueDto(371, "2026年10月06日のタスク", "2026-10-06",
             "open", "2026-10-06T14:23:08Z", List.of("持ち越し"), null, 1, 0.0, List.of(testItem));
-        final StubCarryoverDataRepository testData   = new StubCarryoverDataRepository(Map.of(371, testDto));
-        final CarryoverIssueLogicImpl   testTarget = CarryoverIssueLogicImplTest.createTarget(
-            new StubGitHubIssueRepository(List.of()), testData, new StubDefaultMinutesRepository(Map.of()));
+        final StubCarryoverDataDao    testData   = new StubCarryoverDataDao(Map.of(371, testDto));
+        final CarryoverIssueLogicImpl testTarget = CarryoverIssueLogicImplTest.createTarget(
+            new StubGitHubIssueApi(List.of()), testData, new StubDefaultMinutesDao(Map.of()));
 
         /* テスト対象の実行 */
         final Map<Integer, CarryoverIssue> testResult
@@ -459,9 +459,9 @@ public class CarryoverIssueLogicImplTest {
         final Path   expectedDataDir       = Path.of("docs", "data");
 
         /* 準備 */
-        final StubCarryoverDataRepository testData   = new StubCarryoverDataRepository(Map.of());
-        final CarryoverIssueLogicImpl   testTarget = CarryoverIssueLogicImplTest.createTarget(
-            new StubGitHubIssueRepository(List.of()), testData, new StubDefaultMinutesRepository(Map.of()));
+        final StubCarryoverDataDao    testData   = new StubCarryoverDataDao(Map.of());
+        final CarryoverIssueLogicImpl testTarget = CarryoverIssueLogicImplTest.createTarget(
+            new StubGitHubIssueApi(List.of()), testData, new StubDefaultMinutesDao(Map.of()));
         final CarryoverItem               testItem   = new CarryoverItem("音楽", "2026-08-18", false, 11.5,
             MinutesSource.PARSED, "持ち越し", "- [ ] 音楽2026/08/18（残り時間：11.5分）");
         final CarryoverIssue              testIssue  = new CarryoverIssue(371, "2026年10月06日のタスク", "2026-10-06", "open",
@@ -494,9 +494,9 @@ public class CarryoverIssueLogicImplTest {
         final Path expectedDataDir     = Path.of("docs", "data");
 
         /* 準備 */
-        final StubCarryoverDataRepository testData    = new StubCarryoverDataRepository(Map.of());
-        final CarryoverIssueLogicImpl   testTarget  = CarryoverIssueLogicImplTest.createTarget(
-            new StubGitHubIssueRepository(List.of()), testData, new StubDefaultMinutesRepository(Map.of()));
+        final StubCarryoverDataDao    testData   = new StubCarryoverDataDao(Map.of());
+        final CarryoverIssueLogicImpl testTarget = CarryoverIssueLogicImplTest.createTarget(
+            new StubGitHubIssueApi(List.of()), testData, new StubDefaultMinutesDao(Map.of()));
         final CarryoverSummary            testSummary = new CarryoverSummary(371, List.of(), List.of());
 
         /* テスト対象の実行 */
