@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSource;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummary;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssue;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutes;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssueModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSourceModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummaryModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssueModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutesModel;
 
 /**
  * 持ち越しのデータ（Issue、解析結果、集計、標準時間）の取得・保存ロジック<br>
@@ -35,7 +35,7 @@ public interface CarryoverIssueLogic {
      * @throws IOException
      *                     取得に失敗した場合
      */
-    List<DailyTaskIssue> fetchAllIssues(CarryoverSource source) throws IOException;
+    List<DailyTaskIssueModel> fetchAllIssues(CarryoverSourceModel source) throws IOException;
 
     /**
      * 項目ごとの標準時間を読み込む<br>
@@ -48,7 +48,7 @@ public interface CarryoverIssueLogic {
      * @throws IOException
      *                     読み込みに失敗した場合
      */
-    DefaultMinutes loadDefaultMinutes(CarryoverSource source) throws IOException;
+    DefaultMinutesModel loadDefaultMinutes(CarryoverSourceModel source) throws IOException;
 
     /**
      * 保存済みの持ち越しの解析結果を読み込む<br>
@@ -61,7 +61,7 @@ public interface CarryoverIssueLogic {
      * @throws IOException
      *                     読み込みに失敗した場合
      */
-    Map<Integer, CarryoverIssue> loadIssues(CarryoverSource source) throws IOException;
+    Map<Integer, CarryoverIssueModel> loadIssues(CarryoverSourceModel source) throws IOException;
 
     /**
      * 持ち越しの解析結果を保存する<br>
@@ -74,7 +74,7 @@ public interface CarryoverIssueLogic {
      * @throws IOException
      *                     書き込みに失敗した場合
      */
-    void saveIssue(CarryoverSource source, CarryoverIssue issue) throws IOException;
+    void saveIssue(CarryoverSourceModel source, CarryoverIssueModel issue) throws IOException;
 
     /**
      * 画面用の集計を保存する<br>
@@ -87,6 +87,6 @@ public interface CarryoverIssueLogic {
      * @throws IOException
      *                     書き込みに失敗した場合
      */
-    void saveSummary(CarryoverSource source, CarryoverSummary summary) throws IOException;
+    void saveSummary(CarryoverSourceModel source, CarryoverSummaryModel summary) throws IOException;
 
 }

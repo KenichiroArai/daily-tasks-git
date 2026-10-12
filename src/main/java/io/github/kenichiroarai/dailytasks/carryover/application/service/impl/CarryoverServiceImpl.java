@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
 import io.github.kenichiroarai.dailytasks.carryover.application.logic.CarryoverAggregateLogic;
 import io.github.kenichiroarai.dailytasks.carryover.application.logic.CarryoverIssueLogic;
 import io.github.kenichiroarai.dailytasks.carryover.application.logic.CarryoverParseLogic;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSource;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummary;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssue;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutes;
-import io.github.kenichiroarai.dailytasks.carryover.application.types.MinutesSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssueModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSourceModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummaryModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssueModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutesModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.types.MinutesSourceTypes;
 import io.github.kenichiroarai.dailytasks.carryover.infrastructure.logic.MessageLogic;
-import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverSettings;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverSettingsModel;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.service.CarryoverService;
 
 /**
@@ -65,7 +65,7 @@ public class CarryoverServiceImpl implements CarryoverService {
      *
      * @return 行数
      */
-    private static long countBySource(final Map<Integer, CarryoverIssue> issues, final MinutesSource source) {
+    private static long countBySource(final Map<Integer, CarryoverIssueModel> issues, final MinutesSourceTypes source) {
 
         final long result = issues.values().stream().flatMap(issue -> issue.getItems().stream())
             .filter(item -> item.getMinutesSource() == source).count();
@@ -87,8 +87,8 @@ public class CarryoverServiceImpl implements CarryoverService {
      *
      * @return true：解析し直す、false：保存済みの解析結果を使う
      */
-    private static boolean needsUpdate(final boolean full, final CarryoverIssue stored,
-        final DailyTaskIssue remoteIssue, final int recentFrom) {
+    private static boolean needsUpdate(final boolean full, final CarryoverIssueModel stored,
+        final DailyTaskIssueModel remoteIssue, final int recentFrom) {
 
         boolean result = true;
 
@@ -125,9 +125,9 @@ public class CarryoverServiceImpl implements CarryoverService {
      *
      * @return 最小の Issue 番号。Issue がない場合は 0
      */
-    private static int recentFrom(final List<DailyTaskIssue> issues, final int count) {
+    private static int recentFrom(final List<DailyTaskIssueModel> issues, final int count) {
 
-        final int result = issues.stream().map(DailyTaskIssue::getNumber).sorted(Comparator.reverseOrder()).limit(count)
+        final int result = issues.stream().map(DailyTaskIssueModel::getNumber).sorted(Comparator.reverseOrder()).limit(count)
             .min(Comparator.naturalOrder()).orElse(0);
         return result;
 
@@ -141,9 +141,9 @@ public class CarryoverServiceImpl implements CarryoverService {
      *
      * @return データの取得元と保存先
      */
-    private static CarryoverSource toSource(final CarryoverSettings settings) {
+    private static CarryoverSourceModel toSource(final CarryoverSettingsModel settings) {
 
-        final CarryoverSource result = new CarryoverSource(settings.getRepository(), settings.getToken(),
+        final CarryoverSourceModel result = new CarryoverSourceModel(settings.getRepository(), settings.getToken(),
             settings.getDataDir(), settings.getDefaultMinutesFile());
         return result;
 
@@ -201,24 +201,24 @@ public class CarryoverServiceImpl implements CarryoverService {
      *                     取得、読み込みまたは書き込みに失敗した場合
      */
     @Override
-    public int collect(final CarryoverSettings settings, final boolean full) throws IOException {
+    public int collect(final CarryoverSettingsModel settings, final boolean full) throws IOException {
 
         int result = 0;
 
         /* 設定の変換と標準時間の読み込み */
-        final CarryoverSource source         = CarryoverServiceImpl.toSource(settings);
-        final DefaultMinutes  defaultMinutes = this.carryoverIssueLogic.loadDefaultMinutes(source);
+        final CarryoverSourceModel source         = CarryoverServiceImpl.toSource(settings);
+        final DefaultMinutesModel  defaultMinutes = this.carryoverIssueLogic.loadDefaultMinutes(source);
 
         /* 保存済みの解析結果の読み込み */
-        final Map<Integer, CarryoverIssue> stored = this.carryoverIssueLogic.loadIssues(source);
-        final Map<Integer, CarryoverIssue> all    = new TreeMap<>(stored);
+        final Map<Integer, CarryoverIssueModel> stored = this.carryoverIssueLogic.loadIssues(source);
+        final Map<Integer, CarryoverIssueModel> all    = new TreeMap<>(stored);
 
         /* Issue の取得と解析 */
-        final List<DailyTaskIssue> remoteIssues = this.carryoverIssueLogic.fetchAllIssues(source);
-        final int                  recentFrom   = CarryoverServiceImpl.recentFrom(remoteIssues,
+        final List<DailyTaskIssueModel> remoteIssues = this.carryoverIssueLogic.fetchAllIssues(source);
+        final int                       recentFrom   = CarryoverServiceImpl.recentFrom(remoteIssues,
             settings.getRecentCount());
 
-        for (final DailyTaskIssue remoteIssue : remoteIssues) {
+        for (final DailyTaskIssueModel remoteIssue : remoteIssues) {
 
             final Integer number = remoteIssue.getNumber();
 
@@ -228,7 +228,7 @@ public class CarryoverServiceImpl implements CarryoverService {
 
             }
 
-            final CarryoverIssue parsed = this.carryoverParseLogic.parse(remoteIssue, defaultMinutes);
+            final CarryoverIssueModel parsed = this.carryoverParseLogic.parse(remoteIssue, defaultMinutes);
             this.carryoverIssueLogic.saveIssue(source, parsed);
             all.put(number, parsed);
             result++;
@@ -236,7 +236,7 @@ public class CarryoverServiceImpl implements CarryoverService {
         }
 
         /* 画面用の集計の出力 */
-        final CarryoverSummary summary = this.carryoverAggregateLogic.aggregate(all.values());
+        final CarryoverSummaryModel summary = this.carryoverAggregateLogic.aggregate(all.values());
         this.carryoverIssueLogic.saveSummary(source, summary);
 
         /* 結果のログ */
@@ -246,8 +246,8 @@ public class CarryoverServiceImpl implements CarryoverService {
             summary.getDays().size());
 
         final String minutesSourceMessage = this.messageLogic.get(CarryoverServiceImpl.MSG_MINUTES_SOURCE_RESULT);
-        final long   defaultCount         = CarryoverServiceImpl.countBySource(all, MinutesSource.DEFAULT);
-        final long   unknownCount         = CarryoverServiceImpl.countBySource(all, MinutesSource.UNKNOWN);
+        final long   defaultCount         = CarryoverServiceImpl.countBySource(all, MinutesSourceTypes.DEFAULT);
+        final long   unknownCount         = CarryoverServiceImpl.countBySource(all, MinutesSourceTypes.UNKNOWN);
         CarryoverServiceImpl.LOGGER.info(minutesSourceMessage, defaultCount, unknownCount);
 
         return result;

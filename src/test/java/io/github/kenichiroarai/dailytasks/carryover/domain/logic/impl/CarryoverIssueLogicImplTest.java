@@ -8,13 +8,13 @@ import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItem;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSource;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummary;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssue;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutes;
-import io.github.kenichiroarai.dailytasks.carryover.application.types.MinutesSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssueModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItemModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSourceModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummaryModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssueModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutesModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.types.MinutesSourceTypes;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverIssueDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverItemDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverSummaryDto;
@@ -287,9 +287,9 @@ public class CarryoverIssueLogicImplTest {
      *
      * @return データの取得元と保存先
      */
-    private static CarryoverSource createSource() {
+    private static CarryoverSourceModel createSource() {
 
-        final CarryoverSource result = new CarryoverSource("owner/repo", "test-token", Path.of("docs", "data"),
+        final CarryoverSourceModel result = new CarryoverSourceModel("owner/repo", "test-token", Path.of("docs", "data"),
             Path.of("config", "default-minutes.json"));
         return result;
 
@@ -337,7 +337,7 @@ public class CarryoverIssueLogicImplTest {
             new StubCarryoverDataDao(Map.of()), new StubDefaultMinutesDao(Map.of()));
 
         /* テスト対象の実行 */
-        final List<DailyTaskIssue> testResult = testTarget.fetchAllIssues(CarryoverIssueLogicImplTest.createSource());
+        final List<DailyTaskIssueModel> testResult = testTarget.fetchAllIssues(CarryoverIssueLogicImplTest.createSource());
 
         /* 検証の準備 */
         final String actualTitle = testResult.get(0).getTitle();
@@ -397,7 +397,7 @@ public class CarryoverIssueLogicImplTest {
             new StubGitHubIssueApi(List.of()), new StubCarryoverDataDao(Map.of()), testDefaultMinutes);
 
         /* テスト対象の実行 */
-        final DefaultMinutes testResult = testTarget.loadDefaultMinutes(CarryoverIssueLogicImplTest.createSource());
+        final DefaultMinutesModel testResult = testTarget.loadDefaultMinutes(CarryoverIssueLogicImplTest.createSource());
 
         /* 検証の準備 */
         final Double actualMinutes    = testResult.find("音楽");
@@ -419,8 +419,8 @@ public class CarryoverIssueLogicImplTest {
     public void testLoadIssues_normalConvert() throws Exception {
 
         /* 期待値の定義 */
-        final MinutesSource expectedMinutesSource = MinutesSource.UNKNOWN;
-        final Path          expectedDataDir       = Path.of("docs", "data");
+        final MinutesSourceTypes expectedMinutesSource = MinutesSourceTypes.UNKNOWN;
+        final Path               expectedDataDir       = Path.of("docs", "data");
 
         /* 準備 */
         final CarryoverItemDto            testItem   = new CarryoverItemDto("国語", "2026-06-18", false, 0.0, "unknown",
@@ -432,12 +432,12 @@ public class CarryoverIssueLogicImplTest {
             new StubGitHubIssueApi(List.of()), testData, new StubDefaultMinutesDao(Map.of()));
 
         /* テスト対象の実行 */
-        final Map<Integer, CarryoverIssue> testResult
+        final Map<Integer, CarryoverIssueModel> testResult
             = testTarget.loadIssues(CarryoverIssueLogicImplTest.createSource());
 
         /* 検証の準備 */
-        final MinutesSource actualMinutesSource = testResult.get(371).getItems().get(0).getMinutesSource();
-        final Path          actualDataDir       = testData.getDataDir();
+        final MinutesSourceTypes actualMinutesSource = testResult.get(371).getItems().get(0).getMinutesSource();
+        final Path               actualDataDir       = testData.getDataDir();
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedMinutesSource, actualMinutesSource, "残り時間の取得元が一致しません");
@@ -462,9 +462,9 @@ public class CarryoverIssueLogicImplTest {
         final StubCarryoverDataDao    testData   = new StubCarryoverDataDao(Map.of());
         final CarryoverIssueLogicImpl testTarget = CarryoverIssueLogicImplTest.createTarget(
             new StubGitHubIssueApi(List.of()), testData, new StubDefaultMinutesDao(Map.of()));
-        final CarryoverItem               testItem   = new CarryoverItem("音楽", "2026-08-18", false, 11.5,
-            MinutesSource.PARSED, "持ち越し", "- [ ] 音楽2026/08/18（残り時間：11.5分）");
-        final CarryoverIssue              testIssue  = new CarryoverIssue(371, "2026年10月06日のタスク", "2026-10-06", "open",
+        final CarryoverItemModel      testItem   = new CarryoverItemModel("音楽", "2026-08-18", false, 11.5,
+            MinutesSourceTypes.PARSED, "持ち越し", "- [ ] 音楽2026/08/18（残り時間：11.5分）");
+        final CarryoverIssueModel     testIssue  = new CarryoverIssueModel(371, "2026年10月06日のタスク", "2026-10-06", "open",
             "2026-10-06T14:23:08Z", List.of("持ち越し"), 1, List.of(testItem));
 
         /* テスト対象の実行 */
@@ -494,10 +494,10 @@ public class CarryoverIssueLogicImplTest {
         final Path expectedDataDir     = Path.of("docs", "data");
 
         /* 準備 */
-        final StubCarryoverDataDao    testData   = new StubCarryoverDataDao(Map.of());
-        final CarryoverIssueLogicImpl testTarget = CarryoverIssueLogicImplTest.createTarget(
+        final StubCarryoverDataDao    testData    = new StubCarryoverDataDao(Map.of());
+        final CarryoverIssueLogicImpl testTarget  = CarryoverIssueLogicImplTest.createTarget(
             new StubGitHubIssueApi(List.of()), testData, new StubDefaultMinutesDao(Map.of()));
-        final CarryoverSummary            testSummary = new CarryoverSummary(371, List.of(), List.of());
+        final CarryoverSummaryModel   testSummary = new CarryoverSummaryModel(371, List.of(), List.of());
 
         /* テスト対象の実行 */
         testTarget.saveSummary(CarryoverIssueLogicImplTest.createSource(), testSummary);

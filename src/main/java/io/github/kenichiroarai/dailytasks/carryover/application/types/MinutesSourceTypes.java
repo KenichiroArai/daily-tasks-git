@@ -1,0 +1,82 @@
+package io.github.kenichiroarai.dailytasks.carryover.application.types;
+
+/**
+ * 残り時間の取得元<br>
+ *
+ * @author KenichiroArai
+ *
+ * @since 0.1.0
+ *
+ * @version 0.1.0
+ */
+@SuppressWarnings("nls")
+public enum MinutesSourceTypes {
+
+    /** Issue 本文の時間表記から取得 */
+    PARSED("parsed"),
+
+    /** 項目ごとの標準時間で補完 */
+    DEFAULT("default"),
+
+    /** 標準時間が未登録のため 0 分で補完 */
+    UNKNOWN("unknown"),
+
+    ;
+
+    /**
+     * 保存するときの値から残り時間の取得元を返す<br>
+     *
+     * @param value
+     *              保存するときの値（parsed / default / unknown）
+     *
+     * @return 残り時間の取得元。該当する取得元がない場合は null
+     */
+    public static MinutesSourceTypes fromValue(final String value) {
+
+        MinutesSourceTypes result = null;
+
+        for (final MinutesSourceTypes source : MinutesSourceTypes.values()) {
+
+            if (!source.value.equals(value)) {
+
+                continue;
+
+            }
+
+            result = source;
+            return result;
+
+        }
+
+        return result;
+
+    }
+
+    /** 保存するときの値 */
+    private final String value;
+
+    /**
+     * コンストラクタ<br>
+     *
+     * @param value
+     *              保存するときの値
+     */
+    MinutesSourceTypes(final String value) {
+
+        this.value = value;
+
+    }
+
+    /**
+     * 保存するときの値を返す<br>
+     *
+     * @return 保存するときの値
+     */
+    public String getValue() {
+
+        final String result = this.value;
+        return result;
+
+    }
+
+}

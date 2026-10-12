@@ -2,7 +2,7 @@ package io.github.kenichiroarai.dailytasks.carryover.presentation.service;
 
 import java.io.IOException;
 
-import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverSettings;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverSettingsModel;
 
 /**
  * 持ち越しの収集・集計サービス<br>
@@ -34,6 +34,6 @@ public interface CarryoverService {
      * @throws IOException
      *                     取得、読み込みまたは書き込みに失敗した場合
      */
-    int collect(CarryoverSettings settings, boolean full) throws IOException;
+    int collect(CarryoverSettingsModel settings, boolean full) throws IOException;
 
 }

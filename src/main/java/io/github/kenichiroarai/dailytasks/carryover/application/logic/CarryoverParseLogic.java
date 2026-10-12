@@ -1,8 +1,8 @@
 package io.github.kenichiroarai.dailytasks.carryover.application.logic;
 
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssue;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutes;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssueModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssueModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutesModel;
 
 /**
  * 日々のタスク Issue から持ち越し項目を解析する<br>
@@ -28,6 +28,6 @@ public interface CarryoverParseLogic {
      *
      * @return 持ち越しの解析結果
      */
-    CarryoverIssue parse(DailyTaskIssue issue, DefaultMinutes defaultMinutes);
+    CarryoverIssueModel parse(DailyTaskIssueModel issue, DefaultMinutesModel defaultMinutes);
 
 }

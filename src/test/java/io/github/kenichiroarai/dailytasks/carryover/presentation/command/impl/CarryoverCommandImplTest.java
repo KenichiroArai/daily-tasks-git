@@ -11,9 +11,9 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import io.github.kenichiroarai.dailytasks.carryover.presentation.config.CarryoverProperties;
-import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverOptions;
-import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverSettings;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverOptionsModel;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverPropertiesModel;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverSettingsModel;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.service.CarryoverService;
 import io.github.kenichiroarai.dailytasks.testutil.MessageLogicTestUtil;
 import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
@@ -50,7 +50,7 @@ public class CarryoverCommandImplTest {
         private final List<Boolean> calls = new ArrayList<>();
 
         /** 呼び出し時の設定 */
-        private final List<CarryoverSettings> settingsList = new ArrayList<>();
+        private final List<CarryoverSettingsModel> settingsList = new ArrayList<>();
 
         /**
          * 呼び出し時のモードと設定を記録し、3 を返す<br>
@@ -63,7 +63,7 @@ public class CarryoverCommandImplTest {
          * @return 3
          */
         @Override
-        public int collect(final CarryoverSettings settings, final boolean full) {
+        public int collect(final CarryoverSettingsModel settings, final boolean full) {
 
             this.settingsList.add(settings);
             this.calls.add(full);
@@ -89,9 +89,9 @@ public class CarryoverCommandImplTest {
          *
          * @return 呼び出し時の設定
          */
-        private List<CarryoverSettings> getSettingsList() {
+        private List<CarryoverSettingsModel> getSettingsList() {
 
-            final List<CarryoverSettings> result = this.settingsList;
+            final List<CarryoverSettingsModel> result = this.settingsList;
             return result;
 
         }
@@ -99,8 +99,8 @@ public class CarryoverCommandImplTest {
     }
 
     /** テスト用の設定ファイルの値 */
-    private static final CarryoverProperties PROPERTIES
-        = new CarryoverProperties("owner/repo", "test-token", "out/data", "conf/minutes.json", 7);
+    private static final CarryoverPropertiesModel PROPERTIES
+        = new CarryoverPropertiesModel("owner/repo", "test-token", "out/data", "conf/minutes.json", 7);
 
     /**
      * private の createSettings メソッドを呼び出す<br>
@@ -113,11 +113,11 @@ public class CarryoverCommandImplTest {
      * @throws Exception
      *                   例外が発生した場合
      */
-    private static CarryoverSettings createSettings(final CarryoverProperties properties) throws Exception {
+    private static CarryoverSettingsModel createSettings(final CarryoverPropertiesModel properties) throws Exception {
 
-        final CarryoverSettings result
+        final CarryoverSettingsModel result
             = ReflectionTestUtil.invokeStatic(CarryoverCommandImpl.class, "createSettings", new Class<?>[] {
-                CarryoverProperties.class
+                CarryoverPropertiesModel.class
             }, properties);
         return result;
 
@@ -152,11 +152,11 @@ public class CarryoverCommandImplTest {
      * @throws Exception
      *                   例外が発生した場合
      */
-    private static CarryoverOptions parseArgs(final String... args) throws Exception {
+    private static CarryoverOptionsModel parseArgs(final String... args) throws Exception {
 
-        final CarryoverCommandImpl target = CarryoverCommandImplTest.createTarget(new StubCarryoverService(),
+        final CarryoverCommandImpl  target = CarryoverCommandImplTest.createTarget(new StubCarryoverService(),
             System.out);
-        final CarryoverOptions     result = ReflectionTestUtil.invoke(target, "parseArgs", new Class<?>[] {
+        final CarryoverOptionsModel result = ReflectionTestUtil.invoke(target, "parseArgs", new Class<?>[] {
             String[].class
         }, (Object) args);
         return result;
@@ -222,10 +222,10 @@ public class CarryoverCommandImplTest {
         final int    expectedRecentCount        = 7;
 
         /* 準備 */
-        final CarryoverProperties testProperties = CarryoverCommandImplTest.PROPERTIES;
+        final CarryoverPropertiesModel testProperties = CarryoverCommandImplTest.PROPERTIES;
 
         /* テスト対象の実行 */
-        final CarryoverSettings testResult = CarryoverCommandImplTest.createSettings(testProperties);
+        final CarryoverSettingsModel testResult = CarryoverCommandImplTest.createSettings(testProperties);
 
         /* 検証の準備 */
         final String actualRepository         = testResult.getRepository();
@@ -257,7 +257,7 @@ public class CarryoverCommandImplTest {
         /* 準備 */
 
         /* テスト対象の実行 */
-        final CarryoverOptions testResult = CarryoverCommandImplTest.parseArgs("--full");
+        final CarryoverOptionsModel testResult = CarryoverCommandImplTest.parseArgs("--full");
 
         /* 検証の準備 */
         final boolean actualFull = testResult.isFull();
@@ -283,7 +283,7 @@ public class CarryoverCommandImplTest {
         /* 準備 */
 
         /* テスト対象の実行 */
-        final CarryoverOptions testResult = CarryoverCommandImplTest.parseArgs("--help");
+        final CarryoverOptionsModel testResult = CarryoverCommandImplTest.parseArgs("--help");
 
         /* 検証の準備 */
         final boolean actualFull = testResult.isFull();
@@ -309,7 +309,7 @@ public class CarryoverCommandImplTest {
         /* 準備 */
 
         /* テスト対象の実行 */
-        final CarryoverOptions testResult = CarryoverCommandImplTest.parseArgs();
+        final CarryoverOptionsModel testResult = CarryoverCommandImplTest.parseArgs();
 
         /* 検証の準備 */
         final boolean actualFull = testResult.isFull();
@@ -335,7 +335,7 @@ public class CarryoverCommandImplTest {
         /* 準備 */
 
         /* テスト対象の実行 */
-        final CarryoverOptions testResult = CarryoverCommandImplTest.parseArgs("-h");
+        final CarryoverOptionsModel testResult = CarryoverCommandImplTest.parseArgs("-h");
 
         /* 検証の準備 */
         final boolean actualHelp = testResult.isHelp();

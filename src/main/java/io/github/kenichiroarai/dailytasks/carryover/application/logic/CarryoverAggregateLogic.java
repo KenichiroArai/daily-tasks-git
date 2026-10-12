@@ -2,8 +2,8 @@ package io.github.kenichiroarai.dailytasks.carryover.application.logic;
 
 import java.util.Collection;
 
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummary;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssueModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummaryModel;
 
 /**
  * 持ち越しの解析結果を日別に集計する<br>
@@ -27,6 +27,6 @@ public interface CarryoverAggregateLogic {
      *
      * @return 画面用の持ち越しの集計
      */
-    CarryoverSummary aggregate(Collection<CarryoverIssue> issues);
+    CarryoverSummaryModel aggregate(Collection<CarryoverIssueModel> issues);
 
 }

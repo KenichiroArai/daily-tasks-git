@@ -7,11 +7,11 @@ import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItem;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssue;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutes;
-import io.github.kenichiroarai.dailytasks.carryover.application.types.MinutesSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssueModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItemModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssueModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutesModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.types.MinutesSourceTypes;
 import io.github.kenichiroarai.dailytasks.testutil.LogAssertions;
 import io.github.kenichiroarai.dailytasks.testutil.LogCapture;
 import io.github.kenichiroarai.dailytasks.testutil.MessageLogicTestUtil;
@@ -32,8 +32,8 @@ import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 public class CarryoverParseLogicImplTest {
 
     /** テスト用の標準時間 */
-    private static final DefaultMinutes DEFAULT_MINUTES
-        = new DefaultMinutes(Map.of("国語", (double) 15, "マラソン日記", (double) 0));
+    private static final DefaultMinutesModel DEFAULT_MINUTES
+        = new DefaultMinutesModel(Map.of("国語", (double) 15, "マラソン日記", (double) 0));
 
     /**
      * private の addSection メソッドを呼び出す<br>
@@ -64,9 +64,9 @@ public class CarryoverParseLogicImplTest {
      *
      * @return Issue
      */
-    private static DailyTaskIssue createIssue(final String title, final String body) {
+    private static DailyTaskIssueModel createIssue(final String title, final String body) {
 
-        final DailyTaskIssue result = new DailyTaskIssue(371, title, "open", "2026-10-06T14:23:08Z", body);
+        final DailyTaskIssueModel result = new DailyTaskIssueModel(371, title, "open", "2026-10-06T14:23:08Z", body);
         return result;
 
     }
@@ -149,11 +149,11 @@ public class CarryoverParseLogicImplTest {
      * @throws Exception
      *                   例外が発生した場合
      */
-    private static CarryoverItem parseItem(final CarryoverParseLogicImpl target, final int number, final String section,
+    private static CarryoverItemModel parseItem(final CarryoverParseLogicImpl target, final int number, final String section,
         final boolean checked, final String content, final String raw) throws Exception {
 
-        final CarryoverItem result = ReflectionTestUtil.invoke(target, "parseItem", new Class<?>[] {
-            int.class, String.class, boolean.class, String.class, String.class, DefaultMinutes.class
+        final CarryoverItemModel result = ReflectionTestUtil.invoke(target, "parseItem", new Class<?>[] {
+            int.class, String.class, boolean.class, String.class, String.class, DefaultMinutesModel.class
         }, Integer.valueOf(number), section, Boolean.valueOf(checked), content, raw,
             CarryoverParseLogicImplTest.DEFAULT_MINUTES);
         return result;
@@ -486,14 +486,14 @@ public class CarryoverParseLogicImplTest {
         final String[]     expectedMsgs          = {};
 
         /* 準備 */
-        final String              testBody   = String.join("\r\n", "## ルーティン", "", "- [ ] 国語（15分）", "## 追加", "## 持ち越し",
+        final String                  testBody   = String.join("\r\n", "## ルーティン", "", "- [ ] 国語（15分）", "## 追加", "## 持ち越し",
             "残：2", "- [ ] 国語2026/06/18（残り時間：15分）", "- [x] 音楽2026/08/18（残り時間：8.5分）", "## 先行",
             "- [ ] 国語2026/10/07（残り時間：15分）");
         final CarryoverParseLogicImpl testTarget = CarryoverParseLogicImplTest.createTarget();
-        final DailyTaskIssue      testIssue  = CarryoverParseLogicImplTest.createIssue("2026年10月06日のタスク", testBody);
+        final DailyTaskIssueModel     testIssue  = CarryoverParseLogicImplTest.createIssue("2026年10月06日のタスク", testBody);
 
         /* テスト対象の実行 */
-        final CarryoverIssue testResult;
+        final CarryoverIssueModel testResult;
 
         try (LogCapture testLog = new LogCapture(CarryoverParseLogicImpl.class)) {
 
@@ -532,11 +532,11 @@ public class CarryoverParseLogicImplTest {
 
         /* 準備 */
         final CarryoverParseLogicImpl testTarget = CarryoverParseLogicImplTest.createTarget();
-        final DailyTaskIssue      testIssue  = CarryoverParseLogicImplTest.createIssue("2025年10月01日のタスク",
+        final DailyTaskIssueModel     testIssue  = CarryoverParseLogicImplTest.createIssue("2025年10月01日のタスク",
             "## ルーティン\n- [ ] 国語（15分）\n## 追加");
 
         /* テスト対象の実行 */
-        final CarryoverIssue testResult = testTarget.parse(testIssue, CarryoverParseLogicImplTest.DEFAULT_MINUTES);
+        final CarryoverIssueModel testResult = testTarget.parse(testIssue, CarryoverParseLogicImplTest.DEFAULT_MINUTES);
 
         /* 検証の準備 */
         final int     actualCount      = testResult.getCount();
@@ -559,11 +559,11 @@ public class CarryoverParseLogicImplTest {
 
         /* 準備 */
         final CarryoverParseLogicImpl testTarget = CarryoverParseLogicImplTest.createTarget();
-        final DailyTaskIssue      testIssue  = CarryoverParseLogicImplTest.createIssue("2026年04月10日のタスク",
+        final DailyTaskIssueModel     testIssue  = CarryoverParseLogicImplTest.createIssue("2026年04月10日のタスク",
             "## 負債\n- [ ] 国語2026/03/30\n## 繰り越し\n- [ ] 国語2026/03/31（残り9分）");
 
         /* テスト対象の実行 */
-        final CarryoverIssue testResult = testTarget.parse(testIssue, CarryoverParseLogicImplTest.DEFAULT_MINUTES);
+        final CarryoverIssueModel testResult = testTarget.parse(testIssue, CarryoverParseLogicImplTest.DEFAULT_MINUTES);
 
         /* 検証の準備 */
         final List<String> actualSections = testResult.getSections();
@@ -586,7 +586,7 @@ public class CarryoverParseLogicImplTest {
 
         /* 準備 */
         final CarryoverParseLogicImpl testTarget = CarryoverParseLogicImplTest.createTarget();
-        final DailyTaskIssue      testIssue  = CarryoverParseLogicImplTest.createIssue("2026年10月06日のタスク",
+        final DailyTaskIssueModel     testIssue  = CarryoverParseLogicImplTest.createIssue("2026年10月06日のタスク",
             "## 持ち越し\n残：3\n- [ ] 国語2026/06/18（残り時間：15分）");
 
         /* テスト対象の実行 */
@@ -617,12 +617,12 @@ public class CarryoverParseLogicImplTest {
 
         /* 準備 */
         final CarryoverParseLogicImpl testTarget = CarryoverParseLogicImplTest.createTarget();
-        final DailyTaskIssue      testIssue  = CarryoverParseLogicImplTest.createIssue("タスク", null);
+        final DailyTaskIssueModel     testIssue  = CarryoverParseLogicImplTest.createIssue("タスク", null);
 
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverParseLogicImpl.class)) {
 
-            final CarryoverIssue testResult = testTarget.parse(testIssue, CarryoverParseLogicImplTest.DEFAULT_MINUTES);
+            final CarryoverIssueModel testResult = testTarget.parse(testIssue, CarryoverParseLogicImplTest.DEFAULT_MINUTES);
 
             /* 検証の準備 */
             final String[] actualMsgs = testLog.getMessages();
@@ -650,13 +650,13 @@ public class CarryoverParseLogicImplTest {
 
         /* 準備 */
         final CarryoverParseLogicImpl testTarget = CarryoverParseLogicImplTest.createTarget();
-        final DailyTaskIssue      testIssue  = CarryoverParseLogicImplTest.createIssue("2026年10月06日のタスク",
+        final DailyTaskIssueModel     testIssue  = CarryoverParseLogicImplTest.createIssue("2026年10月06日のタスク",
             "## 持ち越し\nメモ\n\n-----\n- [ ] 国語2026/06/18（残り時間：15分）");
 
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverParseLogicImpl.class)) {
 
-            final CarryoverIssue testResult = testTarget.parse(testIssue, CarryoverParseLogicImplTest.DEFAULT_MINUTES);
+            final CarryoverIssueModel testResult = testTarget.parse(testIssue, CarryoverParseLogicImplTest.DEFAULT_MINUTES);
 
             /* 検証の準備 */
             final String[] actualMsgs  = testLog.getMessages();
@@ -680,9 +680,9 @@ public class CarryoverParseLogicImplTest {
     public void testParseItem_normalDefaultMinutes() throws Exception {
 
         /* 期待値の定義 */
-        final double        expectedMinutes       = 15;
-        final MinutesSource expectedMinutesSource = MinutesSource.DEFAULT;
-        final String[]      expectedMsgs          = {};
+        final double             expectedMinutes       = 15;
+        final MinutesSourceTypes expectedMinutesSource = MinutesSourceTypes.DEFAULT;
+        final String[]           expectedMsgs          = {};
 
         /* 準備 */
         final CarryoverParseLogicImpl testTarget = CarryoverParseLogicImplTest.createTarget();
@@ -690,13 +690,13 @@ public class CarryoverParseLogicImplTest {
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverParseLogicImpl.class)) {
 
-            final CarryoverItem testResult
+            final CarryoverItemModel testResult
                 = CarryoverParseLogicImplTest.parseItem(testTarget, 371, "負債", false, "国語2026/03/30", "- [ ] 国語2026/03/30");
 
             /* 検証の準備 */
-            final String[]      actualMsgs          = testLog.getMessages();
-            final double        actualMinutes       = testResult.getMinutes();
-            final MinutesSource actualMinutesSource = testResult.getMinutesSource();
+            final String[]           actualMsgs          = testLog.getMessages();
+            final double             actualMinutes       = testResult.getMinutes();
+            final MinutesSourceTypes actualMinutesSource = testResult.getMinutesSource();
 
             /* 検証の実施 */
             Assertions.assertEquals(expectedMinutes, actualMinutes, "残り時間が一致しません");
@@ -717,25 +717,25 @@ public class CarryoverParseLogicImplTest {
     public void testParseItem_normalParsedMinutes() throws Exception {
 
         /* 期待値の定義 */
-        final String        expectedName          = "国語";
-        final String        expectedOriginDate    = "2026-06-18";
-        final double        expectedMinutes       = 4;
-        final MinutesSource expectedMinutesSource = MinutesSource.PARSED;
-        final String        expectedSection       = "持ち越し";
+        final String             expectedName          = "国語";
+        final String             expectedOriginDate    = "2026-06-18";
+        final double             expectedMinutes       = 4;
+        final MinutesSourceTypes expectedMinutesSource = MinutesSourceTypes.PARSED;
+        final String             expectedSection       = "持ち越し";
 
         /* 準備 */
         final CarryoverParseLogicImpl testTarget = CarryoverParseLogicImplTest.createTarget();
 
         /* テスト対象の実行 */
-        final CarryoverItem testResult = CarryoverParseLogicImplTest.parseItem(testTarget, 371, "持ち越し", false,
+        final CarryoverItemModel testResult = CarryoverParseLogicImplTest.parseItem(testTarget, 371, "持ち越し", false,
             "国語2026/06/18（残り時間：4分）", "- [ ] 国語2026/06/18（残り時間：4分）");
 
         /* 検証の準備 */
-        final String        actualName          = testResult.getName();
-        final String        actualOriginDate    = testResult.getOriginDate();
-        final double        actualMinutes       = testResult.getMinutes();
-        final MinutesSource actualMinutesSource = testResult.getMinutesSource();
-        final String        actualSection       = testResult.getSection();
+        final String             actualName          = testResult.getName();
+        final String             actualOriginDate    = testResult.getOriginDate();
+        final double             actualMinutes       = testResult.getMinutes();
+        final MinutesSourceTypes actualMinutesSource = testResult.getMinutesSource();
+        final String             actualSection       = testResult.getSection();
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedName, actualName, "項目名が一致しません");
@@ -767,7 +767,7 @@ public class CarryoverParseLogicImplTest {
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverParseLogicImpl.class)) {
 
-            final CarryoverItem testResult = CarryoverParseLogicImplTest.parseItem(testTarget, 371, "持ち越し", false,
+            final CarryoverItemModel testResult = CarryoverParseLogicImplTest.parseItem(testTarget, 371, "持ち越し", false,
                 "2026/06/18（残り時間：15分）", "- [ ] 2026/06/18（残り時間：15分）");
 
             /* 検証の準備 */
@@ -792,9 +792,9 @@ public class CarryoverParseLogicImplTest {
     public void testParseItem_semiUnknownMinutes() throws Exception {
 
         /* 期待値の定義 */
-        final double        expectedMinutes       = 0;
-        final MinutesSource expectedMinutesSource = MinutesSource.UNKNOWN;
-        final String[]      expectedMsgs          = {
+        final double             expectedMinutes       = 0;
+        final MinutesSourceTypes expectedMinutesSource = MinutesSourceTypes.UNKNOWN;
+        final String[]           expectedMsgs          = {
             "#371 標準時間が未登録のため 0 分とします: 英語",
         };
 
@@ -804,13 +804,13 @@ public class CarryoverParseLogicImplTest {
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverParseLogicImpl.class)) {
 
-            final CarryoverItem testResult
+            final CarryoverItemModel testResult
                 = CarryoverParseLogicImplTest.parseItem(testTarget, 371, "負債", false, "英語2026/03/30", "- [ ] 英語2026/03/30");
 
             /* 検証の準備 */
-            final String[]      actualMsgs          = testLog.getMessages();
-            final double        actualMinutes       = testResult.getMinutes();
-            final MinutesSource actualMinutesSource = testResult.getMinutesSource();
+            final String[]           actualMsgs          = testLog.getMessages();
+            final double             actualMinutes       = testResult.getMinutes();
+            final MinutesSourceTypes actualMinutesSource = testResult.getMinutesSource();
 
             /* 検証の実施 */
             Assertions.assertEquals(expectedMinutes, actualMinutes, "残り時間が一致しません");
@@ -831,9 +831,9 @@ public class CarryoverParseLogicImplTest {
     public void testParseItem_semiUnparsableMinutes() throws Exception {
 
         /* 期待値の定義 */
-        final double        expectedMinutes       = 15;
-        final MinutesSource expectedMinutesSource = MinutesSource.DEFAULT;
-        final String[]      expectedMsgs          = {
+        final double             expectedMinutes       = 15;
+        final MinutesSourceTypes expectedMinutesSource = MinutesSourceTypes.DEFAULT;
+        final String[]           expectedMsgs          = {
             "#371 時間表記を解釈できないため標準時間で補完します: - [ ] 国語2026/06/18（未定）",
         };
 
@@ -843,13 +843,13 @@ public class CarryoverParseLogicImplTest {
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverParseLogicImpl.class)) {
 
-            final CarryoverItem testResult = CarryoverParseLogicImplTest.parseItem(testTarget, 371, "持ち越し", false,
+            final CarryoverItemModel testResult = CarryoverParseLogicImplTest.parseItem(testTarget, 371, "持ち越し", false,
                 "国語2026/06/18（未定）", "- [ ] 国語2026/06/18（未定）");
 
             /* 検証の準備 */
-            final String[]      actualMsgs          = testLog.getMessages();
-            final double        actualMinutes       = testResult.getMinutes();
-            final MinutesSource actualMinutesSource = testResult.getMinutesSource();
+            final String[]           actualMsgs          = testLog.getMessages();
+            final double             actualMinutes       = testResult.getMinutes();
+            final MinutesSourceTypes actualMinutesSource = testResult.getMinutesSource();
 
             /* 検証の実施 */
             Assertions.assertEquals(expectedMinutes, actualMinutes, "残り時間が一致しません");
@@ -882,7 +882,7 @@ public class CarryoverParseLogicImplTest {
         /* テスト対象の実行 */
         try (LogCapture testLog = new LogCapture(CarryoverParseLogicImpl.class)) {
 
-            final CarryoverItem testResult
+            final CarryoverItemModel testResult
                 = CarryoverParseLogicImplTest.parseItem(testTarget, 371, "持ち越し", false, "国語（10分）", "- [ ] 国語（10分）");
 
             /* 検証の準備 */

@@ -10,10 +10,10 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 
 import io.github.kenichiroarai.dailytasks.carryover.application.logic.CarryoverAggregateLogic;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItem;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummary;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.DailySummary;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssueModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItemModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummaryModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailySummaryModel;
 
 /**
  * 持ち越しの解析結果を日別に集計する実装<br>
@@ -39,20 +39,20 @@ public class CarryoverAggregateLogicImpl implements CarryoverAggregateLogic {
      * @return 画面用の持ち越しの集計
      */
     @Override
-    public CarryoverSummary aggregate(final Collection<CarryoverIssue> issues) {
+    public CarryoverSummaryModel aggregate(final Collection<CarryoverIssueModel> issues) {
 
-        CarryoverSummary result = null;
+        CarryoverSummaryModel result = null;
 
         /* 日付のある Issue を日付順に並べる */
-        final List<CarryoverIssue> sorted = issues.stream().filter(issue -> issue.getDate() != null)
-            .sorted(Comparator.comparing(CarryoverIssue::getDate).thenComparingInt(CarryoverIssue::getNumber)).toList();
+        final List<CarryoverIssueModel> sorted = issues.stream().filter(issue -> issue.getDate() != null)
+            .sorted(Comparator.comparing(CarryoverIssueModel::getDate).thenComparingInt(CarryoverIssueModel::getNumber)).toList();
 
         /* 日別の集計 */
-        final List<DailySummary>   days       = new ArrayList<>();
-        final Map<String, Integer> itemCounts = new HashMap<>();
-        boolean                    tracking   = false;
+        final List<DailySummaryModel> days       = new ArrayList<>();
+        final Map<String, Integer>    itemCounts = new HashMap<>();
+        boolean                       tracking   = false;
 
-        for (final CarryoverIssue issue : sorted) {
+        for (final CarryoverIssueModel issue : sorted) {
 
             tracking = tracking || issue.hasSection();
 
@@ -62,9 +62,9 @@ public class CarryoverAggregateLogicImpl implements CarryoverAggregateLogic {
 
             }
 
-            final DailySummary day = new DailySummary(issue.getDate(), issue.getNumber(), issue.getDeclaredCount());
+            final DailySummaryModel day = new DailySummaryModel(issue.getDate(), issue.getNumber(), issue.getDeclaredCount());
 
-            for (final CarryoverItem item : issue.getItems()) {
+            for (final CarryoverItemModel item : issue.getItems()) {
 
                 day.add(item);
                 itemCounts.merge(item.getName(), 1, Integer::sum);
@@ -80,9 +80,9 @@ public class CarryoverAggregateLogicImpl implements CarryoverAggregateLogic {
             .sorted(Map.Entry.<String, Integer>comparingByValue().reversed().thenComparing(Map.Entry.comparingByKey()))
             .map(Map.Entry::getKey).toList();
 
-        final int latestIssue = issues.stream().mapToInt(CarryoverIssue::getNumber).max().orElse(0);
+        final int latestIssue = issues.stream().mapToInt(CarryoverIssueModel::getNumber).max().orElse(0);
 
-        result = new CarryoverSummary(latestIssue, items, days);
+        result = new CarryoverSummaryModel(latestIssue, items, days);
         return result;
 
     }

@@ -5,11 +5,11 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItem;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummary;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.DailySummary;
-import io.github.kenichiroarai.dailytasks.carryover.application.types.MinutesSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssueModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItemModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummaryModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailySummaryModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.types.MinutesSourceTypes;
 
 /**
  * {@link CarryoverAggregateLogicImpl} のテスト<br>
@@ -39,11 +39,11 @@ public class CarryoverAggregateLogicImplTest {
      *
      * @return 解析結果
      */
-    private static CarryoverIssue createIssue(final int number, final String date, final List<String> sections,
-        final List<CarryoverItem> items) {
+    private static CarryoverIssueModel createIssue(final int number, final String date, final List<String> sections,
+        final List<CarryoverItemModel> items) {
 
-        final CarryoverIssue result
-            = new CarryoverIssue(number, "title", date, "closed", "2026-10-06T00:00:00Z", sections, null, items);
+        final CarryoverIssueModel result
+            = new CarryoverIssueModel(number, "title", date, "closed", "2026-10-06T00:00:00Z", sections, null, items);
         return result;
 
     }
@@ -56,10 +56,10 @@ public class CarryoverAggregateLogicImplTest {
      *
      * @return 持ち越し項目
      */
-    private static CarryoverItem createItem(final String name) {
+    private static CarryoverItemModel createItem(final String name) {
 
-        final CarryoverItem result
-            = new CarryoverItem(name, "2026-06-18", false, 15, MinutesSource.PARSED, "持ち越し", "raw");
+        final CarryoverItemModel result
+            = new CarryoverItemModel(name, "2026-06-18", false, 15, MinutesSourceTypes.PARSED, "持ち越し", "raw");
         return result;
 
     }
@@ -77,7 +77,7 @@ public class CarryoverAggregateLogicImplTest {
         final int           expectedLatestIssue = 177;
 
         /* 準備 */
-        final List<CarryoverIssue>    testIssues = List.of(
+        final List<CarryoverIssueModel>   testIssues = List.of(
             CarryoverAggregateLogicImplTest.createIssue(177, "2026-03-26", List.of("負債"),
                 List.of(CarryoverAggregateLogicImplTest.createItem("音楽"))),
             CarryoverAggregateLogicImplTest.createIssue(176, "2026-03-25", List.of(), List.of()),
@@ -88,10 +88,10 @@ public class CarryoverAggregateLogicImplTest {
         final CarryoverAggregateLogicImpl testTarget = new CarryoverAggregateLogicImpl();
 
         /* テスト対象の実行 */
-        final CarryoverSummary testResult = testTarget.aggregate(testIssues);
+        final CarryoverSummaryModel testResult = testTarget.aggregate(testIssues);
 
         /* 検証の準備 */
-        final List<String>  actualDates       = testResult.getDays().stream().map(DailySummary::getDate).toList();
+        final List<String>  actualDates       = testResult.getDays().stream().map(DailySummaryModel::getDate).toList();
         final List<Integer> actualCounts      = testResult.getDays().stream().map(day -> day.getTotal().getCount())
             .toList();
         final List<String>  actualItems       = testResult.getItems();
@@ -118,7 +118,7 @@ public class CarryoverAggregateLogicImplTest {
         final CarryoverAggregateLogicImpl testTarget = new CarryoverAggregateLogicImpl();
 
         /* テスト対象の実行 */
-        final CarryoverSummary testResult = testTarget.aggregate(List.of());
+        final CarryoverSummaryModel testResult = testTarget.aggregate(List.of());
 
         /* 検証の準備 */
         final int     actualLatestIssue = testResult.getLatestIssue();

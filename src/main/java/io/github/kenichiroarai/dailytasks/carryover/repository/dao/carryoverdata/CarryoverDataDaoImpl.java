@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverIssueDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverSummaryDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.repository.dao.CarryoverDataDao;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.CarryoverIssueJson;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.CarryoverIssueJsonDto;
 import io.github.kenichiroarai.dailytasks.carryover.repository.logic.CarryoverJsonConvertLogic;
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.util.DefaultIndenter;
@@ -130,13 +130,13 @@ public class CarryoverDataDaoImpl implements CarryoverDataDao {
      * @throws IOException
      *                     読み込みまたは JSON の変換に失敗した場合
      */
-    private CarryoverIssueJson readIssue(final Path path) throws IOException {
+    private CarryoverIssueJsonDto readIssue(final Path path) throws IOException {
 
-        CarryoverIssueJson result = null;
+        CarryoverIssueJsonDto result = null;
 
         try {
 
-            result = this.jsonMapper.readValue(path.toFile(), CarryoverIssueJson.class);
+            result = this.jsonMapper.readValue(path.toFile(), CarryoverIssueJsonDto.class);
 
         } catch (final JacksonException e) {
 

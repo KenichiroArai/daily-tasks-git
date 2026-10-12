@@ -11,11 +11,11 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverItemDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverSummaryDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.DailySummaryDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.ItemStatDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.CarryoverIssueJson;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.CarryoverItemJson;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.CarryoverSummaryJson;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.DailySummaryJson;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.ItemStatJson;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.CarryoverIssueJsonDto;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.CarryoverItemJsonDto;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.CarryoverSummaryJsonDto;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.DailySummaryJsonDto;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.ItemStatJsonDto;
 
 /**
  * domain 層の DTO と JSON の形の型を相互に変換する<br>
@@ -41,7 +41,7 @@ public class CarryoverJsonConvertLogic {
      *
      * @return 持ち越し項目の DTO
      */
-    private static CarryoverItemDto toCarryoverItemDto(final CarryoverItemJson json) {
+    private static CarryoverItemDto toCarryoverItemDto(final CarryoverItemJsonDto json) {
 
         final CarryoverItemDto result = new CarryoverItemDto(json.getName(), json.getOriginDate(), json.isChecked(),
             json.getMinutes(), json.getMinutesSource(), json.getSection(), json.getRaw());
@@ -57,9 +57,9 @@ public class CarryoverJsonConvertLogic {
      *
      * @return JSON の形の持ち越し項目
      */
-    private static CarryoverItemJson toCarryoverItemJson(final CarryoverItemDto dto) {
+    private static CarryoverItemJsonDto toCarryoverItemJson(final CarryoverItemDto dto) {
 
-        final CarryoverItemJson result = new CarryoverItemJson(dto.getName(), dto.getOriginDate(), dto.isChecked(),
+        final CarryoverItemJsonDto result = new CarryoverItemJsonDto(dto.getName(), dto.getOriginDate(), dto.isChecked(),
             dto.getMinutes(), dto.getMinutesSource(), dto.getSection(), dto.getRaw());
         return result;
 
@@ -73,9 +73,9 @@ public class CarryoverJsonConvertLogic {
      *
      * @return JSON の形の日別の集計
      */
-    private static DailySummaryJson toDailySummaryJson(final DailySummaryDto dto) {
+    private static DailySummaryJsonDto toDailySummaryJson(final DailySummaryDto dto) {
 
-        final DailySummaryJson result = new DailySummaryJson(dto.getDate(), dto.getIssue(), dto.getDeclaredCount(),
+        final DailySummaryJsonDto result = new DailySummaryJsonDto(dto.getDate(), dto.getIssue(), dto.getDeclaredCount(),
             CarryoverJsonConvertLogic.toItemStatJson(dto.getTotal()), CarryoverJsonConvertLogic.toItemStatJsons(dto.getByItem()),
             CarryoverJsonConvertLogic.toItemStatJsons(dto.getByOriginMonth()));
         return result;
@@ -90,10 +90,10 @@ public class CarryoverJsonConvertLogic {
      *
      * @return JSON の形の集計値
      */
-    private static ItemStatJson toItemStatJson(final ItemStatDto dto) {
+    private static ItemStatJsonDto toItemStatJson(final ItemStatDto dto) {
 
-        final ItemStatJson result
-            = new ItemStatJson(dto.getCount(), dto.getMinutes(), dto.getCheckedCount(), dto.getCheckedMinutes());
+        final ItemStatJsonDto result
+            = new ItemStatJsonDto(dto.getCount(), dto.getMinutes(), dto.getCheckedCount(), dto.getCheckedMinutes());
         return result;
 
     }
@@ -106,9 +106,9 @@ public class CarryoverJsonConvertLogic {
      *
      * @return キーごとの JSON の形の集計値（並び順は元のまま）
      */
-    private static Map<String, ItemStatJson> toItemStatJsons(final Map<String, ItemStatDto> dtos) {
+    private static Map<String, ItemStatJsonDto> toItemStatJsons(final Map<String, ItemStatDto> dtos) {
 
-        final Map<String, ItemStatJson> result = new LinkedHashMap<>();
+        final Map<String, ItemStatJsonDto> result = new LinkedHashMap<>();
 
         for (final Map.Entry<String, ItemStatDto> entry : dtos.entrySet()) {
 
@@ -128,7 +128,7 @@ public class CarryoverJsonConvertLogic {
      *
      * @return 解析結果の DTO
      */
-    public CarryoverIssueDto toCarryoverIssueDto(final CarryoverIssueJson json) {
+    public CarryoverIssueDto toCarryoverIssueDto(final CarryoverIssueJsonDto json) {
 
         final List<CarryoverItemDto> items  = json.getItems().stream().map(CarryoverJsonConvertLogic::toCarryoverItemDto)
             .toList();
@@ -147,11 +147,11 @@ public class CarryoverJsonConvertLogic {
      *
      * @return JSON の形の解析結果
      */
-    public CarryoverIssueJson toCarryoverIssueJson(final CarryoverIssueDto dto) {
+    public CarryoverIssueJsonDto toCarryoverIssueJson(final CarryoverIssueDto dto) {
 
-        final List<CarryoverItemJson> items  = dto.getItems().stream().map(CarryoverJsonConvertLogic::toCarryoverItemJson)
+        final List<CarryoverItemJsonDto> items  = dto.getItems().stream().map(CarryoverJsonConvertLogic::toCarryoverItemJson)
             .toList();
-        final CarryoverIssueJson      result = new CarryoverIssueJson(dto.getNumber(), dto.getTitle(), dto.getDate(),
+        final CarryoverIssueJsonDto      result = new CarryoverIssueJsonDto(dto.getNumber(), dto.getTitle(), dto.getDate(),
             dto.getState(), dto.getUpdatedAt(), dto.getSections(), dto.getDeclaredCount(), dto.getCount(),
             dto.getMinutes(), items);
         return result;
@@ -166,11 +166,11 @@ public class CarryoverJsonConvertLogic {
      *
      * @return JSON の形の画面用の集計
      */
-    public CarryoverSummaryJson toCarryoverSummaryJson(final CarryoverSummaryDto dto) {
+    public CarryoverSummaryJsonDto toCarryoverSummaryJson(final CarryoverSummaryDto dto) {
 
-        final List<DailySummaryJson> days   = dto.getDays().stream().map(CarryoverJsonConvertLogic::toDailySummaryJson)
+        final List<DailySummaryJsonDto> days   = dto.getDays().stream().map(CarryoverJsonConvertLogic::toDailySummaryJson)
             .toList();
-        final CarryoverSummaryJson   result = new CarryoverSummaryJson(dto.getLatestIssue(), dto.getItems(), days);
+        final CarryoverSummaryJsonDto   result = new CarryoverSummaryJsonDto(dto.getLatestIssue(), dto.getItems(), days);
         return result;
 
     }

@@ -12,11 +12,11 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverItemDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverSummaryDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.DailySummaryDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.ItemStatDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.CarryoverIssueJson;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.CarryoverItemJson;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.CarryoverSummaryJson;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.DailySummaryJson;
-import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.ItemStatJson;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.CarryoverIssueJsonDto;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.CarryoverItemJsonDto;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.CarryoverSummaryJsonDto;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.DailySummaryJsonDto;
+import io.github.kenichiroarai.dailytasks.carryover.repository.dto.json.ItemStatJsonDto;
 
 /**
  * {@link CarryoverJsonConvertLogic} のテスト<br>
@@ -52,11 +52,11 @@ public class CarryoverJsonConvertLogicTest {
      *
      * @return JSON の形の解析結果
      */
-    private static CarryoverIssueJson createIssueJson() {
+    private static CarryoverIssueJsonDto createIssueJson() {
 
-        final CarryoverItemJson  item   = new CarryoverItemJson("国語", "2026-06-18", false, 15.0, "default", "持ち越し",
+        final CarryoverItemJsonDto  item   = new CarryoverItemJsonDto("国語", "2026-06-18", false, 15.0, "default", "持ち越し",
             "- [ ] 国語2026/06/18");
-        final CarryoverIssueJson result = new CarryoverIssueJson(370, "2026年10月05日のタスク", "2026-10-05", "closed",
+        final CarryoverIssueJsonDto result = new CarryoverIssueJsonDto(370, "2026年10月05日のタスク", "2026-10-05", "closed",
             "2026-10-05T10:00:00Z", List.of("持ち越し"), 1, 1, 15.0, List.of(item));
         return result;
 
@@ -91,7 +91,7 @@ public class CarryoverJsonConvertLogicTest {
         final String expectedUpdatedAt = "2026-10-05T10:00:00Z";
 
         /* 準備 */
-        final CarryoverIssueJson testJson = CarryoverJsonConvertLogicTest.createIssueJson();
+        final CarryoverIssueJsonDto testJson = CarryoverJsonConvertLogicTest.createIssueJson();
 
         /* テスト対象の実行 */
         final CarryoverIssueDto testResult = new CarryoverJsonConvertLogic().toCarryoverIssueDto(testJson);
@@ -114,7 +114,7 @@ public class CarryoverJsonConvertLogicTest {
         final String expectedMinutesSource = "default";
 
         /* 準備 */
-        final CarryoverIssueJson testJson = CarryoverJsonConvertLogicTest.createIssueJson();
+        final CarryoverIssueJsonDto testJson = CarryoverJsonConvertLogicTest.createIssueJson();
 
         /* テスト対象の実行 */
         final CarryoverIssueDto testResult = new CarryoverJsonConvertLogic().toCarryoverIssueDto(testJson);
@@ -140,7 +140,7 @@ public class CarryoverJsonConvertLogicTest {
         final CarryoverIssueDto testDto = CarryoverJsonConvertLogicTest.createIssueDto();
 
         /* テスト対象の実行 */
-        final CarryoverIssueJson testResult = new CarryoverJsonConvertLogic().toCarryoverIssueJson(testDto);
+        final CarryoverIssueJsonDto testResult = new CarryoverJsonConvertLogic().toCarryoverIssueJson(testDto);
 
         /* 検証の準備 */
         final int actualCount = testResult.getCount();
@@ -163,7 +163,7 @@ public class CarryoverJsonConvertLogicTest {
         final CarryoverIssueDto testDto = CarryoverJsonConvertLogicTest.createIssueDto();
 
         /* テスト対象の実行 */
-        final CarryoverIssueJson testResult = new CarryoverJsonConvertLogic().toCarryoverIssueJson(testDto);
+        final CarryoverIssueJsonDto testResult = new CarryoverJsonConvertLogic().toCarryoverIssueJson(testDto);
 
         /* 検証の準備 */
         final String actualRaw = testResult.getItems().get(0).getRaw();
@@ -186,7 +186,7 @@ public class CarryoverJsonConvertLogicTest {
         final CarryoverSummaryDto testDto = CarryoverJsonConvertLogicTest.createSummaryDto();
 
         /* テスト対象の実行 */
-        final CarryoverSummaryJson testResult = new CarryoverJsonConvertLogic().toCarryoverSummaryJson(testDto);
+        final CarryoverSummaryJsonDto testResult = new CarryoverJsonConvertLogic().toCarryoverSummaryJson(testDto);
 
         /* 検証の準備 */
         final List<String> actualKeys = List.copyOf(testResult.getDays().get(0).getByItem().keySet());
@@ -209,11 +209,11 @@ public class CarryoverJsonConvertLogicTest {
         final CarryoverSummaryDto testDto = CarryoverJsonConvertLogicTest.createSummaryDto();
 
         /* テスト対象の実行 */
-        final CarryoverSummaryJson testResult = new CarryoverJsonConvertLogic().toCarryoverSummaryJson(testDto);
+        final CarryoverSummaryJsonDto testResult = new CarryoverJsonConvertLogic().toCarryoverSummaryJson(testDto);
 
         /* 検証の準備 */
-        final ItemStatJson actualStat           = testResult.getDays().get(0).getByOriginMonth().get("2026-08");
-        final double       actualCheckedMinutes = actualStat.getCheckedMinutes();
+        final ItemStatJsonDto actualStat           = testResult.getDays().get(0).getByOriginMonth().get("2026-08");
+        final double          actualCheckedMinutes = actualStat.getCheckedMinutes();
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedCheckedMinutes, actualCheckedMinutes, "チェック済みの残り時間が一致しません");
@@ -233,11 +233,11 @@ public class CarryoverJsonConvertLogicTest {
         final CarryoverSummaryDto testDto = CarryoverJsonConvertLogicTest.createSummaryDto();
 
         /* テスト対象の実行 */
-        final CarryoverSummaryJson testResult = new CarryoverJsonConvertLogic().toCarryoverSummaryJson(testDto);
+        final CarryoverSummaryJsonDto testResult = new CarryoverJsonConvertLogic().toCarryoverSummaryJson(testDto);
 
         /* 検証の準備 */
-        final DailySummaryJson actualDay           = testResult.getDays().get(0);
-        final Integer          actualDeclaredCount = actualDay.getDeclaredCount();
+        final DailySummaryJsonDto actualDay           = testResult.getDays().get(0);
+        final Integer             actualDeclaredCount = actualDay.getDeclaredCount();
 
         /* 検証の実施 */
         Assertions.assertEquals(expectedDeclaredCount, actualDeclaredCount, "残数が一致しません");
@@ -257,7 +257,7 @@ public class CarryoverJsonConvertLogicTest {
         final CarryoverSummaryDto testDto = CarryoverJsonConvertLogicTest.createSummaryDto();
 
         /* テスト対象の実行 */
-        final CarryoverSummaryJson testResult = new CarryoverJsonConvertLogic().toCarryoverSummaryJson(testDto);
+        final CarryoverSummaryJsonDto testResult = new CarryoverJsonConvertLogic().toCarryoverSummaryJson(testDto);
 
         /* 検証の準備 */
         final int actualLatestIssue = testResult.getLatestIssue();
@@ -280,7 +280,7 @@ public class CarryoverJsonConvertLogicTest {
         final CarryoverSummaryDto testDto = CarryoverJsonConvertLogicTest.createSummaryDto();
 
         /* テスト対象の実行 */
-        final CarryoverSummaryJson testResult = new CarryoverJsonConvertLogic().toCarryoverSummaryJson(testDto);
+        final CarryoverSummaryJsonDto testResult = new CarryoverJsonConvertLogic().toCarryoverSummaryJson(testDto);
 
         /* 検証の準備 */
         final double actualMinutes = testResult.getDays().get(0).getTotal().getMinutes();

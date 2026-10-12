@@ -6,15 +6,15 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItem;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSource;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummary;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.DailySummary;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssue;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutes;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.ItemStat;
-import io.github.kenichiroarai.dailytasks.carryover.application.types.MinutesSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssueModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItemModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSourceModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummaryModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailySummaryModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssueModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutesModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.ItemStatModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.types.MinutesSourceTypes;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverIssueDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverItemDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverSummaryDto;
@@ -53,7 +53,7 @@ public class CarryoverDtoConvertLogic {
      *
      * @return 保存用の DTO
      */
-    private static CarryoverItemDto toCarryoverItemDto(final CarryoverItem item) {
+    private static CarryoverItemDto toCarryoverItemDto(final CarryoverItemModel item) {
 
         final CarryoverItemDto result = new CarryoverItemDto(item.getName(), item.getOriginDate(), item.isChecked(),
             item.getMinutes(), item.getMinutesSource().getValue(), item.getSection(), item.getRaw());
@@ -69,7 +69,7 @@ public class CarryoverDtoConvertLogic {
      *
      * @return 保存用の DTO
      */
-    private static DailySummaryDto toDailySummaryDto(final DailySummary day) {
+    private static DailySummaryDto toDailySummaryDto(final DailySummaryModel day) {
 
         final DailySummaryDto result = new DailySummaryDto(day.getDate(), day.getIssue(), day.getDeclaredCount(),
             CarryoverDtoConvertLogic.toItemStatDto(day.getTotal()), CarryoverDtoConvertLogic.toItemStatDtos(day.getByItem()),
@@ -86,7 +86,7 @@ public class CarryoverDtoConvertLogic {
      *
      * @return 保存用の DTO
      */
-    private static ItemStatDto toItemStatDto(final ItemStat stat) {
+    private static ItemStatDto toItemStatDto(final ItemStatModel stat) {
 
         final ItemStatDto result
             = new ItemStatDto(stat.getCount(), stat.getMinutes(), stat.getCheckedCount(), stat.getCheckedMinutes());
@@ -102,11 +102,11 @@ public class CarryoverDtoConvertLogic {
      *
      * @return キーごとの保存用の DTO（並び順は元のまま）
      */
-    private static Map<String, ItemStatDto> toItemStatDtos(final Map<String, ItemStat> stats) {
+    private static Map<String, ItemStatDto> toItemStatDtos(final Map<String, ItemStatModel> stats) {
 
         final Map<String, ItemStatDto> result = new LinkedHashMap<>();
 
-        for (final Map.Entry<String, ItemStat> entry : stats.entrySet()) {
+        for (final Map.Entry<String, ItemStatModel> entry : stats.entrySet()) {
 
             result.put(entry.getKey(), CarryoverDtoConvertLogic.toItemStatDto(entry.getValue()));
 
@@ -142,10 +142,10 @@ public class CarryoverDtoConvertLogic {
      * @throws IllegalArgumentException
      *                                  残り時間の取得元が不明な場合
      */
-    public CarryoverIssue toCarryoverIssue(final CarryoverIssueDto dto) {
+    public CarryoverIssueModel toCarryoverIssue(final CarryoverIssueDto dto) {
 
-        final List<CarryoverItem> items  = dto.getItems().stream().map(this::toCarryoverItem).toList();
-        final CarryoverIssue      result = new CarryoverIssue(dto.getNumber(), dto.getTitle(), dto.getDate(),
+        final List<CarryoverItemModel> items  = dto.getItems().stream().map(this::toCarryoverItem).toList();
+        final CarryoverIssueModel      result = new CarryoverIssueModel(dto.getNumber(), dto.getTitle(), dto.getDate(),
             dto.getState(), dto.getUpdatedAt(), dto.getSections(), dto.getDeclaredCount(), items);
         return result;
 
@@ -159,7 +159,7 @@ public class CarryoverDtoConvertLogic {
      *
      * @return 保存用の DTO
      */
-    public CarryoverIssueDto toCarryoverIssueDto(final CarryoverIssue issue) {
+    public CarryoverIssueDto toCarryoverIssueDto(final CarryoverIssueModel issue) {
 
         final List<CarryoverItemDto> items  = issue.getItems().stream().map(CarryoverDtoConvertLogic::toCarryoverItemDto)
             .toList();
@@ -181,11 +181,11 @@ public class CarryoverDtoConvertLogic {
      * @throws IllegalArgumentException
      *                                  残り時間の取得元が不明な場合
      */
-    private CarryoverItem toCarryoverItem(final CarryoverItemDto dto) {
+    private CarryoverItemModel toCarryoverItem(final CarryoverItemDto dto) {
 
-        CarryoverItem result = null;
+        CarryoverItemModel result = null;
 
-        final MinutesSource minutesSource = MinutesSource.fromValue(dto.getMinutesSource());
+        final MinutesSourceTypes minutesSource = MinutesSourceTypes.fromValue(dto.getMinutesSource());
 
         if (minutesSource == null) {
 
@@ -195,7 +195,7 @@ public class CarryoverDtoConvertLogic {
 
         }
 
-        result = new CarryoverItem(dto.getName(), dto.getOriginDate(), dto.isChecked(), dto.getMinutes(), minutesSource,
+        result = new CarryoverItemModel(dto.getName(), dto.getOriginDate(), dto.isChecked(), dto.getMinutes(), minutesSource,
             dto.getSection(), dto.getRaw());
         return result;
 
@@ -209,7 +209,7 @@ public class CarryoverDtoConvertLogic {
      *
      * @return 保存用の DTO
      */
-    public CarryoverSummaryDto toCarryoverSummaryDto(final CarryoverSummary summary) {
+    public CarryoverSummaryDto toCarryoverSummaryDto(final CarryoverSummaryModel summary) {
 
         final List<DailySummaryDto> days   = summary.getDays().stream().map(CarryoverDtoConvertLogic::toDailySummaryDto)
             .toList();
@@ -227,10 +227,10 @@ public class CarryoverDtoConvertLogic {
      *
      * @return 日々のタスク Issue
      */
-    public DailyTaskIssue toDailyTaskIssue(final GitHubIssueDto dto) {
+    public DailyTaskIssueModel toDailyTaskIssue(final GitHubIssueDto dto) {
 
-        final DailyTaskIssue result
-            = new DailyTaskIssue(dto.getNumber(), dto.getTitle(), dto.getState(), dto.getUpdatedAt(), dto.getBody());
+        final DailyTaskIssueModel result
+            = new DailyTaskIssueModel(dto.getNumber(), dto.getTitle(), dto.getState(), dto.getUpdatedAt(), dto.getBody());
         return result;
 
     }
@@ -243,9 +243,9 @@ public class CarryoverDtoConvertLogic {
      *
      * @return 項目ごとの標準時間
      */
-    public DefaultMinutes toDefaultMinutes(final Map<String, Double> minutesByName) {
+    public DefaultMinutesModel toDefaultMinutes(final Map<String, Double> minutesByName) {
 
-        final DefaultMinutes result = new DefaultMinutes(minutesByName);
+        final DefaultMinutesModel result = new DefaultMinutesModel(minutesByName);
         return result;
 
     }
@@ -258,7 +258,7 @@ public class CarryoverDtoConvertLogic {
      *
      * @return GitHub API の接続設定
      */
-    public GitHubSettingsDto toGitHubSettingsDto(final CarryoverSource source) {
+    public GitHubSettingsDto toGitHubSettingsDto(final CarryoverSourceModel source) {
 
         final GitHubSettingsDto result = new GitHubSettingsDto(source.getRepository(), source.getToken());
         return result;

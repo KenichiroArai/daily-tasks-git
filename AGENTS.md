@@ -36,14 +36,13 @@ src/main/java/io/github/kenichiroarai/dailytasks/
     presentation/            # CLI などの入出力層
       command/               # コマンドのインタフェース（CommandLineRunner を継承）
       command/impl/          # コマンドの実装（run で引数の解析、設定値の作成）
-      config/                # 設定ファイルの値（@ConfigurationProperties の CarryoverProperties）
-      model/                 # 引数を解析したオプション（CarryoverOptions）、application に引き継ぐ設定（CarryoverSettings）
+      model/                 # 設定ファイルの値（@ConfigurationProperties の CarryoverPropertiesModel）、引数を解析したオプション（CarryoverOptionsModel）、application に引き継ぐ設定（CarryoverSettingsModel）
       service/               # application に求めるサービス（CarryoverService。実装は application）
     application/             # ユースケースや業務ロジック層
       service/impl/          # presentation のサービスの実装（収集・解析・集計の流れ）
       logic/                 # domain に求めるロジック（データの取得・保存 CarryoverIssueLogic、解析 CarryoverParseLogic、集計 CarryoverAggregateLogic。実装は domain）
-      model/                 # 業務モデル（Issue、持ち越し項目、日別集計、標準時間、domain に引き継ぐ設定 CarryoverSource）
-      types/                 # 列挙型（残り時間の取得元 MinutesSource）
+      model/                 # 業務モデル（Issue、持ち越し項目、日別集計、標準時間、domain に引き継ぐ設定 CarryoverSourceModel）
+      types/                 # 列挙型（残り時間の取得元 MinutesSourceTypes）
     domain/                  # 共通ロジック層
       logic/                 # application のモデルと domain の DTO の変換（CarryoverDtoConvertLogic）
       logic/impl/            # application のロジックの実装（データの取得・保存、Issue 本文の解析ルール、日別の集計）
@@ -96,18 +95,19 @@ frontend/                    # 画面（Next.js + TypeScript）。詳細は fron
 
 - 新しい機能は `carryover/` と同じ構成で追加する
 - 各層の処理を受け持つクラスは、後述の「サービスとロジック」に従って `service/` か `logic/` にまとめる。データ系の型は後述の「データ系の型」に従って `model/`、`dto/`、`types/` にまとめる。データアクセスは後述の「外部 API と DAO」に従って `api/` か `dao/` にまとめる
-- `command/`、`config/` のように、フレームワーク（Spring など）に固有のものや、各層で使わない種類のものは、役割の分かるパッケージ名でそのまま置く
+- `command/` のように、フレームワーク（Spring など）に固有のものや、各層で使わない種類のものは、役割の分かるパッケージ名でそのまま置く
 - 中身のないパッケージには、Git で消えないように Javadoc 付きの `package-info.java` を置く
 - テストのパッケージは main と同じ構成にする
 
 ### データ系の型
 
-| 種類 | パッケージ | 置く層 | 内容 |
-| --- | --- | --- | --- |
-| モデル | `model/` | repository 以外（presentation、application） | 層の中や層の間で受け渡すデータ（例: `CarryoverSettings`、`CarryoverIssue`） |
-| DTO | `dto/` | repository とやり取りするもの（domain の `dto/`）と repository の内部（repository の `dto/`） | repository との受け渡しやファイルの形のデータ（例: `CarryoverIssueDto`、`CarryoverIssueJson`） |
-| 列挙型 | `types/` | 各層 | 値の種類を表す列挙型（例: `MinutesSource`） |
-| 設定 | `config/` | presentation | フレームワークの設定（例: `@ConfigurationProperties` の `CarryoverProperties`） |
+| 種類 | パッケージ | 名前 | 置く層 | 内容 |
+| --- | --- | --- | --- | --- |
+| モデル | `model/` | `XxxModel` | repository 以外（presentation、application） | 層の中や層の間で受け渡すデータ。設定ファイルの値もモデルとする（例: `CarryoverPropertiesModel`、`CarryoverSettingsModel`、`CarryoverIssueModel`） |
+| DTO | `dto/` | `XxxDto`（JSON の形は `XxxJsonDto`） | repository とやり取りするもの（domain の `dto/`）と repository の内部（repository の `dto/`） | repository との受け渡しやファイルの形のデータ（例: `CarryoverIssueDto`、`CarryoverIssueJsonDto`） |
+| 列挙型 | `types/` | `XxxTypes` | 各層 | 値の種類を表す列挙型（例: `MinutesSourceTypes`） |
+
+- 名前の末尾は、置くパッケージに合わせて `Model`、`Dto`、`Types` とする
 
 - domain の `dto/` は、domain が repository に求めるインタフェースの受け渡しの型として domain に置く（呼ぶ側の層が型を持つため）
 - repository の `dto/` には、JSON のように決まった形のものをサブパッケージ（例: `dto/json/`）に分けて置く。決まった形でないものは `dto/` の直下に置く
@@ -175,7 +175,7 @@ flowchart LR
 ### 公開するものと実装
 
 - 呼ぶ側の層は、下の層に求めるインタフェースと受け渡しの型を、自層の種類ごとのパッケージに置く（モデルは `model/`、サービスは `service/`、ロジックは `logic/` など）
-  - presentation: application に求めるサービス（`service/CarryoverService`）と設定（`model/CarryoverSettings`）
+  - presentation: application に求めるサービス（`service/CarryoverService`）と設定（`model/CarryoverSettingsModel`）
   - application: domain に求めるロジック（データの取得・保存 `logic/CarryoverIssueLogic`、解析 `logic/CarryoverParseLogic`、集計 `logic/CarryoverAggregateLogic`）と業務モデル（`model/`）
   - domain: repository に求める外部 API（`repository/api/GitHubIssueApi`）と DAO（`repository/dao/CarryoverDataDao`、`repository/dao/DefaultMinutesDao`）と DTO（`dto/`）
 - 呼ばれる側の層は、すぐ上の層のインタフェースを `impl/` で実装する（例: `application/service/impl/CarryoverServiceImpl` は `presentation/service/CarryoverService` を実装する）
@@ -197,7 +197,7 @@ flowchart LR
 ### データの受け渡しと変換
 
 - 境界で受け渡すデータ型は、呼ぶ側の層が持つもの（`model/`、`dto/`）を使う。変換は呼ぶ側の層で、自層の型に行ってから渡す。呼ばれる側の層は、受け取った型を必要に応じて自層の内部の型に変換する
-  - presentation は設定ファイルとコマンドライン引数の値を `presentation/model/CarryoverSettings` に変換し、application からは件数などの結果だけを受け取る
+  - presentation は設定ファイルとコマンドライン引数の値を `presentation/model/CarryoverSettingsModel` に変換し、application からは件数などの結果だけを受け取る
   - application は業務モデル（`application/model/`）を使って処理の流れを組み立てる。domain はこのモデルを使って解析・集計する
   - domain は application のモデルと自層の DTO（`domain/dto/`）を相互に変換し（`domain/logic/CarryoverDtoConvertLogic`）、DTO で repository とやり取りする
   - repository は domain の DTO を入出力に使い、JSON の形の型（`repository/dto/json/`）との変換を自層で行う（`repository/logic/CarryoverJsonConvertLogic`）
@@ -208,11 +208,11 @@ flowchart LR
 
 - 設定値も業務データと同じく、上の層から下の層へ引き継ぎ、境界ごとに呼ぶ側の層の型に変換して渡す。どこからでも参照できる共有の設定（infrastructure の設定クラスなど）は作らない
 - 値の出どころは入力の窓口である presentation（コマンドライン引数・設定ファイル `src/main/resources/application.properties`）とする。設定ファイルは presentation だけが読み込む
-  - 設定ファイルの `carryover.*` は `presentation/config/CarryoverProperties`（`@ConfigurationProperties`、コンストラクタでバインド）で受け取る。`@ConfigurationProperties` のクラスは presentation にだけ置く
+  - 設定ファイルの `carryover.*` は `presentation/model/CarryoverPropertiesModel`（`@ConfigurationProperties`、コンストラクタでバインド）で受け取る。`@ConfigurationProperties` のクラスは presentation にだけ置く
   - トークンは `carryover.token=${GITHUB_TOKEN:}` として環境変数 `GITHUB_TOKEN` から設定する
   - `@Value` で設定値を個別に取得しない。`Environment` を各層から参照しない
-  - presentation → application: `presentation/model/CarryoverSettings`
-  - application → domain: `application/model/CarryoverSource`
+  - presentation → application: `presentation/model/CarryoverSettingsModel`
+  - application → domain: `application/model/CarryoverSourceModel`
   - domain → repository: `domain/dto/GitHubSettingsDto`、ファイルのパス（`Path`）
 - GitHub API のベース URL のような、業務の設定ではない技術的な固定値は、それを使う外部 API や DAO の実装の定数にする
 - トークンは設定型の `toString` に含めない
@@ -330,15 +330,15 @@ java -jar target/daily-tasks-0.1.0.jar --full
 
 ```java
 // 望ましくない形式:
-public record CarryoverItem(String name) {
+public record CarryoverItemModel(String name) {
 }
 
 // 望ましい形式:
-public class CarryoverItem {
+public class CarryoverItemModel {
 
     private final String name;
 
-    public CarryoverItem(final String name) {
+    public CarryoverItemModel(final String name) {
 
         this.name = name;
 

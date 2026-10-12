@@ -11,11 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import io.github.kenichiroarai.dailytasks.carryover.application.logic.CarryoverParseLogic;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItem;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssue;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutes;
-import io.github.kenichiroarai.dailytasks.carryover.application.types.MinutesSource;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssueModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverItemModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssueModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutesModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.types.MinutesSourceTypes;
 import io.github.kenichiroarai.dailytasks.carryover.infrastructure.logic.MessageLogic;
 
 /**
@@ -305,9 +305,9 @@ public class CarryoverParseLogicImpl implements CarryoverParseLogic {
      * @return 持ち越しの解析結果
      */
     @Override
-    public CarryoverIssue parse(final DailyTaskIssue issue, final DefaultMinutes defaultMinutes) {
+    public CarryoverIssueModel parse(final DailyTaskIssueModel issue, final DefaultMinutesModel defaultMinutes) {
 
-        CarryoverIssue result = null;
+        CarryoverIssueModel result = null;
 
         /* 日付の取得 */
         final String date = CarryoverParseLogicImpl.parseTitleDate(issue.getTitle());
@@ -320,10 +320,10 @@ public class CarryoverParseLogicImpl implements CarryoverParseLogic {
         }
 
         /* 本文の解析 */
-        final List<String>        sections       = new ArrayList<>();
-        final List<CarryoverItem> items          = new ArrayList<>();
-        Integer                   declaredCount  = null;
-        String                    currentSection = "";
+        final List<String>             sections       = new ArrayList<>();
+        final List<CarryoverItemModel> items          = new ArrayList<>();
+        Integer                        declaredCount  = null;
+        String                         currentSection = "";
 
         for (final String line : CarryoverParseLogicImpl.splitLines(issue.getBody())) {
 
@@ -373,7 +373,7 @@ public class CarryoverParseLogicImpl implements CarryoverParseLogic {
         /* 残数の検証 */
         this.verifyDeclaredCount(issue.getNumber(), declaredCount, items.size());
 
-        result = new CarryoverIssue(issue.getNumber(), issue.getTitle(), date, issue.getState(), issue.getUpdatedAt(),
+        result = new CarryoverIssueModel(issue.getNumber(), issue.getTitle(), date, issue.getState(), issue.getUpdatedAt(),
             sections, declaredCount, items);
         return result;
 
@@ -397,10 +397,10 @@ public class CarryoverParseLogicImpl implements CarryoverParseLogic {
      *
      * @return 持ち越し項目
      */
-    private CarryoverItem parseItem(final int number, final String section, final boolean checked, final String content,
-        final String raw, final DefaultMinutes defaultMinutes) {
+    private CarryoverItemModel parseItem(final int number, final String section, final boolean checked, final String content,
+        final String raw, final DefaultMinutesModel defaultMinutes) {
 
-        CarryoverItem result = null;
+        CarryoverItemModel result = null;
 
         /* 項目名・持ち越し元の日付・残りの部分の分割 */
         String        namePart     = content;
@@ -436,7 +436,7 @@ public class CarryoverParseLogicImpl implements CarryoverParseLogic {
 
         if (parsedMinutes != null) {
 
-            result = new CarryoverItem(name, originDate, checked, parsedMinutes, MinutesSource.PARSED, section, raw);
+            result = new CarryoverItemModel(name, originDate, checked, parsedMinutes, MinutesSourceTypes.PARSED, section, raw);
             return result;
 
         }
@@ -455,12 +455,12 @@ public class CarryoverParseLogicImpl implements CarryoverParseLogic {
 
             final String message = this.messageLogic.get(CarryoverParseLogicImpl.MSG_DEFAULT_MINUTES_NOT_FOUND);
             CarryoverParseLogicImpl.LOGGER.warn(message, number, name);
-            result = new CarryoverItem(name, originDate, checked, 0, MinutesSource.UNKNOWN, section, raw);
+            result = new CarryoverItemModel(name, originDate, checked, 0, MinutesSourceTypes.UNKNOWN, section, raw);
             return result;
 
         }
 
-        result = new CarryoverItem(name, originDate, checked, defaultValue, MinutesSource.DEFAULT, section, raw);
+        result = new CarryoverItemModel(name, originDate, checked, defaultValue, MinutesSourceTypes.DEFAULT, section, raw);
         return result;
 
     }

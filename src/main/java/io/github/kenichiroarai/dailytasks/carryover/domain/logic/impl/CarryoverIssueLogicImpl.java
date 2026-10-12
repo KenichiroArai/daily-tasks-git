@@ -8,11 +8,11 @@ import java.util.TreeMap;
 import org.springframework.stereotype.Component;
 
 import io.github.kenichiroarai.dailytasks.carryover.application.logic.CarryoverIssueLogic;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssue;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSource;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummary;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssue;
-import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutes;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverIssueModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSourceModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.CarryoverSummaryModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DailyTaskIssueModel;
+import io.github.kenichiroarai.dailytasks.carryover.application.model.DefaultMinutesModel;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverIssueDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.GitHubSettingsDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.logic.CarryoverDtoConvertLogic;
@@ -83,10 +83,10 @@ public class CarryoverIssueLogicImpl implements CarryoverIssueLogic {
      *                     取得に失敗した場合
      */
     @Override
-    public List<DailyTaskIssue> fetchAllIssues(final CarryoverSource source) throws IOException {
+    public List<DailyTaskIssueModel> fetchAllIssues(final CarryoverSourceModel source) throws IOException {
 
-        final GitHubSettingsDto    settings = this.dtoConvertLogic.toGitHubSettingsDto(source);
-        final List<DailyTaskIssue> result   = this.gitHubIssueApi.fetchAllIssues(settings).stream()
+        final GitHubSettingsDto         settings = this.dtoConvertLogic.toGitHubSettingsDto(source);
+        final List<DailyTaskIssueModel> result   = this.gitHubIssueApi.fetchAllIssues(settings).stream()
             .map(this.dtoConvertLogic::toDailyTaskIssue).toList();
         return result;
 
@@ -104,10 +104,10 @@ public class CarryoverIssueLogicImpl implements CarryoverIssueLogic {
      *                     読み込みに失敗した場合
      */
     @Override
-    public DefaultMinutes loadDefaultMinutes(final CarryoverSource source) throws IOException {
+    public DefaultMinutesModel loadDefaultMinutes(final CarryoverSourceModel source) throws IOException {
 
         final Map<String, Double> minutesByName = this.defaultMinutesDao.load(source.getDefaultMinutesFile());
-        final DefaultMinutes      result        = this.dtoConvertLogic.toDefaultMinutes(minutesByName);
+        final DefaultMinutesModel result        = this.dtoConvertLogic.toDefaultMinutes(minutesByName);
         return result;
 
     }
@@ -124,9 +124,9 @@ public class CarryoverIssueLogicImpl implements CarryoverIssueLogic {
      *                     読み込みに失敗した場合
      */
     @Override
-    public Map<Integer, CarryoverIssue> loadIssues(final CarryoverSource source) throws IOException {
+    public Map<Integer, CarryoverIssueModel> loadIssues(final CarryoverSourceModel source) throws IOException {
 
-        final Map<Integer, CarryoverIssue> result = new TreeMap<>();
+        final Map<Integer, CarryoverIssueModel> result = new TreeMap<>();
 
         for (final Map.Entry<Integer, CarryoverIssueDto> entry : this.carryoverDataDao
             .loadIssues(source.getDataDir()).entrySet()) {
@@ -151,7 +151,7 @@ public class CarryoverIssueLogicImpl implements CarryoverIssueLogic {
      *                     書き込みに失敗した場合
      */
     @Override
-    public void saveIssue(final CarryoverSource source, final CarryoverIssue issue) throws IOException {
+    public void saveIssue(final CarryoverSourceModel source, final CarryoverIssueModel issue) throws IOException {
 
         this.carryoverDataDao.saveIssue(source.getDataDir(), this.dtoConvertLogic.toCarryoverIssueDto(issue));
 
@@ -169,7 +169,7 @@ public class CarryoverIssueLogicImpl implements CarryoverIssueLogic {
      *                     書き込みに失敗した場合
      */
     @Override
-    public void saveSummary(final CarryoverSource source, final CarryoverSummary summary) throws IOException {
+    public void saveSummary(final CarryoverSourceModel source, final CarryoverSummaryModel summary) throws IOException {
 
         this.carryoverDataDao.saveSummary(source.getDataDir(), this.dtoConvertLogic.toCarryoverSummaryDto(summary));
 

@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 
 import io.github.kenichiroarai.dailytasks.carryover.infrastructure.logic.MessageLogic;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.command.CarryoverCommand;
-import io.github.kenichiroarai.dailytasks.carryover.presentation.config.CarryoverProperties;
-import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverOptions;
-import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverSettings;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverOptionsModel;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverPropertiesModel;
+import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverSettingsModel;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.service.CarryoverService;
 
 /**
@@ -56,12 +56,12 @@ public class CarryoverCommandImpl implements CarryoverCommand {
      *
      * @return 持ち越しの収集・集計の設定
      */
-    private static CarryoverSettings createSettings(final CarryoverProperties properties) {
+    private static CarryoverSettingsModel createSettings(final CarryoverPropertiesModel properties) {
 
         final Path dataDir            = Path.of(properties.getDataDir());
         final Path defaultMinutesFile = Path.of(properties.getDefaultMinutesFile());
 
-        final CarryoverSettings result = new CarryoverSettings(properties.getRepository(), properties.getToken(),
+        final CarryoverSettingsModel result = new CarryoverSettingsModel(properties.getRepository(), properties.getToken(),
             dataDir, defaultMinutesFile, properties.getRecentCount());
         return result;
 
@@ -71,7 +71,7 @@ public class CarryoverCommandImpl implements CarryoverCommand {
     private final CarryoverService carryoverService;
 
     /** 設定ファイルの値 */
-    private final CarryoverProperties properties;
+    private final CarryoverPropertiesModel properties;
 
     /** メッセージの取得 */
     private final MessageLogic messageLogic;
@@ -93,7 +93,7 @@ public class CarryoverCommandImpl implements CarryoverCommand {
      *                         メッセージの取得
      */
     @Autowired
-    public CarryoverCommandImpl(final CarryoverService carryoverService, final CarryoverProperties properties,
+    public CarryoverCommandImpl(final CarryoverService carryoverService, final CarryoverPropertiesModel properties,
         final MessageLogic messageLogic) {
 
         this(carryoverService, properties, messageLogic, System.out);
@@ -112,7 +112,7 @@ public class CarryoverCommandImpl implements CarryoverCommand {
      * @param out
      *                         使い方の出力先
      */
-    public CarryoverCommandImpl(final CarryoverService carryoverService, final CarryoverProperties properties,
+    public CarryoverCommandImpl(final CarryoverService carryoverService, final CarryoverPropertiesModel properties,
         final MessageLogic messageLogic, final PrintStream out) {
 
         this.carryoverService = carryoverService;
@@ -133,9 +133,9 @@ public class CarryoverCommandImpl implements CarryoverCommand {
      * @throws IllegalArgumentException
      *                                  不明な引数が指定された場合
      */
-    private CarryoverOptions parseArgs(final String[] args) {
+    private CarryoverOptionsModel parseArgs(final String[] args) {
 
-        final CarryoverOptions result = new CarryoverOptions();
+        final CarryoverOptionsModel result = new CarryoverOptionsModel();
 
         for (final String arg : args) {
 
@@ -176,7 +176,7 @@ public class CarryoverCommandImpl implements CarryoverCommand {
     public void run(final String... args) throws IOException {
 
         /* 引数の解析 */
-        final CarryoverOptions options = this.parseArgs(args);
+        final CarryoverOptionsModel options = this.parseArgs(args);
 
         /* 使い方の表示 */
         if (options.isHelp()) {
@@ -188,7 +188,7 @@ public class CarryoverCommandImpl implements CarryoverCommand {
         }
 
         /* 収集の実行 */
-        final CarryoverSettings settings = CarryoverCommandImpl.createSettings(this.properties);
+        final CarryoverSettingsModel settings = CarryoverCommandImpl.createSettings(this.properties);
         this.carryoverService.collect(settings, options.isFull());
 
     }
