@@ -15,7 +15,7 @@ import io.github.kenichiroarai.dailytasks.carryover.presentation.config.Carryove
 import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverOptions;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverSettings;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.service.CarryoverService;
-import io.github.kenichiroarai.dailytasks.testutil.MessageProviderTestUtil;
+import io.github.kenichiroarai.dailytasks.testutil.MessageLogicTestUtil;
 import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 
 /**
@@ -136,7 +136,7 @@ public class CarryoverCommandImplTest {
     private static CarryoverCommandImpl createTarget(final CarryoverService service, final PrintStream out) {
 
         final CarryoverCommandImpl result = new CarryoverCommandImpl(service, CarryoverCommandImplTest.PROPERTIES,
-            MessageProviderTestUtil.create(), out);
+            MessageLogicTestUtil.create(), out);
         return result;
 
     }
@@ -170,7 +170,7 @@ public class CarryoverCommandImplTest {
      */
     private static String usage() {
 
-        final String result = MessageProviderTestUtil.create().get("carryover.command.usage");
+        final String result = MessageLogicTestUtil.create().get("carryover.command.usage");
         return result;
 
     }
@@ -193,7 +193,7 @@ public class CarryoverCommandImplTest {
 
         /* テスト対象の実行 */
         final CarryoverCommandImpl testTarget = new CarryoverCommandImpl(testService,
-            CarryoverCommandImplTest.PROPERTIES, MessageProviderTestUtil.create());
+            CarryoverCommandImplTest.PROPERTIES, MessageLogicTestUtil.create());
 
         /* 検証の準備 */
         final Object      actualService = ReflectionTestUtil.getField(testTarget, "carryoverService");

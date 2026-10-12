@@ -18,7 +18,7 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverItemDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverSummaryDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.DailySummaryDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.ItemStatDto;
-import io.github.kenichiroarai.dailytasks.carryover.repository.converter.CarryoverJsonConverter;
+import io.github.kenichiroarai.dailytasks.carryover.repository.logic.CarryoverJsonConvertLogic;
 import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.json.JsonMapper;
@@ -93,7 +93,7 @@ public class CarryoverDataRepositoryImplTest {
     private static CarryoverDataRepositoryImpl createTarget() {
 
         final CarryoverDataRepositoryImpl result
-            = new CarryoverDataRepositoryImpl(new JsonMapper(), new CarryoverJsonConverter());
+            = new CarryoverDataRepositoryImpl(new JsonMapper(), new CarryoverJsonConvertLogic());
         return result;
 
     }

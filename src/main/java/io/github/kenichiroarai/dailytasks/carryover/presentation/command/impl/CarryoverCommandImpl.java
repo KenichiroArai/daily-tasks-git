@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageProvider;
+import io.github.kenichiroarai.dailytasks.carryover.infrastructure.logic.MessageLogic;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.command.CarryoverCommand;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.config.CarryoverProperties;
 import io.github.kenichiroarai.dailytasks.carryover.presentation.model.CarryoverOptions;
@@ -74,7 +74,7 @@ public class CarryoverCommandImpl implements CarryoverCommand {
     private final CarryoverProperties properties;
 
     /** メッセージの取得 */
-    private final MessageProvider messageProvider;
+    private final MessageLogic messageLogic;
 
     /** 使い方の出力先 */
     private final PrintStream out;
@@ -89,14 +89,14 @@ public class CarryoverCommandImpl implements CarryoverCommand {
      *                         持ち越しの収集・集計サービス
      * @param properties
      *                         設定ファイルの値
-     * @param messageProvider
+     * @param messageLogic
      *                         メッセージの取得
      */
     @Autowired
     public CarryoverCommandImpl(final CarryoverService carryoverService, final CarryoverProperties properties,
-        final MessageProvider messageProvider) {
+        final MessageLogic messageLogic) {
 
-        this(carryoverService, properties, messageProvider, System.out);
+        this(carryoverService, properties, messageLogic, System.out);
 
     }
 
@@ -107,17 +107,17 @@ public class CarryoverCommandImpl implements CarryoverCommand {
      *                         持ち越しの収集・集計サービス
      * @param properties
      *                         設定ファイルの値
-     * @param messageProvider
+     * @param messageLogic
      *                         メッセージの取得
      * @param out
      *                         使い方の出力先
      */
     public CarryoverCommandImpl(final CarryoverService carryoverService, final CarryoverProperties properties,
-        final MessageProvider messageProvider, final PrintStream out) {
+        final MessageLogic messageLogic, final PrintStream out) {
 
         this.carryoverService = carryoverService;
         this.properties = properties;
-        this.messageProvider = messageProvider;
+        this.messageLogic = messageLogic;
         this.out = out;
 
     }
@@ -147,7 +147,7 @@ public class CarryoverCommandImpl implements CarryoverCommand {
 
                 default -> {
 
-                    final String template = this.messageProvider.get(CarryoverCommandImpl.MSG_UNKNOWN_ARGUMENT);
+                    final String template = this.messageLogic.get(CarryoverCommandImpl.MSG_UNKNOWN_ARGUMENT);
                     final String message  = String.format(template, arg);
                     throw new IllegalArgumentException(message);
 
@@ -181,7 +181,7 @@ public class CarryoverCommandImpl implements CarryoverCommand {
         /* 使い方の表示 */
         if (options.isHelp()) {
 
-            final String usage = this.messageProvider.get(CarryoverCommandImpl.MSG_USAGE);
+            final String usage = this.messageLogic.get(CarryoverCommandImpl.MSG_USAGE);
             this.out.println(usage);
             return;
 

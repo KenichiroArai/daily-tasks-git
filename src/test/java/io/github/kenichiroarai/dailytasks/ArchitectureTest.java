@@ -121,6 +121,29 @@ public class ArchitectureTest {
         // 違反があれば check が AssertionError を投げる
 
     }
+
+    /**
+     * ロジックの参照のテスト - 正常系:ロジックがサービスを参照していない場合
+     */
+    @Test
+    public void testLogic_normalNoServiceDependency() {
+
+        /* 期待値の定義 */
+
+        /* 準備 */
+        final ArchRule testRule = ArchRuleDefinition.noClasses().that().resideInAPackage("..carryover..logic..")
+            .should().dependOnClassesThat().resideInAPackage("..carryover..service..");
+
+        /* テスト対象の実行 */
+        testRule.check(ArchitectureTest.classes);
+
+        /* 検証の準備 */
+
+        /* 検証の実施 */
+        // 違反があれば check が AssertionError を投げる
+
+    }
+
     /**
      * 設定値のテスト - 正常系:@Value で設定値を個別に取得していない場合
      */

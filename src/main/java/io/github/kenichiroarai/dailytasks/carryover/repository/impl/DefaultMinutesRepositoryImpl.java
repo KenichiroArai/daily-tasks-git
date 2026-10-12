@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import io.github.kenichiroarai.dailytasks.carryover.domain.repository.DefaultMinutesRepository;
-import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageProvider;
+import io.github.kenichiroarai.dailytasks.carryover.infrastructure.logic.MessageLogic;
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.json.JsonMapper;
@@ -48,20 +48,20 @@ public class DefaultMinutesRepositoryImpl implements DefaultMinutesRepository {
     private final JsonMapper jsonMapper;
 
     /** メッセージの取得 */
-    private final MessageProvider messageProvider;
+    private final MessageLogic messageLogic;
 
     /**
      * コンストラクタ<br>
      *
      * @param jsonMapper
-     *                        JSON の変換
-     * @param messageProvider
-     *                        メッセージの取得
+     *                     JSON の変換
+     * @param messageLogic
+     *                     メッセージの取得
      */
-    public DefaultMinutesRepositoryImpl(final JsonMapper jsonMapper, final MessageProvider messageProvider) {
+    public DefaultMinutesRepositoryImpl(final JsonMapper jsonMapper, final MessageLogic messageLogic) {
 
         this.jsonMapper = jsonMapper;
-        this.messageProvider = messageProvider;
+        this.messageLogic = messageLogic;
 
     }
 
@@ -83,7 +83,7 @@ public class DefaultMinutesRepositoryImpl implements DefaultMinutesRepository {
 
         if (!Files.isRegularFile(configFile)) {
 
-            final String message = this.messageProvider.get(DefaultMinutesRepositoryImpl.MSG_FILE_NOT_FOUND);
+            final String message = this.messageLogic.get(DefaultMinutesRepositoryImpl.MSG_FILE_NOT_FOUND);
             DefaultMinutesRepositoryImpl.LOGGER.warn(message, configFile);
             return result;
 

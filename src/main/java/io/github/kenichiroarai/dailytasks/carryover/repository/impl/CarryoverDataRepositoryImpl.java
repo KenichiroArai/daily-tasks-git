@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverIssueDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.CarryoverSummaryDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.repository.CarryoverDataRepository;
-import io.github.kenichiroarai.dailytasks.carryover.repository.converter.CarryoverJsonConverter;
 import io.github.kenichiroarai.dailytasks.carryover.repository.json.CarryoverIssueJson;
+import io.github.kenichiroarai.dailytasks.carryover.repository.logic.CarryoverJsonConvertLogic;
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.util.DefaultIndenter;
 import tools.jackson.core.util.DefaultPrettyPrinter;
@@ -25,7 +25,7 @@ import tools.jackson.databind.json.JsonMapper;
 /**
  * 持ち越しの JSON ファイル（Issue ごとの解析結果と画面用の集計）を読み書きするリポジトリの実装<br>
  * <p>
- * domain 層のリポジトリを実装する。受け取った DTO は {@link CarryoverJsonConverter} で JSON の形の型に変換して読み書きする。出力は OS
+ * domain 層のリポジトリを実装する。受け取った DTO は {@link CarryoverJsonConvertLogic} で JSON の形の型に変換して読み書きする。出力は OS
  * に関係なく改行を LF に統一し、差分が安定するようにする。
  * </p>
  *
@@ -55,20 +55,20 @@ public class CarryoverDataRepositoryImpl implements CarryoverDataRepository {
     private final ObjectWriter objectWriter;
 
     /** DTO と JSON の形の変換 */
-    private final CarryoverJsonConverter converter;
+    private final CarryoverJsonConvertLogic jsonConvertLogic;
 
     /**
      * コンストラクタ<br>
      *
      * @param jsonMapper
-     *                   JSON の変換
-     * @param converter
-     *                   DTO と JSON の形の変換
+     *                         JSON の変換
+     * @param jsonConvertLogic
+     *                         DTO と JSON の形の変換
      */
-    public CarryoverDataRepositoryImpl(final JsonMapper jsonMapper, final CarryoverJsonConverter converter) {
+    public CarryoverDataRepositoryImpl(final JsonMapper jsonMapper, final CarryoverJsonConvertLogic jsonConvertLogic) {
 
         this.jsonMapper = jsonMapper;
-        this.converter = converter;
+        this.jsonConvertLogic = jsonConvertLogic;
 
         /* 改行を LF に統一した整形出力 */
         final DefaultIndenter      indenter = new DefaultIndenter("  ", "\n");
@@ -108,7 +108,7 @@ public class CarryoverDataRepositoryImpl implements CarryoverDataRepository {
                 .filter(p -> p.getFileName().toString().endsWith(CarryoverDataRepositoryImpl.JSON_EXTENSION))
                 .toList()) {
 
-                final CarryoverIssueDto issue = this.converter.toCarryoverIssueDto(this.readIssue(path));
+                final CarryoverIssueDto issue = this.jsonConvertLogic.toCarryoverIssueDto(this.readIssue(path));
                 result.put(issue.getNumber(), issue);
 
             }
@@ -167,7 +167,7 @@ public class CarryoverDataRepositoryImpl implements CarryoverDataRepository {
 
         final Path path = dataDir.resolve(CarryoverDataRepositoryImpl.ISSUES_DIR)
             .resolve(String.format("%04d%s", issue.getNumber(), CarryoverDataRepositoryImpl.JSON_EXTENSION));
-        this.write(path, this.converter.toCarryoverIssueJson(issue));
+        this.write(path, this.jsonConvertLogic.toCarryoverIssueJson(issue));
 
     }
 
@@ -186,7 +186,7 @@ public class CarryoverDataRepositoryImpl implements CarryoverDataRepository {
     public void saveSummary(final Path dataDir, final CarryoverSummaryDto summary) throws IOException {
 
         final Path path = dataDir.resolve(CarryoverDataRepositoryImpl.SUMMARY_FILE);
-        this.write(path, this.converter.toCarryoverSummaryJson(summary));
+        this.write(path, this.jsonConvertLogic.toCarryoverSummaryJson(summary));
 
     }
 

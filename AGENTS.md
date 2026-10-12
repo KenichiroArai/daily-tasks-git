@@ -40,25 +40,21 @@ src/main/java/io/github/kenichiroarai/dailytasks/
       model/                 # 引数を解析したオプション（CarryoverOptions）、application に引き継ぐ設定（CarryoverSettings）
       service/               # application に求めるサービス（CarryoverService。実装は application）
     application/             # ユースケースや業務ロジック層
-      service/               # domain に求めるデータの取得・保存（CarryoverIssueService。実装は domain）
       service/impl/          # presentation のサービスの実装（収集・解析・集計の流れ）
-      parser/                # domain に求める解析（CarryoverParser。実装は domain）
-      aggregator/            # domain に求める集計（CarryoverAggregator。実装は domain）
+      logic/                 # domain に求めるロジック（データの取得・保存 CarryoverIssueLogic、解析 CarryoverParseLogic、集計 CarryoverAggregateLogic。実装は domain）
       model/                 # 業務モデル（Issue、持ち越し項目、日別集計、標準時間、domain に引き継ぐ設定 CarryoverSource）
     domain/                  # 共通ロジック層
-      service/impl/          # application のデータの取得・保存の実装（domain のリポジトリを使う）
-      parser/impl/           # application の解析の実装（Issue 本文の解析ルール）
-      aggregator/impl/       # application の集計の実装（日別の集計）
-      converter/             # application のモデルと domain の DTO の変換
+      logic/                 # application のモデルと domain の DTO の変換（CarryoverDtoConvertLogic）
+      logic/impl/            # application のロジックの実装（データの取得・保存、Issue 本文の解析ルール、日別の集計）
       repository/            # repository に求めるリポジトリ（JSON ファイル・標準時間・GitHub の Issue。実装は repository）
       dto/                   # repository と受け渡す DTO（解析結果、集計、GitHub の Issue、接続設定 GitHubSettingsDto）
     infrastructure/          # 業務を知らない汎用ユーティリティ
-      resource/              # メッセージの取得のインタフェース（MessageProvider）
-      resource/impl/         # メッセージの取得の実装（Spring の MessageSource を使う MessageProviderImpl）
+      logic/                 # メッセージの取得のインタフェース（MessageLogic）
+      logic/impl/            # メッセージの取得の実装（Spring の MessageSource を使う MessageLogicImpl）
     repository/              # データアクセス層（Dao）
       impl/                  # domain のリポジトリの実装（JSON ファイルの読み書き、標準時間の読み込み）
       json/                  # JSON ファイルの形（Jackson のアノテーションを持つのはここだけ）
-      converter/             # domain の DTO と JSON の形の変換
+      logic/                 # domain の DTO と JSON の形の変換（CarryoverJsonConvertLogic）
       github/impl/           # domain のリポジトリの実装（GitHub REST API からの Issue 取得）
 src/main/resources/
   application.properties     # 設定値（carryover.*: 対象リポジトリ、トークン、出力先、標準時間のファイル、最新の件数。spring.*: Spring Boot の設定）
@@ -90,15 +86,28 @@ frontend/                    # 画面（Next.js + TypeScript）。詳細は fron
 | 層 | 役割 |
 | --- | --- |
 | `presentation/` | CLI などの入出力層（command など） |
-| `application/` | ユースケースや業務ロジック層（service、業務モデルなど） |
-| `domain/` | 共通ロジック層（application のインタフェースの実装。データの取得・保存、parser、aggregator など） |
+| `application/` | ユースケースや業務ロジック層（service、logic、業務モデルなど） |
+| `domain/` | 共通ロジック層（application のロジックの実装。データの取得・保存、解析、集計、変換など） |
 | `infrastructure/` | 業務やドメインを知らない、他の層に依存しない汎用のユーティリティ（メッセージの取得など） |
 | `repository/` | JSON ファイル・GitHub API などのデータアクセス層（Dao） |
 
 - 新しい機能は `carryover/` と同じ構成で追加する
+- 各層の処理を受け持つクラスは、後述の「サービスとロジック」に従って `service/` か `logic/` にまとめる。`command/`、`config/`、`model/`、`dto/`、`json/`、データアクセスのリポジトリ（`domain/repository/`、`repository/impl/`、`repository/github/impl/`）、列挙型はそのまま置く
 - 中身のないパッケージには、Git で消えないように Javadoc 付きの `package-info.java` を置く
 - 外部のデータ取得元（GitHub API など）へのアクセスは、ファイルと同じくデータアクセスとして扱う。インタフェースは `domain/repository/`（例: `domain/repository/GitHubIssueRepository`）、実装は `repository/`（例: `repository/github/impl/GitHubIssueRepositoryImpl`）に置く
 - テストのパッケージは main と同じ構成にする
+
+### サービスとロジック
+
+| 種類 | パッケージ | 名前 | Bean | 内容 |
+| --- | --- | --- | --- | --- |
+| サービス | `service/` | `XxxService` / `XxxServiceImpl` | `@Service` | 一連の流れを行う |
+| ロジック | `logic/` | `XxxLogic` / `XxxLogicImpl` | `@Component` | 個々の処理を行い、何度も呼ばれる |
+
+- **サービス**: サービス・ロジック・ユーティリティ・モデルなどを使い、一連の流れを行う。初期化、主処理、サブ処理、終了処理のように、処理（メソッド）の流れがはっきりしている（例: `CarryoverServiceImpl#collect` は取得、解析、保存、集計を順に行う）
+- **ロジック**: ロジック・ユーティリティ・モデルなどを使うが、サービスは呼ばない。メソッドごとに論理のまとまりになっており、各メソッドは基本的に互いに依存せず、サービス・ロジック・ユーティリティなどから何度も呼ばれる（例: get、read、write、exists、parse、aggregate、変換）。インスタンス変数を共有する点がユーティリティとは異なる
+- インタフェースと実装に分ける場合は、ほかの型と同じく、インタフェースを呼ぶ側の層の `logic/`、実装を呼ばれる側の層の `logic/impl/` に置く。自層の中だけで使う部品（変換など）は、インタフェースを作らずに `logic/` に具象クラスを置いてよい
+- 名前に `Parser`、`Aggregator`、`Converter`、`Provider` などは使わず、`XxxLogic`（例: `CarryoverParseLogic`、`CarryoverDtoConvertLogic`、`MessageLogic`）とする
 
 ## 層間のルール
 
@@ -136,9 +145,9 @@ flowchart LR
 
 ### 公開するものと実装
 
-- 呼ぶ側の層は、下の層に求めるインタフェースと受け渡しの型を、自層の種類ごとのパッケージに置く（モデルは `model/`、サービスは `service/` など）
+- 呼ぶ側の層は、下の層に求めるインタフェースと受け渡しの型を、自層の種類ごとのパッケージに置く（モデルは `model/`、サービスは `service/`、ロジックは `logic/` など）
   - presentation: application に求めるサービス（`service/CarryoverService`）と設定（`model/CarryoverSettings`）
-  - application: domain に求めるデータの取得・保存（`service/CarryoverIssueService`）、解析（`parser/CarryoverParser`）、集計（`aggregator/CarryoverAggregator`）と業務モデル（`model/`）
+  - application: domain に求めるロジック（データの取得・保存 `logic/CarryoverIssueLogic`、解析 `logic/CarryoverParseLogic`、集計 `logic/CarryoverAggregateLogic`）と業務モデル（`model/`）
   - domain: repository に求めるリポジトリ（`repository/CarryoverDataRepository`、`repository/DefaultMinutesRepository`、`repository/GitHubIssueRepository`）と DTO（`dto/`）
 - 呼ばれる側の層は、すぐ上の層のインタフェースを `impl/` で実装する（例: `application/service/impl/CarryoverServiceImpl` は `presentation/service/CarryoverService` を実装する）
 - 依存する側（下の層）が何を参照するかは制御しない。下の層は、すぐ上の層のどのクラス（`impl/` を含む）を参照してもよい。制限するのは層の向きと飛び越しだけとする
@@ -147,8 +156,8 @@ flowchart LR
 ### DI（依存性の注入）
 
 - 実装クラスは Spring の Bean として登録し、生成と組み立ては Spring に任せる。自分で `new` して下の層の実装を生成しない
-  - presentation のコマンド・infrastructure の実装・domain のパーサー／集計／変換・repository の変換: `@Component`
-  - application と domain のサービス: `@Service`
+  - presentation のコマンド・各層のロジック（`logic/`、`logic/impl/`）: `@Component`
+  - サービス（`service/impl/`）: `@Service`
   - repository の実装: `@Repository`
 - 注入はコンストラクタインジェクションだけにする。フィールドインジェクション（フィールドへの `@Autowired`）は使わない
 - 受け取るのは「自層のインタフェース」（と自層の部品、infrastructure のインタフェース、`JsonMapper` などのフレームワークの部品）とする。実装は Spring が下の層から注入する
@@ -161,8 +170,8 @@ flowchart LR
 - 境界で受け渡すデータ型は、呼ぶ側の層が持つもの（`model/`、`dto/`）を使う。変換は呼ぶ側の層で、自層の型に行ってから渡す。呼ばれる側の層は、受け取った型を必要に応じて自層の内部の型に変換する
   - presentation は設定ファイルとコマンドライン引数の値を `presentation/model/CarryoverSettings` に変換し、application からは件数などの結果だけを受け取る
   - application は業務モデル（`application/model/`）を使って処理の流れを組み立てる。domain はこのモデルを使って解析・集計する
-  - domain は application のモデルと自層の DTO（`domain/dto/`）を相互に変換し（`domain/converter/`）、DTO で repository とやり取りする
-  - repository は domain の DTO を入出力に使い、JSON の形の型（`repository/json/`）との変換を自層で行う（`repository/converter/`）
+  - domain は application のモデルと自層の DTO（`domain/dto/`）を相互に変換し（`domain/logic/CarryoverDtoConvertLogic`）、DTO で repository とやり取りする
+  - repository は domain の DTO を入出力に使い、JSON の形の型（`repository/json/`）との変換を自層で行う（`repository/logic/CarryoverJsonConvertLogic`）
 - JSON の形（Jackson のアノテーション）は `repository/json/` だけが持つ。domain の DTO には付けない
 - GitHub API の応答のように、JSON の形の型を作らずに読み取れるものは、repository の実装が domain の DTO を直接作ってよい
 
@@ -181,14 +190,14 @@ flowchart LR
 
 ### 文字列（メッセージ）の管理
 
-- 使い方、ログ・例外のメッセージは `src/main/resources/messages.properties` に置き、各クラスはキーを定数で持って、コンストラクタで注入した `infrastructure/resource/MessageProvider` で取得する
-- `MessageProvider` は Spring の `MessageSource`（`spring.messages.*` で設定）を引数なしで使うため、`{}` や `%s` はそのまま返る
+- 使い方、ログ・例外のメッセージは `src/main/resources/messages.properties` に置き、各クラスはキーを定数で持って、コンストラクタで注入した `infrastructure/logic/MessageLogic` で取得する
+- `MessageLogic` は Spring の `MessageSource`（`spring.messages.*` で設定）を引数なしで使うため、`{}` や `%s` はそのまま返る
 - ログは SLF4J の `{}`、例外は `String.format` の `%s` / `%d` を埋め込み位置に使う。取得したメッセージはいったん変数に入れてから渡す
 - 解析ルールそのものの文字列（対象セクション名、正規表現など）は messages.properties に置かず、それを使う実装の定数にする
 
 ### ルールの検査
 
-- 層間のルール（依存はすぐ上の層だけ。飛び越しと処理の流れと同じ向きの参照の禁止）、フィールドインジェクションの禁止、`@Value` の禁止、`@ConfigurationProperties` を presentation にだけ置くこと、Jackson のアノテーションを `repository/json/` にだけ置くことは `ArchitectureTest`（ArchUnit）で検査する。違反があると `mvn test` は失敗する
+- 層間のルール（依存はすぐ上の層だけ。飛び越しと処理の流れと同じ向きの参照の禁止）、フィールドインジェクションの禁止、`@Value` の禁止、`@ConfigurationProperties` を presentation にだけ置くこと、Jackson のアノテーションを `repository/json/` にだけ置くこと、ロジック（`logic/`）がサービス（`service/`）を参照しないことは `ArchitectureTest`（ArchUnit）で検査する。違反があると `mvn test` は失敗する
 
 ## フロントエンド
 
@@ -577,6 +586,7 @@ public class SampleClass {
 ## 変更時のチェックリスト
 
 - [ ] パッケージ構成ルール（機能パッケージ + 5 層）の順守
+- [ ] サービス（一連の流れ。`service/`）とロジック（個々の処理。`logic/`、サービスを呼ばない）の区分の順守
 - [ ] 層間のルール（依存性逆転：依存はすぐ上の層だけ、飛び越し・処理の流れと同じ向きの参照なし、データ・設定値は呼ぶ側の層で自層の型に変換）の順守（`ArchitectureTest` が通ること）
 - [ ] 下の層を差し替える場合、上の層のインタフェースを実装した `impl/` を追加し、上の層のコードを変更していないこと
 - [ ] DI のルール（Bean として登録、コンストラクタインジェクション、ステートレス、設定値はメソッドの引数で渡す）の順守

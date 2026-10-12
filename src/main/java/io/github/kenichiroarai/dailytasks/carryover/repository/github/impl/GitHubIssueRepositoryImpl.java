@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.GitHubIssueDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.GitHubSettingsDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.repository.GitHubIssueRepository;
-import io.github.kenichiroarai.dailytasks.carryover.infrastructure.resource.MessageProvider;
+import io.github.kenichiroarai.dailytasks.carryover.infrastructure.logic.MessageLogic;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
@@ -151,20 +151,20 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
     private final JsonMapper jsonMapper;
 
     /** メッセージの取得 */
-    private final MessageProvider messageProvider;
+    private final MessageLogic messageLogic;
 
     /**
      * コンストラクタ<br>
      *
      * @param jsonMapper
-     *                        JSON の変換
-     * @param messageProvider
-     *                        メッセージの取得
+     *                     JSON の変換
+     * @param messageLogic
+     *                     メッセージの取得
      */
     @Autowired
-    public GitHubIssueRepositoryImpl(final JsonMapper jsonMapper, final MessageProvider messageProvider) {
+    public GitHubIssueRepositoryImpl(final JsonMapper jsonMapper, final MessageLogic messageLogic) {
 
-        this(HttpClient::newHttpClient, GitHubIssueRepositoryImpl.API_BASE_URL, jsonMapper, messageProvider);
+        this(HttpClient::newHttpClient, GitHubIssueRepositoryImpl.API_BASE_URL, jsonMapper, messageLogic);
 
     }
 
@@ -177,16 +177,16 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
      *                           API のベース URL（例: https://api.github.com）
      * @param jsonMapper
      *                           JSON の変換
-     * @param messageProvider
+     * @param messageLogic
      *                           メッセージの取得
      */
     public GitHubIssueRepositoryImpl(final Supplier<HttpClient> httpClientSupplier, final String apiBaseUrl,
-        final JsonMapper jsonMapper, final MessageProvider messageProvider) {
+        final JsonMapper jsonMapper, final MessageLogic messageLogic) {
 
         this.httpClientSupplier = httpClientSupplier;
         this.apiBaseUrl = apiBaseUrl;
         this.jsonMapper = jsonMapper;
-        this.messageProvider = messageProvider;
+        this.messageLogic = messageLogic;
 
     }
 
@@ -239,7 +239,7 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
 
         }
 
-        final String message = this.messageProvider.get(GitHubIssueRepositoryImpl.MSG_FETCHED);
+        final String message = this.messageLogic.get(GitHubIssueRepositoryImpl.MSG_FETCHED);
         GitHubIssueRepositoryImpl.LOGGER.info(message, result.size(), page - 1);
         return result;
 
@@ -283,7 +283,7 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
 
         if (response.statusCode() != GitHubIssueRepositoryImpl.STATUS_OK) {
 
-            final String template = this.messageProvider.get(GitHubIssueRepositoryImpl.MSG_CALL_FAILED);
+            final String template = this.messageLogic.get(GitHubIssueRepositoryImpl.MSG_CALL_FAILED);
             final String message  = String.format(template, response.statusCode(), uri);
             throw new IOException(message);
 
@@ -293,7 +293,7 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
 
         if (!result.isArray()) {
 
-            final String template = this.messageProvider.get(GitHubIssueRepositoryImpl.MSG_NOT_ARRAY);
+            final String template = this.messageLogic.get(GitHubIssueRepositoryImpl.MSG_NOT_ARRAY);
             final String message  = String.format(template, uri);
             throw new IOException(message);
 
@@ -356,7 +356,7 @@ public class GitHubIssueRepositoryImpl implements GitHubIssueRepository {
         } catch (final InterruptedException e) {
 
             Thread.currentThread().interrupt();
-            final String message = this.messageProvider.get(GitHubIssueRepositoryImpl.MSG_INTERRUPTED);
+            final String message = this.messageLogic.get(GitHubIssueRepositoryImpl.MSG_INTERRUPTED);
             throw new IOException(message, e);
 
         }

@@ -17,7 +17,7 @@ import io.github.kenichiroarai.dailytasks.carryover.domain.dto.GitHubIssueDto;
 import io.github.kenichiroarai.dailytasks.carryover.domain.dto.GitHubSettingsDto;
 import io.github.kenichiroarai.dailytasks.testutil.LogAssertions;
 import io.github.kenichiroarai.dailytasks.testutil.LogCapture;
-import io.github.kenichiroarai.dailytasks.testutil.MessageProviderTestUtil;
+import io.github.kenichiroarai.dailytasks.testutil.MessageLogicTestUtil;
 import io.github.kenichiroarai.dailytasks.testutil.ReflectionTestUtil;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
@@ -76,7 +76,7 @@ public class GitHubIssueRepositoryImplTest {
     private static GitHubIssueRepositoryImpl createTarget(final HttpClient httpClient) {
 
         final GitHubIssueRepositoryImpl result = new GitHubIssueRepositoryImpl(() -> httpClient,
-            GitHubIssueRepositoryImplTest.API_BASE_URL, new JsonMapper(), MessageProviderTestUtil.create());
+            GitHubIssueRepositoryImplTest.API_BASE_URL, new JsonMapper(), MessageLogicTestUtil.create());
         return result;
 
     }
@@ -461,7 +461,7 @@ public class GitHubIssueRepositoryImplTest {
 
         /* テスト対象の実行 */
         final GitHubIssueRepositoryImpl testTarget
-            = new GitHubIssueRepositoryImpl(testJsonMapper, MessageProviderTestUtil.create());
+            = new GitHubIssueRepositoryImpl(testJsonMapper, MessageLogicTestUtil.create());
 
         /* 検証の準備 */
         final String     actualApiBaseUrl = ReflectionTestUtil.getField(testTarget, "apiBaseUrl");

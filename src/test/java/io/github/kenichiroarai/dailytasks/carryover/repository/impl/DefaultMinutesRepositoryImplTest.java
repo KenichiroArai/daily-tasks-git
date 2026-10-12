@@ -11,7 +11,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import io.github.kenichiroarai.dailytasks.testutil.LogAssertions;
 import io.github.kenichiroarai.dailytasks.testutil.LogCapture;
-import io.github.kenichiroarai.dailytasks.testutil.MessageProviderTestUtil;
+import io.github.kenichiroarai.dailytasks.testutil.MessageLogicTestUtil;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.json.JsonMapper;
 
@@ -35,7 +35,7 @@ public class DefaultMinutesRepositoryImplTest {
     private static DefaultMinutesRepositoryImpl createTarget() {
 
         final DefaultMinutesRepositoryImpl result
-            = new DefaultMinutesRepositoryImpl(new JsonMapper(), MessageProviderTestUtil.create());
+            = new DefaultMinutesRepositoryImpl(new JsonMapper(), MessageLogicTestUtil.create());
         return result;
 
     }
