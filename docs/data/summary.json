@@ -1,5 +1,5 @@
 {
-  "latestIssue": 377,
+  "latestIssue": 378,
   "items": [
     "英語",
     "国語",
@@ -15281,6 +15281,87 @@
           "minutes": 132.0,
           "checkedCount": 1,
           "checkedMinutes": 5.0
+        }
+      }
+    },
+    {
+      "date": "2026-10-13",
+      "issue": 378,
+      "declaredCount": 49,
+      "total": {
+        "count": 49,
+        "minutes": 860.5,
+        "checkedCount": 3,
+        "checkedMinutes": 15.0
+      },
+      "byItem": {
+        "3教科以外": {
+          "count": 3,
+          "minutes": 35.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "IT・技術学習": {
+          "count": 3,
+          "minutes": 42.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "国語": {
+          "count": 5,
+          "minutes": 67.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "本読書": {
+          "count": 1,
+          "minutes": 4.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "汎用タスク": {
+          "count": 8,
+          "minutes": 323.5,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "漢字検定": {
+          "count": 1,
+          "minutes": 5.0,
+          "checkedCount": 1,
+          "checkedMinutes": 5.0
+        },
+        "英語": {
+          "count": 2,
+          "minutes": 22.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "音楽": {
+          "count": 26,
+          "minutes": 362.0,
+          "checkedCount": 2,
+          "checkedMinutes": 10.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-08": {
+          "count": 10,
+          "minutes": 114.0,
+          "checkedCount": 2,
+          "checkedMinutes": 10.0
+        },
+        "2026-09": {
+          "count": 32,
+          "minutes": 606.5,
+          "checkedCount": 1,
+          "checkedMinutes": 5.0
+        },
+        "2026-10": {
+          "count": 7,
+          "minutes": 140.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
         }
       }
     }
