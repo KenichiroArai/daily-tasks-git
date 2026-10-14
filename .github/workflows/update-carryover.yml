@@ -59,7 +59,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FULL: ${{ inputs.full }}
         run: |
-          JAR=../gr002_daily-tasks/target/daily-tasks-0.1.0.jar
+          JAR=../gr002_daily-tasks/target/gr002_daily-tasks-0.1.0.jar
           if [ "$FULL" = "true" ]; then
             java -jar "$JAR" --full
           else

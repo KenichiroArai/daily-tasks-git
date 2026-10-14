@@ -56,8 +56,8 @@ mvn clean package
 
 # 収集（このリポジトリをカレントにして実行）
 cd ../daily-tasks-git
-java -jar ../gr002_daily-tasks/target/daily-tasks-0.1.0.jar         # 差分モード
-java -jar ../gr002_daily-tasks/target/daily-tasks-0.1.0.jar --full  # 全件モード
+java -jar ../gr002_daily-tasks/target/gr002_daily-tasks-0.1.0.jar         # 差分モード
+java -jar ../gr002_daily-tasks/target/gr002_daily-tasks-0.1.0.jar --full  # 全件モード
 
 # 画面の確認（http://localhost:3000/）
 cd ../mk002_daily-tasks_web-next
