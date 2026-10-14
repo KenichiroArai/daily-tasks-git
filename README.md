@@ -7,13 +7,13 @@
 
 ## 画面でできること
 
-| 切り替え | 選択肢 |
-| --- | --- |
-| 表示 | 日別推移（全体／項目ごと）、月ごと（全体／項目ごと）、項目ごと、持ち越し元の月ごと |
-| 指標 | 件数（残）、残り時間（分）、残り時間（時間） |
-| 集計 | 平均、合計、最大、最小、期間末の値（月ごと・項目ごと・持ち越し元の月ごとで使う） |
-| 対象 | すべて、未チェックのみ、チェック済みのみ |
-| 期間・項目 | 開始日と終了日（全期間、直近 30 日、直近 90 日）、項目の選択 |
+| 切り替え   | 選択肢                                                                             |
+| ---------- | ---------------------------------------------------------------------------------- |
+| 表示       | 日別推移（全体／項目ごと）、月ごと（全体／項目ごと）、項目ごと、持ち越し元の月ごと |
+| 指標       | 件数（残）、残り時間（分）、残り時間（時間）                                       |
+| 集計       | 平均、合計、最大、最小、期間末の値（月ごと・項目ごと・持ち越し元の月ごとで使う）   |
+| 対象       | すべて、未チェックのみ、チェック済みのみ                                           |
+| 期間・項目 | 開始日と終了日（全期間、直近 30 日、直近 90 日）、項目の選択                       |
 
 画面には、最新の残（件数・残り時間）、期間平均、最大、最小のカードと、項目ごとの集計表（最新・平均・最大・最小・合計）も表示します。
 
@@ -28,54 +28,47 @@ URL パラメータで初期表示を指定できます（例: `?view=monthlyIte
 - 時間表記がない行は [`config/default-minutes.json`](config/default-minutes.json) の項目ごとの標準時間で補完します。
 - 本文の「残：N」は検証に使います。解析した件数と合わない場合は、実行ログに警告を出します。
 - 「負債」が初めて出てきた Issue（#175、2026-03-24）以降を集計します。
+- 詳しい仕様は [Issue 解析の仕様](https://github.com/KenichiroArai/kb002_daily-tasks_doc/blob/main/docs/carryover-spec.md) を参照してください。
 
 ## 構成
 
-- 収集ツール（Java 25 / Maven / Spring Boot 4 / Jackson 3）: `src/main/java/io/github/kenichiroarai/dailytasks/`
-  - GitHub REST API で全 Issue を取得し、解析して `docs/data/` に JSON を出力します。
-- 画面（Next.js + TypeScript + Recharts）: [`frontend/`](frontend/)
-  - 静的エクスポート（`frontend/out`）を GitHub Pages に公開します。
-  - ビルド時に `docs/data/` を `frontend/public/data/` にコピーして使います。`docs/` には収集ツールが出力するデータだけを置きます。
-  - 設計書: [`frontend/docs/design.md`](frontend/docs/design.md)（全体構成、データ、画面、モジュール、品質・運用。各章は `frontend/docs/design/` にあります）
+このリポジトリを基軸とし、プログラム部分を次のリポジトリに分けています。ローカルでは、4 つを同じフォルダの下に兄弟ディレクトリとして置きます。
+
+| リポジトリ                                                                                | 役割                                                                                                                                                          |
+| ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| daily-tasks-git（このリポジトリ）                                                         | 日々のタスクの Issue、ワークフロー、設定ファイル（`config/`）、出力データ（`docs/data/`）                                                                     |
+| [gr002_daily-tasks](https://github.com/KenichiroArai/gr002_daily-tasks)                   | 収集ツール（Java 25 / Maven / Spring Boot 4 / Jackson 3）。GitHub REST API で全 Issue を取得し、解析して `docs/data/` に JSON を出力します                    |
+| [mk002_daily-tasks_web-next](https://github.com/KenichiroArai/mk002_daily-tasks_web-next) | 画面（Next.js + TypeScript + Recharts）。ビルド時に `docs/data/` をコピーし、静的エクスポートを GitHub Pages に公開します                                     |
+| [kb002_daily-tasks_doc](https://github.com/KenichiroArai/kb002_daily-tasks_doc)           | 設計書と横断的なドキュメント（[全体構成](https://github.com/KenichiroArai/kb002_daily-tasks_doc/blob/main/docs/overview.md)、Issue 解析の仕様、画面の設計書） |
+
 - 自動更新: [`.github/workflows/update-carryover.yml`](.github/workflows/update-carryover.yml)
-  - 毎日 06:00（JST）、手動実行、Issue の作成・編集・クローズ・再オープン、`main` への push で動きます。
-  - JSON の差分を commit し、画面をビルドしてから GitHub Pages にデプロイします。
+  - 毎日 06:00（JST）と手動実行で動きます。手動実行では `full` を指定すると全件モードで解析し直します。
+  - gr002_daily-tasks と mk002_daily-tasks_web-next をチェックアウトし、収集ツールのビルドと実行、JSON の差分のコミット、画面のビルドを行ってから GitHub Pages にデプロイします。
 
 ## ローカルでの実行
 
 収集ツールには Java 25 と Maven、画面には Node.js（20.9 以降）が必要です。
 
 ```bash
-# テスト（JaCoCo 行・分岐 100% チェック）と実行可能 jar の作成
+# 収集ツールのビルド（テストと JaCoCo 行・分岐 100% チェックを含む）
+cd ../gr002_daily-tasks
 mvn clean package
 
-# 収集（差分モード）: 最新 10 件の Issue は毎回解析し直し、それより前は保存済みの JSON と更新日時が同じなら解析しない
-java -jar target/daily-tasks-0.1.0.jar
-
-# 収集（全件モード）: #1 から最新まで解析し直す
-java -jar target/daily-tasks-0.1.0.jar --full
+# 収集（このリポジトリをカレントにして実行）
+cd ../daily-tasks-git
+java -jar ../gr002_daily-tasks/target/daily-tasks-0.1.0.jar         # 差分モード
+java -jar ../gr002_daily-tasks/target/daily-tasks-0.1.0.jar --full  # 全件モード
 
 # 画面の確認（http://localhost:3000/）
-cd frontend
+cd ../mk002_daily-tasks_web-next
 npm install
 npm run dev
-
-# 画面の lint・型チェック・テスト・ビルド（frontend/ で実行）
-npm run lint
-npm run typecheck
-npm test
-npm run build
 ```
 
 - 環境変数 `GITHUB_TOKEN` を設定すると GitHub API の認証に使います（未設定でも公開リポジトリなら動きます）。
-- 解析ルールや標準時間を変えたときは、全件モードで JSON を作り直してください。
-- 対象リポジトリ・トークン（`${GITHUB_TOKEN:}`）・出力先・標準時間の設定ファイル・毎回解析し直す最新の件数は [`src/main/resources/application.properties`](src/main/resources/application.properties) の `carryover.*`、使い方やログ・例外のメッセージは [`src/main/resources/messages.properties`](src/main/resources/messages.properties) で管理しています。
-- 設定値は Spring Boot の仕組みにより環境変数で上書きできます（例: `CARRYOVER_RECENTCOUNT=20`）。コマンドライン引数は `--full` と `--help` だけを受け付けます。
+- 解析ルールや標準時間（[`config/default-minutes.json`](config/default-minutes.json)）を変えたときは、全件モードで JSON を作り直してください。
+- 各リポジトリの詳しい手順は、それぞれの README を参照してください。
 
 ## 初回のセットアップ（GitHub Pages）
 
 リポジトリの Settings → Pages → Build and deployment の Source を「GitHub Actions」にしてください。その後、Actions の「持ち越しの集計と公開」を手動実行すると公開されます。
-
-## Eclipse
-
-「ファイル」→「インポート」→「Maven」→「既存 Maven プロジェクト」でリポジトリのルートを選びます。Java 25 に対応した Eclipse（2025-09 以降）と JDK 25 が必要です。

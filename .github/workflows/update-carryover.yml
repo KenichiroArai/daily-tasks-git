@@ -23,8 +23,23 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - name: チェックアウト
+      # ローカルと同じく、3 つのリポジトリを兄弟ディレクトリに置く
+      - name: チェックアウト（daily-tasks-git）
         uses: actions/checkout@v5
+        with:
+          path: daily-tasks-git
+
+      - name: チェックアウト（収集ツール gr002_daily-tasks）
+        uses: actions/checkout@v5
+        with:
+          repository: KenichiroArai/gr002_daily-tasks
+          path: gr002_daily-tasks
+
+      - name: チェックアウト（画面 mk002_daily-tasks_web-next）
+        uses: actions/checkout@v5
+        with:
+          repository: KenichiroArai/mk002_daily-tasks_web-next
+          path: mk002_daily-tasks_web-next
 
       - name: Java 25 のセットアップ
         uses: actions/setup-java@v5
@@ -32,22 +47,27 @@ jobs:
           distribution: temurin
           java-version: "25"
           cache: maven
+          cache-dependency-path: gr002_daily-tasks/pom.xml
 
       - name: ビルドとテスト
+        working-directory: gr002_daily-tasks
         run: mvn -B -ntp package
 
       - name: Issue の収集と集計
+        working-directory: daily-tasks-git
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FULL: ${{ inputs.full }}
         run: |
+          JAR=../gr002_daily-tasks/target/daily-tasks-0.1.0.jar
           if [ "$FULL" = "true" ]; then
-            java -jar target/daily-tasks-0.1.0.jar --full
+            java -jar "$JAR" --full
           else
-            java -jar target/daily-tasks-0.1.0.jar
+            java -jar "$JAR"
           fi
 
       - name: 差分のコミット
+        working-directory: daily-tasks-git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -69,10 +89,10 @@ jobs:
         with:
           node-version: "22"
           cache: npm
-          cache-dependency-path: frontend/package-lock.json
+          cache-dependency-path: mk002_daily-tasks_web-next/package-lock.json
 
       - name: 画面のビルド（Next.js の静的エクスポート）
-        working-directory: frontend
+        working-directory: mk002_daily-tasks_web-next
         env:
           PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
         run: |
@@ -85,7 +105,7 @@ jobs:
       - name: Pages 用の成果物のアップロード
         uses: actions/upload-pages-artifact@v4
         with:
-          path: frontend/out
+          path: mk002_daily-tasks_web-next/out
 
   deploy:
     needs: update
