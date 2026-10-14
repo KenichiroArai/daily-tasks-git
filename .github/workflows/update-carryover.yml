@@ -77,8 +77,16 @@ jobs:
             exit 0
           fi
           git commit -m "持ち越しデータを更新（${{ github.event_name }}）"
-          git pull --rebase origin "${GITHUB_REF_NAME}"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          # GitHub 側の一時的なエラー（500 など）に備えて再試行する
+          for i in 1 2 3 4 5; do
+            if git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              exit 0
+            fi
+            echo "push に失敗しました（${i} 回目）。$((i * 10)) 秒後に再試行します"
+            sleep $((i * 10))
+          done
+          echo "push に 5 回失敗しました"
+          exit 1
 
       - name: Pages の設定
         id: pages
