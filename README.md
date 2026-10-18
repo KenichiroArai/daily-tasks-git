@@ -44,6 +44,7 @@ URL パラメータで初期表示を指定できます（例: `?view=monthlyIte
 - 自動更新: [`.github/workflows/update-carryover.yml`](.github/workflows/update-carryover.yml)
   - 毎日 06:00（JST）と手動実行で動きます。手動実行では `full` を指定すると全件モードで解析し直します。
   - gr002_daily-tasks と mk002_daily-tasks_web-next をチェックアウトし、収集ツールのビルドと実行、JSON の差分のコミット、画面のビルドを行ってから GitHub Pages にデプロイします。
+  - 収集ツールの依存（kmg-core、kmg-fund）は GitHub Packages から取得します。ワークフローの `GITHUB_TOKEN`（`packages: read`）で認証します。両パッケージの Package settings → Manage Actions access で、このリポジトリに Read を許可してください。
 
 ## ローカルでの実行
 

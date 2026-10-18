@@ -14,6 +14,7 @@ permissions:
   contents: write
   pages: write
   id-token: write
+  packages: read
 
 concurrency:
   group: update-carryover
@@ -48,6 +49,27 @@ jobs:
           java-version: "25"
           cache: maven
           cache-dependency-path: gr002_daily-tasks/pom.xml
+
+      # pom の repositories（github-kmg-core / github-kmg-fund）に対応する
+      - name: GitHub Packages の認証
+        run: |
+          mkdir -p "$HOME/.m2"
+          cat > "$HOME/.m2/settings.xml" <<'EOF'
+          <settings>
+            <servers>
+              <server>
+                <id>github-kmg-core</id>
+                <username>${{ github.actor }}</username>
+                <password>${{ secrets.GITHUB_TOKEN }}</password>
+              </server>
+              <server>
+                <id>github-kmg-fund</id>
+                <username>${{ github.actor }}</username>
+                <password>${{ secrets.GITHUB_TOKEN }}</password>
+              </server>
+            </servers>
+          </settings>
+          EOF
 
       - name: ビルドとテスト
         working-directory: gr002_daily-tasks

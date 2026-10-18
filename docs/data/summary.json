@@ -15521,14 +15521,14 @@
       "declaredCount": 40,
       "total": {
         "count": 40,
-        "minutes": 650.5,
-        "checkedCount": 0,
-        "checkedMinutes": 0.0
+        "minutes": 629.5,
+        "checkedCount": 1,
+        "checkedMinutes": 7.0
       },
       "byItem": {
         "3教科以外": {
           "count": 2,
-          "minutes": 30.0,
+          "minutes": 29.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
@@ -15552,7 +15552,7 @@
         },
         "汎用タスク": {
           "count": 3,
-          "minutes": 99.5,
+          "minutes": 93.5,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
@@ -15570,27 +15570,27 @@
         },
         "音楽": {
           "count": 23,
-          "minutes": 337.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "minutes": 323.0,
+          "checkedCount": 1,
+          "checkedMinutes": 7.0
         }
       },
       "byOriginMonth": {
         "2026-08": {
           "count": 7,
-          "minutes": 89.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "minutes": 75.0,
+          "checkedCount": 1,
+          "checkedMinutes": 7.0
         },
         "2026-09": {
           "count": 23,
-          "minutes": 361.5,
+          "minutes": 355.5,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
         "2026-10": {
           "count": 10,
-          "minutes": 200.0,
+          "minutes": 199.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         }

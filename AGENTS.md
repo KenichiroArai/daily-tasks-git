@@ -40,8 +40,8 @@ docs/                        # 収集ツールが出力するデータだけを�
 [.github/workflows/update-carryover.yml](.github/workflows/update-carryover.yml) が収集から公開までを行う。
 
 - トリガー: 毎日 06:00（JST）のスケジュールと、手動実行（`full` 入力で全件モード）。Issue の編集ごとにコミットされないよう、Issue イベントでは動かさない
-- 本リポジトリ、gr002_daily-tasks、mk002_daily-tasks_web-next を、ローカルと同じく兄弟ディレクトリとしてチェックアウトする（いずれも public のため、追加のトークンは不要）
-- gr002_daily-tasks を `mvn -B -ntp package` でビルド（テストを含む）し、本リポジトリをカレントにして jar を実行する
+- 本リポジトリ、gr002_daily-tasks、mk002_daily-tasks_web-next を、ローカルと同じく兄弟ディレクトリとしてチェックアウトする（いずれも public のため、チェックアウト用の追加トークンは不要）
+- gr002_daily-tasks を `mvn -B -ntp package` でビルド（テストを含む）し、本リポジトリをカレントにして jar を実行する。依存の kmg-core と kmg-fund は GitHub Packages にあるため、ビルド前に `~/.m2/settings.xml` へサーバ `github-kmg-core` と `github-kmg-fund` の認証を書き、`permissions.packages: read` の `GITHUB_TOKEN` を使う。両パッケージの設定で、本リポジトリに Actions からの読み取りを許可する
 - `docs/data/` に差分があれば本リポジトリにコミットしてプッシュする
 - mk002_daily-tasks_web-next をビルド（lint・型チェック・テストを含む）し、`out/` を本リポジトリの GitHub Pages にデプロイする。basePath は `actions/configure-pages` の出力を環境変数 `PAGES_BASE_PATH` で渡す
 - GitHub Pages の Source は「GitHub Actions」にする
