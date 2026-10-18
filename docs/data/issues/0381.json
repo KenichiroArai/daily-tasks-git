@@ -2,23 +2,23 @@
   "number": 381,
   "title": "2026年10月16日のタスク",
   "date": "2026-10-16",
-  "state": "open",
-  "updatedAt": "2026-10-16T14:13:32Z",
+  "state": "closed",
+  "updatedAt": "2026-10-17T01:47:52Z",
   "sections": [
     "持ち越し"
   ],
   "declaredCount": 40,
   "count": 40,
-  "minutes": 629.5,
+  "minutes": 586.0,
   "items": [
     {
       "name": "国語",
       "originDate": "2026-08-08",
-      "checked": false,
+      "checked": true,
       "minutes": 7.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 国語2026/08/08（残り時間：7分）"
+      "raw": "- [x] 国語2026/08/08（残り時間：7分）"
     },
     {
       "name": "国語",
@@ -257,11 +257,11 @@
     {
       "name": "汎用タスク",
       "originDate": "2026-09-25",
-      "checked": false,
+      "checked": true,
       "minutes": 25.5,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 汎用タスク2026/09/25（残り時間：25.5分）"
+      "raw": "- [x] 汎用タスク2026/09/25（残り時間：25.5分）"
     },
     {
       "name": "国語",
@@ -285,10 +285,10 @@
       "name": "汎用タスク",
       "originDate": "2026-10-02",
       "checked": false,
-      "minutes": 60.0,
+      "minutes": 18.5,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 汎用タスク2026/10/02（残り時間：60分）"
+      "raw": "- [ ] 汎用タスク2026/10/02（残り時間：18.5分）"
     },
     {
       "name": "IT・技術学習",
@@ -357,10 +357,10 @@
       "name": "開発",
       "originDate": "2026-10-15",
       "checked": false,
-      "minutes": 30.0,
+      "minutes": 28.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 開発2026/10/15（残り時間：30分）"
+      "raw": "- [ ] 開発2026/10/15（残り時間：28分）"
     },
     {
       "name": "IT・技術学習",

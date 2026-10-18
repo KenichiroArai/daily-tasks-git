@@ -1,5 +1,5 @@
 {
-  "latestIssue": 381,
+  "latestIssue": 383,
   "items": [
     "英語",
     "国語",
@@ -15521,9 +15521,9 @@
       "declaredCount": 40,
       "total": {
         "count": 40,
-        "minutes": 629.5,
-        "checkedCount": 1,
-        "checkedMinutes": 7.0
+        "minutes": 586.0,
+        "checkedCount": 3,
+        "checkedMinutes": 39.5
       },
       "byItem": {
         "3教科以外": {
@@ -15541,8 +15541,8 @@
         "国語": {
           "count": 5,
           "minutes": 67.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "checkedCount": 1,
+          "checkedMinutes": 7.0
         },
         "本読書": {
           "count": 2,
@@ -15552,9 +15552,9 @@
         },
         "汎用タスク": {
           "count": 3,
-          "minutes": 93.5,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "minutes": 52.0,
+          "checkedCount": 1,
+          "checkedMinutes": 25.5
         },
         "英語": {
           "count": 1,
@@ -15564,7 +15564,7 @@
         },
         "開発": {
           "count": 1,
-          "minutes": 30.0,
+          "minutes": 28.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
@@ -15579,18 +15579,174 @@
         "2026-08": {
           "count": 7,
           "minutes": 75.0,
-          "checkedCount": 1,
-          "checkedMinutes": 7.0
+          "checkedCount": 2,
+          "checkedMinutes": 14.0
         },
         "2026-09": {
           "count": 23,
           "minutes": 355.5,
+          "checkedCount": 1,
+          "checkedMinutes": 25.5
+        },
+        "2026-10": {
+          "count": 10,
+          "minutes": 155.5,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      }
+    },
+    {
+      "date": "2026-10-17",
+      "issue": 382,
+      "declaredCount": 37,
+      "total": {
+        "count": 37,
+        "minutes": 527.5,
+        "checkedCount": 4,
+        "checkedMinutes": 42.5
+      },
+      "byItem": {
+        "3教科以外": {
+          "count": 2,
+          "minutes": 27.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "IT・技術学習": {
+          "count": 3,
+          "minutes": 41.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "国語": {
+          "count": 4,
+          "minutes": 60.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "本読書": {
+          "count": 2,
+          "minutes": 31.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "汎用タスク": {
+          "count": 2,
+          "minutes": 26.5,
+          "checkedCount": 2,
+          "checkedMinutes": 26.5
+        },
+        "英語": {
+          "count": 1,
+          "minutes": 13.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "開発": {
+          "count": 1,
+          "minutes": 27.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "音楽": {
+          "count": 22,
+          "minutes": 302.0,
+          "checkedCount": 2,
+          "checkedMinutes": 16.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-08": {
+          "count": 5,
+          "minutes": 47.0,
+          "checkedCount": 2,
+          "checkedMinutes": 16.0
+        },
+        "2026-09": {
+          "count": 22,
+          "minutes": 328.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
         "2026-10": {
           "count": 10,
-          "minutes": 199.0,
+          "minutes": 152.5,
+          "checkedCount": 2,
+          "checkedMinutes": 26.5
+        }
+      }
+    },
+    {
+      "date": "2026-10-18",
+      "issue": 383,
+      "declaredCount": 33,
+      "total": {
+        "count": 33,
+        "minutes": 484.0,
+        "checkedCount": 3,
+        "checkedMinutes": 29.0
+      },
+      "byItem": {
+        "3教科以外": {
+          "count": 2,
+          "minutes": 27.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "IT・技術学習": {
+          "count": 3,
+          "minutes": 41.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "国語": {
+          "count": 4,
+          "minutes": 60.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "本読書": {
+          "count": 2,
+          "minutes": 31.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "英語": {
+          "count": 1,
+          "minutes": 13.0,
+          "checkedCount": 1,
+          "checkedMinutes": 13.0
+        },
+        "開発": {
+          "count": 1,
+          "minutes": 27.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "音楽": {
+          "count": 20,
+          "minutes": 285.0,
+          "checkedCount": 2,
+          "checkedMinutes": 16.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-08": {
+          "count": 3,
+          "minutes": 31.0,
+          "checkedCount": 1,
+          "checkedMinutes": 1.0
+        },
+        "2026-09": {
+          "count": 22,
+          "minutes": 327.0,
+          "checkedCount": 2,
+          "checkedMinutes": 28.0
+        },
+        "2026-10": {
+          "count": 8,
+          "minutes": 126.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         }
