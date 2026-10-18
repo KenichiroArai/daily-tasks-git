@@ -15683,14 +15683,14 @@
       "declaredCount": 33,
       "total": {
         "count": 33,
-        "minutes": 484.0,
+        "minutes": 481.0,
         "checkedCount": 3,
         "checkedMinutes": 29.0
       },
       "byItem": {
         "3教科以外": {
           "count": 2,
-          "minutes": 27.0,
+          "minutes": 26.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
@@ -15702,7 +15702,7 @@
         },
         "国語": {
           "count": 4,
-          "minutes": 60.0,
+          "minutes": 58.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
@@ -15734,7 +15734,7 @@
       "byOriginMonth": {
         "2026-08": {
           "count": 3,
-          "minutes": 31.0,
+          "minutes": 29.0,
           "checkedCount": 1,
           "checkedMinutes": 1.0
         },
@@ -15746,7 +15746,7 @@
         },
         "2026-10": {
           "count": 8,
-          "minutes": 126.0,
+          "minutes": 125.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         }
