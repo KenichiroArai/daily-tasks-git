@@ -2,14 +2,14 @@
   "number": 383,
   "title": "2026年10月18日のタスク",
   "date": "2026-10-18",
-  "state": "open",
-  "updatedAt": "2026-10-18T15:18:36Z",
+  "state": "closed",
+  "updatedAt": "2026-10-19T00:45:38Z",
   "sections": [
     "持ち越し"
   ],
   "declaredCount": 33,
   "count": 33,
-  "minutes": 481.0,
+  "minutes": 477.0,
   "items": [
     {
       "name": "国語",
@@ -239,11 +239,11 @@
     {
       "name": "IT・技術学習",
       "originDate": "2026-10-04",
-      "checked": false,
+      "checked": true,
       "minutes": 3.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] IT・技術学習2026/10/04（残り時間：3分）"
+      "raw": "- [x] IT・技術学習2026/10/04（残り時間：3分）"
     },
     {
       "name": "本読書",
@@ -275,11 +275,11 @@
     {
       "name": "IT・技術学習",
       "originDate": "2026-10-13",
-      "checked": false,
+      "checked": true,
       "minutes": 8.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] IT・技術学習2026/10/13（残り時間：8分）"
+      "raw": "- [x] IT・技術学習2026/10/13（残り時間：8分）"
     },
     {
       "name": "本読書",
@@ -294,10 +294,10 @@
       "name": "開発",
       "originDate": "2026-10-15",
       "checked": false,
-      "minutes": 27.0,
+      "minutes": 23.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 開発2026/10/15（残り時間：27分）"
+      "raw": "- [ ] 開発2026/10/15（残り時間：23分）"
     },
     {
       "name": "IT・技術学習",
