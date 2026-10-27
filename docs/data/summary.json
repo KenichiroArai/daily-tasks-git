@@ -1,5 +1,5 @@
 {
-  "latestIssue": 390,
+  "latestIssue": 391,
   "items": [
     "英語",
     "国語",
@@ -16106,9 +16106,9 @@
       "declaredCount": 15,
       "total": {
         "count": 15,
-        "minutes": 212.0,
-        "checkedCount": 0,
-        "checkedMinutes": 0.0
+        "minutes": 202.0,
+        "checkedCount": 1,
+        "checkedMinutes": 13.0
       },
       "byItem": {
         "本読書": {
@@ -16119,23 +16119,62 @@
         },
         "音楽": {
           "count": 13,
-          "minutes": 193.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "minutes": 183.0,
+          "checkedCount": 1,
+          "checkedMinutes": 13.0
         }
       },
       "byOriginMonth": {
         "2026-09": {
           "count": 13,
-          "minutes": 193.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "minutes": 183.0,
+          "checkedCount": 1,
+          "checkedMinutes": 13.0
         },
         "2026-10": {
           "count": 2,
           "minutes": 19.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
+        }
+      }
+    },
+    {
+      "date": "2026-10-26",
+      "issue": 391,
+      "declaredCount": 14,
+      "total": {
+        "count": 14,
+        "minutes": 178.0,
+        "checkedCount": 2,
+        "checkedMinutes": 15.0
+      },
+      "byItem": {
+        "本読書": {
+          "count": 2,
+          "minutes": 18.0,
+          "checkedCount": 1,
+          "checkedMinutes": 10.0
+        },
+        "音楽": {
+          "count": 12,
+          "minutes": 160.0,
+          "checkedCount": 1,
+          "checkedMinutes": 5.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-09": {
+          "count": 12,
+          "minutes": 160.0,
+          "checkedCount": 1,
+          "checkedMinutes": 5.0
+        },
+        "2026-10": {
+          "count": 2,
+          "minutes": 18.0,
+          "checkedCount": 1,
+          "checkedMinutes": 10.0
         }
       }
     }
