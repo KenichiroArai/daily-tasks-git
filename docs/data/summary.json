@@ -1,5 +1,5 @@
 {
-  "latestIssue": 393,
+  "latestIssue": 394,
   "items": [
     "英語",
     "国語",
@@ -16253,6 +16253,45 @@
           "minutes": 142.0,
           "checkedCount": 1,
           "checkedMinutes": 5.0
+        },
+        "2026-10": {
+          "count": 1,
+          "minutes": 8.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      }
+    },
+    {
+      "date": "2026-10-29",
+      "issue": 394,
+      "declaredCount": 11,
+      "total": {
+        "count": 11,
+        "minutes": 132.0,
+        "checkedCount": 1,
+        "checkedMinutes": 2.0
+      },
+      "byItem": {
+        "本読書": {
+          "count": 1,
+          "minutes": 8.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "音楽": {
+          "count": 10,
+          "minutes": 124.0,
+          "checkedCount": 1,
+          "checkedMinutes": 2.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-09": {
+          "count": 10,
+          "minutes": 124.0,
+          "checkedCount": 1,
+          "checkedMinutes": 2.0
         },
         "2026-10": {
           "count": 1,
