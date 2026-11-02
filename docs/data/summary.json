@@ -16385,14 +16385,14 @@
       "declaredCount": 9,
       "total": {
         "count": 9,
-        "minutes": 126.0,
+        "minutes": 123.0,
         "checkedCount": 0,
         "checkedMinutes": 0.0
       },
       "byItem": {
         "本読書": {
           "count": 1,
-          "minutes": 8.0,
+          "minutes": 5.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
@@ -16412,7 +16412,7 @@
         },
         "2026-10": {
           "count": 2,
-          "minutes": 23.0,
+          "minutes": 20.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         }
