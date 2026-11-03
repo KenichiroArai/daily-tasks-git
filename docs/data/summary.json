@@ -1,10 +1,10 @@
 {
-  "latestIssue": 397,
+  "latestIssue": 399,
   "items": [
     "英語",
     "国語",
-    "数学",
     "音楽",
+    "数学",
     "3教科以外",
     "IT・技術学習",
     "汎用タスク",
@@ -16413,6 +16413,96 @@
         "2026-10": {
           "count": 2,
           "minutes": 20.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-02",
+      "issue": 398,
+      "declaredCount": 9,
+      "total": {
+        "count": 9,
+        "minutes": 123.0,
+        "checkedCount": 0,
+        "checkedMinutes": 0.0
+      },
+      "byItem": {
+        "本読書": {
+          "count": 1,
+          "minutes": 5.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "音楽": {
+          "count": 8,
+          "minutes": 118.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-09": {
+          "count": 7,
+          "minutes": 103.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "2026-10": {
+          "count": 2,
+          "minutes": 20.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-03",
+      "issue": 399,
+      "declaredCount": 10,
+      "total": {
+        "count": 10,
+        "minutes": 138.0,
+        "checkedCount": 0,
+        "checkedMinutes": 0.0
+      },
+      "byItem": {
+        "国語": {
+          "count": 1,
+          "minutes": 15.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "本読書": {
+          "count": 1,
+          "minutes": 5.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "音楽": {
+          "count": 8,
+          "minutes": 118.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-09": {
+          "count": 7,
+          "minutes": 103.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "2026-10": {
+          "count": 2,
+          "minutes": 20.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "2026-11": {
+          "count": 1,
+          "minutes": 15.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         }
