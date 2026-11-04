@@ -16464,15 +16464,15 @@
       "total": {
         "count": 10,
         "minutes": 138.0,
-        "checkedCount": 0,
-        "checkedMinutes": 0.0
+        "checkedCount": 1,
+        "checkedMinutes": 15.0
       },
       "byItem": {
         "国語": {
           "count": 1,
           "minutes": 15.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "checkedCount": 1,
+          "checkedMinutes": 15.0
         },
         "本読書": {
           "count": 1,
@@ -16503,8 +16503,8 @@
         "2026-11": {
           "count": 1,
           "minutes": 15.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "checkedCount": 1,
+          "checkedMinutes": 15.0
         }
       }
     }
