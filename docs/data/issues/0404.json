@@ -1,0 +1,105 @@
+{
+  "number": 404,
+  "title": "2026年11月08日のタスク",
+  "date": "2026-11-08",
+  "state": "open",
+  "updatedAt": "2026-11-07T15:54:57Z",
+  "sections": [
+    "持ち越し"
+  ],
+  "declaredCount": 10,
+  "count": 10,
+  "minutes": 137.0,
+  "items": [
+    {
+      "name": "音楽",
+      "originDate": "2026-09-19",
+      "checked": false,
+      "minutes": 13.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/19（残り時間：13分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-20",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/20（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-21",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/21（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-22",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/22（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-25",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/25（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-28",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/28（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-10-30",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/10/30（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-11-04",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/11/04（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-11-05",
+      "checked": false,
+      "minutes": 4.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 国語2026/11/05（残り時間：4分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-11-07",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 英語2026/11/07（残り時間：15分）"
+    }
+  ]
+}
