@@ -1,5 +1,5 @@
 {
-  "latestIssue": 404,
+  "latestIssue": 405,
   "items": [
     "英語",
     "国語",
@@ -16701,8 +16701,8 @@
       "total": {
         "count": 10,
         "minutes": 137.0,
-        "checkedCount": 0,
-        "checkedMinutes": 0.0
+        "checkedCount": 1,
+        "checkedMinutes": 15.0
       },
       "byItem": {
         "国語": {
@@ -16714,6 +16714,51 @@
         "英語": {
           "count": 1,
           "minutes": 15.0,
+          "checkedCount": 1,
+          "checkedMinutes": 15.0
+        },
+        "音楽": {
+          "count": 8,
+          "minutes": 118.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-09": {
+          "count": 6,
+          "minutes": 88.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "2026-10": {
+          "count": 1,
+          "minutes": 15.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "2026-11": {
+          "count": 3,
+          "minutes": 34.0,
+          "checkedCount": 1,
+          "checkedMinutes": 15.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-09",
+      "issue": 405,
+      "declaredCount": 10,
+      "total": {
+        "count": 10,
+        "minutes": 137.0,
+        "checkedCount": 0,
+        "checkedMinutes": 0.0
+      },
+      "byItem": {
+        "国語": {
+          "count": 2,
+          "minutes": 19.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
