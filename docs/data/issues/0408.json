@@ -1,0 +1,87 @@
+{
+  "number": 408,
+  "title": "2026年11月12日のタスク",
+  "date": "2026-11-12",
+  "state": "open",
+  "updatedAt": "2026-11-12T14:39:22Z",
+  "sections": [
+    "持ち越し"
+  ],
+  "declaredCount": 8,
+  "count": 8,
+  "minutes": 115.0,
+  "items": [
+    {
+      "name": "音楽",
+      "originDate": "2026-09-21",
+      "checked": false,
+      "minutes": 3.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/21（残り時間：3分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-22",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/22（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-25",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/25（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-09-28",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/09/28（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-10-30",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/10/30（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-11-04",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/11/04（残り時間：15分）"
+    },
+    {
+      "name": "本読書",
+      "originDate": "2026-11-11",
+      "checked": false,
+      "minutes": 7.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 本読書2026/11/11（残り時間：7分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-11-11",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] IT・技術学習2026/11/11（残り時間：30分）"
+    }
+  ]
+}
