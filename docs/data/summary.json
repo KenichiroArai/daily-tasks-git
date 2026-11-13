@@ -1,5 +1,5 @@
 {
-  "latestIssue": 408,
+  "latestIssue": 409,
   "items": [
     "英語",
     "国語",
@@ -14,7 +14,8 @@
     "マラソン日記",
     "漢字検定",
     "フロントエンドまたはサーバー系に関係する学習",
-    "中学数学"
+    "中学数学",
+    "理科"
   ],
   "days": [
     {
@@ -16926,6 +16927,69 @@
         "2026-11": {
           "count": 3,
           "minutes": 52.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-13",
+      "issue": 409,
+      "declaredCount": 13,
+      "total": {
+        "count": 13,
+        "minutes": 203.0,
+        "checkedCount": 0,
+        "checkedMinutes": 0.0
+      },
+      "byItem": {
+        "IT・技術学習": {
+          "count": 2,
+          "minutes": 60.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "国語": {
+          "count": 1,
+          "minutes": 11.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "本読書": {
+          "count": 2,
+          "minutes": 24.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "理科": {
+          "count": 1,
+          "minutes": 15.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "音楽": {
+          "count": 7,
+          "minutes": 93.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-09": {
+          "count": 4,
+          "minutes": 48.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "2026-10": {
+          "count": 1,
+          "minutes": 15.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "2026-11": {
+          "count": 8,
+          "minutes": 140.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         }
