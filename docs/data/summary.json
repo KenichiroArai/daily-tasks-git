@@ -1,5 +1,5 @@
 {
-  "latestIssue": 413,
+  "latestIssue": 414,
   "items": [
     "英語",
     "国語",
@@ -17203,22 +17203,22 @@
       "declaredCount": 17,
       "total": {
         "count": 17,
-        "minutes": 296.0,
-        "checkedCount": 0,
-        "checkedMinutes": 0.0
+        "minutes": 242.0,
+        "checkedCount": 5,
+        "checkedMinutes": 94.0
       },
       "byItem": {
         "IT・技術学習": {
           "count": 3,
-          "minutes": 75.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "minutes": 48.0,
+          "checkedCount": 2,
+          "checkedMinutes": 45.0
         },
         "本読書": {
           "count": 4,
-          "minutes": 79.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "minutes": 52.0,
+          "checkedCount": 3,
+          "checkedMinutes": 49.0
         },
         "社会・一般常識": {
           "count": 4,
@@ -17248,7 +17248,64 @@
         },
         "2026-11": {
           "count": 16,
-          "minutes": 293.0,
+          "minutes": 239.0,
+          "checkedCount": 5,
+          "checkedMinutes": 94.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-18",
+      "issue": 414,
+      "declaredCount": 14,
+      "total": {
+        "count": 14,
+        "minutes": 193.0,
+        "checkedCount": 0,
+        "checkedMinutes": 0.0
+      },
+      "byItem": {
+        "IT・技術学習": {
+          "count": 1,
+          "minutes": 3.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "本読書": {
+          "count": 1,
+          "minutes": 3.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "社会・一般常識": {
+          "count": 5,
+          "minutes": 75.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "英語": {
+          "count": 2,
+          "minutes": 49.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "音楽": {
+          "count": 5,
+          "minutes": 63.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-10": {
+          "count": 1,
+          "minutes": 3.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "2026-11": {
+          "count": 13,
+          "minutes": 190.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         }
