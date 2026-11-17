@@ -2,14 +2,14 @@
   "number": 412,
   "title": "2026年11月16日のタスク",
   "date": "2026-11-16",
-  "state": "open",
-  "updatedAt": "2026-11-16T02:05:22Z",
+  "state": "closed",
+  "updatedAt": "2026-11-17T02:38:55Z",
   "sections": [
     "持ち越し"
   ],
   "declaredCount": 16,
-  "count": 16,
-  "minutes": 265.0,
+  "count": 17,
+  "minutes": 319.0,
   "items": [
     {
       "name": "音楽",
@@ -69,10 +69,10 @@
       "name": "IT・技術学習",
       "originDate": "2026-11-12",
       "checked": false,
-      "minutes": 22.0,
+      "minutes": 15.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] IT・技術学習2026/11/12（残り時間：22分）"
+      "raw": "- [ ] IT・技術学習2026/11/12（残り時間：15分）"
     },
     {
       "name": "本読書",
@@ -154,6 +154,15 @@
       "minutesSource": "parsed",
       "section": "持ち越し",
       "raw": "- [ ] IT・技術学習2026/11/15（残り時間：30分）"
+    },
+    {
+      "name": "理科",
+      "originDate": "2026-11-16",
+      "checked": false,
+      "minutes": 61.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 理科2026/11/16（残り時間：61分）"
     }
   ]
 }

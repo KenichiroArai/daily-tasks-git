@@ -1,5 +1,5 @@
 {
-  "latestIssue": 412,
+  "latestIssue": 413,
   "items": [
     "英語",
     "国語",
@@ -13,10 +13,10 @@
     "本読書",
     "マラソン日記",
     "漢字検定",
-    "フロントエンドまたはサーバー系に関係する学習",
-    "中学数学",
     "理科",
-    "社会・一般常識"
+    "社会・一般常識",
+    "フロントエンドまたはサーバー系に関係する学習",
+    "中学数学"
   ],
   "days": [
     {
@@ -17145,15 +17145,15 @@
       "issue": 412,
       "declaredCount": 16,
       "total": {
-        "count": 16,
-        "minutes": 265.0,
+        "count": 17,
+        "minutes": 319.0,
         "checkedCount": 0,
         "checkedMinutes": 0.0
       },
       "byItem": {
         "IT・技術学習": {
           "count": 3,
-          "minutes": 82.0,
+          "minutes": 75.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
@@ -17164,8 +17164,8 @@
           "checkedMinutes": 0.0
         },
         "理科": {
-          "count": 2,
-          "minutes": 26.0,
+          "count": 3,
+          "minutes": 87.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
@@ -17190,8 +17190,71 @@
           "checkedMinutes": 0.0
         },
         "2026-11": {
-          "count": 15,
-          "minutes": 262.0,
+          "count": 16,
+          "minutes": 316.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-17",
+      "issue": 413,
+      "declaredCount": 20,
+      "total": {
+        "count": 20,
+        "minutes": 383.0,
+        "checkedCount": 0,
+        "checkedMinutes": 0.0
+      },
+      "byItem": {
+        "IT・技術学習": {
+          "count": 3,
+          "minutes": 75.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "本読書": {
+          "count": 4,
+          "minutes": 79.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "理科": {
+          "count": 3,
+          "minutes": 87.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "社会・一般常識": {
+          "count": 4,
+          "minutes": 60.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "英語": {
+          "count": 1,
+          "minutes": 19.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "音楽": {
+          "count": 5,
+          "minutes": 63.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-10": {
+          "count": 1,
+          "minutes": 3.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "2026-11": {
+          "count": 19,
+          "minutes": 380.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         }
