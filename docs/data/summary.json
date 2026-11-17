@@ -13,10 +13,10 @@
     "本読書",
     "マラソン日記",
     "漢字検定",
-    "理科",
     "社会・一般常識",
     "フロントエンドまたはサーバー系に関係する学習",
-    "中学数学"
+    "中学数学",
+    "理科"
   ],
   "days": [
     {
@@ -17145,10 +17145,10 @@
       "issue": 412,
       "declaredCount": 16,
       "total": {
-        "count": 17,
-        "minutes": 319.0,
-        "checkedCount": 0,
-        "checkedMinutes": 0.0
+        "count": 16,
+        "minutes": 258.0,
+        "checkedCount": 2,
+        "checkedMinutes": 26.0
       },
       "byItem": {
         "IT・技術学習": {
@@ -17164,10 +17164,10 @@
           "checkedMinutes": 0.0
         },
         "理科": {
-          "count": 3,
-          "minutes": 87.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "count": 2,
+          "minutes": 26.0,
+          "checkedCount": 2,
+          "checkedMinutes": 26.0
         },
         "社会・一般常識": {
           "count": 3,
@@ -17190,20 +17190,20 @@
           "checkedMinutes": 0.0
         },
         "2026-11": {
-          "count": 16,
-          "minutes": 316.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "count": 15,
+          "minutes": 255.0,
+          "checkedCount": 2,
+          "checkedMinutes": 26.0
         }
       }
     },
     {
       "date": "2026-11-17",
       "issue": 413,
-      "declaredCount": 20,
+      "declaredCount": 17,
       "total": {
-        "count": 20,
-        "minutes": 383.0,
+        "count": 17,
+        "minutes": 296.0,
         "checkedCount": 0,
         "checkedMinutes": 0.0
       },
@@ -17217,12 +17217,6 @@
         "本読書": {
           "count": 4,
           "minutes": 79.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
-        },
-        "理科": {
-          "count": 3,
-          "minutes": 87.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
@@ -17253,8 +17247,8 @@
           "checkedMinutes": 0.0
         },
         "2026-11": {
-          "count": 19,
-          "minutes": 380.0,
+          "count": 16,
+          "minutes": 293.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         }
