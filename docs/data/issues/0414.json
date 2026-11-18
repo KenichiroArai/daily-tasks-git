@@ -2,32 +2,32 @@
   "number": 414,
   "title": "2026年11月18日のタスク",
   "date": "2026-11-18",
-  "state": "open",
-  "updatedAt": "2026-11-17T15:38:56Z",
+  "state": "closed",
+  "updatedAt": "2026-11-18T15:48:42Z",
   "sections": [
     "持ち越し"
   ],
   "declaredCount": 14,
-  "count": 14,
-  "minutes": 193.0,
+  "count": 15,
+  "minutes": 172.0,
   "items": [
     {
       "name": "音楽",
       "originDate": "2026-10-30",
-      "checked": false,
+      "checked": true,
       "minutes": 3.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 音楽2026/10/30（残り時間：3分）"
+      "raw": "- [x] 音楽2026/10/30（残り時間：3分）"
     },
     {
       "name": "音楽",
       "originDate": "2026-11-04",
       "checked": false,
-      "minutes": 15.0,
+      "minutes": 3.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 音楽2026/11/04（残り時間：15分）"
+      "raw": "- [ ] 音楽2026/11/04（残り時間：3分）"
     },
     {
       "name": "音楽",
@@ -41,11 +41,11 @@
     {
       "name": "社会・一般常識",
       "originDate": "2026-11-13",
-      "checked": false,
+      "checked": true,
       "minutes": 15.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 社会・一般常識2026/11/13（残り時間：15分）"
+      "raw": "- [x] 社会・一般常識2026/11/13（残り時間：15分）"
     },
     {
       "name": "音楽",
@@ -59,11 +59,11 @@
     {
       "name": "社会・一般常識",
       "originDate": "2026-11-14",
-      "checked": false,
+      "checked": true,
       "minutes": 15.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 社会・一般常識2026/11/14（残り時間：15分）"
+      "raw": "- [x] 社会・一般常識2026/11/14（残り時間：15分）"
     },
     {
       "name": "音楽",
@@ -78,10 +78,10 @@
       "name": "社会・一般常識",
       "originDate": "2026-11-15",
       "checked": false,
-      "minutes": 15.0,
+      "minutes": 8.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 社会・一般常識2026/11/15（残り時間：15分）"
+      "raw": "- [ ] 社会・一般常識2026/11/15（残り時間：8分）"
     },
     {
       "name": "IT・技術学習",
@@ -104,11 +104,11 @@
     {
       "name": "英語",
       "originDate": "2026-11-16",
-      "checked": false,
+      "checked": true,
       "minutes": 19.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 英語2026/11/16（残り時間：19分）"
+      "raw": "- [x] 英語2026/11/16（残り時間：19分）"
     },
     {
       "name": "社会・一般常識",
@@ -123,10 +123,10 @@
       "name": "英語",
       "originDate": "2026-11-17",
       "checked": false,
-      "minutes": 30.0,
+      "minutes": 23.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 英語2026/11/17（残り時間：30分）"
+      "raw": "- [ ] 英語2026/11/17（残り時間：23分）"
     },
     {
       "name": "社会・一般常識",
@@ -136,6 +136,15 @@
       "minutesSource": "parsed",
       "section": "持ち越し",
       "raw": "- [ ] 社会・一般常識2026/11/17（残り時間：15分）"
+    },
+    {
+      "name": "本読書",
+      "originDate": "2026-11-17",
+      "checked": false,
+      "minutes": 5.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 本読書2026/11/17（残り時間：5分）"
     }
   ]
 }
