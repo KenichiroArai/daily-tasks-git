@@ -1,5 +1,5 @@
 {
-  "latestIssue": 415,
+  "latestIssue": 416,
   "items": [
     "英語",
     "国語",
@@ -17317,16 +17317,16 @@
       "declaredCount": 14,
       "total": {
         "count": 14,
-        "minutes": 188.0,
-        "checkedCount": 2,
-        "checkedMinutes": 8.0
+        "minutes": 166.0,
+        "checkedCount": 6,
+        "checkedMinutes": 59.0
       },
       "byItem": {
         "IT・技術学習": {
           "count": 2,
           "minutes": 33.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "checkedCount": 2,
+          "checkedMinutes": 33.0
         },
         "国語": {
           "count": 1,
@@ -17342,7 +17342,7 @@
         },
         "社会・一般常識": {
           "count": 3,
-          "minutes": 38.0,
+          "minutes": 36.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
@@ -17354,23 +17354,80 @@
         },
         "開発": {
           "count": 1,
-          "minutes": 29.0,
+          "minutes": 13.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
         "音楽": {
           "count": 4,
-          "minutes": 48.0,
+          "minutes": 44.0,
+          "checkedCount": 2,
+          "checkedMinutes": 18.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-11": {
+          "count": 14,
+          "minutes": 166.0,
+          "checkedCount": 6,
+          "checkedMinutes": 59.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-20",
+      "issue": 416,
+      "declaredCount": 11,
+      "total": {
+        "count": 11,
+        "minutes": 167.0,
+        "checkedCount": 0,
+        "checkedMinutes": 0.0
+      },
+      "byItem": {
+        "国語": {
+          "count": 2,
+          "minutes": 24.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "理科": {
+          "count": 1,
+          "minutes": 15.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "社会・一般常識": {
+          "count": 3,
+          "minutes": 36.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "英語": {
+          "count": 2,
+          "minutes": 53.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "開発": {
+          "count": 1,
+          "minutes": 13.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "音楽": {
+          "count": 2,
+          "minutes": 26.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         }
       },
       "byOriginMonth": {
         "2026-11": {
-          "count": 14,
-          "minutes": 188.0,
-          "checkedCount": 2,
-          "checkedMinutes": 8.0
+          "count": 11,
+          "minutes": 167.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
         }
       }
     }
