@@ -3,7 +3,7 @@
   "title": "2026年11月19日のタスク",
   "date": "2026-11-19",
   "state": "open",
-  "updatedAt": "2026-11-18T15:49:18Z",
+  "updatedAt": "2026-11-19T02:11:36Z",
   "sections": [
     "持ち越し"
   ],
@@ -68,11 +68,11 @@
     {
       "name": "本読書",
       "originDate": "2026-11-16",
-      "checked": false,
+      "checked": true,
       "minutes": 3.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 本読書2026/11/16（残り時間：3分）"
+      "raw": "- [x] 本読書2026/11/16（残り時間：3分）"
     },
     {
       "name": "社会・一般常識",
@@ -104,11 +104,11 @@
     {
       "name": "本読書",
       "originDate": "2026-11-17",
-      "checked": false,
+      "checked": true,
       "minutes": 5.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 本読書2026/11/17（残り時間：5分）"
+      "raw": "- [x] 本読書2026/11/17（残り時間：5分）"
     },
     {
       "name": "国語",

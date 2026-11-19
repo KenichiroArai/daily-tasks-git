@@ -17318,8 +17318,8 @@
       "total": {
         "count": 14,
         "minutes": 188.0,
-        "checkedCount": 0,
-        "checkedMinutes": 0.0
+        "checkedCount": 2,
+        "checkedMinutes": 8.0
       },
       "byItem": {
         "IT・技術学習": {
@@ -17337,8 +17337,8 @@
         "本読書": {
           "count": 2,
           "minutes": 8.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "checkedCount": 2,
+          "checkedMinutes": 8.0
         },
         "社会・一般常識": {
           "count": 3,
@@ -17369,8 +17369,8 @@
         "2026-11": {
           "count": 14,
           "minutes": 188.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "checkedCount": 2,
+          "checkedMinutes": 8.0
         }
       }
     }
