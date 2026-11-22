@@ -3,13 +3,13 @@
   "title": "2026年11月22日のタスク",
   "date": "2026-11-22",
   "state": "open",
-  "updatedAt": "2026-11-21T15:32:09Z",
+  "updatedAt": "2026-11-22T13:52:17Z",
   "sections": [
     "持ち越し"
   ],
   "declaredCount": 11,
   "count": 11,
-  "minutes": 149.0,
+  "minutes": 139.0,
   "items": [
     {
       "name": "音楽",
@@ -32,29 +32,29 @@
     {
       "name": "理科",
       "originDate": "2026-11-19",
-      "checked": false,
+      "checked": true,
       "minutes": 15.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 理科2026/11/19（残り時間：15分）"
+      "raw": "- [x] 理科2026/11/19（残り時間：15分）"
     },
     {
       "name": "国語",
       "originDate": "2026-11-20",
       "checked": false,
-      "minutes": 14.0,
+      "minutes": 4.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 国語2026/11/20（残り時間：14分）"
+      "raw": "- [ ] 国語2026/11/20（残り時間：4分）"
     },
     {
       "name": "理科",
       "originDate": "2026-11-20",
-      "checked": false,
+      "checked": true,
       "minutes": 15.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 理科2026/11/20（残り時間：15分）"
+      "raw": "- [x] 理科2026/11/20（残り時間：15分）"
     },
     {
       "name": "音楽",
@@ -77,20 +77,20 @@
     {
       "name": "IT・技術学習",
       "originDate": "2026-11-20",
-      "checked": false,
+      "checked": true,
       "minutes": 9.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] IT・技術学習2026/11/20（残り時間：9分）"
+      "raw": "- [x] IT・技術学習2026/11/20（残り時間：9分）"
     },
     {
       "name": "理科",
       "originDate": "2026-11-21",
-      "checked": false,
+      "checked": true,
       "minutes": 10.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 理科2026/11/21（残り時間：10分）"
+      "raw": "- [x] 理科2026/11/21（残り時間：10分）"
     },
     {
       "name": "開発",
@@ -104,11 +104,11 @@
     {
       "name": "IT・技術学習",
       "originDate": "2026-11-21",
-      "checked": false,
+      "checked": true,
       "minutes": 30.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] IT・技術学習2026/11/21（残り時間：30分）"
+      "raw": "- [x] IT・技術学習2026/11/21（残り時間：30分）"
     }
   ]
 }

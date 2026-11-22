@@ -17500,28 +17500,28 @@
       "declaredCount": 11,
       "total": {
         "count": 11,
-        "minutes": 149.0,
-        "checkedCount": 0,
-        "checkedMinutes": 0.0
+        "minutes": 139.0,
+        "checkedCount": 5,
+        "checkedMinutes": 79.0
       },
       "byItem": {
         "IT・技術学習": {
           "count": 2,
           "minutes": 39.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "checkedCount": 2,
+          "checkedMinutes": 39.0
         },
         "国語": {
           "count": 1,
-          "minutes": 14.0,
+          "minutes": 4.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
         "理科": {
           "count": 3,
           "minutes": 40.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "checkedCount": 3,
+          "checkedMinutes": 40.0
         },
         "開発": {
           "count": 3,
@@ -17539,9 +17539,9 @@
       "byOriginMonth": {
         "2026-11": {
           "count": 11,
-          "minutes": 149.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "minutes": 139.0,
+          "checkedCount": 5,
+          "checkedMinutes": 79.0
         }
       }
     }
