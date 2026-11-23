@@ -17551,7 +17551,7 @@
       "declaredCount": 9,
       "total": {
         "count": 9,
-        "minutes": 82.0,
+        "minutes": 77.0,
         "checkedCount": 0,
         "checkedMinutes": 0.0
       },
@@ -17564,13 +17564,13 @@
         },
         "本読書": {
           "count": 1,
-          "minutes": 23.0,
+          "minutes": 20.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
         "英語": {
           "count": 1,
-          "minutes": 5.0,
+          "minutes": 3.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
@@ -17590,7 +17590,7 @@
       "byOriginMonth": {
         "2026-11": {
           "count": 9,
-          "minutes": 82.0,
+          "minutes": 77.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         }

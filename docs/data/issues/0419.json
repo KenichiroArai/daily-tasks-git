@@ -3,13 +3,13 @@
   "title": "2026年11月23日のタスク",
   "date": "2026-11-23",
   "state": "open",
-  "updatedAt": "2026-11-22T15:43:22Z",
+  "updatedAt": "2026-11-23T13:22:17Z",
   "sections": [
     "持ち越し"
   ],
   "declaredCount": 9,
   "count": 9,
-  "minutes": 82.0,
+  "minutes": 77.0,
   "items": [
     {
       "name": "音楽",
@@ -78,19 +78,19 @@
       "name": "本読書",
       "originDate": "2026-11-22",
       "checked": false,
-      "minutes": 23.0,
+      "minutes": 20.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 本読書2026/11/22（残り時間：23分）"
+      "raw": "- [ ] 本読書2026/11/22（残り時間：20分）"
     },
     {
       "name": "英語",
       "originDate": "2026-11-22",
       "checked": false,
-      "minutes": 5.0,
+      "minutes": 3.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 英語2026/11/22（残り時間：5分）"
+      "raw": "- [ ] 英語2026/11/22（残り時間：3分）"
     }
   ]
 }
