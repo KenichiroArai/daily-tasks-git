@@ -2,14 +2,14 @@
   "number": 420,
   "title": "2026年11月24日のタスク",
   "date": "2026-11-24",
-  "state": "open",
-  "updatedAt": "2026-11-23T15:41:50Z",
+  "state": "closed",
+  "updatedAt": "2026-11-24T15:45:37Z",
   "sections": [
     "持ち越し"
   ],
   "declaredCount": 10,
   "count": 10,
-  "minutes": 102.0,
+  "minutes": 84.0,
   "items": [
     {
       "name": "音楽",
@@ -23,11 +23,11 @@
     {
       "name": "国語",
       "originDate": "2026-11-20",
-      "checked": false,
+      "checked": true,
       "minutes": 4.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 国語2026/11/20（残り時間：4分）"
+      "raw": "- [x] 国語2026/11/20（残り時間：4分）"
     },
     {
       "name": "音楽",
@@ -41,65 +41,65 @@
     {
       "name": "開発",
       "originDate": "2026-11-21",
-      "checked": false,
+      "checked": true,
       "minutes": 2.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 開発2026/11/21（残り時間：2分）"
+      "raw": "- [x] 開発2026/11/21（残り時間：2分）"
     },
     {
       "name": "開発",
       "originDate": "2026-11-22",
-      "checked": false,
+      "checked": true,
       "minutes": 5.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 開発2026/11/22（残り時間：5分）"
+      "raw": "- [x] 開発2026/11/22（残り時間：5分）"
     },
     {
       "name": "本読書",
       "originDate": "2026-11-22",
       "checked": false,
-      "minutes": 20.0,
+      "minutes": 13.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 本読書2026/11/22（残り時間：20分）"
+      "raw": "- [ ] 本読書2026/11/22（残り時間：13分）"
     },
     {
       "name": "英語",
       "originDate": "2026-11-22",
-      "checked": false,
+      "checked": true,
       "minutes": 3.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 英語2026/11/22（残り時間：3分）"
+      "raw": "- [x] 英語2026/11/22（残り時間：3分）"
     },
     {
       "name": "国語",
       "originDate": "2026-11-23",
       "checked": false,
-      "minutes": 15.0,
+      "minutes": 4.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 国語2026/11/23（残り時間：15分）"
+      "raw": "- [ ] 国語2026/11/23（残り時間：4分）"
     },
     {
       "name": "理科",
       "originDate": "2026-11-23",
-      "checked": false,
+      "checked": true,
       "minutes": 12.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 理科2026/11/23（残り時間：12分）"
+      "raw": "- [x] 理科2026/11/23（残り時間：12分）"
     },
     {
       "name": "社会・一般常識",
       "originDate": "2026-11-23",
-      "checked": false,
+      "checked": true,
       "minutes": 15.0,
       "minutesSource": "parsed",
       "section": "持ち越し",
-      "raw": "- [ ] 社会・一般常識2026/11/23（残り時間：15分）"
+      "raw": "- [x] 社会・一般常識2026/11/23（残り時間：15分）"
     }
   ]
 }
