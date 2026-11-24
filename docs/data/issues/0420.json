@@ -1,0 +1,105 @@
+{
+  "number": 420,
+  "title": "2026年11月24日のタスク",
+  "date": "2026-11-24",
+  "state": "open",
+  "updatedAt": "2026-11-23T15:41:50Z",
+  "sections": [
+    "持ち越し"
+  ],
+  "declaredCount": 10,
+  "count": 10,
+  "minutes": 102.0,
+  "items": [
+    {
+      "name": "音楽",
+      "originDate": "2026-11-14",
+      "checked": false,
+      "minutes": 11.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/11/14（残り時間：11分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-11-20",
+      "checked": false,
+      "minutes": 4.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 国語2026/11/20（残り時間：4分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-11-20",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/11/20（残り時間：15分）"
+    },
+    {
+      "name": "開発",
+      "originDate": "2026-11-21",
+      "checked": false,
+      "minutes": 2.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 開発2026/11/21（残り時間：2分）"
+    },
+    {
+      "name": "開発",
+      "originDate": "2026-11-22",
+      "checked": false,
+      "minutes": 5.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 開発2026/11/22（残り時間：5分）"
+    },
+    {
+      "name": "本読書",
+      "originDate": "2026-11-22",
+      "checked": false,
+      "minutes": 20.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 本読書2026/11/22（残り時間：20分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-11-22",
+      "checked": false,
+      "minutes": 3.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 英語2026/11/22（残り時間：3分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-11-23",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 国語2026/11/23（残り時間：15分）"
+    },
+    {
+      "name": "理科",
+      "originDate": "2026-11-23",
+      "checked": false,
+      "minutes": 12.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 理科2026/11/23（残り時間：12分）"
+    },
+    {
+      "name": "社会・一般常識",
+      "originDate": "2026-11-23",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 社会・一般常識2026/11/23（残り時間：15分）"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "latestIssue": 419,
+  "latestIssue": 420,
   "items": [
     "英語",
     "国語",
@@ -17551,9 +17551,9 @@
       "declaredCount": 9,
       "total": {
         "count": 9,
-        "minutes": 77.0,
-        "checkedCount": 0,
-        "checkedMinutes": 0.0
+        "minutes": 71.0,
+        "checkedCount": 2,
+        "checkedMinutes": 11.0
       },
       "byItem": {
         "国語": {
@@ -17576,7 +17576,70 @@
         },
         "開発": {
           "count": 4,
-          "minutes": 24.0,
+          "minutes": 18.0,
+          "checkedCount": 2,
+          "checkedMinutes": 11.0
+        },
+        "音楽": {
+          "count": 2,
+          "minutes": 26.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-11": {
+          "count": 9,
+          "minutes": 71.0,
+          "checkedCount": 2,
+          "checkedMinutes": 11.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-24",
+      "issue": 420,
+      "declaredCount": 10,
+      "total": {
+        "count": 10,
+        "minutes": 102.0,
+        "checkedCount": 0,
+        "checkedMinutes": 0.0
+      },
+      "byItem": {
+        "国語": {
+          "count": 2,
+          "minutes": 19.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "本読書": {
+          "count": 1,
+          "minutes": 20.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "理科": {
+          "count": 1,
+          "minutes": 12.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "社会・一般常識": {
+          "count": 1,
+          "minutes": 15.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "英語": {
+          "count": 1,
+          "minutes": 3.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "開発": {
+          "count": 2,
+          "minutes": 7.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         },
@@ -17589,8 +17652,8 @@
       },
       "byOriginMonth": {
         "2026-11": {
-          "count": 9,
-          "minutes": 77.0,
+          "count": 10,
+          "minutes": 102.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         }
