@@ -1,0 +1,159 @@
+{
+  "number": 423,
+  "title": "2026年11月27日のタスク",
+  "date": "2026-11-27",
+  "state": "open",
+  "updatedAt": "2026-11-26T15:28:12Z",
+  "sections": [
+    "持ち越し"
+  ],
+  "declaredCount": 16,
+  "count": 16,
+  "minutes": 325.0,
+  "items": [
+    {
+      "name": "音楽",
+      "originDate": "2026-11-14",
+      "checked": false,
+      "minutes": 11.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/11/14（残り時間：11分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-11-20",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/11/20（残り時間：15分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-11-23",
+      "checked": false,
+      "minutes": 4.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 国語2026/11/23（残り時間：4分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-11-24",
+      "checked": false,
+      "minutes": 27.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 英語2026/11/24（残り時間：27分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-11-24",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/11/24（残り時間：15分）"
+    },
+    {
+      "name": "開発",
+      "originDate": "2026-11-24",
+      "checked": false,
+      "minutes": 7.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 開発2026/11/24（残り時間：7分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-11-24",
+      "checked": false,
+      "minutes": 9.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] IT・技術学習2026/11/24（残り時間：9分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-11-25",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 国語2026/11/25（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-11-25",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 英語2026/11/25（残り時間：30分）"
+    },
+    {
+      "name": "開発",
+      "originDate": "2026-11-25",
+      "checked": false,
+      "minutes": 27.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 開発2026/11/25（残り時間：27分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-11-25",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] IT・技術学習2026/11/25（残り時間：30分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-11-26",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 国語2026/11/26（残り時間：15分）"
+    },
+    {
+      "name": "英語",
+      "originDate": "2026-11-26",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 英語2026/11/26（残り時間：15分）"
+    },
+    {
+      "name": "音楽",
+      "originDate": "2026-11-26",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 音楽2026/11/26（残り時間：15分）"
+    },
+    {
+      "name": "開発",
+      "originDate": "2026-11-26",
+      "checked": false,
+      "minutes": 60.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] 開発2026/11/26（残り時間：60分）"
+    },
+    {
+      "name": "IT・技術学習",
+      "originDate": "2026-11-26",
+      "checked": false,
+      "minutes": 30.0,
+      "minutesSource": "parsed",
+      "section": "持ち越し",
+      "raw": "- [ ] IT・技術学習2026/11/26（残り時間：30分）"
+    }
+  ]
+}

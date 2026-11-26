@@ -1,5 +1,5 @@
 {
-  "latestIssue": 422,
+  "latestIssue": 423,
   "items": [
     "英語",
     "国語",
@@ -17762,6 +17762,57 @@
         "2026-11": {
           "count": 11,
           "minutes": 190.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-27",
+      "issue": 423,
+      "declaredCount": 16,
+      "total": {
+        "count": 16,
+        "minutes": 325.0,
+        "checkedCount": 0,
+        "checkedMinutes": 0.0
+      },
+      "byItem": {
+        "IT・技術学習": {
+          "count": 3,
+          "minutes": 69.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "国語": {
+          "count": 3,
+          "minutes": 34.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "英語": {
+          "count": 3,
+          "minutes": 72.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "開発": {
+          "count": 3,
+          "minutes": 94.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "音楽": {
+          "count": 4,
+          "minutes": 56.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-11": {
+          "count": 16,
+          "minutes": 325.0,
           "checkedCount": 0,
           "checkedMinutes": 0.0
         }
