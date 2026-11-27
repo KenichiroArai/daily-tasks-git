@@ -1,4 +1,4 @@
-name: 持ち越しの集計と公開
+name: 持ち越し・先行の集計と公開
 
 on:
   schedule:
@@ -81,7 +81,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FULL: ${{ inputs.full }}
         run: |
-          JAR=../gr002_daily-tasks/target/gr002_daily-tasks-0.1.0.jar
+          JAR=../gr002_daily-tasks/target/gr002_daily-tasks-0.2.0.jar
           if [ "$FULL" = "true" ]; then
             java -jar "$JAR" --full
           else
@@ -98,7 +98,7 @@ jobs:
             echo "docs/data に変更はありません"
             exit 0
           fi
-          git commit -m "持ち越しデータを更新（${{ github.event_name }}）"
+          git commit -m "持ち越し・先行データを更新（${{ github.event_name }}）"
           # GitHub 側の一時的なエラー（500 など）に備えて再試行する
           for i in 1 2 3 4 5; do
             if git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then

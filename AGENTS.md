@@ -8,7 +8,7 @@ Cursor / Codex / Claude Code など複数ツールで共通利用する。
 
 ## プロジェクト概要
 
-- **役割**: GitHub Issue（1 日 1 Issue）で管理している日々のタスクのうち、「持ち越し」（旧「繰り越し」「負債」）を集計し、グラフとして GitHub Pages に公開する
+- **役割**: GitHub Issue（1 日 1 Issue）で管理している日々のタスクのうち、「持ち越し」（旧「繰り越し」「負債」）と「先行」を集計し、グラフとして GitHub Pages に公開する
 - **構成**: 本リポジトリを基軸とし、プログラム部分（KMG シリーズの第 2 弾）を別のリポジトリに分けている
 
 | リポジトリ                                                                                | 役割                                                                                            |
@@ -27,12 +27,14 @@ config/
   default-minutes.json       # 時間表記なしの行を補完する項目ごとの標準時間（収集ツールが読む）
 docs/                        # 収集ツールが出力するデータだけを置く（ソースコードは置かない）
   data/
-    issues/NNNN.json         # Issue ごとの解析結果（4 桁ゼロ埋め）
-    summary.json             # 画面用の日別集計
+    issues/NNNN.json         # Issue ごとの解析結果（4 桁ゼロ埋め。持ち越し・先行を含む）
+    summary.json             # 持ち越しの画面用日別集計
+    advance/
+      summary.json           # 先行の画面用日別集計
 .github/
   ISSUE_TEMPLATE/            # 日々のタスク Issue のテンプレート
   workflows/
-    update-carryover.yml     # 収集と Pages デプロイのワークフロー
+    update-carryover.yml     # 収集と Pages デプロイのワークフロー（持ち越し・先行）
 ```
 
 ## 収集と公開（ワークフロー）
@@ -61,8 +63,8 @@ docs/                        # 収集ツールが出力するデータだけを�
 cd ../gr002_daily-tasks
 mvn clean package
 cd ../daily-tasks-git
-java -jar ../gr002_daily-tasks/target/gr002_daily-tasks-0.1.0.jar         # 差分モード
-java -jar ../gr002_daily-tasks/target/gr002_daily-tasks-0.1.0.jar --full  # 全件モード
+java -jar ../gr002_daily-tasks/target/gr002_daily-tasks-0.2.0.jar         # 差分モード
+java -jar ../gr002_daily-tasks/target/gr002_daily-tasks-0.2.0.jar --full  # 全件モード
 
 # 画面の確認（本リポジトリの docs/data を使う）
 cd ../mk002_daily-tasks_web-next

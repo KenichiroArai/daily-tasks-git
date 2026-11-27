@@ -1,9 +1,13 @@
 # daily-tasks
 
-日々のタスクを GitHub Issue（1 日 1 Issue）で管理しています。このリポジトリでは、その Issue の「持ち越し」（旧「繰り越し」「負債」）を集計し、グラフとして GitHub Pages に公開します。
+日々のタスクを GitHub Issue（1 日 1 Issue）で管理しています。このリポジトリでは、その Issue の「持ち越し」（旧「繰り越し」「負債」）と「先行」を集計し、グラフとして GitHub Pages に公開します。
 
 - 公開ページ: <https://kenichiroarai.github.io/daily-tasks-git/>
-- データ: [`docs/data/summary.json`](docs/data/summary.json)（日別の集計）、[`docs/data/issues/`](docs/data/issues/)（Issue ごとの解析結果）
+- データ:
+  - [`docs/data/summary.json`](docs/data/summary.json)（持ち越しの日別集計）
+  - [`docs/data/advance/summary.json`](docs/data/advance/summary.json)（先行の日別集計）
+  - [`docs/data/issues/`](docs/data/issues/)（Issue ごとの解析結果）
+- 画面ルート: `/`（概要）、`/carryover`（持ち越し）、`/advance`（先行）
 
 ## 画面でできること
 
@@ -22,12 +26,13 @@ URL パラメータで初期表示を指定できます（例: `?view=monthlyIte
 ## 集計のルール
 
 - 日付は Issue タイトルの `YYYY年MM月DD日` を使い、その日の残として扱います。
-- 対象セクションは `## 負債`（#175〜#229）、`## 繰り越し`（#230〜#350）、`## 持ち越し`（#351〜）です。
+- 持ち越しの対象セクションは `## 負債`（#175〜#229）、`## 繰り越し`（#230〜#350）、`## 持ち越し`（#351〜）です。
+- 先行の対象セクションは `## 先行` です（集計出力は `docs/data/advance/summary.json`）。
 - 未チェック（`- [ ]`）とチェック済み（`- [x]`）の両方を数えます。
 - 残り時間は括弧内の「残り時間：N分」「N分」「残りN分」「先行分残りN分」から取ります（小数も可）。
 - 時間表記がない行は [`config/default-minutes.json`](config/default-minutes.json) の項目ごとの標準時間で補完します。
-- 本文の「残：N」は検証に使います。解析した件数と合わない場合は、実行ログに警告を出します。
-- 「負債」が初めて出てきた Issue（#175、2026-03-24）以降を集計します。
+- 本文の「残：N」（持ち越し）と「件数：N」（先行）は検証に使います。解析した件数と合わない場合は、実行ログに警告を出します。
+- 「負債」が初めて出てきた Issue（#175、2026-03-24）以降を持ち越し集計します。先行は `## 先行` が現れた日以降です。
 - 詳しい仕様は [Issue 解析の仕様](https://github.com/KenichiroArai/kb002_daily-tasks_doc/blob/main/docs/carryover-spec.md) を参照してください。
 
 ## 構成
@@ -57,8 +62,10 @@ mvn clean package
 
 # 収集（このリポジトリをカレントにして実行）
 cd ../daily-tasks-git
-java -jar ../gr002_daily-tasks/target/gr002_daily-tasks-0.1.0.jar         # 差分モード
-java -jar ../gr002_daily-tasks/target/gr002_daily-tasks-0.1.0.jar --full  # 全件モード
+# 入口は CarryoverCommandImpl のみ（先行専用 command はない）。持ち越しと先行の両方を出力する。
+# ## 先行 を既存 issues/*.json に反映するには --full が必要。
+java -jar ../gr002_daily-tasks/target/gr002_daily-tasks-0.2.0.jar         # 差分モード
+java -jar ../gr002_daily-tasks/target/gr002_daily-tasks-0.2.0.jar --full  # 全件モード
 
 # 画面の確認（http://localhost:3000/）
 cd ../mk002_daily-tasks_web-next
@@ -72,4 +79,4 @@ npm run dev
 
 ## 初回のセットアップ（GitHub Pages）
 
-リポジトリの Settings → Pages → Build and deployment の Source を「GitHub Actions」にしてください。その後、Actions の「持ち越しの集計と公開」を手動実行すると公開されます。
+リポジトリの Settings → Pages → Build and deployment の Source を「GitHub Actions」にしてください。その後、Actions の「持ち越し・先行の集計と公開」を手動実行すると公開されます（`full` 入力で全件モード。先行導入後の再収集に使います）。
