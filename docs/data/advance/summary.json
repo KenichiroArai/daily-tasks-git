@@ -1,5 +1,570 @@
 {
-  "latestIssue": 0,
-  "items": [],
-  "days": []
+  "latestIssue": 423,
+  "items": [
+    "汎用タスク",
+    "数学",
+    "本読書",
+    "社会・一般常識",
+    "理科",
+    "IT・技術学習",
+    "理科タスク",
+    "社会",
+    "英語",
+    "国語",
+    "開発"
+  ],
+  "days": [
+    {
+      "date": "2026-11-18",
+      "issue": 414,
+      "declaredCount": 30,
+      "total": {
+        "count": 31,
+        "minutes": 972.0,
+        "checkedCount": 4,
+        "checkedMinutes": 68.5
+      },
+      "byItem": {
+        "国語": {
+          "count": 1,
+          "minutes": 6.0,
+          "checkedCount": 1,
+          "checkedMinutes": 6.0
+        },
+        "数学": {
+          "count": 14,
+          "minutes": 534.0,
+          "checkedCount": 2,
+          "checkedMinutes": 50.5
+        },
+        "汎用タスク": {
+          "count": 14,
+          "minutes": 415.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "理科タスク": {
+          "count": 1,
+          "minutes": 5.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "開発": {
+          "count": 1,
+          "minutes": 12.0,
+          "checkedCount": 1,
+          "checkedMinutes": 12.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-10": {
+          "count": 7,
+          "minutes": 216.0,
+          "checkedCount": 2,
+          "checkedMinutes": 50.5
+        },
+        "2026-11": {
+          "count": 24,
+          "minutes": 756.0,
+          "checkedCount": 2,
+          "checkedMinutes": 18.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-19",
+      "issue": 415,
+      "declaredCount": 27,
+      "total": {
+        "count": 30,
+        "minutes": 1021.5,
+        "checkedCount": 0,
+        "checkedMinutes": 0.0
+      },
+      "byItem": {
+        "IT・技術学習": {
+          "count": 1,
+          "minutes": 21.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "数学": {
+          "count": 13,
+          "minutes": 571.5,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "汎用タスク": {
+          "count": 15,
+          "minutes": 424.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "理科タスク": {
+          "count": 1,
+          "minutes": 5.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-10": {
+          "count": 5,
+          "minutes": 165.5,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "2026-11": {
+          "count": 25,
+          "minutes": 856.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-20",
+      "issue": 416,
+      "declaredCount": 30,
+      "total": {
+        "count": 32,
+        "minutes": 1065.5,
+        "checkedCount": 1,
+        "checkedMinutes": 21.0
+      },
+      "byItem": {
+        "IT・技術学習": {
+          "count": 1,
+          "minutes": 21.0,
+          "checkedCount": 1,
+          "checkedMinutes": 21.0
+        },
+        "数学": {
+          "count": 14,
+          "minutes": 609.5,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "本読書": {
+          "count": 1,
+          "minutes": 37.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "汎用タスク": {
+          "count": 15,
+          "minutes": 393.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "理科タスク": {
+          "count": 1,
+          "minutes": 5.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-10": {
+          "count": 5,
+          "minutes": 134.5,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "2026-11": {
+          "count": 27,
+          "minutes": 931.0,
+          "checkedCount": 1,
+          "checkedMinutes": 21.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-21",
+      "issue": 417,
+      "declaredCount": 31,
+      "total": {
+        "count": 32,
+        "minutes": 997.5,
+        "checkedCount": 2,
+        "checkedMinutes": 42.5
+      },
+      "byItem": {
+        "数学": {
+          "count": 14,
+          "minutes": 586.5,
+          "checkedCount": 1,
+          "checkedMinutes": 37.5
+        },
+        "本読書": {
+          "count": 1,
+          "minutes": 7.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "汎用タスク": {
+          "count": 15,
+          "minutes": 374.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "理科タスク": {
+          "count": 1,
+          "minutes": 5.0,
+          "checkedCount": 1,
+          "checkedMinutes": 5.0
+        },
+        "英語": {
+          "count": 1,
+          "minutes": 25.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-10": {
+          "count": 5,
+          "minutes": 92.5,
+          "checkedCount": 1,
+          "checkedMinutes": 37.5
+        },
+        "2026-11": {
+          "count": 27,
+          "minutes": 905.0,
+          "checkedCount": 1,
+          "checkedMinutes": 5.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-22",
+      "issue": 418,
+      "declaredCount": 30,
+      "total": {
+        "count": 34,
+        "minutes": 1053.0,
+        "checkedCount": 5,
+        "checkedMinutes": 82.0
+      },
+      "byItem": {
+        "IT・技術学習": {
+          "count": 1,
+          "minutes": 51.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "数学": {
+          "count": 13,
+          "minutes": 539.0,
+          "checkedCount": 3,
+          "checkedMinutes": 50.0
+        },
+        "本読書": {
+          "count": 1,
+          "minutes": 7.0,
+          "checkedCount": 1,
+          "checkedMinutes": 7.0
+        },
+        "汎用タスク": {
+          "count": 16,
+          "minutes": 409.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "理科": {
+          "count": 1,
+          "minutes": 3.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "社会": {
+          "count": 1,
+          "minutes": 19.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "英語": {
+          "count": 1,
+          "minutes": 25.0,
+          "checkedCount": 1,
+          "checkedMinutes": 25.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-10": {
+          "count": 4,
+          "minutes": 55.0,
+          "checkedCount": 3,
+          "checkedMinutes": 50.0
+        },
+        "2026-11": {
+          "count": 30,
+          "minutes": 998.0,
+          "checkedCount": 2,
+          "checkedMinutes": 32.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-23",
+      "issue": 419,
+      "declaredCount": 29,
+      "total": {
+        "count": 29,
+        "minutes": 897.0,
+        "checkedCount": 5,
+        "checkedMinutes": 45.0
+      },
+      "byItem": {
+        "IT・技術学習": {
+          "count": 1,
+          "minutes": 21.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "数学": {
+          "count": 10,
+          "minutes": 482.0,
+          "checkedCount": 1,
+          "checkedMinutes": 4.0
+        },
+        "汎用タスク": {
+          "count": 16,
+          "minutes": 372.0,
+          "checkedCount": 3,
+          "checkedMinutes": 38.0
+        },
+        "理科": {
+          "count": 1,
+          "minutes": 3.0,
+          "checkedCount": 1,
+          "checkedMinutes": 3.0
+        },
+        "社会": {
+          "count": 1,
+          "minutes": 19.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-10": {
+          "count": 1,
+          "minutes": 5.0,
+          "checkedCount": 1,
+          "checkedMinutes": 5.0
+        },
+        "2026-11": {
+          "count": 28,
+          "minutes": 892.0,
+          "checkedCount": 4,
+          "checkedMinutes": 40.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-24",
+      "issue": 420,
+      "declaredCount": 24,
+      "total": {
+        "count": 26,
+        "minutes": 875.0,
+        "checkedCount": 6,
+        "checkedMinutes": 76.0
+      },
+      "byItem": {
+        "IT・技術学習": {
+          "count": 1,
+          "minutes": 21.0,
+          "checkedCount": 1,
+          "checkedMinutes": 21.0
+        },
+        "数学": {
+          "count": 9,
+          "minutes": 469.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "汎用タスク": {
+          "count": 13,
+          "minutes": 314.0,
+          "checkedCount": 5,
+          "checkedMinutes": 55.0
+        },
+        "理科": {
+          "count": 1,
+          "minutes": 32.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "社会・一般常識": {
+          "count": 2,
+          "minutes": 39.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-11": {
+          "count": 26,
+          "minutes": 875.0,
+          "checkedCount": 6,
+          "checkedMinutes": 76.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-25",
+      "issue": 421,
+      "declaredCount": 20,
+      "total": {
+        "count": 21,
+        "minutes": 794.0,
+        "checkedCount": 1,
+        "checkedMinutes": 39.0
+      },
+      "byItem": {
+        "数学": {
+          "count": 9,
+          "minutes": 461.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "本読書": {
+          "count": 1,
+          "minutes": 69.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "汎用タスク": {
+          "count": 8,
+          "minutes": 223.0,
+          "checkedCount": 1,
+          "checkedMinutes": 39.0
+        },
+        "理科": {
+          "count": 1,
+          "minutes": 17.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "社会・一般常識": {
+          "count": 2,
+          "minutes": 24.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-11": {
+          "count": 21,
+          "minutes": 794.0,
+          "checkedCount": 1,
+          "checkedMinutes": 39.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-26",
+      "issue": 422,
+      "declaredCount": 20,
+      "total": {
+        "count": 22,
+        "minutes": 796.0,
+        "checkedCount": 2,
+        "checkedMinutes": 16.0
+      },
+      "byItem": {
+        "数学": {
+          "count": 10,
+          "minutes": 476.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "本読書": {
+          "count": 2,
+          "minutes": 131.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "汎用タスク": {
+          "count": 7,
+          "minutes": 174.0,
+          "checkedCount": 1,
+          "checkedMinutes": 12.0
+        },
+        "理科": {
+          "count": 1,
+          "minutes": 2.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "社会・一般常識": {
+          "count": 2,
+          "minutes": 13.0,
+          "checkedCount": 1,
+          "checkedMinutes": 4.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-11": {
+          "count": 22,
+          "minutes": 796.0,
+          "checkedCount": 2,
+          "checkedMinutes": 16.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-27",
+      "issue": 423,
+      "declaredCount": 20,
+      "total": {
+        "count": 20,
+        "minutes": 741.0,
+        "checkedCount": 3,
+        "checkedMinutes": 51.0
+      },
+      "byItem": {
+        "数学": {
+          "count": 10,
+          "minutes": 467.0,
+          "checkedCount": 3,
+          "checkedMinutes": 51.0
+        },
+        "本読書": {
+          "count": 2,
+          "minutes": 101.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "汎用タスク": {
+          "count": 6,
+          "minutes": 162.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "理科": {
+          "count": 1,
+          "minutes": 2.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "社会・一般常識": {
+          "count": 1,
+          "minutes": 9.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-11": {
+          "count": 20,
+          "minutes": 741.0,
+          "checkedCount": 3,
+          "checkedMinutes": 51.0
+        }
+      }
+    }
+  ]
 }

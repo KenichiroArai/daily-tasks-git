@@ -5,11 +5,13 @@
   "state": "closed",
   "updatedAt": "2026-11-18T15:48:42Z",
   "sections": [
-    "持ち越し"
+    "持ち越し",
+    "先行"
   ],
   "declaredCount": 14,
-  "count": 15,
-  "minutes": 172.0,
+  "advanceDeclaredCount": 30,
+  "count": 46,
+  "minutes": 1144.0,
   "items": [
     {
       "name": "音楽",
@@ -145,6 +147,285 @@
       "minutesSource": "parsed",
       "section": "持ち越し",
       "raw": "- [ ] 本読書2026/11/17（残り時間：5分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-10-26",
+      "checked": true,
+      "minutes": 35.5,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [x] 数学2026/10/26（35.5分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-10-27",
+      "checked": true,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [x] 数学2026/10/27（15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-10-28",
+      "checked": false,
+      "minutes": 37.5,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 数学2026/10/28（37.5分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-10-29",
+      "checked": false,
+      "minutes": 39.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 数学2026/10/29（39分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-10-30",
+      "checked": false,
+      "minutes": 14.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 数学2026/10/30（14分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-10-30",
+      "checked": false,
+      "minutes": 55.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 汎用タスク2026/10/30（55分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-10-31",
+      "checked": false,
+      "minutes": 20.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 数学2026/10/31（20分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-11-01",
+      "checked": false,
+      "minutes": 14.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 数学2026/11/01（14分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-11-01",
+      "checked": false,
+      "minutes": 14.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 汎用タスク2026/11/01（14分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-11-02",
+      "checked": false,
+      "minutes": 34.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 数学2026/11/02（34分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-11-02",
+      "checked": false,
+      "minutes": 19.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 汎用タスク2026/11/02（19分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-11-03",
+      "checked": false,
+      "minutes": 17.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 数学2026/11/03（17分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-11-03",
+      "checked": false,
+      "minutes": 52.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 汎用タスク2026/11/03（52分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-11-04",
+      "checked": false,
+      "minutes": 24.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 数学2026/11/04（24分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-11-05",
+      "checked": false,
+      "minutes": 55.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 数学2026/11/05（55分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-11-06",
+      "checked": false,
+      "minutes": 21.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 数学2026/11/06（21分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-11-07",
+      "checked": false,
+      "minutes": 16.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 汎用タスク2026/11/07（16分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-11-08",
+      "checked": false,
+      "minutes": 15.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 汎用タスク2026/11/08（15分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-11-09",
+      "checked": false,
+      "minutes": 18.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 数学2026/11/09（18分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-11-09",
+      "checked": false,
+      "minutes": 4.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 汎用タスク2026/11/09（4分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-11-11",
+      "checked": false,
+      "minutes": 5.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 汎用タスク2026/11/11（5分）"
+    },
+    {
+      "name": "数学",
+      "originDate": "2026-11-12",
+      "checked": false,
+      "minutes": 190.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 数学2026/11/12（190分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-11-12",
+      "checked": false,
+      "minutes": 59.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 汎用タスク2026/11/12（59分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-11-13",
+      "checked": false,
+      "minutes": 48.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 汎用タスク2026/11/13（48分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-11-14",
+      "checked": false,
+      "minutes": 24.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 汎用タスク2026/11/14（24分）"
+    },
+    {
+      "name": "開発",
+      "originDate": "2026-11-14",
+      "checked": true,
+      "minutes": 12.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [x] 開発2026/11/14（12分）"
+    },
+    {
+      "name": "国語",
+      "originDate": "2026-11-15",
+      "checked": true,
+      "minutes": 6.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [x] 国語2026/11/15（6分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-11-15",
+      "checked": false,
+      "minutes": 38.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 汎用タスク2026/11/15（38分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-11-16",
+      "checked": false,
+      "minutes": 6.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 汎用タスク2026/11/16（6分）"
+    },
+    {
+      "name": "理科タスク",
+      "originDate": "2026-11-16",
+      "checked": false,
+      "minutes": 5.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 理科タスク2026/11/16（5分）"
+    },
+    {
+      "name": "汎用タスク",
+      "originDate": "2026-11-18",
+      "checked": false,
+      "minutes": 60.0,
+      "minutesSource": "parsed",
+      "section": "先行",
+      "raw": "- [ ] 汎用タスク2026/11/18（60分）"
     }
   ]
 }

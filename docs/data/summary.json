@@ -17773,9 +17773,9 @@
       "declaredCount": 16,
       "total": {
         "count": 16,
-        "minutes": 325.0,
-        "checkedCount": 0,
-        "checkedMinutes": 0.0
+        "minutes": 321.0,
+        "checkedCount": 1,
+        "checkedMinutes": 11.0
       },
       "byItem": {
         "IT・技術学習": {
@@ -17804,17 +17804,17 @@
         },
         "音楽": {
           "count": 4,
-          "minutes": 56.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "minutes": 52.0,
+          "checkedCount": 1,
+          "checkedMinutes": 11.0
         }
       },
       "byOriginMonth": {
         "2026-11": {
           "count": 16,
-          "minutes": 325.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "minutes": 321.0,
+          "checkedCount": 1,
+          "checkedMinutes": 11.0
         }
       }
     }
