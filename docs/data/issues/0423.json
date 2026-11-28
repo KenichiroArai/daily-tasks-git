@@ -2,8 +2,8 @@
   "number": 423,
   "title": "2026年11月27日のタスク",
   "date": "2026-11-27",
-  "state": "open",
-  "updatedAt": "2026-11-27T13:32:39Z",
+  "state": "closed",
+  "updatedAt": "2026-11-28T00:40:19Z",
   "sections": [
     "持ち越し",
     "先行"
@@ -11,7 +11,7 @@
   "declaredCount": 16,
   "advanceDeclaredCount": 20,
   "count": 36,
-  "minutes": 1062.0,
+  "minutes": 1051.0,
   "items": [
     {
       "name": "音楽",
@@ -223,20 +223,20 @@
     {
       "name": "汎用タスク",
       "originDate": "2026-11-14",
-      "checked": false,
+      "checked": true,
       "minutes": 14.0,
       "minutesSource": "parsed",
       "section": "先行",
-      "raw": "- [ ] 汎用タスク2026/11/14（14分）"
+      "raw": "- [x] 汎用タスク2026/11/14（14分）"
     },
     {
       "name": "汎用タスク",
       "originDate": "2026-11-15",
       "checked": false,
-      "minutes": 38.0,
+      "minutes": 27.0,
       "minutesSource": "parsed",
       "section": "先行",
-      "raw": "- [ ] 汎用タスク2026/11/15（38分）"
+      "raw": "- [ ] 汎用タスク2026/11/15（27分）"
     },
     {
       "name": "汎用タスク",
@@ -304,11 +304,11 @@
     {
       "name": "社会・一般常識",
       "originDate": "2026-11-24",
-      "checked": false,
+      "checked": true,
       "minutes": 9.0,
       "minutesSource": "parsed",
       "section": "先行",
-      "raw": "- [ ] 社会・一般常識2026/11/24（9分）"
+      "raw": "- [x] 社会・一般常識2026/11/24（9分）"
     },
     {
       "name": "本読書",

@@ -1,11 +1,11 @@
 {
-  "latestIssue": 423,
+  "latestIssue": 424,
   "items": [
     "汎用タスク",
     "数学",
     "本読書",
-    "社会・一般常識",
     "理科",
+    "社会・一般常識",
     "IT・技術学習",
     "理科タスク",
     "社会",
@@ -521,9 +521,9 @@
       "declaredCount": 20,
       "total": {
         "count": 20,
-        "minutes": 741.0,
-        "checkedCount": 3,
-        "checkedMinutes": 51.0
+        "minutes": 730.0,
+        "checkedCount": 5,
+        "checkedMinutes": 74.0
       },
       "byItem": {
         "数学": {
@@ -540,9 +540,9 @@
         },
         "汎用タスク": {
           "count": 6,
-          "minutes": 162.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "minutes": 151.0,
+          "checkedCount": 1,
+          "checkedMinutes": 14.0
         },
         "理科": {
           "count": 1,
@@ -553,16 +553,61 @@
         "社会・一般常識": {
           "count": 1,
           "minutes": 9.0,
-          "checkedCount": 0,
-          "checkedMinutes": 0.0
+          "checkedCount": 1,
+          "checkedMinutes": 9.0
         }
       },
       "byOriginMonth": {
         "2026-11": {
           "count": 20,
-          "minutes": 741.0,
-          "checkedCount": 3,
-          "checkedMinutes": 51.0
+          "minutes": 730.0,
+          "checkedCount": 5,
+          "checkedMinutes": 74.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-28",
+      "issue": 424,
+      "declaredCount": 15,
+      "total": {
+        "count": 15,
+        "minutes": 570.0,
+        "checkedCount": 4,
+        "checkedMinutes": 81.0
+      },
+      "byItem": {
+        "数学": {
+          "count": 7,
+          "minutes": 402.0,
+          "checkedCount": 1,
+          "checkedMinutes": 46.0
+        },
+        "本読書": {
+          "count": 2,
+          "minutes": 71.0,
+          "checkedCount": 0,
+          "checkedMinutes": 0.0
+        },
+        "汎用タスク": {
+          "count": 5,
+          "minutes": 95.0,
+          "checkedCount": 2,
+          "checkedMinutes": 33.0
+        },
+        "理科": {
+          "count": 1,
+          "minutes": 2.0,
+          "checkedCount": 1,
+          "checkedMinutes": 2.0
+        }
+      },
+      "byOriginMonth": {
+        "2026-11": {
+          "count": 15,
+          "minutes": 570.0,
+          "checkedCount": 4,
+          "checkedMinutes": 81.0
         }
       }
     }
