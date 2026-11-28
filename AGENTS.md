@@ -63,8 +63,8 @@ docs/                        # 収集ツールが出力するデータだけを�
 cd ../gr002_daily-tasks
 mvn clean package
 cd ../daily-tasks-git
-java -jar ../gr002_daily-tasks/target/gr002_daily-tasks-0.2.0.jar         # 差分モード
-java -jar ../gr002_daily-tasks/target/gr002_daily-tasks-0.2.0.jar --full  # 全件モード
+java -jar ../gr002_daily-tasks/target/gr002_daily-tasks-0.2.1.jar         # 差分モード
+java -jar ../gr002_daily-tasks/target/gr002_daily-tasks-0.2.1.jar --full  # 全件モード
 
 # 画面の確認（本リポジトリの docs/data を使う）
 cd ../mk002_daily-tasks_web-next

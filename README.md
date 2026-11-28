@@ -64,8 +64,8 @@ mvn clean package
 cd ../daily-tasks-git
 # 入口は CarryoverCommandImpl のみ（先行専用 command はない）。持ち越しと先行の両方を出力する。
 # ## 先行 を既存 issues/*.json に反映するには --full が必要。
-java -jar ../gr002_daily-tasks/target/gr002_daily-tasks-0.2.0.jar         # 差分モード
-java -jar ../gr002_daily-tasks/target/gr002_daily-tasks-0.2.0.jar --full  # 全件モード
+java -jar ../gr002_daily-tasks/target/gr002_daily-tasks-0.2.1.jar         # 差分モード
+java -jar ../gr002_daily-tasks/target/gr002_daily-tasks-0.2.1.jar --full  # 全件モード
 
 # 画面の確認（http://localhost:3000/）
 cd ../mk002_daily-tasks_web-next
