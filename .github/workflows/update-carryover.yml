@@ -112,12 +112,12 @@ jobs:
 
       - name: Pages の設定
         id: pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Node.js のセットアップ
         uses: actions/setup-node@v5
         with:
-          node-version: "22"
+          node-version: "26"
           cache: npm
           cache-dependency-path: mk002_daily-tasks_web-next/package-lock.json
 
@@ -133,7 +133,7 @@ jobs:
           npm run build
 
       - name: Pages 用の成果物のアップロード
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: mk002_daily-tasks_web-next/out
 
@@ -146,4 +146,4 @@ jobs:
     steps:
       - name: Pages へのデプロイ
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
